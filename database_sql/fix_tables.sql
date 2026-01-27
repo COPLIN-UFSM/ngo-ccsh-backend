@@ -1,0 +1,116 @@
+INSERT INTO tabelas_finalidades(id_tabela_finalidade, tabela_finalidade) Values
+(1,'bolsas'),
+(2,'diarias'),
+(3,'grafica'),
+(4,'hospedagem'),
+(5,'manutencao'),
+(6,'passagens'),
+(7,'refeicoes');
+
+INSERT INTO finalidades (id_finalidade, id_tabela_finalidade, finalidade) VALUES
+(1,2, 'Diárias'),
+(2,6, 'Passagens aéreas'),
+(3,6, 'Passagem rodoviária'),
+(4,null,'Almoxarifado'),
+(5,7,'Refeições - Hotel'),
+(6,3, 'Gráfica'),
+(7,4,'Hospedagem - Business'),
+(8,4,'Hospedagem - Premium'),
+(9,5,'Manutenção'),
+(10,null,'Combustível + Manutenção'),
+(11,null, 'Correios'),
+(12,1,'Bolsas - 2A'),
+(13,1,'Bolsas Formação'),
+(14,1,'Bolsas - Monitoria'),
+(15,1,'Bolsas BAE PRAE PNAES Cód 2CCSH'),
+(16,1,'Bolsas BAE PRAE GLOBAL  Cód 22CCSH'),
+(17,1,'Bolsas Descubra'),
+(18,1,'Bolsas Pró-Revistas'),
+(19,1,'Bolsas Eventuais Rec. Extraorçamentário'),
+(20,null,'Taxa de Inscrição/Publicação'),
+(21,null,'Outros'),
+(22,null,'Permanente - Equipamentos'),
+(23,null,'Permanente - Móveis'),
+(24,null,'Investimentos - Obras'),
+(25,null,'Suprimento de Fundos') ,
+(26,null,'Transferência - Custeio'),
+(27,null,'Transferência - Capital / Investimentos');
+
+
+
+INSERT INTO subunidades(id_subunidade, subunidade) VALUES
+(1,'Direção do Centro'),
+(2,'Depto. de C. Administrativas'),
+(3,'Depto. de C. Contábeis'),
+(4,'Depto. de Ciências Sociais'),
+(5,'Depto. de C. da Comunicação'),
+(6,'Depto. de Direito'),
+(7,'Depto. de Arquivologia'),
+(8,'Depto. de Economia e Rel. Internacionais'),
+(9,'Depto. de Filosofia'),
+(10,'Depto. de História'),
+(11,'Depto. de Psicologia'),
+(12,'Depto. de Serviço Social'),
+(13,'Depto. de Turismo'),
+(14,'Curso de Administração - Diurno'),
+(15,'Curso de Administraçao - Noite'),
+(16,'Curso de Arquivologia'),
+(17,'Curso de Ciências Contábeis - Diurno'),
+(18,'Curso de Contábeis - Noturno'),
+(19,'Curso de Ciências Sociais - Bacharelado'),
+(20,'Curso de Ciências Sociais - Licenciatura'),
+(21,'Curso de Comunicação - Jornalismo'),
+(22,'Curso de Comunicação - Publ. e Prop.'),
+(23,'Curso de Comunicação - Produção Editorial'),
+(24,'Curso de Comunicação - Relações Públicas'),
+(25,'Curso de Direito - Diurno'),
+(26,'Curso de Direito - Noturno'),
+(27,'Curso de Ciências Econômicas - Diurno'),
+(28,'Curso de Economia - Noturno'),
+(29,'Curso de Filosofia - Bacharelado'),
+(30,'Curso de Filosofia - Licenciatura'),
+(31,'Curso de História - Licenciatura'),
+(32,'Curso de História - Bacharelado'),
+(33,'Curso de Psicologia'),
+(34,'Curso de Relações Internacionais'),
+(35,'Curso de Serviço Social'),
+(36,'Curso de Gestão de Turismo'),
+(37,'PPG. em Administração e Ciências Contábeis'),
+(38,'PPG. Gestão de Organizações Públicas'),
+(39,'PPG. em Ciências Sociais'),
+(40,'PPG. em Comunicação'),
+(41,'PPG. em Direito'),
+(42,'PPG. em Economia e Desenvolvimento'),
+(43,'PPG. em Filosofia'),
+(44,'PPG. em História'),
+(45,'PPG em Patrimônio Cultural'),
+(46,'PPG. em Psicologia'),
+(47,'PPG. em Administração Pública'),
+(48,'PPG. em Relações Internacionais'),
+(49,'PPG. em Serviço Social e Políticas Públicas'), 
+(50,'PROPLAN'),
+(51,'IFFar');
+
+INSERT INTO tipos_documento(id_tipo_documento, tipo_documento) VALUES
+(1,'pi'),
+(2,'pen'),
+(3,'orçamento'),
+(4,'documento'),
+(5,'ordem de trânsito');
+
+INSERT INTO status(id_status, status) VALUES
+(1,'confirmado'),
+(2,'pendente'),
+(3,'cancelado');
+
+INSERT INTO tipos_transacoes(id_tipo_transacao, tipo_transacao) VALUES
+(1,'empenho'),
+(2,'despesa'),
+(3,'receita');
+
+-- Usuários criados apenas para testes...
+-- Dinâmico
+INSERT INTO usuarios(id_usuario,username,password,email,administrador)  VALUES (1,'leandro', 'aleatorio', 'leandronascimento753@gmail.com', True);
+
+INSERT INTO usuarios(username,password,email)  VALUES ('domenico', 'asdas', 'domenico@gmail.com');
+
