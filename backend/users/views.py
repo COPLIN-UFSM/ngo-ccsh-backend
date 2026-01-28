@@ -1,14 +1,24 @@
 # Create your views here.
 from rest_framework.views import APIView
-from django.contrib.auth import authenticate
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework_simplejwt.tokens import RefreshToken
-from rest_framework.throttling import UserRateThrottle
 from .serializers import RegisterSerializer
+
 from .models import CustomUser
+
 from .services import enviar_email_recuperacao
-from rest_framework.permissions import AllowAny  # Importe isso
+
+# Autenticacao + JWT
+from django.contrib.auth import authenticate
+from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework_simplejwt.authentication import JWTAuthentication
+
+# Token acesso único
+from django.contrib.auth.tokens import default_token_generator #Token de acesso único, pesquisa sobre;;
+from django.utils.http import urlsafe_base64_encode
+from django.utils.encoding import force_bytes
+from django.contrib.auth import get_user_model
 
 
 class RegisterView(APIView):
@@ -29,37 +39,30 @@ class RegisterView(APIView):
         )
 
 
-from django.contrib.auth.tokens import default_token_generator
-from django.utils.http import urlsafe_base64_encode
-from django.utils.encoding import force_bytes
-from django.contrib.auth import get_user_model
-from rest_framework.views import APIView
-from rest_framework.response import Response
 
+# class ForgotPasswordView(APIView):
+# permission_classes = [AllowAny]
 
-class ForgotPasswordView(APIView):
-    permission_classes = [AllowAny]
+# def post(self, request):
+#     email = request.data.get("email")
+#     if not email:
+#         return Response(
+#             data={"error": "Por favor, insira o email."},
+#             status=status.HTTP_400_BAD_REQUEST,
+#         )
 
-    def post(self, request):
-        email = request.data.get("email")
-        if not email:
-            return Response(
-                data={"error": "Por favor, insira o email."},
-                status=status.HTTP_400_BAD_REQUEST,
-            )
+#     user = CustomUser.objects.filter(email=email).first()
+#     if user:
+#         token = default_token_generator.make_token(user)
+#         uid = urlsafe_base64_encode(force_bytes(user.pk))
+#         enviar_email_recuperacao(user, uid, token)
 
-        user = CustomUser.objects.filter(email=email).first()
-        if user:
-            token = default_token_generator.make_token(user)
-            uid = urlsafe_base64_encode(force_bytes(user.pk))
-            enviar_email_recuperacao(user, uid, token)
-
-        return Response(
-            {
-                "message": "Se o email estiver cadastrado, você receberá um email para mudar sua senha."
-            },
-            status.HTTP_200_OK,
-        )
+#     return Response(
+#         {
+#             "message": "Se o email estiver cadastrado, você receberá um email para mudar sua senha."
+#         },
+#         status.HTTP_200_OK,
+#     )
 
 
 class ListUsers(APIView):
@@ -72,6 +75,9 @@ class ListUsers(APIView):
         return Response(serializer.data, status.HTTP_200_OK)
 
 
+from rest_framework_simplejwt.tokens import RefreshToken
+
+
 class LoginView(APIView):
     permission_classes = [AllowAny]
 
@@ -81,27 +87,40 @@ class LoginView(APIView):
 
         if not username or not password:
             return Response(
-                data={"error": "Por favor, insira o usuário e a senha."},
+                data={
+                    "error": "Usuário ou senha não preenchidos. Por favor preencha os campos."
+                },
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
         user = authenticate(username=username, password=password)
-        if user is not None:
-            refresh = RefreshToken.for_user(user)
+        if user is None:
+            return Response(
+                data={"error": "Credências inválidas."},
+                status=status.HTTP_401_UNAUTHORIZED,
+            )
+
+        if user.is_active:
+            refresh = RefreshToken.for_user(user=user)
             return Response(
                 data={
                     "refresh": str(refresh),
                     "access": str(refresh.access_token),
                     "user": {
-                        "username": user.username,
-                        "email": user.email,
-                        "is_strudent": getattr(user, "is_strudent", False),
+                        "username": user.get_username(),
+                        "email": user.get_email(),
                     },
                 },
                 status=status.HTTP_200_OK,
             )
 
+
+class PerfilView(APIView):
+    #   authentication_classes = [JWTAuthentication]
+    #   permission_classes = [IsAuthenticated]
+
+    def get(self, request):
         return Response(
-            data={"error": "Usuário ou senha incorretos."},
-            status=status.HTTP_401_UNAUTHORIZED,
+            {"username": request.user.username, "email": request.user.email},
+            status.HTTP_200_OK,
         )
