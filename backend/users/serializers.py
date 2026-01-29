@@ -3,7 +3,6 @@ from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
-
 class RegisterSerializer(serializers.ModelSerializer):
     password_confirm = serializers.CharField(write_only=True)
 
@@ -23,8 +22,20 @@ class RegisterSerializer(serializers.ModelSerializer):
         user = User.objects.create_user(**validated_data)
         return user
 
-
 class UserListSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ["username", "email", "is_student"]
+
+
+# class Register2Serializer(serializers.Serializer):
+#     id  = serializers.IntegerField(read_only=True)
+#     id  = serializers.IntegerField(read_only=True)
+#     id  = serializers.IntegerField(read_only=True)
+
+
+# class RegisterSerializer(serializers.ModelSerializer):
+
+#     class Meta:
+#         model = User
+#         fields = ["id","username", "email"]
