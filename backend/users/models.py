@@ -5,9 +5,13 @@ from django.contrib.auth.models import AbstractUser
 
 
 class CustomUser(AbstractUser):
-    bio = models.TextField(max_length=500, blank=True)
-    is_student = models.BooleanField(default=False)
+    id_usuario = models.IntegerField(primary_key=True)
     email = models.EmailField(unique=True, max_length=100)
+    administrador = models.BooleanField(blank=True, null=True)
+
+    class Meta:
+        managed = True
+        db_table = "usuarios"
 
     def __str__(self):
         return self.username
