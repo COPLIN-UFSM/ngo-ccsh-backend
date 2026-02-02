@@ -13,3 +13,4 @@ dependencies:
       - djangorestframework-simplejwt
       - python-dotenv
       - psycopg2-binary
+      - django-stubs
