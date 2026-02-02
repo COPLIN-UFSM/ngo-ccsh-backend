@@ -5,7 +5,6 @@ from django.contrib.auth.models import AbstractUser
 
 
 class CustomUser(AbstractUser):
-    id_usuario = models.IntegerField(primary_key=True)
     email = models.EmailField(unique=True, max_length=100)
     administrador = models.BooleanField(blank=True, null=True)
 

@@ -103,6 +103,7 @@ DATABASES = {
         "PASSWORD": os.getenv("DATA_BASE_PASSWORD"),
         "HOST": os.getenv("DATA_BASE_HOST"),
         "PORT": os.getenv("DATA_BASE_PORT"),
+        "DISABLE_SERVER_SIDE_CURSORS": True,
     }
 }
 

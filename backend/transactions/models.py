@@ -24,6 +24,9 @@ class Finalidades(models.Model):
         managed = True
         db_table = "finalidades"
 
+    def __str__(self):
+        return self.finalidade
+
 
 class Status(models.Model):
     id_status = models.AutoField(primary_key=True)
@@ -32,6 +35,9 @@ class Status(models.Model):
     class Meta:
         managed = True
         db_table = "status"
+
+    def __str__(self):
+        return self.status
 
 
 class Subunidades(models.Model):
@@ -42,6 +48,9 @@ class Subunidades(models.Model):
         managed = True
         db_table = "subunidades"
 
+    def __str__(self):
+        return self.subunidade
+
 
 class TabelasFinalidades(models.Model):
     id_tabela_finalidade = models.AutoField(primary_key=True)
@@ -50,6 +59,9 @@ class TabelasFinalidades(models.Model):
     class Meta:
         managed = True
         db_table = "tabelas_finalidades"
+
+    def __str__(self):
+        return self.tabela_finalidade
 
 
 class TipoDespesa(models.Model):
@@ -60,6 +72,9 @@ class TipoDespesa(models.Model):
         managed = True
         db_table = "tipo_despesa"
 
+    def __str__(self):
+        return self.tipo_despesa
+
 
 class TiposDocumento(models.Model):
     id_tipo_documento = models.AutoField(primary_key=True)
@@ -69,35 +84,49 @@ class TiposDocumento(models.Model):
         managed = True
         db_table = "tipos_documento"
 
+    def __str__(self):
+        return self.tipo_documento
+
 
 class TiposTransacoes(models.Model):
-    id_tipo_transacao = models.AutoField(primary_key=True)
+    id_tipo_transacao = models.AutoField(
+        primary_key=True,
+    )
     tipo_transacao = models.CharField()
 
     class Meta:
         managed = True
         db_table = "tipos_transacoes"
 
+    def __str__(self):
+        return self.tipo_transacao
+
 
 class Transacoes(models.Model):
     id_transacao = models.IntegerField(primary_key=True)
-    id_tipo_transacao = models.ForeignKey(
+    tipo_transacao = models.ForeignKey(
         TiposTransacoes, models.DO_NOTHING, db_column="id_tipo_transacao"
     )
+
     id_transacao_pai = models.ForeignKey(
         "self", models.DO_NOTHING, db_column="id_transacao_pai", blank=True, null=True
     )
-    id_finalidade = models.ForeignKey(
-        Finalidades, models.DO_NOTHING, db_column="id_finalidade", blank=True, null=True
+
+    finalidade = models.ForeignKey(
+        Finalidades,
+        models.DO_NOTHING,
+        db_column="id_finalidade",
+        blank=True,
+        null=True,
     )
-    id_subunidade_credora = models.ForeignKey(
+    subunidade_credora = models.ForeignKey(
         Subunidades,
         models.DO_NOTHING,
         db_column="id_subunidade_credora",
         blank=True,
         null=True,
     )
-    id_subunidade_executora = models.ForeignKey(
+    subunidade_executora = models.ForeignKey(
         Subunidades,
         models.DO_NOTHING,
         db_column="id_subunidade_executora",
@@ -105,11 +134,9 @@ class Transacoes(models.Model):
         blank=True,
         null=True,
     )
-    id_usuario = models.ForeignKey(
-        CustomUser, models.DO_NOTHING, db_column="id_usuario"
-    )
-    id_status = models.ForeignKey(Status, models.DO_NOTHING, db_column="id_status")
-    id_tipo_documento = models.ForeignKey(
+    usuario = models.ForeignKey(CustomUser, models.DO_NOTHING, db_column="id")
+    status = models.ForeignKey(Status, models.DO_NOTHING, db_column="id_status")
+    tipo_documento = models.ForeignKey(
         TiposDocumento,
         models.DO_NOTHING,
         db_column="id_tipo_documento",
@@ -128,6 +155,10 @@ class Transacoes(models.Model):
     class Meta:
         managed = True
         db_table = "transacoes"
+
+    def __str__(self):
+        str = f"Transação {self.id_transacao} {self.finalidade.finalidade} | {self.subunidade_executora.subunidade} - {self.montante}"
+        return str
 
 
 class Beneficiarios(models.Model):
