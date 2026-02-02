@@ -4,17 +4,12 @@ channels:
   - conda-forge
 dependencies:
   - pip
-  - python=3.11.*
-  - jupyter
-  - scikit-learn
-  - scipy
+  - python=3.12.*
+  - django
+  - djangorestframework
   - pandas
   - numpy
-  - matplotlib
-  - tqdm
-  - xgboost
   - pip:
-      - ibm-db==3.1.4
-      - coplin-db2
+      - djangorestframework-simplejwt
       - python-dotenv
       - psycopg2-binary

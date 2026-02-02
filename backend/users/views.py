@@ -158,7 +158,7 @@ def user_details(request, pk):
             {"detail": f"Não é possível alterar dados de outro usuário."},
             status=status.HTTP_401_UNAUTHORIZED,
         )
-    
+
     if request.method == "PATCH":
         serializer = RegisterSerializer(user, data=request.data, partial=True)
         if serializer.is_valid():

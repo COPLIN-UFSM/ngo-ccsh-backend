@@ -109,10 +109,3 @@ INSERT INTO tipos_transacoes(id_tipo_transacao, tipo_transacao) VALUES
 (1,'empenho'),
 (2,'despesa'),
 (3,'receita');
-
--- Usuários criados apenas para testes...
--- Dinâmico
-INSERT INTO usuarios(username,password,email,administrador)  VALUES ('leandro', 'aleatorio', 'leandronascimento753@gmail.com', True);
-
-INSERT INTO usuarios(username,password,email)  VALUES ('domenico', 'asdas', 'domenico@gmail.com');
-
