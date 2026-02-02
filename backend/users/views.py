@@ -1,4 +1,7 @@
 # Create your views here.
+from ssl import ALERT_DESCRIPTION_ACCESS_DENIED
+import stat
+from psycopg2 import apilevel
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -14,13 +17,17 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.authentication import JWTAuthentication
 
-# Token acesso único
+
+# Token acesso único -> Para criar mudança de senha quando se esqueceu a senha!!!
 from django.contrib.auth.tokens import (
     default_token_generator,
 )  # Token de acesso único, pesquisa sobre;;
 from django.utils.http import urlsafe_base64_encode
 from django.utils.encoding import force_bytes
 from django.contrib.auth import get_user_model
+
+
+from rest_framework.decorators import api_view, permission_classes
 
 
 class RegisterView(APIView):
@@ -31,6 +38,7 @@ class RegisterView(APIView):
 
         if not serializer.is_valid():
             return Response(serializer.error_messages, status.HTTP_400_BAD_REQUEST)
+
         serializer.save()
         return Response(
             {"message": "Usuário criado com sucesso."}, status.HTTP_201_CREATED
@@ -46,82 +54,73 @@ class LoginView(APIView):
 
         if not username or not password:
             return Response(
-                data={
-                    "error": "Usuário ou senha não preenchidos. Por favor preencha os campos."
+                {
+                    "detail": "Dados não inseridos. Por favor insira o usuário e a senha."
                 },
                 status=status.HTTP_400_BAD_REQUEST,
             )
-
         user = authenticate(username=username, password=password)
         if user is None:
             return Response(
-                data={"error": "Credências inválidas."},
+                {"detail": "Credenciais inválidas."},
                 status=status.HTTP_401_UNAUTHORIZED,
             )
 
-        if user.is_active:
-            refresh = RefreshToken.for_user(user=user)
+        if not user.is_active:
             return Response(
-                data={
-                    "refresh": str(refresh),
-                    "access": str(refresh.access_token),
-                    "user": {
-                        "username": user.get_username(),
-                        "email": user.get_email(),
-                    },
-                },
-                status=status.HTTP_200_OK,
+                {"detail": "Usuário desativado."}, status=status.HTTP_401_UNAUTHORIZED
             )
 
+        refresh = RefreshToken.for_user(user=user)
+        return Response(
+            {
+                "refresh": str(refresh),
+                "token": str(refresh.access_token),
+            },
+            status=status.HTTP_200_OK,
+        )
 
-class ChangePasswordView(APIView):
+
+class ChangePassword(APIView):
     permission_classes = [IsAuthenticated]
 
-    def patch(self, request):
-        if not request.user.is_activate:
+    def patch(self, request, id_user):
+        # Mudar para id_usuario, quando mudar o id
+        if id_user != request.user.id:
             return Response(
-                {"error": "Usuário inválido."}, status.HTTP_401_UNAUTHORIZED
+                {"detail": "Não é possível alterar dados de outro usuário."},
+                status=status.HTTP_401_UNAUTHORIZED,
+            )
+        user = CustomUser.objects.filter(pk=id_user)
+        if not user:
+            return Response(
+                {"detail": "Usuário não cadastrado."}, status=status.HTTP_404_NOT_FOUND
             )
 
+        serializer = RegisterSerializer(instance=user, data=request.data, partial=True)
+        if not serializer.is_valid():
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-# class recover_password(APIView):
+        serializer.save()
+        return Response(
+            {"detail": "Usuário atualizado com sucesso."}, status=status.HTTP_200_OK
+        )
 
-#     def post(self, request):
-#         email = request.data.get("email")
-#         if not email:
-#             return Response(
-#                 {"error": "Você precisa digitar um email."}, status.HTTP_400_BAD_REQUEST
-#             )
-#         user = CustomUser.objects.filter(email=email)
-#         if user:
+    def delete(self, request, id_user):
+        if id_user != request.user.id:
+            return Response(
+                {"detail": "Não é possível alterar dados de outro usuário."},
+                status=status.HTTP_401_UNAUTHORIZED,
+            )
 
-
-# class ForgotPasswordView(APIView):
-# permission_classes = [AllowAny]
-
-# def post(self, request):
-#     email = request.data.get("email")
-#     if not email:
-#         return Response(
-#             data={"error": "Por favor, insira o email."},
-#             status=status.HTTP_400_BAD_REQUEST,
-#         )
-
-#     user = CustomUser.objects.filter(email=email).first()
-#     if user:
-#         token = default_token_generator.make_token(user)
-#         uid = urlsafe_base64_encode(force_bytes(user.pk))
-#         enviar_email_recuperacao(user, uid, token)
-
-#     return Response(
-#         {
-#             "message": "Se o email estiver cadastrado, você receberá um email para mudar sua senha."
-#         },
-#         status.HTTP_200_OK,
-#     )
-
-from rest_framework import generics
-from rest_framework.decorators import api_view, permission_classes
+        user = CustomUser.objects.filter(pk=id_user)
+        if not user:
+            return Response(
+                {"detail": "Usuário não cadastrado."}, status=status.HTTP_404_NOT_FOUND
+            )
+        user.is_active = False
+        
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 @api_view(["GET", "POST"])
@@ -143,9 +142,10 @@ def list_users(request):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-@permission_classes([AllowAny])
+@permission_classes([IsAuthenticated])
 @api_view(["PATCH", "DELETE"])
 def user_details(request, pk):
+
     try:
         user = CustomUser.objects.get(pk=pk)
     except CustomUser.DoesNotExist:
@@ -153,6 +153,7 @@ def user_details(request, pk):
             {"detail": f"Usuário {pk} não encontrado."},
             status.HTTP_404_NOT_FOUND,
         )
+
     if user.username != request.user.username:
         return Response(
             {"detail": f"Não é possível alterar dados de outro usuário."},
@@ -180,33 +181,6 @@ def user_details(request, pk):
     elif request.method == "DELETE":
         user.is_active = False
         user.save()
-        return Response({"detail": "Usuário deletado com sucesso."}, status.HTTP_200_OK)
-
-
-class ListUsers(generics.ListAPIView):
-    queryset = CustomUser.objects.all()
-    serializer_class = RegisterSerializer
-
-
-# class ListUsers(APIView):
-#     permission_classes = [AllowAny]
-
-#     def get(self, request):
-#         users = CustomUser.objects.all()
-#         serializer = RegisterSerializer(users, many=True)
-
-#         return Response(serializer.data, status.HTTP_200_OK)
-
-
-from rest_framework_simplejwt.tokens import RefreshToken
-
-
-class PerfilView(APIView):
-    #   authentication_classes = [JWTAuthentication]
-    #   permission_classes = [IsAuthenticated]
-
-    def get(self, request):
         return Response(
-            {"username": request.user.username, "email": request.user.email},
-            status.HTTP_200_OK,
+            {"detail": "Usuário desativado com sucesso."}, status.HTTP_200_OK
         )
