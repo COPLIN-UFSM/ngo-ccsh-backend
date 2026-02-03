@@ -5,7 +5,7 @@ from psycopg2 import apilevel
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from .serializers import RegisterSerializer
+from .serializers import RegisterSerializer, UserSerializer
 
 from .models import CustomUser
 
@@ -84,68 +84,77 @@ class LoginView(APIView):
 class ChangePassword(APIView):
     permission_classes = [IsAuthenticated]
 
-    def patch(self, request, id_user):
+    def patch(self, request, pk):
         # Mudar para id_usuario, quando mudar o id
-        if id_user != request.user.id:
-            return Response(
-                {"detail": "Não é possível alterar dados de outro usuário."},
-                status=status.HTTP_401_UNAUTHORIZED,
-            )
-        user = CustomUser.objects.filter(pk=id_user)
+        user = CustomUser.objects.filter(pk=pk)
         if not user:
             return Response(
                 {"detail": "Usuário não cadastrado."}, status=status.HTTP_404_NOT_FOUND
             )
 
-        serializer = RegisterSerializer(instance=user, data=request.data, partial=True)
-        if not serializer.is_valid():
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        if pk != request.user.id:
+            return Response(
+                {"detail": "Não é possível alterar dados de outro usuário."},
+                status=status.HTTP_401_UNAUTHORIZED,
+            )
 
-        serializer.save()
+        # Serializer
+        old_password = request.data.get("old_password")
+        new_password = request.data.get("new_password")
+        new_password_confirm = request.data.get("new_password_confirm")
+
+        if not old_password or not new_password or not new_password_confirm:
+            return Response(
+                {"detail": "Por favor insira todos os campos"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        if new_password != new_password_confirm:
+            return Response(
+                {"detail": "As senhas não correspondem"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        username = request.user.username
+
+        user_authenticated = authenticate(username=username, password=old_password)
+        if user_authenticated is None:
+            return Response(
+                {"detail": "Senha atual incorreta."},
+                status=status.HTTP_401_UNAUTHORIZED,
+            )
+        user_authenticated.set_password(new_password)
+        user_authenticated.save()
+
         return Response(
-            {"detail": "Usuário atualizado com sucesso."}, status=status.HTTP_200_OK
+            {"detail": "Senha atualizada com sucesso."}, status=status.HTTP_200_OK
         )
-
-    def delete(self, request, id_user):
-        if id_user != request.user.id:
-            return Response(
-                {"detail": "Não é possível alterar dados de outro usuário."},
-                status=status.HTTP_401_UNAUTHORIZED,
-            )
-
-        user = CustomUser.objects.filter(pk=id_user)
-        if not user:
-            return Response(
-                {"detail": "Usuário não cadastrado."}, status=status.HTTP_404_NOT_FOUND
-            )
-        user.is_active = False
-        
-        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 @api_view(["GET", "POST"])
 @permission_classes([AllowAny])
 def list_users(request):
+
     if request.method == "GET":
         users = CustomUser.objects.filter(is_active=True)
         serializer = RegisterSerializer(users, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-    elif request.method == "POST":
-        serializer = RegisterSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(
-                {"detail": "Usuário cadastrado com sucesso."},
-                status=status.HTTP_201_CREATED,
-            )
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    # elif request.method == "POST":
+    #     serializer = RegisterSerializer(data=request.data)
+    #     if serializer.is_valid():
+    #         serializer.save()
+    #         return Response(
+    #             {"detail": "Usuário cadastrado com sucesso."},
+    #             status=status.HTTP_201_CREATED,
+    #         )
+    #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @permission_classes([IsAuthenticated])
 @api_view(["PATCH", "DELETE"])
-def user_details(request, pk):
-
+# Não pode mudar a senha.
+def user_info_change(request, pk):
     try:
         user = CustomUser.objects.get(pk=pk)
     except CustomUser.DoesNotExist:
@@ -154,14 +163,20 @@ def user_details(request, pk):
             status.HTTP_404_NOT_FOUND,
         )
 
-    if user.username != request.user.username:
+    if user.username != request.user.username and not request.user.is_superuser:
         return Response(
-            {"detail": f"Não é possível alterar dados de outro usuário."},
+            {"detail": "Não é possível alterar dados de outro usuário."},
             status=status.HTTP_401_UNAUTHORIZED,
         )
 
+    if request.data.get("password"):
+        return Response(
+            {"detail": "Não é possível alterar a senha do usuário por aqui."},
+            status=status.HTTP_400_BAD_REQUEST,
+        )
+
     if request.method == "PATCH":
-        serializer = RegisterSerializer(user, data=request.data, partial=True)
+        serializer = UserSerializer(user, data=request.data, partial=True)
         if serializer.is_valid():
             changes = {}
             for field, value in serializer.validated_data.items():
@@ -173,6 +188,7 @@ def user_details(request, pk):
                     {"detail": f"Nenhuma mudança realizada."},
                     status.HTTP_200_OK,
                 )
+
             serializer.save()
             return Response(
                 {"detail": "Usuário atualizado com sucesso."}, status.HTTP_200_OK

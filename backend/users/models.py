@@ -7,7 +7,7 @@ from django.contrib.auth.models import AbstractUser
 class CustomUser(AbstractUser):
     email = models.EmailField(unique=True, max_length=100)
     administrador = models.BooleanField(blank=True, null=True)
-
+    
     class Meta:
         managed = True
         db_table = "usuarios"
