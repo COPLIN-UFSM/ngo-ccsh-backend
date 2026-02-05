@@ -1,3 +1,4 @@
+from operator import truediv
 from django.db import models
 from users.models import CustomUser
 
@@ -134,8 +135,8 @@ class Transacoes(models.Model):
         blank=True,
         null=True,
     )
-    usuario = models.ForeignKey(CustomUser, models.DO_NOTHING, db_column="id")
-    status = models.ForeignKey(Status, models.DO_NOTHING, db_column="id_status")
+    usuario = models.ForeignKey(CustomUser, models.DO_NOTHING, db_column="id_usuario")
+    status = models.ForeignKey(Status, models.DO_NOTHING, db_column="id_status", null=True)
     tipo_documento = models.ForeignKey(
         TiposDocumento,
         models.DO_NOTHING,
