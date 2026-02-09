@@ -43,13 +43,10 @@ class LoginView(APIView):
         user = authenticate(username=username, password=password)
         if user is None:
             return Response(
-                {"detail": "Credenciais inválidas."},
+                {
+                    "detail": "Credenciais inválidas.",
+                },
                 status=status.HTTP_401_UNAUTHORIZED,
-            )
-
-        if not user.is_active:
-            return Response(
-                {"detail": "Usuário desativado."}, status=status.HTTP_401_UNAUTHORIZED
             )
 
         refresh = RefreshToken.for_user(user=user)
@@ -76,7 +73,7 @@ class UserView(APIView):
         if not request.user.is_superuser:
             return Response(
                 {"detail": "Apenas administradores podem criar usuários."},
-                status=status.HTTP_401_UNAUTHORIZED,
+                status=status.HTTP_403_FORBIDDEN,
             )
 
         serializer = RegisterSerializer(data=request.data)
@@ -87,8 +84,6 @@ class UserView(APIView):
         return Response(
             {"message": "Usuário criado com sucesso."}, status.HTTP_201_CREATED
         )
-
-
 
 
 class ChangePasswordView(APIView):
@@ -171,7 +166,7 @@ class UserInfoView(APIView):
                 status.HTTP_404_NOT_FOUND,
             )
         serializer = RegisterSerializer(user)
-        
+
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def patch(self, request, pk):
@@ -226,12 +221,13 @@ class UserInfoView(APIView):
 
         user.is_active = False
         user.save()
-        return Response({"detail": "Usuário deletado com sucesso."}, status.HTTP_200_OK)
-    
+        return Response(status.HTTP_204_NO_CONTENT)
 
 
 from django.core.mail import send_mail
 import os
+
+
 # Continuar daqui....
 def send_email(user):
     refresh = RefreshToken.for_user(user=user)
