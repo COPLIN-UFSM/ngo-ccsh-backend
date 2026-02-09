@@ -38,10 +38,13 @@ class LoginView(APIView):
         user = authenticate(username=username, password=password)
         if user is None:
             return Response(
-                {"detail": "Credenciais inválidas."},
+                {
+                    "detail": "Credenciais inválidas.",
+                },
                 status=status.HTTP_401_UNAUTHORIZED,
             )
 
+<<<<<<< HEAD
         if not user.is_active:
             return Response(
                 {"detail": "Usuário desativado."}, status=status.HTTP_401_UNAUTHORIZED
@@ -50,6 +53,8 @@ class LoginView(APIView):
         user.last_login = datetime.now()
         user.save()
 
+=======
+>>>>>>> 22687effca41f74016d1fb2266bcf846cf7ab958
         refresh = RefreshToken.for_user(user=user)
         return Response(
             {
@@ -74,7 +79,7 @@ class UserView(APIView):
         if not request.user.is_superuser:
             return Response(
                 {"detail": "Apenas administradores podem criar usuários."},
-                status=status.HTTP_401_UNAUTHORIZED,
+                status=status.HTTP_403_FORBIDDEN,
             )
 
         serializer = RegisterSerializer(data=request.data)
@@ -87,6 +92,7 @@ class UserView(APIView):
         )
 
 
+<<<<<<< HEAD
 def _find_user_by_Id(id):
     """Return user or None"""
     try:
@@ -155,6 +161,8 @@ class updatePermissionUser(APIView):
 from rest_framework_simplejwt.authentication import JWTAuthentication
 
 
+=======
+>>>>>>> 22687effca41f74016d1fb2266bcf846cf7ab958
 class ChangePasswordView(APIView):
     """Change password with user autenticated and current password or superuser"""
 
@@ -283,7 +291,11 @@ class UserInfoView(APIView):
 
         user.is_active = False
         user.save()
+<<<<<<< HEAD
         return Response({"detail": "Usuário deletado com sucesso."}, status.HTTP_200_OK)
+=======
+        return Response(status.HTTP_204_NO_CONTENT)
+>>>>>>> 22687effca41f74016d1fb2266bcf846cf7ab958
 
 
 from django.core.mail import send_mail
@@ -291,6 +303,7 @@ from rest_framework_simplejwt.tokens import AccessToken
 import os
 
 
+<<<<<<< HEAD
 def create_token_reset(user):
     token = AccessToken.for_user(user=user)
     token["allow_password_change"] = True
@@ -322,6 +335,19 @@ def send_email_reset_password(user, token):
     )
     msg.attach_alternative(html_content, "text/html")
     msg.send()
+=======
+# Continuar daqui....
+def send_email(user):
+    refresh = RefreshToken.for_user(user=user)
+    token_access = str(refresh.access_token)
+    # send_mail(
+    #     "Portal Transparência CCSH - Recuperação de Senha.",
+    #     f"Olá {user.username}, Se você solicitou a alteração de senha. Utilize este link para altera-lá: {token_access}",
+    #     os.getenv("EMAIL_HOST_USER"),
+    #     [user.email],
+    #     fail_silently=False,
+    # )
+>>>>>>> 22687effca41f74016d1fb2266bcf846cf7ab958
 
 
 class RecoverPasswordView(APIView):

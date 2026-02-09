@@ -1,21 +1,21 @@
-username = "leandro"
-email = "leandro@gmail.com"
-password = "olámundo"
+# username = "leandro"
+# email = "leandro@gmail.com"
+# password = "olámundo"
 
-# fields = [{"username": username}, {"email": email}, {"password": password}]
-fields = {"username": null, "email": email, "password": password}
+# # fields = [{"username": username}, {"email": email}, {"password": password}]
+# fields = {"username": null, "email": email, "password": password}
 
-# for item in fields:
-#     if not item or not item.values:
-#         print(f"Erro: O campo {item.keys} precisa ter um valor ")
+# # for item in fields:
+# #     if not item or not item.values:
+# #         print(f"Erro: O campo {item.keys} precisa ter um valor ")
+# #         break
+# #     print(f"{item.keys()} : {item.values()}")
+
+# for key, value in fields.items():
+#     if not value:
+#         print(f"{key}: O campo {key} precisa ter um valor")
 #         break
-#     print(f"{item.keys()} : {item.values()}")
-
-for key, value in fields.items():
-    if not value:
-        print(f"{key}: O campo {key} precisa ter um valor")
-        break
-    print(f"{key}: {value}")
+#     print(f"{key}: {value}")
 
 
 # {
