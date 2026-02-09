@@ -1,4 +1,7 @@
 # Create your views here.
+from datetime import datetime
+from hmac import new
+import token
 from rest_framework import permissions
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -14,14 +17,6 @@ from rest_framework_simplejwt.tokens import RefreshToken
 # from rest_framework_simplejwt.authentication import JWTAuthentication
 
 from .models import CustomUser
-
-# # Token acesso único -> Para criar mudança de senha quando se esqueceu a senha!!!
-# from django.contrib.auth.tokens import (
-#     default_token_generator,
-# )  # Token de acesso único, pesquisa sobre;;
-# from django.utils.http import urlsafe_base64_encode
-# from django.utils.encoding import force_bytes
-# from django.contrib.auth import get_user_model
 
 
 class LoginView(APIView):
@@ -51,6 +46,9 @@ class LoginView(APIView):
             return Response(
                 {"detail": "Usuário desativado."}, status=status.HTTP_401_UNAUTHORIZED
             )
+
+        user.last_login = datetime.now()
+        user.save()
 
         refresh = RefreshToken.for_user(user=user)
         return Response(
@@ -89,10 +87,76 @@ class UserView(APIView):
         )
 
 
+def _find_user_by_Id(id):
+    """Return user or None"""
+    try:
+        user = CustomUser.objects.get(pk=id)
+    except CustomUser.DoesNotExist:
+        return None
+    return user
+
+
+class updatePermissionUser(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def patch(self, request, pk):
+        if not request.user.is_superuser:
+            return Response(
+                {
+                    "detail": "Apenas administradores podem transformar um usuário em super usuário."
+                },
+                status=status.HTTP_401_UNAUTHORIZED,
+            )
+
+        user = _find_user_by_Id(pk)
+        if user is None:
+            return Response(
+                {"detail": f"Usuário com id: {pk}, não encontrado. "},
+                status=status.HTTP_404_NOT_FOUND,
+            )
+
+        old_permission_super = user.is_superuser
+        old_permission_staff = user.is_staff
+
+        if request.data.get("is_superuser") is not None:
+            user.is_superuser = request.data.get("is_superuser")
+            user.is_staff = request.data.get("is_superuser")
+
+        elif request.data.get("is_staff") is not None:
+            user.is_staff = request.data.get("is_staff")
+        else:
+            return Response(
+                {"detail": "Nenhuma permissão nova informada."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        user.save()
+
+        detail = (
+            (
+                "Nenhuma permissão alterada"
+                if old_permission_super == user.is_superuser
+                and old_permission_staff == user.is_staff
+                else f"O usuário {user.username} teve seu status de usuário alterado."
+            ),
+        )
+
+        return Response(
+            {
+                "detail": detail,
+                "data": {
+                    "is_superuser": user.is_superuser,
+                    "is_staff": user.is_staff,
+                },
+            },
+            status=status.HTTP_200_OK,
+        )
+
+
+from rest_framework_simplejwt.authentication import JWTAuthentication
 
 
 class ChangePasswordView(APIView):
-    """Change password with user autenticated and current password"""
+    """Change password with user autenticated and current password or superuser"""
 
     permission_classes = [IsAuthenticated]
 
@@ -126,15 +190,17 @@ class ChangePasswordView(APIView):
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
-        username = request.user.username
+        token = request.auth
+        can_skip_old_password = token.get("allow_password_change", False)
 
-        if not request.user.is_superuser:
+        if not request.user.is_superuser and not can_skip_old_password:
             if not old_password:
                 return Response(
                     {"old_password": "Por favor insira a senha atual."},
                     status=status.HTTP_400_BAD_REQUEST,
                 )
 
+            username = user.username
             user_authenticated = authenticate(username=username, password=old_password)
             if user_authenticated is None:
                 return Response(
@@ -147,15 +213,6 @@ class ChangePasswordView(APIView):
         return Response(
             {"detail": "Senha atualizada com sucesso."}, status=status.HTTP_200_OK
         )
-
-
-def _find_user_by_Id(id):
-    """Return user or None"""
-    try:
-        user = CustomUser.objects.get(pk=id)
-    except CustomUser.DoesNotExist:
-        return None
-    return user
 
 
 class UserInfoView(APIView):
@@ -171,7 +228,7 @@ class UserInfoView(APIView):
                 status.HTTP_404_NOT_FOUND,
             )
         serializer = RegisterSerializer(user)
-        
+
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def patch(self, request, pk):
@@ -227,22 +284,44 @@ class UserInfoView(APIView):
         user.is_active = False
         user.save()
         return Response({"detail": "Usuário deletado com sucesso."}, status.HTTP_200_OK)
-    
 
 
 from django.core.mail import send_mail
+from rest_framework_simplejwt.tokens import AccessToken
 import os
-# Continuar daqui....
-def send_email(user):
-    refresh = RefreshToken.for_user(user=user)
-    token_access = str(refresh.access_token)
-    # send_mail(
-    #     "Portal Transparência CCSH - Recuperação de Senha.",
-    #     f"Olá {user.username}, Se você solicitou a alteração de senha. Utilize este link para altera-lá: {token_access}",
-    #     os.getenv("EMAIL_HOST_USER"),
-    #     [user.email],
-    #     fail_silently=False,
-    # )
+
+
+def create_token_reset(user):
+    token = AccessToken.for_user(user=user)
+    token["allow_password_change"] = True
+    return token
+
+
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
+
+
+def send_email_reset_password(user, token):
+    link = f'token: {token}'
+    
+    context = {
+        "username": user.username,
+        "full_name": user.full_name,
+        "link": link,
+    }
+    html_content = render_to_string("email/my_email.html", context)
+    text_content = strip_tags(html_content)
+
+    msg = EmailMultiAlternatives(
+        subject="Portal Transparência CCSH - Recuperação de Senha.",
+        body=text_content,
+        from_email=os.getenv("EMAIL_USER"),
+        to=[user.email],
+        headers={"List-Unsubscribe": "<mailto:suporte@cssh.com>"},
+    )
+    msg.attach_alternative(html_content, "text/html")
+    msg.send()
 
 
 class RecoverPasswordView(APIView):
@@ -257,12 +336,14 @@ class RecoverPasswordView(APIView):
                 {"detail": "Por favor, forneça o nome de usuário."},
                 status=status.HTTP_400_BAD_REQUEST,
             )
-        user = CustomUser.objects.filter(username=username)
+        user = CustomUser.objects.filter(username=username).first()
         if not user:
             return Response(
                 {"detail": "Usuário não encontrado."}, status=status.HTTP_404_NOT_FOUND
             )
-        # send_email(user)
+        token = create_token_reset(user)
+        send_email_reset_password(user, token)
+
         return Response(
             {"detail": "Token de acesso enviado ao email do usuário."},
             status=status.HTTP_200_OK,

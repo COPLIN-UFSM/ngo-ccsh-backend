@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        /* Estilos inline funcionam melhor, mas alguns básicos podem ficar no head */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-top: 20px;
+        }
+        .header {
+            background-color: #004a87; /* Cor do seu Portal */
+            color: #ffffff;
+            padding: 20px;
+            text-align: center;
+        }
+        .content {
+            padding: 30px;
+            color: #333333;
+            line-height: 1.6;
+        }
+        .button-container {
+            text-align: center;
+            padding: 20px 0;
+        }
+        .button {
+            background-color: #28a745;
+            color: #ffffff !important;
+            padding: 12px 25px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            display: inline-block;
+        }
+        .footer {
+            background-color: #f8f9fa;
+            color: #6c757d;
+            padding: 15px;
+            text-align: center;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Portal Transparência CCSH</h1>
+        </div>
+        <div class="content">
+            <h2>Olá, {{ username }}!</h2>
+            <p>Recebemos uma solicitação para redefinir a senha da sua conta no Portal de Transparência.</p>
+            <p>Para prosseguir com a alteração, clique no botão abaixo. Este link é válido por <strong>5 minutos</strong>.</p>
+            
+            <div class="button-container">
+                {{ link }}
+            </div>
+
+            <p>Se você não solicitou esta alteração, por favor ignore este e-mail. Sua senha permanecerá a mesma.</p>
+            <p>Atenciosamente,<br>Equipe CCSH</p>
+        </div>
+        <div class="footer">
+            Este é um e-mail automático, por favor não responda.<br>
+            &copy; 2026 Portal Transparência CCSH
+        </div>
+    </div>
+</body>
+</html>
