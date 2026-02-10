@@ -1,19 +1,16 @@
 # Create your views here.
 from datetime import datetime
-from hmac import new
-import token
-from rest_framework import permissions
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework.decorators import api_view, permission_classes
+# from rest_framework import permissions
+# from rest_framework.decorators import api_view, permission_classes
 from .serializers import RegisterSerializer, UserSerializer
 
 # Autenticacao + JWT
 from django.contrib.auth import authenticate
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
-
 # from rest_framework_simplejwt.authentication import JWTAuthentication
 
 from .models import CustomUser
@@ -44,17 +41,14 @@ class LoginView(APIView):
                 status=status.HTTP_401_UNAUTHORIZED,
             )
 
-<<<<<<< HEAD
-        if not user.is_active:
-            return Response(
-                {"detail": "Usuário desativado."}, status=status.HTTP_401_UNAUTHORIZED
-            )
+        # if not user.is_active:
+        #     return Response(
+        #         {"detail": "Usuário desativado."}, status=status.HTTP_401_UNAUTHORIZED
+        #     )
 
         user.last_login = datetime.now()
         user.save()
 
-=======
->>>>>>> 22687effca41f74016d1fb2266bcf846cf7ab958
         refresh = RefreshToken.for_user(user=user)
         return Response(
             {
@@ -92,7 +86,6 @@ class UserView(APIView):
         )
 
 
-<<<<<<< HEAD
 def _find_user_by_Id(id):
     """Return user or None"""
     try:
@@ -102,7 +95,7 @@ def _find_user_by_Id(id):
     return user
 
 
-class updatePermissionUser(APIView):
+class UpdatePermissionUser(APIView):
     permission_classes = [IsAuthenticated]
 
     def patch(self, request, pk):
@@ -158,11 +151,6 @@ class updatePermissionUser(APIView):
         )
 
 
-from rest_framework_simplejwt.authentication import JWTAuthentication
-
-
-=======
->>>>>>> 22687effca41f74016d1fb2266bcf846cf7ab958
 class ChangePasswordView(APIView):
     """Change password with user autenticated and current password or superuser"""
 
@@ -179,7 +167,7 @@ class ChangePasswordView(APIView):
         if pk != request.user.id and not request.user.is_superuser:
             return Response(
                 {"detail": "Não é possível alterar dados de outro usuário."},
-                status=status.HTTP_401_UNAUTHORIZED,
+                status=status.HTTP_403_FORBIDDEN,
             )
 
         old_password = request.data.get("old_password")
@@ -291,29 +279,21 @@ class UserInfoView(APIView):
 
         user.is_active = False
         user.save()
-<<<<<<< HEAD
-        return Response({"detail": "Usuário deletado com sucesso."}, status.HTTP_200_OK)
-=======
         return Response(status.HTTP_204_NO_CONTENT)
->>>>>>> 22687effca41f74016d1fb2266bcf846cf7ab958
 
 
 from django.core.mail import send_mail
 from rest_framework_simplejwt.tokens import AccessToken
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
 import os
 
 
-<<<<<<< HEAD
 def create_token_reset(user):
     token = AccessToken.for_user(user=user)
     token["allow_password_change"] = True
     return token
-
-
-from django.core.mail import EmailMultiAlternatives
-from django.template.loader import render_to_string
-from django.utils.html import strip_tags
-
 
 def send_email_reset_password(user, token):
     link = f'token: {token}'
@@ -335,19 +315,6 @@ def send_email_reset_password(user, token):
     )
     msg.attach_alternative(html_content, "text/html")
     msg.send()
-=======
-# Continuar daqui....
-def send_email(user):
-    refresh = RefreshToken.for_user(user=user)
-    token_access = str(refresh.access_token)
-    # send_mail(
-    #     "Portal Transparência CCSH - Recuperação de Senha.",
-    #     f"Olá {user.username}, Se você solicitou a alteração de senha. Utilize este link para altera-lá: {token_access}",
-    #     os.getenv("EMAIL_HOST_USER"),
-    #     [user.email],
-    #     fail_silently=False,
-    # )
->>>>>>> 22687effca41f74016d1fb2266bcf846cf7ab958
 
 
 class RecoverPasswordView(APIView):
