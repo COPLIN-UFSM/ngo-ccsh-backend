@@ -21,7 +21,8 @@ urlpatterns = [
     ),
     path("recover-password/", RecoverPasswordView.as_view(), name="recover_password"),
     path("", UserView.as_view(), name="userView"),
-    path("<int:pk>/", UserInfoView.as_view(), name="user_info"),
+    
+    path("<int:pk>/", UserInfoView.as_view(), name="single_info"),
     path(
         "<int:pk>/change-password/",
         ChangePasswordView.as_view(),

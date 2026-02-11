@@ -238,7 +238,7 @@ class UserInfoView(APIView):
         if user.id != request.user.pk and not request.user.is_superuser:
             return Response(
                 {"detail": "Não é possível alterar dados de outro usuário."},
-                status=status.HTTP_401_UNAUTHORIZED,
+                status=status.HTTP_403_FORBIDDEN,
             )
 
         serializer = UserSerializer(user, data=request.data, partial=True)
