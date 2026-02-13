@@ -1,19 +1,19 @@
 # Create your views here.
 from datetime import datetime
+from django.conf.locale import sr
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-# from rest_framework import permissions
-# from rest_framework.decorators import api_view, permission_classes
 from .serializers import RegisterSerializer, UserSerializer
 
 # Autenticacao + JWT
 from django.contrib.auth import authenticate
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
-# from rest_framework_simplejwt.authentication import JWTAuthentication
 
 from .models import CustomUser
+from .services import trigger_password_reset_flow
+from .services import _find_user_by_Id
 
 
 class LoginView(APIView):
@@ -40,12 +40,6 @@ class LoginView(APIView):
                 },
                 status=status.HTTP_401_UNAUTHORIZED,
             )
-
-        # if not user.is_active:
-        #     return Response(
-        #         {"detail": "Usuário desativado."}, status=status.HTTP_401_UNAUTHORIZED
-        #     )
-
         user.last_login = datetime.now()
         user.save()
 
@@ -84,15 +78,6 @@ class UserView(APIView):
         return Response(
             {"message": "Usuário criado com sucesso."}, status.HTTP_201_CREATED
         )
-
-
-def _find_user_by_Id(id):
-    """Return user or None"""
-    try:
-        user = CustomUser.objects.get(pk=id)
-    except CustomUser.DoesNotExist:
-        return None
-    return user
 
 
 class UpdatePermissionUser(APIView):
@@ -211,6 +196,9 @@ class ChangePasswordView(APIView):
         )
 
 
+from typing import Any
+
+
 class UserInfoView(APIView):
     """GET/PATCH/DELETE -> especific user"""
 
@@ -282,41 +270,6 @@ class UserInfoView(APIView):
         return Response(status.HTTP_204_NO_CONTENT)
 
 
-from django.core.mail import send_mail
-from rest_framework_simplejwt.tokens import AccessToken
-from django.core.mail import EmailMultiAlternatives
-from django.template.loader import render_to_string
-from django.utils.html import strip_tags
-import os
-
-
-def create_token_reset(user):
-    token = AccessToken.for_user(user=user)
-    token["allow_password_change"] = True
-    return token
-
-def send_email_reset_password(user, token):
-    link = f'token: {token}'
-    
-    context = {
-        "username": user.username,
-        "full_name": user.full_name,
-        "link": link,
-    }
-    html_content = render_to_string("email/my_email.html", context)
-    text_content = strip_tags(html_content)
-
-    msg = EmailMultiAlternatives(
-        subject="Portal Transparência CCSH - Recuperação de Senha.",
-        body=text_content,
-        from_email=os.getenv("EMAIL_USER"),
-        to=[user.email],
-        headers={"List-Unsubscribe": "<mailto:suporte@cssh.com>"},
-    )
-    msg.attach_alternative(html_content, "text/html")
-    msg.send()
-
-
 class RecoverPasswordView(APIView):
     """Recover password with email"""
 
@@ -334,8 +287,7 @@ class RecoverPasswordView(APIView):
             return Response(
                 {"detail": "Usuário não encontrado."}, status=status.HTTP_404_NOT_FOUND
             )
-        token = create_token_reset(user)
-        send_email_reset_password(user, token)
+        trigger_password_reset_flow(user=user)
 
         return Response(
             {"detail": "Token de acesso enviado ao email do usuário."},

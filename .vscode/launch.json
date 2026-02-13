@@ -1,0 +1,65 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Django: Run Server",
+      "type": "debugpy",
+      "request": "launch",
+      "args": ["runserver", "--noreload"],
+      "justMyCode": true,
+      "django": true,
+      "program": "${workspaceFolder}/backend/manage.py",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "Django: Tests",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/backend/manage.py",
+      "cwd": "${workspaceFolder}/backend",
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}/backend"
+      },
+      "django": true,
+      "args": ["test"],
+      "justMyCode": false,
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "Django: Teste Específico",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/backend/manage.py",
+      "cwd": "${workspaceFolder}/backend",
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}/backend"
+      },
+      "django": true,
+      "args": ["test", "${input:testModule}"],
+      "justMyCode": false,
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "Django: Rodar Este Arquivo (Manual/Fixo)",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/backend/manage.py",
+      "cwd": "${workspaceFolder}/backend",
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}/backend"
+      },
+      "django": true,
+      "args": ["test", "users.tests.${fileBasenameNoExtension}"],
+      "justMyCode": false,
+      "console": "integratedTerminal"
+    }
+  ],
+  "inputs": [
+    {
+      "id": "testModule",
+      "type": "promptString",
+      "description": "Ex: users.tests.test_services",
+      "default": "users"
+    }
+  ]
+}

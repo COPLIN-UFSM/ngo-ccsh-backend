@@ -1,10 +1,9 @@
-from tabnanny import verbose
-from uuid import uuid4
 from django.contrib.auth.models import (
     BaseUserManager,
     AbstractBaseUser,
     PermissionsMixin,
 )
+from typing import ClassVar
 
 from django.db import models
 
@@ -29,7 +28,6 @@ class UserManager(BaseUserManager):
         extra_fields.setdefault("is_superuser", True)
         return self.create_user(username, email, password, **extra_fields)
 
-
 class CustomUser(AbstractBaseUser, PermissionsMixin):
     id = models.AutoField(primary_key=True, editable=False, db_column="id_usuario")
     username = models.CharField(unique=True, max_length=16)
@@ -45,7 +43,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         verbose_name = "Usuário"
         verbose_name_plural = "Usuários"
 
-    objects = UserManager()
+    objects: UserManager = UserManager()
     USERNAME_FIELD = "username"
     EMAIL_FIELD = "email"
 

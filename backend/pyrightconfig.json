@@ -1,0 +1,6 @@
+{
+  "djangoSettingsModule": "ngo_ccsh.settings",
+  "typeCheckingMode": "basic",
+  "reportGeneralTypeIssues": false,
+  "reportPropertyTypeMismatch": false
+}

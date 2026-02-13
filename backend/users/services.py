@@ -1,23 +1,57 @@
-from django.template.loader import render_to_string
+from .models import CustomUser
+from rest_framework_simplejwt.tokens import AccessToken
 from django.core.mail import EmailMultiAlternatives
+from django.template.loader import render_to_string
 from django.utils.html import strip_tags
-from django.conf import settings
+import os
+from rest_framework_simplejwt.exceptions import TokenError
 
 
-def enviar_email_recuperacao(usuario, uid, token):
-    # A URL que o usuário clicará no e-mail (Frontend)
-    url_frontend = f"http://localhost:3000/password-reset-confirm/{uid}/{token}"
+def _find_user_by_Id(id):
+    """Return user or None"""
+    try:
+        user = CustomUser.objects.get(pk=id)
+    except CustomUser.DoesNotExist:
+        return None
+    return user
 
-    contexto = {"nome": usuario.username, "url_reset": url_frontend}
 
-    html_body = render_to_string("emails/solicitacao_senha.html", contexto)
-    text_body = strip_tags(html_body)  # Backup para dispositivos sem HTML
+def trigger_password_reset_flow(user):
+    token = create_token_with_allow_password_change(user=user)
+    send_email_reset_password(user=user, token=token)
 
-    email = EmailMultiAlternatives(
-        subject="Recuperação de Senha - Quadrinópolis",
-        body=text_body,
-        from_email=settings.DEFAULT_FROM_EMAIL,
-        to=[usuario.email],
+
+def create_token_with_allow_password_change(user):
+    token = AccessToken.for_user(user=user)
+    token["allow_password_change"] = True
+    return token
+
+
+def is_token_valid(token):
+    try:
+        AccessToken(str(token))
+        return True
+    except TokenError as e:
+        return False
+
+
+def send_email_reset_password(user, token):
+    link = f"token: {token}"
+
+    context = {
+        "username": user.username,
+        "full_name": user.full_name,
+        "link": link,
+    }
+    html_content = render_to_string("email/my_email.html", context)
+    text_content = strip_tags(html_content)
+
+    msg = EmailMultiAlternatives(
+        subject="Portal Transparência CCSH - Recuperação de Senha.",
+        body=text_content,
+        from_email=os.getenv("EMAIL_USER"),
+        to=[user.email],
+        headers={"List-Unsubscribe": "<mailto:suporte@cssh.com>"},
     )
-    email.attach_alternative(html_body, "text/html")
-    email.send()
+    msg.attach_alternative(html_content, "text/html")
+    msg.send()
