@@ -33,6 +33,7 @@
         }
         .button-container {
             text-align: center;
+            margin: 0 auto;
             padding: 20px 0;
         }
         .button {
@@ -63,9 +64,9 @@
             <p>Recebemos uma solicitação para redefinir a senha da sua conta no Portal de Transparência.</p>
             <p>Para prosseguir com a alteração, clique no botão abaixo. Este link é válido por <strong>5 minutos</strong>.</p>
             
-            <div class="button-container">
-                {{ link }}
-            </div>
+            <a href='{{ link }}'class="button-container">
+                Clique aqui para ir para o Portal
+            </a>
 
             <p>Se você não solicitou esta alteração, por favor ignore este e-mail. Sua senha permanecerá a mesma.</p>
             <p>Atenciosamente,<br>Equipe CCSH</p>

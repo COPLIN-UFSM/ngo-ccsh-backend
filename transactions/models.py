@@ -136,7 +136,9 @@ class Transacoes(models.Model):
         null=True,
     )
     usuario = models.ForeignKey(CustomUser, models.DO_NOTHING, db_column="id_usuario")
-    status = models.ForeignKey(Status, models.DO_NOTHING, db_column="id_status", null=True)
+    status = models.ForeignKey(
+        Status, models.DO_NOTHING, db_column="id_status", null=True
+    )
     tipo_documento = models.ForeignKey(
         TiposDocumento,
         models.DO_NOTHING,

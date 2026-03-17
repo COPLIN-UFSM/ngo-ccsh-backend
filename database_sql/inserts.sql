@@ -32,9 +32,6 @@ INSERT INTO finalidades (id_finalidade, id_tabela_finalidade, finalidade) VALUES
 (22,null,'Permanente - Móveis'),
 (23,null,'Investimentos - Obras'),
 (24,null,'Suprimento de Fundos');
--- (26,null,'Transferência - Custeio'),
--- (27,null,'Transferência - Capital / Investimentos');
-
 
 
 INSERT INTO subunidades(id_subunidade, subunidade) VALUES
