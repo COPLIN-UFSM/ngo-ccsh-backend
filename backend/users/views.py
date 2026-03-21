@@ -140,7 +140,7 @@ class UpdatePermissionUser(APIView):
 
 
 class ChangePasswordView(APIView):
-    """Change password with user autenticated and current password or superuser"""
+    """Change password with user autenticated and current password"""
 
     permission_classes = [IsAuthenticated]
 
@@ -152,7 +152,7 @@ class ChangePasswordView(APIView):
                 {"detail": "Usuário não cadastrado."}, status=status.HTTP_404_NOT_FOUND
             )
 
-        if pk != request.user.id and not request.user.is_superuser:
+        if pk != request.user.id:
             return Response(
                 {"detail": "Não é possível alterar dados de outro usuário."},
                 status=status.HTTP_403_FORBIDDEN,
@@ -177,7 +177,7 @@ class ChangePasswordView(APIView):
         token = request.auth
         can_skip_old_password = token.get("allow_password_change", False)
 
-        if not request.user.is_superuser and not can_skip_old_password:
+        if not can_skip_old_password:
             if not old_password:
                 return Response(
                     {"detail": "Por favor insira a senha atual."},
@@ -282,6 +282,7 @@ class RecoverPasswordView(APIView):
                 {"detail": "Por favor, forneça o email."},
                 status=status.HTTP_400_BAD_REQUEST,
             )
+        
         user = CustomUser.objects.filter(email=email).first()
         if not user:
             return Response(
@@ -290,6 +291,6 @@ class RecoverPasswordView(APIView):
         trigger_password_reset_flow(user=user)
 
         return Response(
-            {"detail": "Token de acesso enviado ao email do usuário."},
+            {"detail": "Link de recuperação enviado ao seu email."},
             status=status.HTTP_200_OK,
         )

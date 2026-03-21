@@ -36,7 +36,7 @@ def is_token_valid(token):
 
 
 def send_email_reset_password(user, token):
-    link = f"http://localhost:5173/change-password/?token={token}"
+    link = f"http://localhost:5173/mudar-senha/?token={token}"
 
     context = {
         "username": user.username,

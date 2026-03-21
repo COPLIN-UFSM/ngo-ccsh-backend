@@ -19,7 +19,7 @@ class Finalidades(models.Model):
         blank=True,
         null=True,
     )
-    finalidade = models.CharField()
+    finalidade = models.CharField(max_length=50)
 
     class Meta:
         managed = True
@@ -31,7 +31,7 @@ class Finalidades(models.Model):
 
 class Status(models.Model):
     id_status = models.AutoField(primary_key=True)
-    status = models.CharField()
+    status = models.CharField(max_length=20)
 
     class Meta:
         managed = True
@@ -43,7 +43,7 @@ class Status(models.Model):
 
 class Subunidades(models.Model):
     id_subunidade = models.AutoField(primary_key=True)
-    subunidade = models.CharField()
+    subunidade = models.CharField(max_length=100)
 
     class Meta:
         managed = True
@@ -55,7 +55,7 @@ class Subunidades(models.Model):
 
 class TabelasFinalidades(models.Model):
     id_tabela_finalidade = models.AutoField(primary_key=True)
-    tabela_finalidade = models.CharField()
+    tabela_finalidade = models.CharField(max_length=50)
 
     class Meta:
         managed = True
@@ -67,7 +67,7 @@ class TabelasFinalidades(models.Model):
 
 class TipoDespesa(models.Model):
     id_tipo_despesa = models.IntegerField(primary_key=True)
-    tipo_despesa = models.CharField(blank=True, null=True)
+    tipo_despesa = models.CharField(max_length=50, blank=True, null=True)
 
     class Meta:
         managed = True
@@ -79,7 +79,7 @@ class TipoDespesa(models.Model):
 
 class TiposDocumento(models.Model):
     id_tipo_documento = models.AutoField(primary_key=True)
-    tipo_documento = models.CharField()
+    tipo_documento = models.CharField(max_length=50)
 
     class Meta:
         managed = True
@@ -93,7 +93,7 @@ class TiposTransacoes(models.Model):
     id_tipo_transacao = models.AutoField(
         primary_key=True,
     )
-    tipo_transacao = models.CharField()
+    tipo_transacao = models.CharField(max_length=50)
 
     class Meta:
         managed = True
@@ -146,11 +146,11 @@ class Transacoes(models.Model):
         blank=True,
         null=True,
     )
-    descricao = models.CharField(blank=True, null=True)
+    descricao = models.CharField(max_length=50, blank=True, null=True)
     montante = models.DecimalField(
         max_digits=15, decimal_places=2, blank=True, null=True
     )
-    documento = models.CharField(blank=True, null=True)
+    documento = models.CharField(max_length=50, blank=True, null=True)
     data_referencia = models.DateField(blank=True, null=True)
     data_lancamento = models.DateTimeField(blank=True, null=True)
     data_atualizacao = models.DateTimeField(blank=True, null=True)
@@ -166,8 +166,8 @@ class Transacoes(models.Model):
 
 class Beneficiarios(models.Model):
     id_beneficiario = models.IntegerField(primary_key=True)
-    nome_beneficiario = models.CharField(blank=True, null=True)
-    matricula = models.CharField(blank=True, null=True)
+    nome_beneficiario = models.CharField(max_length=100, blank=True, null=True)
+    matricula = models.CharField(max_length=11, blank=True, null=True)
 
     class Meta:
         managed = True
@@ -185,7 +185,7 @@ class Bolsas(models.Model):
         blank=True,
         null=True,
     )
-    op_sf = models.CharField()
+    op_sf = models.CharField(max_length=50)
 
     class Meta:
         managed = True
@@ -203,7 +203,7 @@ class Diarias(models.Model):
         blank=True,
         null=True,
     )
-    local = models.CharField(blank=True, null=True)
+    local = models.CharField(max_length=50, blank=True, null=True)
     quantidade_diarias = models.FloatField(blank=True, null=True)
 
     class Meta:
@@ -215,8 +215,8 @@ class Empenho(models.Model):
     id_transacao = models.OneToOneField(
         Transacoes, models.DO_NOTHING, db_column="id_transacao", primary_key=True
     )
-    empenho_sie = models.CharField(blank=True, null=True)
-    empenho_siafe = models.CharField(blank=True, null=True)
+    empenho_sie = models.CharField(max_length=50, blank=True, null=True)
+    empenho_siafe = models.CharField(max_length=50, blank=True, null=True)
 
     class Meta:
         managed = True
@@ -227,7 +227,7 @@ class Grafica(models.Model):
     id_transacao = models.OneToOneField(
         Transacoes, models.DO_NOTHING, db_column="id_transacao", primary_key=True
     )
-    cnpj_empresa = models.CharField(blank=True, null=True)
+    cnpj_empresa = models.CharField(max_length=14, blank=True, null=True)
 
     class Meta:
         managed = True
@@ -256,7 +256,7 @@ class Manutencao(models.Model):
     id_transacao = models.OneToOneField(
         Transacoes, models.DO_NOTHING, db_column="id_transacao", primary_key=True
     )
-    setor = models.CharField(blank=True, null=True)
+    setor = models.CharField(max_length=50, blank=True, null=True)
 
     class Meta:
         managed = True
@@ -274,7 +274,7 @@ class Passagens(models.Model):
         blank=True,
         null=True,
     )
-    trecho = models.CharField(blank=True, null=True)
+    trecho = models.CharField(max_length=50, blank=True, null=True)
 
     class Meta:
         managed = True

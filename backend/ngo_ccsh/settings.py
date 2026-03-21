@@ -56,7 +56,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "rest_framework_simplejwt",
     "users",
-    # "transactions",
+    "transactions",
 ]
 
 
@@ -111,7 +111,7 @@ USE_TZ = False
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
-if not DEBUG:
+if DEBUG:
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.sqlite3",

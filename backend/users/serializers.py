@@ -3,7 +3,6 @@ from rest_framework import serializers
 from django.contrib.auth import get_user_model
 from .models import CustomUser
 
-
 class RegisterSerializer(serializers.ModelSerializer):
     password2 = serializers.CharField(write_only=True)
 
