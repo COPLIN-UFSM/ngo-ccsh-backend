@@ -3,7 +3,6 @@ from django.contrib.auth.models import (
     AbstractBaseUser,
     PermissionsMixin,
 )
-from typing import ClassVar
 
 from django.db import models
 
