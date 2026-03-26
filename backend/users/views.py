@@ -1,6 +1,5 @@
 # Create your views here.
 from datetime import datetime
-from django.conf.locale import sr
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -10,7 +9,6 @@ from .serializers import RegisterSerializer, UserSerializer
 from django.contrib.auth import authenticate
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
-
 from .models import CustomUser
 from .services import trigger_password_reset_flow
 from .services import _find_user_by_Id
@@ -32,6 +30,7 @@ class LoginView(APIView):
                 },
                 status=status.HTTP_400_BAD_REQUEST,
             )
+
         user = authenticate(username=username, password=password)
         if user is None:
             return Response(
@@ -40,10 +39,14 @@ class LoginView(APIView):
                 },
                 status=status.HTTP_401_UNAUTHORIZED,
             )
+
         user.last_login = datetime.now()
         user.save()
 
         refresh = RefreshToken.for_user(user=user)
+        refresh["is_superuser"] = user.is_superuser
+        refresh["username"] = user.get_username()
+
         return Response(
             {
                 "refresh": str(refresh),
@@ -59,7 +62,7 @@ class UserView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        users = CustomUser.objects.filter(is_active=True)
+        users = CustomUser.objects.filter(is_active=True).order_by("id")
         serializer = RegisterSerializer(users, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -76,7 +79,7 @@ class UserView(APIView):
 
         serializer.save()
         return Response(
-            {"message": "Usuário criado com sucesso."}, status.HTTP_201_CREATED
+            {"detail": "Usuário criado com sucesso."}, status.HTTP_201_CREATED
         )
 
 
@@ -137,7 +140,7 @@ class UpdatePermissionUser(APIView):
 
 
 class ChangePasswordView(APIView):
-    """Change password with user autenticated and current password or superuser"""
+    """Change password with user autenticated and current password"""
 
     permission_classes = [IsAuthenticated]
 
@@ -149,15 +152,15 @@ class ChangePasswordView(APIView):
                 {"detail": "Usuário não cadastrado."}, status=status.HTTP_404_NOT_FOUND
             )
 
-        if pk != request.user.id and not request.user.is_superuser:
+        if pk != request.user.id:
             return Response(
                 {"detail": "Não é possível alterar dados de outro usuário."},
                 status=status.HTTP_403_FORBIDDEN,
             )
 
         old_password = request.data.get("old_password")
-        new_password = request.data.get("new_password")
-        new_password_confirm = request.data.get("new_password_confirm")
+        new_password = request.data.get("password1")
+        new_password_confirm = request.data.get("password2")
 
         if not new_password or not new_password_confirm:
             return Response(
@@ -167,17 +170,17 @@ class ChangePasswordView(APIView):
 
         if new_password != new_password_confirm:
             return Response(
-                {"new_password": "Os dados da nova senha não correspondem."},
+                {"detail": "Os dados da nova senha não correspondem."},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
         token = request.auth
         can_skip_old_password = token.get("allow_password_change", False)
 
-        if not request.user.is_superuser and not can_skip_old_password:
+        if not can_skip_old_password:
             if not old_password:
                 return Response(
-                    {"old_password": "Por favor insira a senha atual."},
+                    {"detail": "Por favor insira a senha atual."},
                     status=status.HTTP_400_BAD_REQUEST,
                 )
 
@@ -185,7 +188,7 @@ class ChangePasswordView(APIView):
             user_authenticated = authenticate(username=username, password=old_password)
             if user_authenticated is None:
                 return Response(
-                    {"old_password": "Senha atual incorreta."},
+                    {"detail": "Senha atual incorreta."},
                     status=status.HTTP_401_UNAUTHORIZED,
                 )
 
@@ -194,9 +197,6 @@ class ChangePasswordView(APIView):
         return Response(
             {"detail": "Senha atualizada com sucesso."}, status=status.HTTP_200_OK
         )
-
-
-from typing import Any
 
 
 class UserInfoView(APIView):
@@ -276,20 +276,21 @@ class RecoverPasswordView(APIView):
     permission_classes = [AllowAny]
 
     def post(self, request):
-        username = request.data.get("username")
-        if not username:
+        email = request.data.get("email", None)
+        if not email:
             return Response(
-                {"detail": "Por favor, forneça o nome de usuário."},
+                {"detail": "Por favor, forneça o email."},
                 status=status.HTTP_400_BAD_REQUEST,
             )
-        user = CustomUser.objects.filter(username=username).first()
+        
+        user = CustomUser.objects.filter(email=email).first()
         if not user:
             return Response(
-                {"detail": "Usuário não encontrado."}, status=status.HTTP_404_NOT_FOUND
+                {"detail": "Email não encontrado."}, status=status.HTTP_404_NOT_FOUND
             )
         trigger_password_reset_flow(user=user)
 
         return Response(
-            {"detail": "Token de acesso enviado ao email do usuário."},
+            {"detail": "Link de recuperação enviado ao seu email."},
             status=status.HTTP_200_OK,
         )

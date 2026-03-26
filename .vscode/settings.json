@@ -11,6 +11,9 @@
   "python.defaultInterpreterPath": "C:\\Users\\Leandro Galbarino\\miniconda3\\envs\\my_env\\python.exe",
   "python.analysis.typeCheckingMode": "basic",
   "python.analysis.autoImportCompletions": true,
+  "python.analysis.extraPaths": [
+    "${workspaceFolder}/backend"
+  ],
   "[python]": {
     "editor.formatOnSave": true,
     "editor.tabSize": 4

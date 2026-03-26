@@ -1,4 +1,9 @@
 {
+  "venvPath": "C:\\Users\\Leandro Galbarino\\miniconda3\\envs",
+  "venv": "my_env",
+  "extraPaths": [
+    "backend"
+  ],
   "djangoSettingsModule": "ngo_ccsh.settings",
   "typeCheckingMode": "basic",
   "reportGeneralTypeIssues": false,

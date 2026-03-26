@@ -24,7 +24,7 @@ urlpatterns = [
     
     path("<int:pk>/", UserInfoView.as_view(), name="single_info"),
     path(
-        "<int:pk>/change-password/",
+        "change-password/<int:pk>/",
         ChangePasswordView.as_view(),
         name="change_password",
     ),
