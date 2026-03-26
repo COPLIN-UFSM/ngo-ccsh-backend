@@ -9,7 +9,7 @@ class TipoDocumento(models.Model):
 
     class Meta:
         managed = False
-        db_table = "tipos_documentos"
+        db_table = "tipos_documento"
 
     def __str__(self) -> str:
         return self.tipo_documento
@@ -49,14 +49,14 @@ class Finalidade(models.Model):
         managed = False
         db_table = "finalidades"
 
-# REVER
+
 class TipoTransacao(models.Model):
     id_tipo_transacao = models.AutoField(primary_key=True)
     tipo_transacao = models.CharField(max_length=100)
 
     class Meta:
         managed = False
-        db_table = "natureza_transacao"
+        db_table = "tipos_transacao"
 
     def __str__(self) -> str:
         return self.tipo_transacao
@@ -82,7 +82,7 @@ class CategoriaFinalidade(models.Model):
 
     class Meta:
         managed = False
-        db_table = "categoria_finalidade"
+        db_table = "categorias_finalidade"
 
     def __str__(self) -> str:
         return self.categoria_finalidade
@@ -106,7 +106,7 @@ class TipoDespesa(models.Model):
 
     class Meta:
         managed = False
-        db_table = "tipo_despesa"
+        db_table = "tipos_despesa"
 
     def __str__(self) -> str:
         return self.tipo_despesa

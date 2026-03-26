@@ -1,3 +1,5 @@
+from dataclasses import fields
+
 from rest_framework import serializers
 from .models import *
 
@@ -5,8 +7,8 @@ from .models import *
 class CategoriaFinalidadeSerializer(serializers.ModelSerializer):
     class Meta:
         model = CategoriaFinalidade
-        fields = ["id_subtipo_finalidade", "subtipo_finalidade"]
-        read_only_fields = ["id_subtipo_finalidade"]
+        fields = ["id_categoria_finalidade", "categoria_finalidade"]
+        read_only_fields = ["id_categoria_finalidade"]
 
 
 class TipoDespesaSerializer(serializers.ModelSerializer):
@@ -26,18 +28,18 @@ class FinalidadeSerializer(serializers.ModelSerializer):
         },
     )
 
-    subtipo_finalidade = serializers.PrimaryKeyRelatedField(
+    categoria_finalidade = serializers.PrimaryKeyRelatedField(
         queryset=CategoriaFinalidade.objects.all(),
         write_only=True,
         error_messages={
-            "does_not_exist": "Código de subtipo da finalidade inexistente.",
-            "incorrect_type": "Formato de dado inválido para o subtipo da finalidade.",
+            "does_not_exist": "Código da categoria da finalidade inexistente.",
+            "incorrect_type": "Formato de dado inválido para a categoria da finalidade.",
         },
     )
 
     tipo_despesa_detail = TipoDespesaSerializer(source="tipo_despesa", read_only=True)
-    subtipo_finalidade_detail = CategoriaFinalidadeSerializer(
-        source="subtipo_finalidade", read_only=True
+    categoria_finalidade_detail = CategoriaFinalidadeSerializer(
+        source="categoria_finalidade", read_only=True
     )
 
     class Meta:
@@ -46,8 +48,15 @@ class FinalidadeSerializer(serializers.ModelSerializer):
             "id_finalidade",
             "finalidade",
             "tipo_despesa",
-            "subtipo_finalidade",
+            "categoria_finalidade",
             "tipo_despesa_detail",
-            "subtipo_finalidade_detail",
+            "categoria_finalidade_detail",
         ]
         read_only_fields = ["id_finalidade"]
+
+
+class SubunidadeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Subunidade
+        fields = ["id_subunidade", "subunidade"]
+        read_only_fields = ["id_subunidade"]

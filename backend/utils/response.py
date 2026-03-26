@@ -16,15 +16,29 @@ def not_found(message):
     )
 
 
-def error_server():
+def error_server(error=None):
+    if error is None:
+        return Response(
+            {"detail": "Algum erro aconteceu durante a operação."},
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+        )
     return Response(
-        {"detail": "Algum erro aconteceu durante a operação."},
+        {
+            "detail": f"Algum erro aconteceu durante a operação: {error} ",
+        },
         status=status.HTTP_500_INTERNAL_SERVER_ERROR,
     )
 
 
 def bad_request(message):
     return Response({"detail": message}, status=status.HTTP_400_BAD_REQUEST)
+
+
+def success_data(data):
+    return Response(
+        {"data": data},
+        status=status.HTTP_200_OK,
+    )
 
 
 def success(message):

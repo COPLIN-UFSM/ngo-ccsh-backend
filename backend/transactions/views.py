@@ -11,12 +11,13 @@ from rest_framework.decorators import api_view, permission_classes
 from utils import response
 
 
-@api_view(["GET"])
-@permission_classes([AllowAny])
-def home(request):
-    return Response(
-        {"detail": "Por enquanto ta tudo tranquilo."}, status=status.HTTP_200_OK
-    )
+# @api_view(["GET"])
+# @permission_classes([AllowAny])
+# def home(request):
+#     return Response(
+#         {"detail": "Por enquanto ta tudo tranquilo."}, status=status.HTTP_200_OK
+#     )
+
 
 # Existem apenas dois tipo de Despesa: 'custeio' e 'capital', então não há necessidade de um CRUD.
 class TipoDespesaView(APIView):
@@ -28,7 +29,7 @@ class TipoDespesaView(APIView):
         return Response(serializer.data)
 
 
-class SubtipoFinalidadeView(APIView):
+class CategoriaFinalidadeView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
@@ -52,14 +53,15 @@ class SubtipoFinalidadeView(APIView):
             return response.error_server()
 
 
-class SingleSubtipoFinalidadeView(APIView):
+class SingleCategoriaFinalidadeView(APIView):
     permission_classes = [IsAuthenticated]
+    name = "Categoria de finalidade"
 
     def get(self, request, pk):
         try:
             data = CategoriaFinalidade.objects.filter(pk=pk).first()
             if not data:
-                return response.not_found("Subtipo de Finalidade não encontrada.")
+                return response.not_found(f"{self.name} não encontrada.")
 
             serializer = CategoriaFinalidadeSerializer(data)
             return Response(serializer.data, status=status.HTTP_200_OK)
@@ -75,7 +77,7 @@ class SingleSubtipoFinalidadeView(APIView):
         try:
             subtipo_finalidade = CategoriaFinalidade.objects.filter(pk=pk).first()
             if not subtipo_finalidade:
-                return response.not_found("Subtipo de Finalidade não encontrada.")
+                return response.not_found(f"{self.name} não encontrada.")
 
             serializer = CategoriaFinalidadeSerializer(
                 instance=subtipo_finalidade, data=request.data, partial=True
@@ -85,29 +87,29 @@ class SingleSubtipoFinalidadeView(APIView):
                 return response.serializer_errors(serializer)
             serializer.save()
 
-            return response.success("Subtipo de Finalidade alterado com sucesso.")
+            return response.success(f"{self.name} alterado com sucesso.")
 
         except Exception as e:
-            return response.error_server()
+            return response.error_server(e)
 
     def delete(self, request, pk):
         if not request.user.is_superuser:
             return response.not_admin_user()
 
         try:
-            subtipo_finalidade = CategoriaFinalidade.objects.filter(pk=pk).first()
-            if not subtipo_finalidade:
-                return response.not_found("Subtipo de Finalidade não encontrada.")
+            categoria_finalidade = CategoriaFinalidade.objects.filter(pk=pk).first()
+            if not categoria_finalidade:
+                return response.not_found(f"{self.name} não encontrada.")
 
             finalidades = Finalidade.objects.filter(subtipo_finalidade=pk)
             if len(finalidades) > 0:
                 return response.bad_request(
-                    "Não é possível remover um subtipo que tenha filhos"
+                    f"Não é possível remover uma {self.name} que tenha filhos"
                 )
 
-            subtipo_finalidade.delete()
+            categoria_finalidade.delete()
 
-            return response.success("Finalidade deletada com sucesso.")
+            return response.success(f"{self.name} deletada com sucesso.")
 
         except Exception as e:
             return response.error_server()
@@ -188,5 +190,81 @@ class FinalidadesView(APIView):
             serializer.save()
             return response.success("Finalidade criada com sucesso.")
 
-        except:
+        except Exception as error:
+            return response.error_server(error)
+
+
+class SubunidadeView(APIView):
+
+    def get(self, request):
+        try:
+            subunidades = Subunidade.objects.all()
+            serializer = SubunidadeSerializer(subunidades, many=True)
+            return response.success_data(serializer.data)
+
+        except Exception as e:
+            return response.error_server(e)
+
+    def post(self, request):
+        if not request.user.is_superuser:
+            return response.not_admin_user()
+
+        try:
+            serializer = SubunidadeSerializer(data=request.data)
+            if not serializer.is_valid():
+                return response.serializer_errors(serializer)
+            serializer.save()
+            return response.success("Subunidade adicionada com sucesso.")
+        except Exception as e:
+            return response.error_server(e)
+
+class SingleSubunidadeView(APIView):
+    def get(self, request, pk):
+        try:
+            data = Subunidade.objects.filter(pk=pk).first()
+            if not data:
+                return response.not_found("Subunidade não encontrada.")
+            serializer = SubunidadeSerializer(data)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+
+        except Exception as e:
+            return response.error_server(e)
+
+    def patch(self, request, pk):
+        if not request.user.is_superuser:
+            return response.not_admin_user()
+
+        try:
+            subunidade = Subunidade.objects.filter(pk=pk).first()
+            if not subunidade:
+                return response.not_found("Subunidade não encontrada.")
+
+            serializer = SubunidadeSerializer(
+                instance=subunidade, data=request.data
+            )
+
+            if not serializer.is_valid():
+                return response.serializer_errors(serializer)
+            serializer.save()
+
+            return response.success("Subunidade alterada com sucesso.")
+
+        except Exception as e:
             return response.error_server()
+
+    def delete(self, request, pk):
+        if not request.user.is_superuser:
+            return response.not_admin_user()
+
+        try:
+            subunidade = Subunidade.objects.filter(pk=pk).first()
+            if not subunidade:
+                return response.not_found("Subunidade não encontrada.")
+            subunidade.delete()
+
+            return response.success("Subunidade deletada com sucesso.")
+
+        except Exception as e:
+            return response.error_server()
+
+
