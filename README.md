@@ -1,33 +1,12 @@
-# Título do repositório
+# ngo-ccsh-backend
 
-Descrição curta do repositório.
+Backend em Django REST API do sistema de controle orçamentário do NGO CCSH.
 
 ## Sumário
 
-* [Pré-requisitos](#pré-requisitos)
 * [Instalação](#instalação)
 * [Instruções de uso](#instruções-de-uso)
 * [Contato](#contato)
-* [Bibliografia](#bibliografia)
-
-## Pré-requisitos
-
-Este repositório requer a última versão do [Python Anaconda](https://www.anaconda.com/download) para ser executado, 
-visto que usa o gerenciador de pacotes conda. O código executará em qualquer Sistema Operacional, mas foi desenvolvido
-originalmente para Windows 10 Pro (64 bits).
-
-No instalador, certifique-se de adicionar à variável PATH do sistema o caminho do Anaconda:
-
-![img.png](images/path_anaconda.png)
-
-As configurações da máquina que o repositório foi desenvolvido encontram-se na tabela abaixo:
-
-| Configuração        | Valor                    |
-|---------------------|--------------------------|
-| Sistema operacional | Windows 10 Pro (64 bits) |
-| Processador         | Intel core i7 9700       |
-| Memória RAM         | 16GB                     |
-| Necessita rede?     | Sim                      |
 
 
 ## Instalação
@@ -36,7 +15,7 @@ Crie um novo ambiente virtual com os seguintes comandos (a partir da linha de co
 
 ```bash
 conda env create -f environment.yml
-conda activate myenv
+conda activate ngo
 ```
 
 ## Instruções de Uso
@@ -45,16 +24,12 @@ Descreva aqui o passo-a-passo que outros usuários precisam realizar para conseg
 deste projeto:
 
 ```bash
-conda activate myenv
-python main.py
+conda activate ngo
+cd backend
+python manage.py runserver
 ```
 
 ## Contato
 
-O repositório foi originalmente desenvolvido por Fulano: [fulano@ufsm.br]()
+O repositório foi originalmente desenvolvido por Leandro Galbarino: [lonascimento@inf.ufsm.br]()
 
-## Bibliografia
-
-Adicione aqui entradas numa lista com a documentação pertinente:
-
-* [Documentação coplin-db2](https://pypi.org/project/coplin-db2/)
