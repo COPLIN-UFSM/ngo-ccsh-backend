@@ -1,12 +1,15 @@
 from django.urls import path
-from .views import (
-    CategoriaFinalidadeView,
+from transactions.views.finalidades import (
     FinalidadesView,
-    SingleCategoriaFinalidadeView,
     SingleFinalidadeView,
-    SingleSubunidadeView,
-    SubunidadeView,
+    CategoriaFinalidadeView,
+    SingleCategoriaFinalidadeView,
     TipoDespesaView,
+    SingleTipoDespesaView,
+)
+from transactions.views.subunidades import (
+    SubunidadeView,
+    SingleSubunidadeView,
 )
 
 app_name = "transactions"
@@ -19,17 +22,21 @@ urlpatterns = [
         name="single_finalidades",
     ),
     path(
-        "categoria-finalidade/",
+        "categorias-finalidade/",
         view=CategoriaFinalidadeView.as_view(),
         name="subtipo_finalidade",
     ),
-    # Testar
     path(
-        "categoria-finalidade/<int:pk>",
+        "categorias-finalidade/<int:pk>/",
         view=SingleCategoriaFinalidadeView.as_view(),
         name="subtipo_finalidade",
     ),
-    path("tipo-despesas/", view=TipoDespesaView.as_view(), name="despesas"),
+    path("tipos-despesa/", view=TipoDespesaView.as_view(), name="tipos_despesas"),
+    path(
+        "tipos-despesa/<int:pk>/",
+        view=SingleTipoDespesaView.as_view(),
+        name="single_tipo_despesa",
+    ),
     path("subunidades/", view=SubunidadeView.as_view(), name="subunidades"),
     path(
         "subunidades/<int:pk>/",

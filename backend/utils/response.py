@@ -41,6 +41,10 @@ def success_data(data):
     )
 
 
+def success_no_content():
+    return Response(status=status.HTTP_204_NO_CONTENT)
+
+
 def success(message):
     return Response(
         {"detail": message},

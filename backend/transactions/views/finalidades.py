@@ -1,25 +1,13 @@
-from math import e
 
-from django.core.exceptions import ObjectDoesNotExist
 from rest_framework.response import Response
 from rest_framework import status
 
 from transactions.serializers import *
 from rest_framework.views import APIView
-from rest_framework.permissions import AllowAny, IsAuthenticated
-from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
 from utils import response
 
 
-# @api_view(["GET"])
-# @permission_classes([AllowAny])
-# def home(request):
-#     return Response(
-#         {"detail": "Por enquanto ta tudo tranquilo."}, status=status.HTTP_200_OK
-#     )
-
-
-# Existem apenas dois tipo de Despesa: 'custeio' e 'capital', então não há necessidade de um CRUD.
 class TipoDespesaView(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -27,6 +15,76 @@ class TipoDespesaView(APIView):
         tipos_despesa = TipoDespesa.objects.all()
         serializer = TipoDespesaSerializer(tipos_despesa, many=True)
         return Response(serializer.data)
+
+    def post(self, request):
+        if not request.user.is_superuser:
+            return response.not_admin_user()
+        try:
+            serializer = TipoDespesaSerializer(data=request.data)
+            if not serializer.is_valid():
+                return response.serializer_errors(serializer=serializer)
+
+            serializer.save()
+            return response.success("Tipo de Despesa adicionada com sucesso.")
+        except:
+            return response.error_server()
+
+
+class SingleTipoDespesaView(APIView):
+    permission_classes = [IsAuthenticated]
+    name = "Tipo de Despesa"
+
+    def get(self, request, pk):
+        try:
+            tipo_despesa = TipoDespesa.objects.filter(pk=pk).first()
+            if not tipo_despesa:
+                return response.not_found("Tipo de Despesa não encontrado")
+            serializer = TipoDespesaSerializer(tipo_despesa)
+            return Response(serializer.data)
+        except:
+            return response.error_server()
+
+    def put(self, request, pk):
+        if not request.user.is_superuser:
+            return response.not_admin_user()
+
+        try:
+            tipo_despesa = TipoDespesa.objects.filter(pk=pk).first()
+            if not tipo_despesa:
+                return response.not_found(f"{self.name} não encontrada.")
+
+            serializer = TipoDespesaSerializer(instance=tipo_despesa, data=request.data)
+
+            if not serializer.is_valid():
+                return response.serializer_errors(serializer)
+            serializer.save()
+
+            return response.success(f"{self.name} alterado com sucesso.")
+
+        except Exception as e:
+            return response.error_server(e)
+
+    def delete(self, request, pk):
+        if not request.user.is_superuser:
+            return response.not_admin_user()
+
+        try:
+            tipo_despesa = TipoDespesa.objects.filter(pk=pk).first()
+            if not tipo_despesa:
+                return response.not_found(f"{self.name} não encontrada.")
+
+            finalidades = Finalidade.objects.filter(tipo_despesa=pk)
+            if len(finalidades) > 0:
+                return response.bad_request(
+                    f"Não é possível remover um {self.name} que tenha filhos"
+                )
+
+            tipo_despesa.delete()
+
+            return response.success(f"{self.name} deletado com sucesso.")
+
+        except Exception as e:
+            return response.error_server()
 
 
 class CategoriaFinalidadeView(APIView):
@@ -46,7 +104,7 @@ class CategoriaFinalidadeView(APIView):
                 return response.serializer_errors(serializer=serializer)
 
             serializer.save()
-            return response.success("Subtipo de Finalidade adicionado com sucesso.")
+            return response.success("Categoria de Finalidade adicionado com sucesso.")
 
         except Exception as e:
             print(e)
@@ -70,17 +128,17 @@ class SingleCategoriaFinalidadeView(APIView):
             print(e)
             return response.error_server()
 
-    def patch(self, request, pk):
+    def put(self, request, pk):
         if not request.user.is_superuser:
             return response.not_admin_user()
 
         try:
-            subtipo_finalidade = CategoriaFinalidade.objects.filter(pk=pk).first()
-            if not subtipo_finalidade:
+            categoria_finalidade = CategoriaFinalidade.objects.filter(pk=pk).first()
+            if not categoria_finalidade:
                 return response.not_found(f"{self.name} não encontrada.")
 
             serializer = CategoriaFinalidadeSerializer(
-                instance=subtipo_finalidade, data=request.data, partial=True
+                instance=categoria_finalidade, data=request.data
             )
 
             if not serializer.is_valid():
@@ -101,7 +159,7 @@ class SingleCategoriaFinalidadeView(APIView):
             if not categoria_finalidade:
                 return response.not_found(f"{self.name} não encontrada.")
 
-            finalidades = Finalidade.objects.filter(subtipo_finalidade=pk)
+            finalidades = Finalidade.objects.filter(categoria_finalidade=pk)
             if len(finalidades) > 0:
                 return response.bad_request(
                     f"Não é possível remover uma {self.name} que tenha filhos"
@@ -130,7 +188,7 @@ class SingleFinalidadeView(APIView):
             print(e)
             return response.error_server()
 
-    def patch(self, request, pk):
+    def put(self, request, pk):
         if not request.user.is_superuser:
             return response.not_admin_user()
 
@@ -140,11 +198,13 @@ class SingleFinalidadeView(APIView):
                 return response.not_found("Finalidade não encontrada.")
 
             serializer = FinalidadeSerializer(
-                instance=finalidade, data=request.data, partial=True
+                instance=finalidade,
+                data=request.data,
             )
 
             if not serializer.is_valid():
                 return response.serializer_errors(serializer)
+
             serializer.save()
 
             return response.success("Finalidade alterada com sucesso.")
@@ -218,6 +278,7 @@ class SubunidadeView(APIView):
         except Exception as e:
             return response.error_server(e)
 
+
 class SingleSubunidadeView(APIView):
     def get(self, request, pk):
         try:
@@ -239,9 +300,7 @@ class SingleSubunidadeView(APIView):
             if not subunidade:
                 return response.not_found("Subunidade não encontrada.")
 
-            serializer = SubunidadeSerializer(
-                instance=subunidade, data=request.data
-            )
+            serializer = SubunidadeSerializer(instance=subunidade, data=request.data)
 
             if not serializer.is_valid():
                 return response.serializer_errors(serializer)
@@ -266,5 +325,3 @@ class SingleSubunidadeView(APIView):
 
         except Exception as e:
             return response.error_server()
-
-

@@ -1,6 +1,6 @@
 from calendar import c
 from rest_framework import serializers
-from django.contrib.auth import get_user_model
+
 from .models import CustomUser
 
 class RegisterSerializer(serializers.ModelSerializer):
