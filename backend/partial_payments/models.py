@@ -1,23 +1,30 @@
 from django.db import models
+from django.db.models import Sum, Case, When, F, DecimalField
+from decimal import Decimal
 
 
 # Empenho inicial para cada despesa. Valor a qual o crédito e débito serão realizado.
 class EmpenhoPagamentoParcial(models.Model):
     id_empenho = models.AutoField(primary_key=True)
-    empenho = models.CharField(unique=True, max_length=50)
-    descricao = models.CharField(max_length=50)
-    montante = models.DecimalField(
-        max_digits=10, decimal_places=2, blank=True, default=0.00
-    )
+    empenho = models.CharField(max_length=50, unique=True)
+    descricao = models.TextField(max_length=200)
     ativo = models.BooleanField(default=True, blank=True)
 
-
-# # Crédito, Débito
-# class TipoTransacaoPagamentoParcial(models.Model):
-#     id_tipo_transacao = models.AutoField(primary_key=True)
-#     ativo = models.BooleanField(default=True, blank=True)
-#     tipo_transacao = models.CharField(unique=True, max_length=20)
-#     ativo = models.BooleanField(default=True, blank=True)
+    @property
+    def montante(self):
+        related_transaciton = TransacaoPagamentoParcial.objects.filter(
+            empenho_pai=self
+        ).aggregate(
+            montante=Sum(
+                Case(
+                    When(eh_credito=True, then=F("montante")),
+                    When(eh_credito=False, then=-F("montante")),
+                    default=Decimal(0.00),
+                ),
+                output_field=DecimalField(),
+            )
+        )
+        return related_transaciton["montante"] or Decimal(0.00)
 
 
 # Fatura/Nota Fiscal / Empenho
@@ -36,10 +43,13 @@ class TransacaoPagamentoParcial(models.Model):
     tipo_documento = models.ForeignKey(
         TipoDocumentoPagamentoParcial, models.DO_NOTHING, db_column="id_tipo_documento"
     )
-    credito = models.BooleanField(default=False)
+    eh_credito = models.BooleanField(default=False, db_column="credito")
 
     documento = models.CharField(max_length=50, unique=True)
     descricao = models.TextField(max_length=50)
     data_lancamento = models.DateField(auto_now=True)
     montante = models.DecimalField(max_digits=10, decimal_places=2)
-    ativo = models.BooleanField(default=True, blank=True)
+
+    class Meta:
+        # Mudar para DataTime o Date...
+        ordering = ["id_transacao"]

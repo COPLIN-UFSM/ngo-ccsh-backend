@@ -5,10 +5,6 @@ from transactions.serializers import *
 from rest_framework.views import APIView
 from utils import response
 
-
-
-
-
 class SingleSubunidadeView(APIView):
     def get(self, request, pk):
         try:

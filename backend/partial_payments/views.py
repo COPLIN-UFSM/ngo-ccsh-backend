@@ -7,10 +7,48 @@ from partial_payments.models import *
 from partial_payments.serializers import *
 from utils import response
 from django.db.models import F
+
 # Create your views here.
 
 # Empenho Ok
 # Single Empenho OK - Pode deletar se não tem nenhuma transação filho, pq assim não afeta nada... -> Só será utilizado em algum tipo de erro de criação, poderia ser resolvido tbm apenas dando update.
+from rest_framework.response import Response
+from rest_framework import status
+
+
+class TransacoesByEmpenho(APIView):
+    def get(self, request, pk):
+        try:
+            empenho = EmpenhoPagamentoParcial.objects.filter(pk=pk).first()
+            if not empenho:
+                return response.not_found("Empenho não encontrado.")
+            transacoes = TransacaoPagamentoParcial.objects.filter(empenho_pai=empenho)
+            serializer = TransacaoPagamentoParcialSerializer(transacoes, many=True)
+
+            return Response(
+                data=serializer.data,
+                status=status.HTTP_200_OK,
+            )
+        except Exception as e:
+            print(e)
+            return response.error_server(e)
+
+
+class EmpenhoMontante(APIView):
+    def get(self, request, pk):
+        try:
+            empenho = EmpenhoPagamentoParcial.objects.filter(pk=pk).first()
+            if not empenho:
+                return response.not_found("Empenho não encontrado.")
+
+            montante_total = empenho.montante
+            return Response(
+                data={"data": {"montante_total": montante_total}},
+                status=status.HTTP_200_OK,
+            )
+        except Exception as e:
+            print(e)
+            return response.error_server(e)
 
 
 class EmpenhoView(APIView):
@@ -36,6 +74,7 @@ class EmpenhoView(APIView):
         except Exception as e:
             return response.error_server(e)
 
+
 class SingleEmpenhoView(APIView):
     def get(self, request, pk):
         try:
@@ -45,7 +84,7 @@ class SingleEmpenhoView(APIView):
         except ObjectDoesNotExist:
             return response.not_found("Empenho não encontrado.")
         except Exception as e:
-            return response.error_server()
+            return response.error_server(e)
 
     def put(self, request, pk):
         if not request.user.is_superuser:
@@ -67,7 +106,7 @@ class SingleEmpenhoView(APIView):
             return response.success("Empenho atualizado com sucesso.")
 
         except Exception as e:
-            return response.error_server()
+            return response.error_server(e)
 
     def delete(self, request, pk):
         if not request.user.is_superuser:
@@ -92,6 +131,7 @@ class SingleEmpenhoView(APIView):
         except Exception as e:
             return response.error_server()
 
+
 class TipoDocumentoPagamentoParcialView(APIView):
 
     def get(self, request):
@@ -111,6 +151,7 @@ class TipoDocumentoPagamentoParcialView(APIView):
             return response.success("Tipo de Documento adicionado com sucesso.")
         except:
             return response.error_server()
+
 
 class SingleTipoDocumentoPagamentoParcialView(APIView):
 
@@ -163,6 +204,7 @@ class SingleTipoDocumentoPagamentoParcialView(APIView):
         except Exception as e:
             return response.error_server()
 
+
 class TransacaoPagamentoParcialView(APIView):
 
     def get(self, request):
@@ -188,6 +230,7 @@ class TransacaoPagamentoParcialView(APIView):
             return response.success("Transação adicionada com sucesso.")
         except Exception as e:
             return response.error_server(e)
+
 
 class SingleTransacaoPagamentoParcialView(APIView):
 
@@ -216,8 +259,8 @@ class SingleTransacaoPagamentoParcialView(APIView):
 
             if not serializer.is_valid():
                 return response.serializer_errors(serializer)
+            
             serializer.save()
-
             return response.success(f"Transação alterada com sucesso.")
 
         except Exception as e:
@@ -232,10 +275,9 @@ class SingleTransacaoPagamentoParcialView(APIView):
             if not transacao:
                 return response.not_found(f"Transação não encontrado.")
 
-            transacao.ativo = False
-            transacao.save()
+            transacao.delete()
 
-            return response.success(f"Transacao removida com sucesso.")
+            return response.success_no_content()
 
         except Exception as e:
             return response.error_server()
@@ -248,77 +290,3 @@ class SingleTransacaoPagamentoParcialView(APIView):
 # Tipo Documento - Documento com seu valor
 # Tipo Transaco - Crédito ou débito.
 # Empenho - Empenho inicial
-
-
-# class TipoTransacaoPagamentoParcialView(APIView):
-
-#     def get(self, request):
-#         tipos_transacao = TipoTransacaoPagamentoParcial.objects.all()
-#         serializer = TipoTransacaoPagamentoParcialSerializer(tipos_transacao, many=True)
-#         return response.success_data(serializer.data)
-
-#     def post(self, request):
-#         if not request.user.is_superuser:
-#             return response.not_admin_user()
-#         try:
-#             serializer = TipoTransacaoPagamentoParcialSerializer(data=request.data)
-#             if not serializer.is_valid():
-#                 return response.serializer_errors(serializer=serializer)
-
-#             serializer.save()
-#             return response.success("Tipo de Transação adicionado com sucesso.")
-#         except:
-#             return response.error_server()
-
-
-# class SingleTipoTransacaoPagamentoParcialView(APIView):
-#     name = "Tipo de Transação"
-
-#     def get(self, request, pk):
-#         try:
-#             tipo_despesa = TipoTransacaoPagamentoParcial.objects.filter(pk=pk).first()
-#             if not tipo_despesa:
-#                 return response.not_found("Tipo de Transação não encontrado")
-#             serializer = TipoTransacaoPagamentoParcialSerializer(tipo_despesa)
-#             return response.success_data(serializer.data)
-#         except:
-#             return response.error_server()
-
-#     def put(self, request, pk):
-#         if not request.user.is_superuser:
-#             return response.not_admin_user()
-
-#         try:
-#             tipo_transacao = TipoTransacaoPagamentoParcial.objects.filter(pk=pk).first()
-#             if not tipo_transacao:
-#                 return response.not_found(f"{self.name} não encontrado.")
-
-#             serializer = TipoTransacaoPagamentoParcialSerializer(
-#                 instance=tipo_transacao, data=request.data
-#             )
-
-#             if not serializer.is_valid():
-#                 return response.serializer_errors(serializer)
-#             serializer.save()
-
-#             return response.success(f"{self.name} alterado com sucesso.")
-
-#         except Exception as e:
-#             return response.error_server(e)
-
-#     def delete(self, request, pk):
-#         if not request.user.is_superuser:
-#             return response.not_admin_user()
-
-#         try:
-#             tipo_transacao = TipoTransacaoPagamentoParcial.objects.filter(pk=pk).first()
-#             if not tipo_transacao:
-#                 return response.not_found(f"{self.name} não encontrada.")
-
-#             tipo_transacao.ativo = False
-#             tipo_transacao.save()
-
-#             return response.success(f"{self.name} deletado com sucesso.")
-
-#         except Exception as e:
-#             return response.error_server()
