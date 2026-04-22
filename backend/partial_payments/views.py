@@ -135,8 +135,8 @@ class SingleEmpenhoView(APIView):
 class TipoDocumentoPagamentoParcialView(APIView):
 
     def get(self, request):
-        tipos_transacao = TipoDocumentoPagamentoParcial.objects.all()
-        serializer = TipoDocumentoPagamentoParcialSerializer(tipos_transacao, many=True)
+        tipos_transacoes = TipoDocumentoPagamentoParcial.objects.all()
+        serializer = TipoDocumentoPagamentoParcialSerializer(tipos_transacoes, many=True)
         return response.success_data(serializer.data)
 
     def post(self, request):

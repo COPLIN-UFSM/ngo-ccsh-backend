@@ -32,9 +32,6 @@ INSERT INTO finalidades (id_finalidade, id_tabela_finalidade, finalidade) VALUES
 (22,null,'Permanente - Móveis'),
 (23,null,'Investimentos - Obras'),
 (24,null,'Suprimento de Fundos');
--- (26,null,'Transferência - Custeio'),
--- (27,null,'Transferência - Capital / Investimentos');
-
 
 
 INSERT INTO subunidades(id_subunidade, subunidade) VALUES
@@ -93,7 +90,7 @@ INSERT INTO subunidades(id_subunidade, subunidade) VALUES
 (53, 'CPD'),
 (54,'IFFar');
 
-INSERT INTO tipos_documento(id_tipo_documento, tipo_documento) VALUES
+INSERT INTO tipos_documentos(id_tipo_documento, tipo_documento) VALUES
 (1,'pi'),
 (2,'pen'),
 (3,'orçamento'),
@@ -109,10 +106,3 @@ INSERT INTO tipos_transacoes(id_tipo_transacao, tipo_transacao) VALUES
 (1,'empenho'),
 (2,'despesa'),
 (3,'receita');
-
--- Usuários criados apenas para testes...
--- Dinâmico
-INSERT INTO usuarios(username,password,email,administrador)  VALUES ('leandro', 'aleatorio', 'leandronascimento753@gmail.com', True);
-
-INSERT INTO usuarios(username,password,email)  VALUES ('domenico', 'asdas', 'domenico@gmail.com');
-

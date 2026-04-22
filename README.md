@@ -6,6 +6,7 @@ Backend em Django REST API do sistema de controle orçamentário do NGO CCSH.
 
 * [Instalação](#instalação)
 * [Instruções de uso](#instruções-de-uso)
+* [Estrutura do projeto](#estrutura-do-projeto)
 * [Contato](#contato)
 
 
@@ -20,14 +21,19 @@ conda activate ngo
 
 ## Instruções de Uso
 
-Descreva aqui o passo-a-passo que outros usuários precisam realizar para conseguir executar com sucesso o código-fonte
-deste projeto:
-
 ```bash
 conda activate ngo
 cd backend
 python manage.py runserver
 ```
+
+## Estrutura do Projeto
+
+O projeto do Django está na pasta `backend/`. 
+O projeto possui três aplicativos:
+* users: controle de **usuários** (adicionar usuários, promover a administradores, remover, etc)
+* transactions: controle de **despesas**
+* partials: controle de **lançamentos parciais**
 
 ## Contato
 

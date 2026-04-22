@@ -20,7 +20,7 @@ urlpatterns = [
     path(
         "tipos-documento/",
         TipoDocumentoPagamentoParcialView.as_view(),
-        name="tipos_documento",
+        name="tipos_documentos",
     ),
     path(
         "tipos-documento/<int:pk>/",

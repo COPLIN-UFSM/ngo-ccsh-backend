@@ -30,7 +30,7 @@ class Migration(migrations.Migration):
                 ('categoria_finalidade', models.CharField(max_length=255)),
             ],
             options={
-                'db_table': 'categorias_finalidade',
+                'db_table': 'categorias_finalidades',
                 'managed': False,
             },
         ),
@@ -74,7 +74,7 @@ class Migration(migrations.Migration):
                 ('tipo_documento', models.CharField(max_length=100)),
             ],
             options={
-                'db_table': 'tipos_documento',
+                'db_table': 'tipos_documentos',
                 'managed': False,
             },
         ),
@@ -85,7 +85,7 @@ class Migration(migrations.Migration):
                 ('tipo_transacao', models.CharField(max_length=100)),
             ],
             options={
-                'db_table': 'tipos_transacao',
+                'db_table': 'tipos_transacoes',
                 'managed': False,
             },
         ),

@@ -8,7 +8,7 @@ class TipoDocumento(models.Model):
 
     class Meta:
         managed = False
-        db_table = "tipos_documento"
+        db_table = "tipos_documentos"
 
     def __str__(self) -> str:
         return self.tipo_documento
@@ -55,7 +55,7 @@ class TipoTransacao(models.Model):
 
     class Meta:
         managed = False
-        db_table = "tipos_transacao"
+        db_table = "tipos_transacoes"
 
     def __str__(self) -> str:
         return self.tipo_transacao
@@ -81,7 +81,7 @@ class CategoriaFinalidade(models.Model):
 
     class Meta:
         managed = False
-        db_table = "categorias_finalidade"
+        db_table = "categorias_finalidades"
 
     def __str__(self) -> str:
         return self.categoria_finalidade
