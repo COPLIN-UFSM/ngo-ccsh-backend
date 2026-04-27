@@ -21,7 +21,7 @@ def get_secret(attribute):
     Retorna uma configuração armazenada em um arquivo.
     """
 
-    with open(os.path.join(BASE_DIR, '..', 'instance', 'database_credentials.json')) as read_file:
+    with open(os.path.abspath(os.path.join(BASE_DIR, '..', 'instance', 'database_credentials.json'))) as read_file:
         secrets = json.load(read_file)
 
     try:
@@ -143,11 +143,7 @@ DATABASES = {
                    f"PORT={get_secret('port')};PROTOCOL=TCPIP;"
         },
         'PCONNECT': True,
-    },
-    'local_sqlite': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'prod.sqlite3',
-    },
+    }
 }
 
 DATABASE_ROUTERS = ['app.db_routers.LocalAppsRouter']
