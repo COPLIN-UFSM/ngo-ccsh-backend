@@ -15,8 +15,6 @@ DATABASES = {
     }
 }
 
-del DATABASE_ROUTERS
-
 def force_create_unmanaged_models():
     """
     Cria tabelas para modelos com managed=False (útil em dev com SQLite).
@@ -28,11 +26,11 @@ def force_create_unmanaged_models():
             with connection.schema_editor() as schema_editor:
                 try:
                     schema_editor.create_model(model)
-                    print(f"  [OK] Modelo criado: {model.__name__}")
+                    print(f'  [OK] Modelo criado: {model.__name__}')
                 except Exception as e:
-                    print(f"[WARN] Não foi possível criar o modelo {model.__name__}: {e}")
+                    print(f'[WARN] Não foi possível criar o modelo {model.__name__}: {e}')
 
 # Executa automaticamente, mas só se o banco ainda não existir
-if not os.path.exists(DATABASES["default"]["NAME"]):
-    print("[INFO] dev.sqlite3 não encontrado - criando tabelas do banco de dados")
+if not os.path.exists(DATABASES['default']['NAME']):
+    print('[INFO] dev.sqlite3 não encontrado - criando tabelas do banco de dados')
     force_create_unmanaged_models()

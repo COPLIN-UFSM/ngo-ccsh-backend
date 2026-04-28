@@ -96,6 +96,9 @@ REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": ["rest_framework.permissions.IsAuthenticated"],
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "rest_framework_simplejwt.authentication.JWTAuthentication",
+        # TODO adicionado para adicionar login no django rest framework browsable API,
+        #  mas pode ser removido depois que o frontend estiver pronto
+        'rest_framework.authentication.SessionAuthentication',
     ],
 }
 
@@ -146,7 +149,7 @@ DATABASES = {
     }
 }
 
-DATABASE_ROUTERS = ['app.db_routers.LocalAppsRouter']
+# DATABASE_ROUTERS = ['app.db_routers.LocalAppsRouter']
 
 # Password validation
 # https://docs.djangoproject.com/en/6.0/ref/settings/#auth-password-validators
@@ -178,9 +181,6 @@ TIME_ZONE = "America/Sao_Paulo"
 USE_I18N = True
 
 USE_TZ = False  # precisa ser falso para usar ibm db2
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = "static/"
 STATICFILES_DIRS = [BASE_DIR / 'static']

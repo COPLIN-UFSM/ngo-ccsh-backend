@@ -1,10 +1,6 @@
-from django.contrib.auth.models import (
-    BaseUserManager,
-    AbstractBaseUser,
-    PermissionsMixin,
-)
-
 from django.db import models
+
+from django.contrib.auth.models import BaseUserManager, AbstractBaseUser, PermissionsMixin
 
 
 class UserManager(BaseUserManager):
@@ -26,6 +22,7 @@ class UserManager(BaseUserManager):
         extra_fields.setdefault("is_staff", True)
         extra_fields.setdefault("is_superuser", True)
         return self.create_user(username, email, password, **extra_fields)
+
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
     id = models.AutoField(primary_key=True, editable=False, db_column="id_usuario")

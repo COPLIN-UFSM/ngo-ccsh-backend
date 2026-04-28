@@ -27,16 +27,32 @@ dados de produção.
 O banco de dados de desenvolvimento é usado para fazer testes locais em um banco de dados SQLite persistente.
 
 1. Delete os arquivos de migração (pasta `migrations`, uma para cada aplicação)
-2. Execute os seguintes comandos (a partir da pasta [backend](backend)):
+2. Entre na pasta [backend](backend):
+   ```bash
+   cd backend
+   ```
+3. Execute os seguintes comandos:
    ```bash
    python manage.py makemigrations --settings=ngo_ccsh.dev_settings
    python manage.py migrate --settings=ngo_ccsh.dev_settings
    python manage.py createsuperuser --settings=ngo_ccsh.dev_settings
    ```
-3. Para executar a aplicação:
-  ```bash
-  python manage.py runserver --settings=ngo_ccsh.dev_settings
-  ```
+4. Para executar a aplicação:
+   ```bash
+   python manage.py runserver --settings=ngo_ccsh.dev_settings
+   ```
+5. Teste a aplicação entrando na URL [http://localhost:8000/admin/](http://localhost:8000/admin/) e usando o usuário 
+   criado no passo 3.
+
+#### Rodando testes
+
+Para rodar os testes:
+
+```bash
+conda activate ngo
+cd backend
+python manage.py test --settings=ngo_ccsh.test_settings
+```
 
 ### Produção
 

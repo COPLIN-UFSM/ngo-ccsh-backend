@@ -10,5 +10,3 @@ DATABASES = {
         "NAME": ":memory:",
     }
 }
-
-del DATABASE_ROUTERS

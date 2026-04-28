@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from .serializers import RegisterSerializer, UserSerializer
 
-# Autenticacao + JWT
+# Autenticação + JWT
 from django.contrib.auth import authenticate
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -15,8 +15,6 @@ from users.services import _find_user_by_Id
 
 
 class LoginView(APIView):
-    """Login user"""
-
     permission_classes = [AllowAny]
 
     def post(self, request):
@@ -52,7 +50,7 @@ class LoginView(APIView):
                 "refresh": str(refresh),
                 "token": str(refresh.access_token),
             },
-            status=status.HTTP_200_OK,
+            status=status.HTTP_200_OK
         )
 
 
@@ -98,7 +96,7 @@ class UpdatePermissionUser(APIView):
         user = _find_user_by_Id(pk)
         if user is None:
             return Response(
-                {"detail": f"Usuário com id: {pk}, não encontrado. "},
+                {"detail": f"Usuário com id: {pk}, não encontrado."},
                 status=status.HTTP_404_NOT_FOUND,
             )
 
@@ -140,7 +138,7 @@ class UpdatePermissionUser(APIView):
 
 
 class ChangePasswordView(APIView):
-    """Change password with user autenticated and current password"""
+    """Change password with user authenticated and current password"""
 
     permission_classes = [IsAuthenticated]
 
@@ -200,7 +198,7 @@ class ChangePasswordView(APIView):
 
 
 class UserInfoView(APIView):
-    """GET/PATCH/DELETE -> especific user"""
+    """GET/PATCH/DELETE -> specific user"""
 
     permission_classes = [IsAuthenticated]
 

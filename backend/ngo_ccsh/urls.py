@@ -19,6 +19,7 @@ from django.contrib import admin
 from django.urls import path, include
 
 urlpatterns = [
+    path('api-auth/', include('rest_framework.urls')),  # para fazer login na browsable API do DRF
     path("admin/", admin.site.urls),
     path("users/", include("users.urls")),
     path("transactions/", include("transactions.urls")),
