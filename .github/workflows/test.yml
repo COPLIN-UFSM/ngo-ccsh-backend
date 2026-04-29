@@ -1,0 +1,34 @@
+name: Django Tests
+on:
+  push:
+    branches:
+      - main
+      - dev
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential
+
+      - name: Set up Miniconda
+        uses: conda-incubator/setup-miniconda@v3
+        with:
+          activate-environment: ngo
+          environment-file: environment.yml
+          auto-activate-base: false
+
+      - name: Run Django tests
+        env:
+          DJANGO_SETTINGS_MODULE: ngo_ccsh.test_settings
+        shell: bash -l {0}
+        run: |
+          mkdir instance
+          json='{"user": "someuser", "password": "somepassword", "host": "some.host", "port": 50000, "database": "somedatabase", "schema": "someschema"}'
+          echo "$json" > instance/database_credentials.json
+          python backend/manage.py test
