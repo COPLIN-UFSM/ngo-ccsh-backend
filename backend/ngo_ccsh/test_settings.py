@@ -10,3 +10,6 @@ DATABASES = {
         "NAME": ":memory:",
     }
 }
+
+# cria tabelas com managed = False
+force_create_unmanaged_models()
