@@ -142,8 +142,11 @@ DATABASES = {
         "USER": get_secret('user'),
         "PASSWORD": get_secret('password'),
         "OPTIONS": {
-            'dsn': f"DATABASE={get_secret('database')};HOSTNAME={get_secret('host')};"
-                   f"PORT={get_secret('port')};PROTOCOL=TCPIP;"
+            'dsn': f"DATABASE={get_secret('database')};"
+                   f"HOSTNAME={get_secret('host')};"
+                   f"PORT={get_secret('port')};"
+                   f"PROTOCOL=TCPIP;"
+                   f"CURRENTSCHEMA={get_secret('schema')};"
         },
         'PCONNECT': True,
     }

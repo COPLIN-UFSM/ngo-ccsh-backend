@@ -13,14 +13,25 @@ Backend em Django REST API do sistema de controle orçamentário do NGO CCSH.
 
 ## Instalação
 
-Será necessário criar um ambiente virtual do Anaconda para executar a aplicação:
-
-```bash
-conda env create -f environment.yml
-```
+1. Será necessário criar um ambiente virtual do Anaconda para executar a aplicação:
+   ```bash
+   conda env create -f environment.yml
+   ```
+2. Crie uma pasta `instance` dentro da pasta raiz do projeto. Dentro desta pasta, crie um arquivo 
+   `database_credentials.json`, preenchendo os seguintes dados:
+   ```json
+   {
+     "user": "SEU-USUARIO-AQUI",
+     "password": "SUA-SENHA-AQUI",
+     "host": "bi.proj.ufsm.br",
+     "port": 50000,
+     "database": "bee",
+     "schema": "ORCAMENTO"
+   }
+   ```
 
 Após isso, existem duas maneiras de utilizar a aplicação: usando um banco de dados de desenvolvimento, e o banco de 
-dados de produção.
+dados de produção (que utiliza o arquivo de credenciais descrito acima).
 
 ### Desenvolvimento
 
