@@ -1,13 +1,13 @@
 from calendar import c
 from rest_framework import serializers
 
-from .models import CustomUser
+from .models import Usuario
 
 class RegisterSerializer(serializers.ModelSerializer):
     password2 = serializers.CharField(write_only=True)
 
     class Meta:
-        model = CustomUser
+        model = Usuario
         fields = [
             "id",
             "username",
@@ -35,12 +35,12 @@ class RegisterSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         validated_data.pop("password2")
-        user = CustomUser.objects.create_user(**validated_data)
+        user = Usuario.objects.create_user(**validated_data)
         return user
 
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
 
-        model = CustomUser
+        model = Usuario
         fields = ["id", "username", "email", "full_name"]

@@ -5,16 +5,16 @@ from rest_framework.test import APITestCase
 
 
 from ..services import create_token_with_allow_password_change
-from ..models import CustomUser
+from ..models import Usuario
 
 
 class UserTestAPI:
 
     def create_test_users(self):
-        self.user_admin = CustomUser.objects.create_superuser(
+        self.user_admin = Usuario.objects.create_superuser(
             username="admin", email="admin@gmail.com", password="adminpass"
         )
-        self.user_normal = CustomUser.objects.create_user(
+        self.user_normal = Usuario.objects.create_user(
             username="user", email="user@gmail.com", password="userpass"
         )
         self.user_data_adm = {
@@ -27,7 +27,7 @@ class UserTestAPI:
         }
 
     def create_user_not_active(self):
-        self.user_not_active = CustomUser.objects.create_user(
+        self.user_not_active = Usuario.objects.create_user(
             username="user_not_active",
             email="user2@gmail.com",
             password="userpass2",

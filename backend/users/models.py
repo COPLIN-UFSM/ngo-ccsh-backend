@@ -24,7 +24,7 @@ class UserManager(BaseUserManager):
         return self.create_user(username, email, password, **extra_fields)
 
 
-class CustomUser(AbstractBaseUser, PermissionsMixin):
+class Usuario(AbstractBaseUser, PermissionsMixin):
     id = models.AutoField(primary_key=True, editable=False, db_column="id_usuario")
     username = models.CharField(unique=True, max_length=32)
     email = models.EmailField(unique=True)
@@ -34,7 +34,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        managed = True
+        managed = False
         db_table = "usuarios"
         verbose_name = "Usuário"
         verbose_name_plural = "Usuários"

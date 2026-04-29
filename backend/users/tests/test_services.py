@@ -8,7 +8,7 @@ from ..services import (
     is_token_valid,
     send_email_reset_password,
 )
-from ..models import CustomUser
+from ..models import Usuario
 
 
 class UserTestDataMixin:
@@ -18,7 +18,7 @@ class UserTestDataMixin:
             "email": "loki@gmail.com",
             "password": "olámundo",
         }
-        return CustomUser.objects.create_user(**self.user_data) 
+        return Usuario.objects.create_user(**self.user_data)
 
 
 class TokensServiceTest(TestCase, UserTestDataMixin):

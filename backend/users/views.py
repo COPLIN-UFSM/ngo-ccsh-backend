@@ -9,7 +9,7 @@ from .serializers import RegisterSerializer, UserSerializer
 from django.contrib.auth import authenticate
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
-from users.models import CustomUser
+from users.models import Usuario
 from users.services import trigger_password_reset_flow
 from users.services import _find_user_by_Id
 
@@ -60,7 +60,7 @@ class UserView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        users = CustomUser.objects.filter(is_active=True).order_by("id")
+        users = Usuario.objects.filter(is_active=True).order_by("id")
         serializer = RegisterSerializer(users, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -143,7 +143,7 @@ class ChangePasswordView(APIView):
     permission_classes = [IsAuthenticated]
 
     def patch(self, request, pk):
-        user = CustomUser.objects.filter(pk=pk).first()
+        user = Usuario.objects.filter(pk=pk).first()
 
         if user is None:
             return Response(
@@ -281,7 +281,7 @@ class RecoverPasswordView(APIView):
                 status=status.HTTP_400_BAD_REQUEST,
             )
         
-        user = CustomUser.objects.filter(email=email).first()
+        user = Usuario.objects.filter(email=email).first()
         if not user:
             return Response(
                 {"detail": "Email não encontrado."}, status=status.HTTP_404_NOT_FOUND

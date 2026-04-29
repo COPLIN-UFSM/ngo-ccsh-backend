@@ -1,5 +1,5 @@
 from django.test import TestCase
-from ..models import CustomUser
+from ..models import Usuario
 
 
 class CreateUser(TestCase):
@@ -9,7 +9,7 @@ class CreateUser(TestCase):
             "password": "lindoelegal",
             "email": "leandronascimento@gmail.com",
         }
-        user = CustomUser.objects.create_user(**data)
+        user = Usuario.objects.create_user(**data)
 
         self.assertEqual(user.username, data["username"])
         self.assertEqual(user.email, data["email"])
@@ -22,7 +22,7 @@ class CreateUser(TestCase):
             "password": "lindoelegal",
             "email": "leandronascimento@gmail.com",
         }
-        user = CustomUser.objects.create_superuser(**data)
+        user = Usuario.objects.create_superuser(**data)
 
         self.assertEqual(user.username, data["username"])
         self.assertEqual(user.email, data["email"])

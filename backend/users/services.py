@@ -1,4 +1,4 @@
-from .models import CustomUser
+from .models import Usuario
 from rest_framework_simplejwt.tokens import AccessToken
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
@@ -10,8 +10,8 @@ from rest_framework_simplejwt.exceptions import TokenError
 def _find_user_by_Id(id):
     """Return user or None"""
     try:
-        user = CustomUser.objects.get(pk=id)
-    except CustomUser.DoesNotExist:
+        user = Usuario.objects.get(pk=id)
+    except Usuario.DoesNotExist:
         return None
     return user
 
