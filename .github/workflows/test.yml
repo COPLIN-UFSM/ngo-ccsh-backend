@@ -24,6 +24,7 @@ jobs:
           auto-activate-base: false
 
       - name: Run Django tests
+        working-directory: backend
         env:
           DJANGO_SETTINGS_MODULE: ngo_ccsh.test_settings
         shell: bash -l {0}
@@ -31,4 +32,4 @@ jobs:
           mkdir instance
           json='{"user": "someuser", "password": "somepassword", "host": "some.host", "port": 50000, "database": "somedatabase", "schema": "someschema"}'
           echo "$json" > instance/database_credentials.json
-          python backend/manage.py test
+          python manage.py test
