@@ -32,22 +32,6 @@ def get_secret(attribute):
             f"{os.path.abspath(os.path.join(BASE_DIR, '..', 'instance', 'database_credentials.json'))}"
         )
 
-# TODO remover
-# # --- CONFIGURAÇÃO DE DLL PARA IBM DB2 (WINDOWS) ---
-# if platform.system() == "Windows":
-#     # Caminho exato que você encontrou
-#     IBM_DB_DLL_PATH = r"C:\Users\Leandro Galbarino\miniconda3\envs\my_env\Lib\site-packages\clidriver\bin"
-#
-#     if os.path.exists(IBM_DB_DLL_PATH):
-#         # Isso ensina o Python 3.12 a procurar as DLLs nesta pasta
-#         os.add_dll_directory(IBM_DB_DLL_PATH)
-#     else:
-#         # Tenta localizar dinamicamente caso o nome do ambiente mude
-#         print(f"Aviso: Pasta de DLLs da IBM não encontrada em {IBM_DB_DLL_PATH}")
-# # --------------------------------------------------
-
-# load_dotenv()
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
