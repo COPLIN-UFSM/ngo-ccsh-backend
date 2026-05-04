@@ -16,26 +16,42 @@ from django.db import connection
 
 from django.core.exceptions import ImproperlyConfigured
 
-
-def get_secret(attribute):
-    """
-    Retorna uma configuração armazenada em um arquivo.
-    """
-
-    with open(os.path.abspath(os.path.join(BASE_DIR, '..', 'instance', 'database_credentials.json'))) as read_file:
-        secrets = json.load(read_file)
-
-    try:
-        return secrets[attribute]
-    except KeyError:
-        raise ImproperlyConfigured(
-            f"Não foi encontrado o atributo {attribute} no arquivo "
-            f"{os.path.abspath(os.path.join(BASE_DIR, '..', 'instance', 'database_credentials.json'))}"
-        )
-
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+
+SECRETS_FILE = os.path.abspath(
+    os.path.join(BASE_DIR, '..', 'instance', 'database_credentials.json')
+)
+
+def load_secrets():
+    try:
+        with open(SECRETS_FILE) as f:
+            return json.load(f)
+    except FileNotFoundError:
+        return {}
+
+SECRETS = load_secrets()
+
+def get_secret(key):
+    """
+    Tenta ler parâmetros nessa ordem:
+    1. Parâmetros pela linha de comando
+    2. Arquivo JSON em SECRETS_FILE
+    3. Parâmetro padrão
+    """
+
+    # parâmetro pela CLI
+    value = os.getenv(key)
+    if value is not None:
+        return value
+
+    # arquivo JSON
+    if key in SECRETS:
+        return SECRETS[key]
+
+    raise ImproperlyConfigured(
+        f"Não foi encontrado o atributo '{key}' no CLI nem no arquivo {SECRETS_FILE}"
+    )
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
@@ -119,23 +135,21 @@ DATABASES = {
     'default': {
         "NAME": 'BEE',
         "ENGINE": 'ibm_db_django',
-        "DATABASE": get_secret('database'),
-        "HOST": get_secret('host'),
-        "PORT": get_secret('port'),
-        "USER": get_secret('user'),
-        "PASSWORD": get_secret('password'),
+        "DATABASE": get_secret('DB_DATABASE'),
+        "HOST": get_secret('DB_HOST'),
+        "PORT": get_secret('DB_PORT'),
+        "USER": get_secret('DB_USERNAME'),
+        "PASSWORD": get_secret('DB_PASSWORD'),
         "OPTIONS": {
-            'dsn': f"DATABASE={get_secret('database')};"
-                   f"HOSTNAME={get_secret('host')};"
-                   f"PORT={get_secret('port')};"
+            'dsn': f"DATABASE={get_secret('DB_DATABASE')};"
+                   f"HOSTNAME={get_secret('DB_HOST')};"
+                   f"PORT={get_secret('DB_PORT')};"
                    f"PROTOCOL=TCPIP;"
-                   f"CURRENTSCHEMA={get_secret('schema')};"
+                   f"CURRENTSCHEMA={get_secret('DB_SCHEMA')};"
         },
         'PCONNECT': True,
     }
 }
-
-# DATABASE_ROUTERS = ['app.db_routers.LocalAppsRouter']
 
 # Password validation
 # https://docs.djangoproject.com/en/6.0/ref/settings/#auth-password-validators

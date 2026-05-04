@@ -1,15 +1,18 @@
-name: Django Tests
+name: CI/CD
+
 on:
   push:
     branches:
-      - main
       - dev
+      - main
+
 jobs:
   test:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Install system dependencies
         run: |
@@ -33,3 +36,18 @@ jobs:
           json='{"user": "someuser", "password": "somepassword", "host": "some.host", "port": 50000, "database": "somedatabase", "schema": "someschema"}'
           echo "$json" > ../instance/database_credentials.json
           python manage.py test
+
+  deploy:
+    needs: test
+    runs-on: self-hosted
+
+    # faz deploy apenas se for a branch main
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+      - name: Deploy on server
+        run: |
+          cd /var/www/meu-app
+          git pull origin main
+          docker compose down
+          docker compose up -d --build
