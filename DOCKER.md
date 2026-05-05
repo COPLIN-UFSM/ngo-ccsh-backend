@@ -32,5 +32,5 @@
 
 2. Execute com:
    ```bash
-   docker-compose up --build -d --remove-orphans
+   docker compose up -d --build --remove-orphans
    ```
