@@ -19,3 +19,4 @@ dependencies:
     - psycopg2-binary
     - django-stubs
     - django-cors-headers
+    - gunicorn
