@@ -12,7 +12,7 @@ jobs:
 
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v6
+        uses: actions/checkout@v4
 
       - name: Build Docker image
         run: docker build -t ngo-ccsh-backend .
@@ -20,27 +20,22 @@ jobs:
       - name: Run tests inside container
         run: |
           docker run \
-            -e DB_USERNAME=DONTCARE \
-            -e DB_PASSWORD=DONTCARE \
-            -e DB_HOST=DONTCARE \
-            -e DB_PORT=DONTCARE \
-            -e DB_DATABASE=DONTCARE \
-            -e DB_SCHEMA=DONTCARE \
             -e DJANGO_SETTINGS_MODULE=ngo_ccsh.test_settings \
             ngo-ccsh-backend \
             python manage.py test
 
-#  deploy:
-#    needs: test
-#    runs-on: self-hosted
-#
-#    # faz deploy apenas se for a branch main
-#    if: github.ref == 'refs/heads/main'
-#
-#    steps:
-#      - name: Deploy on server
-#        run: |
-#          cd /var/www/meu-app
-#          git pull origin main
-#          docker compose down
-#          docker compose up -d --build
+  deploy:
+    needs: test
+    runs-on: self-hosted
+
+    # faz deploy apenas se for a branch main
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+      - name: Deploy on server
+        run: |
+          cd /var/www/ngo-ccsh-backend
+          git pull origin main
+          
+          docker compose up -d --build
+          docker compose run --rm web python manage.py migrate
