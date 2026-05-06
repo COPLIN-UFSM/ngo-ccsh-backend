@@ -113,7 +113,7 @@ class UserViewTestCase(APITestCase, UserTestAPI):
             "username": "Kakaroto",
             "email": "goku@gmail.com",
             "password": "vegeta",
-            "password_confirm": "vegeta",
+            "password2": "vegeta",
         }
 
     def test_get_all_users_with_not_user_authenticated(self):
@@ -153,7 +153,7 @@ class UserViewTestCase(APITestCase, UserTestAPI):
             data={
                 "username": "Donatelo",
                 "password": "TartarugaNinja",
-                "password_confirm": "TheNinja",
+                "password2": "TheNinja",
                 "email": "escultordonatelo@gmail.com",
             },
         )
@@ -212,8 +212,8 @@ class ChangePasswordViewTestCase(UserTestAPI, APITestCase):
         self.url = reverse("users:change_password", kwargs={"pk": self.user_normal.id})
         self.new_password = {
             "old_password": self.user_data_normal["password"],
-            "new_password": "spider_man",
-            "new_password_confirm": "spider_man",
+            "password1": "spider_man",
+            "password2": "spider_man",
         }
 
     def test_change_password_with_token_invalid(self):
@@ -239,13 +239,13 @@ class ChangePasswordViewTestCase(UserTestAPI, APITestCase):
 
     def test_change_password_new_password_not_provided(self):
         self.authentication(data=self.user_data_normal)
-        response = self.client.patch(self.url, data={"new_password": "1s231321"})
+        response = self.client.patch(self.url, data={"password1": "1s231321"})
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_change_password_new_password_confirm_not_provided(self):
         self.authentication(data=self.user_data_normal)
         response = self.client.patch(
-            self.url, data={"new_password_confirm": "12313f21"}
+            self.url, data={"password2": "12313f21"}
         )
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
@@ -253,7 +253,7 @@ class ChangePasswordViewTestCase(UserTestAPI, APITestCase):
         self.authentication(data=self.user_data_normal)
         response = self.client.patch(
             self.url,
-            data={"new_password": "1231231", "new_password_confirm": "12313f21"},
+            data={"password1": "1231231", "password2": "12313f21"},
         )
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
@@ -262,8 +262,8 @@ class ChangePasswordViewTestCase(UserTestAPI, APITestCase):
         response = self.client.patch(
             self.url,
             data={
-                "new_password": self.user_data_normal["password"],
-                "new_password_confirm": self.user_data_normal["password"],
+                "password1": self.user_data_normal["password"],
+                "password2": self.user_data_normal["password"],
             },
         )
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
@@ -273,8 +273,8 @@ class ChangePasswordViewTestCase(UserTestAPI, APITestCase):
         response = self.client.patch(
             self.url,
             data={
-                "new_password": self.user_data_normal["password"],
-                "new_password_confirm": self.user_data_normal["password"],
+                "password1": self.user_data_normal["password"],
+                "password2": self.user_data_normal["password"],
             },
         )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -289,8 +289,8 @@ class ChangePasswordViewTestCase(UserTestAPI, APITestCase):
         response = self.client.patch(
             self.url,
             data={
-                "new_password": self.user_data_normal["password"],
-                "new_password_confirm": self.user_data_normal["password"],
+                "password1": self.user_data_normal["password"],
+                "password2": self.user_data_normal["password"],
             },
         )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -301,8 +301,8 @@ class ChangePasswordViewTestCase(UserTestAPI, APITestCase):
         response = self.client.patch(
             url,
             data={
-                "new_password": self.user_data_normal["password"],
-                "new_password_confirm": self.user_data_normal["password"],
+                "password1": self.user_data_normal["password"],
+                "password2": self.user_data_normal["password"],
             },
         )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -397,16 +397,16 @@ class RecoverPasswordViewTestCase(APITestCase, UserTestAPI):
     def setUp(self):
         self.create_test_users()
         self.url = reverse("users:recover_password")
-        self.data = {"username": self.user_data_normal["username"]}
+        self.data = {"email": self.user_normal.email}
 
-    def test_recover_password_with_username_not_provided(self):
+    def test_recover_password_with_email_not_provided(self):
         response = self.client.post(self.url, data={})
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
-    def test_recover_password_with_username_not_found(self):
-        response = self.client.post(self.url, data={"username": "deadpool"})
+    def test_recover_password_with_email_not_found(self):
+        response = self.client.post(self.url, data={"email": "deadpool@gmail.com"})
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
-    def test_recover_password_with_username_valid(self):
+    def test_recover_password_with_email_valid(self):
         response = self.client.post(self.url, data=self.data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)

@@ -150,7 +150,7 @@ class ChangePasswordView(APIView):
                 {"detail": "Usuário não cadastrado."}, status=status.HTTP_404_NOT_FOUND
             )
 
-        if pk != request.user.id:
+        if pk != request.user.id and not request.user.is_superuser:
             return Response(
                 {"detail": "Não é possível alterar dados de outro usuário."},
                 status=status.HTTP_403_FORBIDDEN,
@@ -173,7 +173,14 @@ class ChangePasswordView(APIView):
             )
 
         token = request.auth
-        can_skip_old_password = token.get("allow_password_change", False)
+        # Se for admin alterando a senha de outro, ou se o token permitir, pula a senha antiga
+        is_admin_changing_other = (
+            request.user.is_superuser and pk != request.user.id
+        )
+        can_skip_old_password = (
+            (token and token.get("allow_password_change", False))
+            or is_admin_changing_other
+        )
 
         if not can_skip_old_password:
             if not old_password:
@@ -280,7 +287,7 @@ class RecoverPasswordView(APIView):
                 {"detail": "Por favor, forneça o email."},
                 status=status.HTTP_400_BAD_REQUEST,
             )
-        
+
         user = Usuario.objects.filter(email=email).first()
         if not user:
             return Response(

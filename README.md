@@ -44,7 +44,7 @@ O banco de dados de desenvolvimento é usado para fazer testes locais em um banc
    ```
 3. Execute os seguintes comandos:
    ```bash
-   python manage.py makemigrations --settings=ngo_ccsh.dev_settings
+   'python manage.py makemigrations --settings=ngo_ccsh.dev_settings'
    python manage.py migrate --settings=ngo_ccsh.dev_settings
    python manage.py createsuperuser --settings=ngo_ccsh.dev_settings
    ```
@@ -92,7 +92,7 @@ desse banco de dados estão no arquivo [test_settings.py](backend/ngo_ccsh/test_
 produção é o [settings.py](backend/ngo_ccsh/settings.py)).
 
 ```bash
-python manage.py test --settings=ngo_ccsh.test_setings 
+python manage.py test --settings=ngo_ccsh.test_settings 
 ```
 
 Ou, se estiver executando pelo PyCharm, crie uma configuração como na tela abaixo:

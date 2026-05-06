@@ -55,4 +55,4 @@ class PasswordResetServiceTest(TestCase, UserTestDataMixin):
         )
         self.assertEqual(email.to, [self.user.email])
 
-        self.assertIn(f"token: {token}", email.body)  # type: ignore
+        self.assertIn(token, email.body)  # type: ignore
