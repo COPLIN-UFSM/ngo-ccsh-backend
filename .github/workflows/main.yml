@@ -3,7 +3,6 @@ name: CI/CD
 on:
   push:
     branches:
-      - dev
       - main
 
 jobs:
@@ -27,9 +26,6 @@ jobs:
   deploy:
     needs: test
     runs-on: self-hosted
-
-    # faz deploy apenas se for a branch main
-    if: github.ref_name == 'main'
 
     steps:
       - name: Deploy on server
