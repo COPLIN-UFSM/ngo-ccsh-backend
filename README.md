@@ -80,8 +80,6 @@ O banco de dados de produção é o banco bee da UFSM; os dados dele são usados
    ```bash
    python manage.py runserver
    ```
-
-
 ## Executando testes
 
 > [!CAUTION]
