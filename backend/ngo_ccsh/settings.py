@@ -196,6 +196,7 @@ USE_TZ = False  # precisa ser falso para usar ibm db2
 # STATIC_URL = "static/"
 STATIC_URL = "/ngo-ccsh-backend/static/"
 STATICFILES_DIRS = [BASE_DIR / 'static']
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
