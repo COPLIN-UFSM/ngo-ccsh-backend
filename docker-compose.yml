@@ -3,7 +3,7 @@ services:
     build: .
     container_name: ngo-ccsh-backend
     ports:
-      - "8000:8000"
+      - "8001:8000"  # 8001 no host, 8000 no container. porta do container é controlada pelo Dockerfile
     env_file:
       - .env
     restart: unless-stopped

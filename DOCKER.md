@@ -22,12 +22,13 @@
 
 1. Crie um arquivo `.env` com as seguintes variáveis de ambiente (substituindo os valores de `DB_USERNAME` e `DB_PASSWORD`):
    ```
-   DB_USERNAME=USERNAME
-   DB_PASSWORD="PASSWORD"
+   DB_USERNAME=INSIRA_O_USERNAME_AQUI
+   DB_PASSWORD="INSIRA_O_PASSWORD_AQUI"
    DB_HOST=bi.proj.ufsm.br
    DB_PORT=50000
    DB_DATABASE=bee
    DB_SCHEMA=ORCAMENTO
+   DEBUG=False
    ```
 
 2. Execute com:
