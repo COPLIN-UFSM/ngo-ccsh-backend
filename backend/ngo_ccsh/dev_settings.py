@@ -15,3 +15,6 @@ DATABASES = {
 if not os.path.exists(DATABASES['default']['NAME']):
     print('[INFO] dev.sqlite3 não encontrado - criando tabelas do banco de dados')
     force_create_unmanaged_models()
+
+# desativa configuração ativa apenas em produção
+FORCE_SCRIPT_NAME = None
