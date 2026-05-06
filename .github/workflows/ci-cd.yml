@@ -34,7 +34,7 @@ jobs:
     steps:
       - name: Deploy on server
         run: |
-          cd /var/www/ngo-ccsh-backend
+          cd /home/coplin/ngo-ccsh-backend
           git pull origin main
           
           docker compose build
