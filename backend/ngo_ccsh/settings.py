@@ -23,7 +23,7 @@ SECRETS_FILE = os.path.abspath(
     os.path.join(BASE_DIR, '..', 'instance', 'database_credentials.json')
 )
 
-SETTINGS_MODULE = os.environ.get("DJANGO_SETTINGS_MODULE")
+SETTINGS_MODULE = os.environ.get("DJANGO_SETTINGS_MODULE", "")
 
 try:
     with open(SECRETS_FILE) as f:
@@ -166,19 +166,15 @@ DATABASES = {
 # https://docs.djangoproject.com/en/6.0/ref/settings/#auth-password-validators
 AUTH_USER_MODEL = "users.Usuario"
 
-AUTH_PASSWORD_VALIDATORS = [
-    {
+AUTH_PASSWORD_VALIDATORS = [{
         "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
-    },
-    {
+    }, {
         "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
-    },
-    {
+    }, {
         "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
-    },
-    {
+    }, {
         "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
-    },
+    }
 ]
 
 
@@ -193,7 +189,6 @@ USE_I18N = True
 
 USE_TZ = False  # precisa ser falso para usar ibm db2
 
-# STATIC_URL = "static/"
 STATIC_URL = "/ngo-ccsh-backend/static/"
 STATICFILES_DIRS = [BASE_DIR / 'static']
 STATIC_ROOT = BASE_DIR / "staticfiles"

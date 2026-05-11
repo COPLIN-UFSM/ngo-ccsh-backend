@@ -14,6 +14,8 @@ RUN mkdir instance
 # Copia diretórios locais para o diretório da imagem do docker
 COPY . .
 
+RUN echo "DEBUG=True" > .env
+
 # necessário para instalar o ibm_db no Linux
 RUN apt-get update && apt-get install -y \
     gcc \
