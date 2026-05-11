@@ -17,6 +17,7 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import path, include
+from drf_spectacular.views import SpectacularRedocView, SpectacularAPIView, SpectacularSwaggerView
 
 urlpatterns = [
     path('api-auth/', include('rest_framework.urls')),  # para fazer login na browsable API do DRF
@@ -24,4 +25,7 @@ urlpatterns = [
     path("users/", include("users.urls")),
     path("transactions/", include("transactions.urls")),
     path("partial-payments/", include("partial_payments.urls")),
+    path("schema/", SpectacularAPIView.as_view(), name="schema"),
+    path("docs/", SpectacularSwaggerView.as_view(url_name="schema"), name="swagger-ui"),
+    path("redoc/", SpectacularRedocView.as_view(url_name="schema"), name="redoc"),
 ]

@@ -79,6 +79,7 @@ INSTALLED_APPS = [
     "users",  # aplicação própria
     "transactions",  # aplicação própria
     "partial_payments",  # aplicação própria
+    'drf_spectacular',  # para gerar documentação da API
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -110,6 +111,7 @@ REST_FRAMEWORK = {
         "rest_framework_simplejwt.authentication.JWTAuthentication",
         'rest_framework.authentication.SessionAuthentication',
     ],
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
 
 SIMPLE_JWT = {
@@ -176,6 +178,16 @@ AUTH_PASSWORD_VALIDATORS = [{
         "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
     }
 ]
+
+# documentação da API
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'ngo-ccsh-backend',
+    'DESCRIPTION': 'API backend do Controle Orçamentário do CCSH',
+    'VERSION': '0.1',
+    'SERVE_INCLUDE_SCHEMA': False,
+    "GET_LIB_DOC_EXCLUDES": "drf_spectacular.plumbing.get_lib_doc_excludes",
+    # OTHER SETTINGS
+}
 
 
 # Internationalization

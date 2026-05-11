@@ -21,3 +21,4 @@ dependencies:
     - django-cors-headers
     - gunicorn
     - whitenoise
+    - drf-spectacular

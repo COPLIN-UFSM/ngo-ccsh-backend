@@ -1,5 +1,7 @@
 # Create your views here.
 from datetime import datetime
+
+from drf_spectacular.utils import extend_schema, OpenApiParameter, OpenApiResponse
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -17,6 +19,16 @@ from users.services import _find_user_by_Id
 class LoginView(APIView):
     permission_classes = [AllowAny]
 
+    @extend_schema(
+        summary="Login",
+        description="Autentica o usuário e retorna os tokens JWT de acesso e atualização.",
+        responses={
+            200: OpenApiResponse(description="Login realizado com sucesso"),
+            400: OpenApiResponse(description="Usuário e senha são obrigatórios"),
+            401: OpenApiResponse(description="Credenciais inválidas"),
+        },
+        tags=["users"],
+    )
     def post(self, request):
         username = request.data.get("username")
         password = request.data.get("password")
@@ -55,16 +67,41 @@ class LoginView(APIView):
 
 
 class UserView(APIView):
-    """Get all users and Register user"""
+    """View para dar listar usuários e atualizar"""
 
     permission_classes = [IsAuthenticated]
 
+    @extend_schema(
+        summary="Lista usuários",
+        description="Retorna a lista de usuários ativos.",
+        responses={
+            200: OpenApiResponse(description="Lista de usuários retornada com sucesso"),
+            401: OpenApiResponse(description="Usuário não autenticado"),
+        },
+        tags=["users"],
+    )
     def get(self, request):
+        """
+        Retorna um usuário por ID
+        """
         users = Usuario.objects.filter(is_active=True).order_by("id")
         serializer = RegisterSerializer(users, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+    @extend_schema(
+        summary="Cria usuário",
+        description="Cria um novo usuário (apenas administradores).",
+        responses={
+            201: OpenApiResponse(description="Usuário criado com sucesso"),
+            400: OpenApiResponse(description="Dados inválidos para criação do usuário"),
+            403: OpenApiResponse(description="Apenas administradores podem criar usuários"),
+        },
+        tags=["users"],
+    )
     def post(self, request):
+        """
+        Cria ou atualiza um usuário por ID
+        """
         if not request.user.is_superuser:
             return Response(
                 {"detail": "Apenas administradores podem criar usuários."},
@@ -81,9 +118,29 @@ class UserView(APIView):
         )
 
 
-class UpdatePermissionUser(APIView):
+class UpdatePermissionUserView(APIView):
     permission_classes = [IsAuthenticated]
 
+    @extend_schema(
+        summary="Atualiza permissões do usuário",
+        description="Atualiza permissões de superusuário e/ou staff de um usuário por ID.",
+        parameters=[
+            OpenApiParameter(
+                name="pk",
+                type=int,
+                location="path",
+                description="ID do usuário a ter as permissões alteradas",
+                required=True,
+            )
+        ],
+        responses={
+            200: OpenApiResponse(description="Permissões atualizadas com sucesso"),
+            400: OpenApiResponse(description="Nenhuma permissão nova informada"),
+            401: OpenApiResponse(description="Apenas administradores podem alterar permissões"),
+            404: OpenApiResponse(description="Usuário não encontrado"),
+        },
+        tags=["users"],
+    )
     def patch(self, request, pk):
         if not request.user.is_superuser:
             return Response(
@@ -142,6 +199,27 @@ class ChangePasswordView(APIView):
 
     permission_classes = [IsAuthenticated]
 
+    @extend_schema(
+        summary="Altera senha",
+        description="Altera a senha de um usuário autenticado por ID.",
+        parameters=[
+            OpenApiParameter(
+                name="pk",
+                type=int,
+                location="path",
+                description="ID do usuário",
+                required=True,
+            )
+        ],
+        responses={
+            200: OpenApiResponse(description="Senha atualizada com sucesso"),
+            400: OpenApiResponse(description="Dados inválidos para alteração de senha"),
+            401: OpenApiResponse(description="Senha atual incorreta"),
+            403: OpenApiResponse(description="Não é possível alterar senha de outro usuário"),
+            404: OpenApiResponse(description="Usuário não cadastrado"),
+        },
+        tags=["users"],
+    )
     def patch(self, request, pk):
         user = Usuario.objects.filter(pk=pk).first()
 
@@ -205,11 +283,32 @@ class ChangePasswordView(APIView):
 
 
 class UserInfoView(APIView):
-    """GET/PATCH/DELETE -> specific user"""
+    """Retorna informações sobre um usuário em específico, dado seu ID"""
 
     permission_classes = [IsAuthenticated]
 
+    @extend_schema(
+        summary="Busca usuário",
+        description="Retorna os dados de um usuário pelo ID.",
+        parameters=[
+            OpenApiParameter(
+                name="pk",
+                type=int,
+                location="path",
+                description="ID do usuário",
+                required=True,
+            )
+        ],
+        responses={
+            200: OpenApiResponse(description="Dados do usuário retornados com sucesso"),
+            404: OpenApiResponse(description="Usuário não encontrado"),
+        },
+        tags=["users"],
+    )
     def get(self, request, pk):
+        """
+        Mostra dados de um usuário
+        """
         user = _find_user_by_Id(pk)
         if user is None:
             return Response(
@@ -220,7 +319,30 @@ class UserInfoView(APIView):
 
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+    @extend_schema(
+        summary="Atualiza usuário",
+        description="Atualiza parcialmente os dados de um usuário pelo ID.",
+        parameters=[
+            OpenApiParameter(
+                name="pk",
+                type=int,
+                location="path",
+                description="ID do usuário",
+                required=True,
+            )
+        ],
+        responses={
+            200: OpenApiResponse(description="Dados do usuário atualizados com sucesso"),
+            400: OpenApiResponse(description="Dados inválidos para atualização"),
+            403: OpenApiResponse(description="Não é possível alterar dados de outro usuário"),
+            404: OpenApiResponse(description="Usuário não encontrado"),
+        },
+        tags=["users"],
+    )
     def patch(self, request, pk):
+        """
+        Atualiza os dados de um usuário
+        """
         user = _find_user_by_Id(pk)
         if user is None:
             return Response(
@@ -257,16 +379,35 @@ class UserInfoView(APIView):
             status.HTTP_200_OK,
         )
 
-    def delete(self, request, pk):
-        user = _find_user_by_Id(pk)
+    @extend_schema(
+        summary="Remove usuário",
+        description="Remove (desativa) um usuário utilizando seu ID.",
+        parameters=[
+            OpenApiParameter(
+                name="id",
+                type=int,
+                location="path",
+                description="ID do usuário a ser removido",
+                required=True,
+            )
+        ],
+        responses={
+            204: OpenApiResponse(description="Usuário removido com sucesso"),
+            401: OpenApiResponse(description="Não é possível deletar este usuário"),
+            404: OpenApiResponse(description="Usuário não encontrado"),
+        },
+        tags=["users"],
+    )
+    def delete(self, request, id):
+        user = _find_user_by_Id(id)
         if user is None:
             return Response(
-                {"detail": f"Usuário com id: '{pk}' não encontrado."},
+                {"detail": f"Usuário com id '{id}' não encontrado."},
                 status.HTTP_404_NOT_FOUND,
             )
         if user.id != request.user.pk and not request.user.is_superuser:
             return Response(
-                {"detail": "Não é possível deletar outro usuário."},
+                {"detail": "Não é possível deletar este usuário."},
                 status=status.HTTP_401_UNAUTHORIZED,
             )
 
@@ -280,6 +421,16 @@ class RecoverPasswordView(APIView):
 
     permission_classes = [AllowAny]
 
+    @extend_schema(
+        summary="Recupera senha",
+        description="Inicia o fluxo de recuperação de senha via email.",
+        responses={
+            200: OpenApiResponse(description="Link de recuperação enviado ao email"),
+            400: OpenApiResponse(description="Email não informado"),
+            404: OpenApiResponse(description="Email não encontrado"),
+        },
+        tags=["users"],
+    )
     def post(self, request):
         email = request.data.get("email", None)
         if not email:
