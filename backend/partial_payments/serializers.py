@@ -6,7 +6,7 @@ class EmpenhoPagamentoParcialSerializer(serializers.ModelSerializer):
     class Meta:
         model = EmpenhoPagamentoParcial
         fields = ["id_empenho", "empenho", "descricao", "ativo", "montante"]
-        read_only = ["id_empenho", "ativo", "montante"]
+        read_only_fields = ["id_empenho", "ativo", "montante"]
 
 
 # Aqui é definido qual o tipo do documento: Emepenho, Lista SIAFE, Fatura...
@@ -14,7 +14,7 @@ class TipoDocumentoPagamentoParcialSerializer(serializers.ModelSerializer):
     class Meta:
         model = TipoDocumentoPagamentoParcial
         fields = ["id_tipo_documento", "tipo_documento", "ativo"]
-        read_only = ["id_tipo_documento", "ativo"]
+        read_only_fields = ["id_tipo_documento", "ativo"]
 
 
 class TransacaoPagamentoParcialSerializer(serializers.ModelSerializer):
@@ -49,6 +49,7 @@ class TransacaoPagamentoParcialSerializer(serializers.ModelSerializer):
 
     def validate(self, data):
         empenho = data.get("empenho_pai")
+        tipo_doc = data.get("tipo_documento")
         eh_credito = data.get("eh_credito")
         montante_novo = data.get("montante")
 
@@ -61,4 +62,10 @@ class TransacaoPagamentoParcialSerializer(serializers.ModelSerializer):
                 )
             if not eh_credito and montante_novo > empenho.montante:
                 raise serializers.ValidationError({"montante": "Saldo insuficiente."})
+        
+        if tipo_doc and not tipo_doc.ativo:
+            raise serializers.ValidationError(
+                {"tipo_documento": "Este tipo de documento está desativado e não pode ser utilizado."}
+            )
+            
         return data

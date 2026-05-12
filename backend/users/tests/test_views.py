@@ -179,7 +179,7 @@ class UpdatePermissionsTestCase(APITestCase, UserTestAPI):
     def test_update_user_permission_with_normal_user_authenticated(self):
         self.authentication(self.user_data_normal)
         response = self.client.patch(self.url, data=self.newData)
-        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
     def test_update_user_permission_with_user_pk_not_found(self):
         url_not_found = reverse("users:permission_update", kwargs={"pk": 3131232})

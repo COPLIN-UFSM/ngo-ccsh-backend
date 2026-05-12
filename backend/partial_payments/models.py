@@ -34,7 +34,7 @@ class EmpenhoPagamentoParcial(models.Model):
 # Fatura/Nota Fiscal / Empenho
 class TipoDocumentoPagamentoParcial(models.Model):
     id_tipo_documento = models.AutoField(primary_key=True)
-    tipo_documento = models.CharField(unique=True, max_length=20)
+    tipo_documento = models.CharField(unique=True, max_length=50)
     ativo = models.BooleanField(default=True, blank=True)
 
     class Meta:

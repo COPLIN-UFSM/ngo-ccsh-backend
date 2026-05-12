@@ -70,7 +70,7 @@ class EmpenhoView(APIView):
                 return response.serializer_errors(serializer)
 
             serializer.save()
-            return response.success("Empenho adicionado com sucesso.")
+            return response.created("Empenho adicionado com sucesso.")
         except Exception as e:
             return response.error_server(e)
 
@@ -136,7 +136,9 @@ class TipoDocumentoPagamentoParcialView(APIView):
 
     def get(self, request):
         tipos_transacoes = TipoDocumentoPagamentoParcial.objects.all()
-        serializer = TipoDocumentoPagamentoParcialSerializer(tipos_transacoes, many=True)
+        serializer = TipoDocumentoPagamentoParcialSerializer(
+            tipos_transacoes, many=True
+        )
         return response.success_data(serializer.data)
 
     def post(self, request):
@@ -148,7 +150,7 @@ class TipoDocumentoPagamentoParcialView(APIView):
                 return response.serializer_errors(serializer=serializer)
 
             serializer.save()
-            return response.success("Tipo de Documento adicionado com sucesso.")
+            return response.created("Tipo de Documento adicionado com sucesso.")
         except:
             return response.error_server()
 
@@ -227,7 +229,7 @@ class TransacaoPagamentoParcialView(APIView):
                 return response.serializer_errors(serializer=serializer)
 
             serializer.save()
-            return response.success("Transação adicionada com sucesso.")
+            return response.created("Transação adicionada com sucesso.")
         except Exception as e:
             return response.error_server(e)
 
@@ -259,7 +261,7 @@ class SingleTransacaoPagamentoParcialView(APIView):
 
             if not serializer.is_valid():
                 return response.serializer_errors(serializer)
-            
+
             serializer.save()
             return response.success(f"Transação alterada com sucesso.")
 

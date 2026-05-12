@@ -12,6 +12,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from users.models import Usuario
 from users.services import trigger_password_reset_flow
 from users.services import _find_user_by_Id
+from utils import response
 
 
 class LoginView(APIView):
@@ -66,19 +67,14 @@ class UserView(APIView):
 
     def post(self, request):
         if not request.user.is_superuser:
-            return Response(
-                {"detail": "Apenas administradores podem criar usuários."},
-                status=status.HTTP_403_FORBIDDEN,
-            )
+            return response.not_admin_user()
 
         serializer = RegisterSerializer(data=request.data)
         if not serializer.is_valid():
             return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
 
         serializer.save()
-        return Response(
-            {"detail": "Usuário criado com sucesso."}, status.HTTP_201_CREATED
-        )
+        return response.created("Usuário criado com sucesso.")
 
 
 class UpdatePermissionUser(APIView):
@@ -86,12 +82,7 @@ class UpdatePermissionUser(APIView):
 
     def patch(self, request, pk):
         if not request.user.is_superuser:
-            return Response(
-                {
-                    "detail": "Apenas administradores podem transformar um usuário em super usuário."
-                },
-                status=status.HTTP_401_UNAUTHORIZED,
-            )
+            return response.not_admin_user()
 
         user = _find_user_by_Id(pk)
         if user is None:
@@ -265,10 +256,7 @@ class UserInfoView(APIView):
                 status.HTTP_404_NOT_FOUND,
             )
         if user.id != request.user.pk and not request.user.is_superuser:
-            return Response(
-                {"detail": "Não é possível deletar outro usuário."},
-                status=status.HTTP_401_UNAUTHORIZED,
-            )
+            return response.not_admin_user()
 
         user.is_active = False
         user.save()

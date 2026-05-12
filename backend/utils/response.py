@@ -5,7 +5,7 @@ from rest_framework import status
 def not_admin_user():
     return Response(
         {"detail": "Apenas administradores podem fazer esta operação"},
-        status=status.HTTP_401_UNAUTHORIZED,
+        status=status.HTTP_403_FORBIDDEN,
     )
 
 
@@ -43,6 +43,13 @@ def success_data(data):
 
 def success_no_content():
     return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+def created(message):
+    return Response(
+        {"detail": message},
+        status=status.HTTP_201_CREATED,
+    )
 
 
 def success(message):
