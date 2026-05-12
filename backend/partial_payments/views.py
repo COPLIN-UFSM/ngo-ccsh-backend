@@ -240,7 +240,7 @@ class SingleTransacaoPagamentoParcialView(APIView):
         try:
             transacao = TransacaoPagamentoParcial.objects.filter(pk=pk).first()
             if not transacao:
-                return response.not_found("Transação não econtrada.")
+                return response.not_found("Transação não encontrada.")
             serializer = TransacaoPagamentoParcialSerializer(transacao)
             return response.success_data(serializer.data)
         except:
@@ -253,7 +253,7 @@ class SingleTransacaoPagamentoParcialView(APIView):
         try:
             transacao = TransacaoPagamentoParcial.objects.filter(pk=pk).first()
             if not transacao:
-                return response.not_found(f"Transação não encontrado.")
+                return response.not_found("Transação não encontrada.")
 
             serializer = TransacaoPagamentoParcialSerializer(
                 instance=transacao, data=request.data
@@ -275,7 +275,7 @@ class SingleTransacaoPagamentoParcialView(APIView):
         try:
             transacao = TransacaoPagamentoParcial.objects.filter(pk=pk).first()
             if not transacao:
-                return response.not_found(f"Transação não encontrado.")
+                return response.not_found("Transação não encontrada.")
 
             transacao.delete()
 
