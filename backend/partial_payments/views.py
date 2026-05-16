@@ -61,8 +61,6 @@ class EmpenhoView(APIView):
             return response.error_server(e)
 
     def post(self, request):
-        if not request.user.is_superuser:
-            return response.not_admin_user()
 
         try:
             serializer = EmpenhoPagamentoParcialSerializer(data=request.data)
@@ -87,9 +85,6 @@ class SingleEmpenhoView(APIView):
             return response.error_server(e)
 
     def put(self, request, pk):
-        if not request.user.is_superuser:
-            return response.not_admin_user()
-
         try:
             empenho = EmpenhoPagamentoParcial.objects.filter(pk=pk).first()
             if not empenho:
@@ -109,9 +104,6 @@ class SingleEmpenhoView(APIView):
             return response.error_server(e)
 
     def delete(self, request, pk):
-        if not request.user.is_superuser:
-            return response.not_admin_user()
-
         try:
             empenho = EmpenhoPagamentoParcial.objects.filter(pk=pk).first()
             if not empenho:
@@ -142,8 +134,6 @@ class TipoDocumentoPagamentoParcialView(APIView):
         return response.success_data(serializer.data)
 
     def post(self, request):
-        if not request.user.is_superuser:
-            return response.not_admin_user()
         try:
             serializer = TipoDocumentoPagamentoParcialSerializer(data=request.data)
             if not serializer.is_valid():
@@ -168,8 +158,6 @@ class SingleTipoDocumentoPagamentoParcialView(APIView):
             return response.error_server()
 
     def put(self, request, pk):
-        if not request.user.is_superuser:
-            return response.not_admin_user()
 
         try:
             tipo_documento = TipoDocumentoPagamentoParcial.objects.filter(pk=pk).first()
@@ -190,8 +178,6 @@ class SingleTipoDocumentoPagamentoParcialView(APIView):
             return response.error_server(e)
 
     def delete(self, request, pk):
-        if not request.user.is_superuser:
-            return response.not_admin_user()
 
         try:
             tipo_documento = TipoDocumentoPagamentoParcial.objects.filter(pk=pk).first()
@@ -218,8 +204,7 @@ class TransacaoPagamentoParcialView(APIView):
             return response.error_server()
 
     def post(self, request):
-        if not request.user.is_superuser:
-            return response.not_admin_user()
+
         try:
             data = request.data
 
@@ -247,8 +232,6 @@ class SingleTransacaoPagamentoParcialView(APIView):
             return response.error_server()
 
     def put(self, request, pk):
-        if not request.user.is_superuser:
-            return response.not_admin_user()
 
         try:
             transacao = TransacaoPagamentoParcial.objects.filter(pk=pk).first()
@@ -269,8 +252,6 @@ class SingleTransacaoPagamentoParcialView(APIView):
             return response.error_server(e)
 
     def delete(self, request, pk):
-        if not request.user.is_superuser:
-            return response.not_admin_user()
 
         try:
             transacao = TransacaoPagamentoParcial.objects.filter(pk=pk).first()
