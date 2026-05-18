@@ -1,11 +1,11 @@
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
-from users.models import Usuario
+from usuarios.models import Usuario
 from ..models import (
     EmpenhoPagamentoParcial,
     TipoDocumentoPagamentoParcial,
-    TransacaoPagamentoParcial,
+    TransacaoPagamentoParcial
 )
 
 
@@ -31,7 +31,7 @@ class PartialPaymentsTestAPI:
         }
 
     def authentication(self, data):
-        url_auth = reverse("users:login")
+        url_auth = reverse("usuarios:login")
         response = self.client.post(url_auth, data=data)
         token = response.data["token"]
         self.client.credentials(HTTP_AUTHORIZATION="Bearer " + token)
@@ -48,7 +48,7 @@ class PartialPaymentsTestAPI:
 class EmpenhoViewTestCase(APITestCase, PartialPaymentsTestAPI):
     def setUp(self):
         self.create_test_users()
-        self.url = reverse("partial_payments:empenhos")
+        self.url = reverse("parciais:empenhos")
         self.new_empenho = {
             "empenho": "2024NE0002",
             "descricao": "Novo Empenho",
@@ -80,7 +80,7 @@ class SingleEmpenhoViewTestCase(APITestCase, PartialPaymentsTestAPI):
         self.create_test_users()
         self.create_basic_data()
         self.url = reverse(
-            "partial_payments:single_empenho", kwargs={"pk": self.empenho.id_empenho}
+            "parciais:single_empenho", kwargs={"pk": self.empenho.id_empenho}
         )
 
     def test_get_empenho_details(self):
@@ -118,7 +118,7 @@ class SingleEmpenhoViewTestCase(APITestCase, PartialPaymentsTestAPI):
 class TipoDocumentoViewTestCase(APITestCase, PartialPaymentsTestAPI):
     def setUp(self):
         self.create_test_users()
-        self.url = reverse("partial_payments:tipos_documentos")
+        self.url = reverse("parciais:tipos_documentos")
         self.new_tipo = {"tipo_documento": "Fatura", "ativo": True}
 
     def test_get_all_tipos_authenticated(self):
@@ -143,7 +143,7 @@ class SingleTipoDocumentoViewTestCase(APITestCase, PartialPaymentsTestAPI):
         self.create_test_users()
         self.create_basic_data()
         self.url = reverse(
-            "partial_payments:single_tipo_documento",
+            "parciais:single_tipo_documento",
             kwargs={"pk": self.tipo_doc.id_tipo_documento},
         )
 
@@ -167,7 +167,7 @@ class TransacaoPagamentoParcialTestCase(APITestCase, PartialPaymentsTestAPI):
     def setUp(self):
         self.create_test_users()
         self.create_basic_data()
-        self.url = reverse("partial_payments:transacoes")
+        self.url = reverse("parciais:transacoes")
 
     def test_create_transacao_and_calculate_montante(self):
         self.authentication(self.user_data_adm)
@@ -198,7 +198,7 @@ class TransacaoPagamentoParcialTestCase(APITestCase, PartialPaymentsTestAPI):
 
         # 3. Verifica o montante total do empenho
         url_montante = reverse(
-            "partial_payments:total_empenho", kwargs={"pk": self.empenho.id_empenho}
+            "parciais:total_empenho", kwargs={"pk": self.empenho.id_empenho}
         )
         self.authentication(self.user_data_normal)
         response = self.client.get(url_montante)
@@ -228,7 +228,7 @@ class TransacaoPagamentoParcialTestCase(APITestCase, PartialPaymentsTestAPI):
             montante=100.00,
         )
         url_del = reverse(
-            "partial_payments:single_transacao", kwargs={"pk": transacao.id_transacao}
+            "parciais:single_transacao", kwargs={"pk": transacao.id_transacao}
         )
         self.authentication(self.user_data_adm)
         response = self.client.delete(url_del)
@@ -247,7 +247,7 @@ class TransacaoPagamentoParcialTestCase(APITestCase, PartialPaymentsTestAPI):
             montante=50.00,
         )
         url_list = reverse(
-            "partial_payments:transacoes_by_empenho",
+            "parciais:transacoes_by_empenho",
             kwargs={"pk": self.empenho.id_empenho},
         )
         self.authentication(self.user_data_normal)
@@ -334,14 +334,14 @@ class TransacaoPagamentoParcialTestCase(APITestCase, PartialPaymentsTestAPI):
 
         # Verifica saldo inicial da T3
         url_t3 = reverse(
-            "partial_payments:single_transacao", kwargs={"pk": t3.id_transacao}
+            "parciais:single_transacao", kwargs={"pk": t3.id_transacao}
         )
         response = self.client.get(url_t3)
         self.assertEqual(float(response.data["data"]["saldo_no_momento"]), 500.00)
 
         # Deleta a T2 (Débito de 300)
         url_t2 = reverse(
-            "partial_payments:single_transacao", kwargs={"pk": t2.id_transacao}
+            "parciais:single_transacao", kwargs={"pk": t2.id_transacao}
         )
         self.client.delete(url_t2)
 
