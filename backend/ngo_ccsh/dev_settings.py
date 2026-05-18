@@ -17,4 +17,9 @@ if not os.path.exists(DATABASES['default']['NAME']):
     force_create_unmanaged_models()
 
 # desativa configuração ativa apenas em produção
-FORCE_SCRIPT_NAME = None
+del FORCE_SCRIPT_NAME
+
+# remove configurações do servidor de produção
+STATIC_URL = "/static/"
+
+DEBUG = True

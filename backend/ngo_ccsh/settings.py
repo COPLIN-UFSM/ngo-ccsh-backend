@@ -23,7 +23,7 @@ SECRETS_FILE = os.path.abspath(
     os.path.join(BASE_DIR, '..', 'instance', 'database_credentials.json')
 )
 
-SETTINGS_MODULE = os.environ.get("DJANGO_SETTINGS_MODULE")
+SETTINGS_MODULE = os.environ.get("DJANGO_SETTINGS_MODULE", "")
 
 try:
     with open(SECRETS_FILE) as f:
@@ -76,9 +76,10 @@ ALLOWED_HOSTS = ["proplan.ufsm.br", "localhost", "127.0.0.1"]
 # Application definition
 
 INSTALLED_APPS = [
-    "users",  # aplicação própria
-    "transactions",  # aplicação própria
-    "partial_payments",  # aplicação própria
+    "usuarios",  # aplicação própria
+    "despesas",  # aplicação própria
+    "parciais",  # aplicação própria
+    'drf_spectacular',  # para gerar documentação da API
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -108,8 +109,8 @@ REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": ["rest_framework.permissions.IsAuthenticated"],
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "rest_framework_simplejwt.authentication.JWTAuthentication",
-        'rest_framework.authentication.SessionAuthentication',
     ],
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
 
 SIMPLE_JWT = {
@@ -164,22 +165,28 @@ DATABASES = {
 
 # Password validation
 # https://docs.djangoproject.com/en/6.0/ref/settings/#auth-password-validators
-AUTH_USER_MODEL = "users.Usuario"
+AUTH_USER_MODEL = "usuarios.Usuario"
 
-AUTH_PASSWORD_VALIDATORS = [
-    {
+AUTH_PASSWORD_VALIDATORS = [{
         "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
-    },
-    {
+    }, {
         "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
-    },
-    {
+    }, {
         "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
-    },
-    {
+    }, {
         "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
-    },
+    }
 ]
+
+# documentação da API
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'ngo-ccsh-backend',
+    'DESCRIPTION': 'API backend do Controle Orçamentário do CCSH',
+    'VERSION': '0.1',
+    'SERVE_INCLUDE_SCHEMA': False,
+    "GET_LIB_DOC_EXCLUDES": "drf_spectacular.plumbing.get_lib_doc_excludes",
+    # OTHER SETTINGS
+}
 
 
 # Internationalization
@@ -193,7 +200,6 @@ USE_I18N = True
 
 USE_TZ = False  # precisa ser falso para usar ibm db2
 
-# STATIC_URL = "static/"
 STATIC_URL = "/ngo-ccsh-backend/static/"
 STATICFILES_DIRS = [BASE_DIR / 'static']
 STATIC_ROOT = BASE_DIR / "staticfiles"
