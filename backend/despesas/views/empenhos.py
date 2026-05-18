@@ -1,7 +1,7 @@
 from rest_framework.response import Response
 from rest_framework import status
 
-from transactions.serializers import *
+from despesas.serializers import *
 from rest_framework.views import APIView
 from utils import response
 

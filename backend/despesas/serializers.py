@@ -1,7 +1,7 @@
 from dataclasses import fields
 
 from rest_framework import serializers
-from transactions.models import *
+from despesas.models import *
 
 
 class CategoriaFinalidadeSerializer(serializers.ModelSerializer):

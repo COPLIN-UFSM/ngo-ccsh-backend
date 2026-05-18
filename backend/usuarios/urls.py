@@ -1,6 +1,6 @@
 # from django.contrib import admin
 from django.urls import path
-from users.views import (
+from usuarios.views import (
     UserView,
     LoginView,
     UserInfoView,
@@ -10,13 +10,13 @@ from users.views import (
     UserView,
 )
 
-app_name = "users"
+app_name = "usuarios"
 
 urlpatterns = [
     path("", UserView.as_view(), name="userView"),
     path("login/", LoginView.as_view(), name="login"),
     path("<int:pk>/", UserInfoView.as_view(), name="single_info"),
-    path("recover-password/", RecoverPasswordView.as_view(), name="recover_password"),
-    path("change-password/<int:pk>/", ChangePasswordView.as_view(), name="change_password"),
-    path("permission-update/<int:pk>/", UpdatePermissionUserView.as_view(), name="permission_update"),
+    path("recuperar-senha/", RecoverPasswordView.as_view(), name="recover_password"),
+    path("trocar-senha/<int:pk>/", ChangePasswordView.as_view(), name="change_password"),
+    path("atualizar-permissoes/<int:pk>/", UpdatePermissionUserView.as_view(), name="permission_update"),
 ]

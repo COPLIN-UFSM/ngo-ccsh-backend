@@ -76,9 +76,9 @@ ALLOWED_HOSTS = ["proplan.ufsm.br", "localhost", "127.0.0.1"]
 # Application definition
 
 INSTALLED_APPS = [
-    "users",  # aplicação própria
-    "transactions",  # aplicação própria
-    "partial_payments",  # aplicação própria
+    "usuarios",  # aplicação própria
+    "despesas",  # aplicação própria
+    "parciais",  # aplicação própria
     'drf_spectacular',  # para gerar documentação da API
     "django.contrib.admin",
     "django.contrib.auth",
@@ -165,7 +165,7 @@ DATABASES = {
 
 # Password validation
 # https://docs.djangoproject.com/en/6.0/ref/settings/#auth-password-validators
-AUTH_USER_MODEL = "users.Usuario"
+AUTH_USER_MODEL = "usuarios.Usuario"
 
 AUTH_PASSWORD_VALIDATORS = [{
         "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",

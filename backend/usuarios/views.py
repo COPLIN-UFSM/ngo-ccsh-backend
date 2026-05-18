@@ -11,9 +11,9 @@ from .serializers import RegisterSerializer, UserSerializer
 from django.contrib.auth import authenticate
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
-from users.models import Usuario
-from users.services import trigger_password_reset_flow
-from users.services import _find_user_by_Id
+from usuarios.models import Usuario
+from usuarios.services import trigger_password_reset_flow
+from usuarios.services import _find_user_by_Id
 
 
 class LoginView(APIView):
@@ -27,7 +27,7 @@ class LoginView(APIView):
             400: OpenApiResponse(description="Usuário e senha são obrigatórios"),
             401: OpenApiResponse(description="Credenciais inválidas"),
         },
-        tags=["users"],
+        tags=["usuarios"],
     )
     def post(self, request):
         username = request.data.get("username")
@@ -78,7 +78,7 @@ class UserView(APIView):
             200: OpenApiResponse(description="Lista de usuários retornada com sucesso"),
             401: OpenApiResponse(description="Usuário não autenticado"),
         },
-        tags=["users"],
+        tags=["usuarios"],
     )
     def get(self, request):
         """
@@ -96,7 +96,7 @@ class UserView(APIView):
             400: OpenApiResponse(description="Dados inválidos para criação do usuário"),
             403: OpenApiResponse(description="Apenas administradores podem criar usuários"),
         },
-        tags=["users"],
+        tags=["usuarios"],
     )
     def post(self, request):
         """
@@ -139,7 +139,7 @@ class UpdatePermissionUserView(APIView):
             401: OpenApiResponse(description="Apenas administradores podem alterar permissões"),
             404: OpenApiResponse(description="Usuário não encontrado"),
         },
-        tags=["users"],
+        tags=["usuarios"],
     )
     def patch(self, request, pk):
         if not request.user.is_superuser:
@@ -218,7 +218,7 @@ class ChangePasswordView(APIView):
             403: OpenApiResponse(description="Não é possível alterar senha de outro usuário"),
             404: OpenApiResponse(description="Usuário não cadastrado"),
         },
-        tags=["users"],
+        tags=["usuarios"],
     )
     def patch(self, request, pk):
         user = Usuario.objects.filter(pk=pk).first()
@@ -303,7 +303,7 @@ class UserInfoView(APIView):
             200: OpenApiResponse(description="Dados do usuário retornados com sucesso"),
             404: OpenApiResponse(description="Usuário não encontrado"),
         },
-        tags=["users"],
+        tags=["usuarios"],
     )
     def get(self, request, pk):
         """
@@ -337,7 +337,7 @@ class UserInfoView(APIView):
             403: OpenApiResponse(description="Não é possível alterar dados de outro usuário"),
             404: OpenApiResponse(description="Usuário não encontrado"),
         },
-        tags=["users"],
+        tags=["usuarios"],
     )
     def patch(self, request, pk):
         """
@@ -396,7 +396,7 @@ class UserInfoView(APIView):
             401: OpenApiResponse(description="Não é possível deletar este usuário"),
             404: OpenApiResponse(description="Usuário não encontrado"),
         },
-        tags=["users"],
+        tags=["usuarios"],
     )
     def delete(self, request, id):
         user = _find_user_by_Id(id)
@@ -429,7 +429,7 @@ class RecoverPasswordView(APIView):
             400: OpenApiResponse(description="Email não informado"),
             404: OpenApiResponse(description="Email não encontrado"),
         },
-        tags=["users"],
+        tags=["usuarios"],
     )
     def post(self, request):
         email = request.data.get("email", None)

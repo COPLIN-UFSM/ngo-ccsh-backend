@@ -38,7 +38,7 @@ class UserTestAPI:
         }
 
     def authentication(self, data):
-        url_auth = reverse("users:login")
+        url_auth = reverse("usuarios:login")
         response = self.client.post(url_auth, data=data)
         token = response.data["token"]
         self.client.credentials(HTTP_AUTHORIZATION="Bearer " + token)
@@ -52,7 +52,7 @@ class LoginViewTestCase(APITestCase, UserTestAPI):
     def setUp(self):
         self.create_test_users()
         self.create_user_not_active()
-        self.url = reverse("users:login")
+        self.url = reverse("usuarios:login")
 
     def test_login_username_not_provided(self):
         data = {
@@ -107,7 +107,7 @@ class LoginViewTestCase(APITestCase, UserTestAPI):
 class UserViewTestCase(APITestCase, UserTestAPI):
     def setUp(self):
         self.create_test_users()
-        self.url = reverse("users:userView")
+        self.url = reverse("usuarios:userView")
         self.newUser = {
             "username": "Kakaroto",
             "email": "goku@gmail.com",
@@ -168,7 +168,7 @@ class UpdatePermissionsTestCase(APITestCase, UserTestAPI):
     def setUp(self):
         self.create_test_users()
         self.url = reverse(
-            "users:permission_update", kwargs={"pk": self.user_normal.id}
+            "usuarios:permission_update", kwargs={"pk": self.user_normal.id}
         )
         self.newData = {"is_superuser": True}
 
@@ -182,7 +182,7 @@ class UpdatePermissionsTestCase(APITestCase, UserTestAPI):
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_update_user_permission_with_user_pk_not_found(self):
-        url_not_found = reverse("users:permission_update", kwargs={"pk": 3131232})
+        url_not_found = reverse("usuarios:permission_update", kwargs={"pk": 3131232})
         self.authentication(self.user_data_adm)
         response = self.client.patch(url_not_found, data=self.newData)
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
@@ -208,7 +208,7 @@ class UpdatePermissionsTestCase(APITestCase, UserTestAPI):
 class ChangePasswordViewTestCase(UserTestAPI, APITestCase):
     def setUp(self):
         self.create_test_users()
-        self.url = reverse("users:change_password", kwargs={"pk": self.user_normal.id})
+        self.url = reverse("usuarios:change_password", kwargs={"pk": self.user_normal.id})
         self.new_password = {
             "old_password": self.user_data_normal["password"],
             "password1": "spider_man",
@@ -226,13 +226,13 @@ class ChangePasswordViewTestCase(UserTestAPI, APITestCase):
 
     def test_change_password_with_user_not_found(self):
         self.authentication(data=self.user_data_normal)
-        url = reverse("users:change_password", kwargs={"pk": 122131})
+        url = reverse("usuarios:change_password", kwargs={"pk": 122131})
         response = self.client.patch(url, data=self.new_password)
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
     def test_change_password_different_user_by_normal_user(self):
         self.authentication(data=self.user_data_normal)
-        url = reverse("users:change_password", kwargs={"pk": self.user_admin.id})
+        url = reverse("usuarios:change_password", kwargs={"pk": self.user_admin.id})
         response = self.client.patch(url, data=self.new_password)
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
@@ -296,7 +296,7 @@ class ChangePasswordViewTestCase(UserTestAPI, APITestCase):
 
     def test_change_password_different_user_by_admin_user(self):
         self.authentication(self.user_data_adm)
-        url = reverse("users:change_password", kwargs={"pk": self.user_normal.id})
+        url = reverse("usuarios:change_password", kwargs={"pk": self.user_normal.id})
         response = self.client.patch(
             url,
             data={
@@ -311,10 +311,10 @@ class UserInfoViewTestCase(APITestCase, UserTestAPI):
     def setUp(self):
         self.create_test_users()
         self.url_normal = reverse(
-            "users:single_info", kwargs={"pk": self.user_normal.id}
+            "usuarios:single_info", kwargs={"pk": self.user_normal.id}
         )
 
-        self.url_adm = reverse("users:single_info", kwargs={"pk": self.user_admin.id})
+        self.url_adm = reverse("usuarios:single_info", kwargs={"pk": self.user_admin.id})
         self.data = {
             "email": "sasuke@gmail.com",
             "full_name": "Sasuke Uchiha",
@@ -326,13 +326,13 @@ class UserInfoViewTestCase(APITestCase, UserTestAPI):
 
     def test_get_info_with_user_not_found(self):
         self.authentication(data=self.user_data_normal)
-        url = reverse("users:single_info", kwargs={"pk": 999999})
+        url = reverse("usuarios:single_info", kwargs={"pk": 999999})
         response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
     def test_change_info_with_user_not_found(self):
         self.authentication(data=self.user_data_normal)
-        url = reverse("users:single_info", kwargs={"pk": 999999})
+        url = reverse("usuarios:single_info", kwargs={"pk": 999999})
         response = self.client.patch(url, data=self.data)
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
@@ -373,7 +373,7 @@ class UserInfoViewTestCase(APITestCase, UserTestAPI):
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_delete_user_with_user_not_found(self):
-        url = reverse("users:single_info", kwargs={"pk": 9999999})
+        url = reverse("usuarios:single_info", kwargs={"pk": 9999999})
         self.authentication(data=self.user_data_normal)
         response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
@@ -395,7 +395,7 @@ class UserInfoViewTestCase(APITestCase, UserTestAPI):
 class RecoverPasswordViewTestCase(APITestCase, UserTestAPI):
     def setUp(self):
         self.create_test_users()
-        self.url = reverse("users:recover_password")
+        self.url = reverse("usuarios:recover_password")
         self.data = {"email": self.user_normal.email}
 
     def test_recover_password_with_email_not_provided(self):

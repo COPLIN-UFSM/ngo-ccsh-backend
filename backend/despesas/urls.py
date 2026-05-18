@@ -1,5 +1,5 @@
 from django.urls import path
-from transactions.views.finalidades import (
+from despesas.views.finalidades import (
     FinalidadesView,
     SingleFinalidadeView,
     CategoriaFinalidadeView,
@@ -7,12 +7,12 @@ from transactions.views.finalidades import (
     TipoDespesaView,
     SingleTipoDespesaView,
 )
-from transactions.views.subunidades import (
+from despesas.views.subunidades import (
     SubunidadeView,
     SingleSubunidadeView,
 )
 
-app_name = "transactions"
+app_name = "despesas"
 
 urlpatterns = [
     path("finalidades/", view=FinalidadesView.as_view(), name="finalidades"),

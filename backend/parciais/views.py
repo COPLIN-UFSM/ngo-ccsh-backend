@@ -3,8 +3,8 @@ from django.db import models
 from django.core.exceptions import ObjectDoesNotExist
 
 from rest_framework.views import APIView
-from partial_payments.models import *
-from partial_payments.serializers import *
+from parciais.models import *
+from parciais.serializers import *
 from utils import response
 from django.db.models import F
 

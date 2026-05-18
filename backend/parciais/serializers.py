@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from partial_payments.models import *
+from parciais.models import *
 from django.db.models import Q
 
 class EmpenhoPagamentoParcialSerializer(serializers.ModelSerializer):

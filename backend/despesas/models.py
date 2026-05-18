@@ -1,5 +1,5 @@
 from django.db import models
-from users.models import Usuario
+from usuarios.models import Usuario
 
 
 class TipoDocumento(models.Model):
