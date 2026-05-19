@@ -12,7 +12,7 @@ class EmpenhoPagamentoParcial(models.Model):
 
     @property
     def montante(self):
-        related_transaciton = TransacaoPagamentoParcial.objects.filter(
+        related_transaction = TransacaoPagamentoParcial.objects.filter(
             empenho_pai=self
         ).aggregate(
             montante=Sum(
@@ -24,7 +24,7 @@ class EmpenhoPagamentoParcial(models.Model):
                 output_field=DecimalField(),
             )
         )
-        return related_transaciton["montante"] or Decimal(0.00)
+        return related_transaction["montante"] or Decimal(0.00)
 
     class Meta:
         managed = False

@@ -21,7 +21,7 @@ from django.views.generic import TemplateView
 from drf_spectacular.views import SpectacularRedocView, SpectacularAPIView, SpectacularSwaggerView
 
 urlpatterns = [
-    path("", TemplateView.as_view(template_name="index.html"), name="index"),
+    path("", SpectacularSwaggerView.as_view(url_name="schema"), name="index"),
     path('api-auth/', include('rest_framework.urls')),  # para fazer login na browsable API do DRF
     path("admin/", admin.site.urls),
     path("usuarios/", include("usuarios.urls")),
