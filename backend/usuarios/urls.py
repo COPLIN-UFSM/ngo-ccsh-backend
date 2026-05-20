@@ -7,7 +7,6 @@ from usuarios.views import (
     ChangePasswordView,
     RecoverPasswordView,
     UpdatePermissionUserView,
-    UserView,
 )
 
 app_name = "usuarios"
