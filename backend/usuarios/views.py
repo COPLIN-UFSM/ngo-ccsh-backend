@@ -304,7 +304,7 @@ class UserInfoView(APIView):
         user = _find_user_by_id(pk)
         if user is None:
             return Response(
-                {"detail": f"Usuário {id} não encontrado."},
+                {"detail": f"Usuário {pk} não encontrado."},
                 status.HTTP_404_NOT_FOUND,
             )
         serializer = RegisterSerializer(user)
@@ -338,7 +338,7 @@ class UserInfoView(APIView):
         user = _find_user_by_id(pk)
         if user is None:
             return Response(
-                {"detail": f"Usuário {id} não encontrado."},
+                {"detail": f"Usuário {pk} não encontrado."},
                 status.HTTP_404_NOT_FOUND,
             )
 
