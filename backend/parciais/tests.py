@@ -1,13 +1,8 @@
-# init tests
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
 from usuarios.models import Usuario
-from parciais.models import (
-    EmpenhoPagamentoParcial,
-    TipoDocumentoPagamentoParcial,
-    TransacaoPagamentoParcial
-)
+from parciais.models import EmpenhoPagamentoParcial, TipoDocumentoPagamentoParcial, TransacaoPagamentoParcial
 
 
 class PartialPaymentsTestAPI:
