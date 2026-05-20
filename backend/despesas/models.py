@@ -32,16 +32,28 @@ class Documento(models.Model):
 
 
 class Finalidade(models.Model):
+
+    class Modalidade(models.TextChoices):
+        IDR = "IDR", "IDR"
+        TRANSFERENCIA = "TRANSFERENCIA", "Transferência"
+        DESPESA = "DESPESA", "Despesa"
+
     id_finalidade = models.AutoField(primary_key=True)
+
     tipo_despesa = models.ForeignKey(
         "TipoDespesa",
         models.DO_NOTHING,
         db_column="id_tipo_despesa",
-    )
+    )  # Natureza da Despesa.
 
     categoria_finalidade = models.ForeignKey(
         "CategoriaFinalidade", models.DO_NOTHING, db_column="id_categoria_finalidade"
+    )  # Isso aqui é para Bolsa-Bolsa 2A terem os mesmo campos.
+
+    modalidade = models.CharField(
+        choices=Modalidade.choices, default=Modalidade.DESPESA
     )
+
     finalidade = models.CharField(max_length=255)
 
     class Meta:
@@ -88,8 +100,16 @@ class CategoriaFinalidade(models.Model):
 
 
 class Subunidade(models.Model):
+    class Grupo(models.TextChoices):
+        UNIDADES = "UNIDADES", "Unidades"
+        DIRECAO = "DIRECAO", "Direção"
+        DEPARTAMENTOS = "DEPTO", "Departamentos"
+        CURSOS = "CURSOS", "Cursos"
+        PROGRAMA_POS_GRADUACAO = "PPG", "Programa de Pos Graduação"
+
     id_subunidade = models.AutoField(primary_key=True)
     subunidade = models.CharField(max_length=255)
+    grupo = models.CharField(choices=Grupo.choices, default=Grupo.UNIDADES)
 
     class Meta:
         managed = False
@@ -126,10 +146,12 @@ class Beneficiario(models.Model):
 
 
 class Transacao(models.Model):
+    class Status(models.Choices):
+        PAGO = "PAGO"
+        PENDENTE = "PENDENTE"
+        ALOCADO = "ALOCADO"
+
     id_transacao = models.AutoField(primary_key=True)
-    tipo_transacao = models.ForeignKey(
-        TipoTransacao, models.DO_NOTHING, db_column="id_tipo_transacao"
-    )
     transacao_pai = models.ForeignKey(
         "self", models.DO_NOTHING, db_column="id_transacao_pai", blank=True, null=True
     )
@@ -151,8 +173,9 @@ class Transacao(models.Model):
         blank=True,
         null=True,
     )
-    usuario = models.IntegerField()
-    status = models.ForeignKey(Status, models.DO_NOTHING, db_column="id_status")
+    usuario = models.ForeignKey(Usuario, models.DO_NOTHING, db_column="id_usuario")
+    status = models.CharField(choices=Status.choices, default=Status.PENDENTE)
+
     beneficiario = models.ForeignKey(
         Beneficiario,
         models.DO_NOTHING,
@@ -160,6 +183,7 @@ class Transacao(models.Model):
         blank=True,
         null=True,
     )
+
     descricao = models.CharField(max_length=500, blank=True, null=True)
     montante = models.DecimalField(
         max_digits=15, decimal_places=2, blank=True, null=True
@@ -167,8 +191,9 @@ class Transacao(models.Model):
     motivo_modificacao = models.CharField(max_length=500, blank=True, null=True)
     quantidade = models.FloatField(blank=True, null=True)
     local_techo = models.CharField(max_length=255, blank=True, null=True)
-    data_lancamento = models.DateTimeField(blank=True, null=True)
-    data_modificacao = models.DateTimeField(blank=True, null=True)
+
+    data_lancamento = models.DateTimeField(blank=True, auto_now_add=True)
+    data_modificacao = models.DateTimeField(blank=True, auto_now=True)
 
     class Meta:
         managed = False

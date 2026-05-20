@@ -4,6 +4,26 @@ from rest_framework import serializers
 from despesas.models import *
 
 
+class BeneficiarioSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Beneficiario
+        fields = ["id_beneficiario", "nome_beneficiario", "cpf", "matricula"]
+        read_only_fields = ["id_beneficiario"]
+
+
+class DocumentoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Documento
+        fields = ["id_documento", "tipo_documento", "transacao", "descricao"]
+        read_only_fields = ["id_documento"]
+
+class TipoDocumentoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TipoDocumento
+        fields = ["tipo_documento", "tipo_documento", "transacao", "descricao"]
+        read_only_fields = ["id_documento"]
+
+
 class CategoriaFinalidadeSerializer(serializers.ModelSerializer):
     class Meta:
         model = CategoriaFinalidade
@@ -51,6 +71,7 @@ class FinalidadeSerializer(serializers.ModelSerializer):
             "categoria_finalidade",
             "tipo_despesa_detail",
             "categoria_finalidade_detail",
+            "modalidade",
         ]
         read_only_fields = ["id_finalidade"]
 
@@ -58,5 +79,5 @@ class FinalidadeSerializer(serializers.ModelSerializer):
 class SubunidadeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Subunidade
-        fields = ["id_subunidade", "subunidade"]
+        fields = ["id_subunidade", "subunidade", "grupo"]
         read_only_fields = ["id_subunidade"]

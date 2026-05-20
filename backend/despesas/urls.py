@@ -11,10 +11,20 @@ from despesas.views.subunidades import (
     SubunidadeView,
     SingleSubunidadeView,
 )
+from despesas.views.beneficiario import BeneficiarioViewSet
+from despesas.views.documentos import *
+from rest_framework.routers import DefaultRouter
+from django.urls import path, include
 
 app_name = "despesas"
 
+router = DefaultRouter()
+router.register(r"beneficiarios", BeneficiarioViewSet, basename="beneficiario")
+router.register(r"documentos", DocumentoViewSet, basename="documentos")
+router.register(r"tipos-documentos", TipoDocumentoViewSet, basename="tipos_documentos")
+
 urlpatterns = [
+    path("", include(router.urls)),
     path("finalidades/", view=FinalidadesView.as_view(), name="finalidades"),
     path(
         "finalidades/<int:pk>/",

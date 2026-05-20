@@ -266,10 +266,3 @@ class SingleTransacaoPagamentoParcialView(APIView):
             return response.error_server()
 
 
-# Empenho
-# Documento
-
-# Transacao - A própria regra.
-# Tipo Documento - Documento com seu valor
-# Tipo Transaco - Crédito ou débito.
-# Empenho - Empenho inicial
