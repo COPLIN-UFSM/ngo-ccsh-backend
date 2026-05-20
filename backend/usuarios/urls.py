@@ -1,6 +1,6 @@
 # from django.contrib import admin
 from django.urls import path
-from users.views import (
+from usuarios.views import (
     UserView,
     LoginView,
     UserInfoView,

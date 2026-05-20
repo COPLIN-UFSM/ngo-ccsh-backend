@@ -9,9 +9,9 @@ from .serializers import RegisterSerializer, UserSerializer
 from django.contrib.auth import authenticate
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
-from users.models import Usuario
-from users.services import trigger_password_reset_flow
-from users.services import _find_user_by_Id
+from usuarios.models import Usuario
+from usuarios.services import trigger_password_reset_flow
+from usuarios.services import _find_user_by_Id
 from utils import response
 
 

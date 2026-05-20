@@ -1,5 +1,5 @@
 from django.urls import path
-from partial_payments.views import *
+from parciais.views import *
 
 app_name = "partial_payments"
 

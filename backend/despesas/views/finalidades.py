@@ -1,24 +1,19 @@
-
 from rest_framework.response import Response
 from rest_framework import status
 
-from transactions.serializers import *
+from despesas.serializers import *
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from utils import response
 
 
 class TipoDespesaView(APIView):
-    permission_classes = [IsAuthenticated]
-
     def get(self, request):
         tipos_despesa = TipoDespesa.objects.all()
         serializer = TipoDespesaSerializer(tipos_despesa, many=True)
         return Response(serializer.data)
 
     def post(self, request):
-        if not request.user.is_superuser:
-            return response.not_admin_user()
         try:
             serializer = TipoDespesaSerializer(data=request.data)
             if not serializer.is_valid():
@@ -31,7 +26,6 @@ class TipoDespesaView(APIView):
 
 
 class SingleTipoDespesaView(APIView):
-    permission_classes = [IsAuthenticated]
     name = "Tipo de Despesa"
 
     def get(self, request, pk):
@@ -45,9 +39,6 @@ class SingleTipoDespesaView(APIView):
             return response.error_server()
 
     def put(self, request, pk):
-        if not request.user.is_superuser:
-            return response.not_admin_user()
-
         try:
             tipo_despesa = TipoDespesa.objects.filter(pk=pk).first()
             if not tipo_despesa:
@@ -65,9 +56,6 @@ class SingleTipoDespesaView(APIView):
             return response.error_server(e)
 
     def delete(self, request, pk):
-        if not request.user.is_superuser:
-            return response.not_admin_user()
-
         try:
             tipo_despesa = TipoDespesa.objects.filter(pk=pk).first()
             if not tipo_despesa:
@@ -88,16 +76,12 @@ class SingleTipoDespesaView(APIView):
 
 
 class CategoriaFinalidadeView(APIView):
-    permission_classes = [IsAuthenticated]
-
     def get(self, request):
         subtipos = CategoriaFinalidade.objects.all()
         serializer = CategoriaFinalidadeSerializer(subtipos, many=True)
         return Response(serializer.data)
 
     def post(self, request):
-        if not request.user.is_superuser:
-            return response.not_admin_user()
         try:
             serializer = CategoriaFinalidadeSerializer(data=request.data)
             if not serializer.is_valid():
@@ -112,7 +96,6 @@ class CategoriaFinalidadeView(APIView):
 
 
 class SingleCategoriaFinalidadeView(APIView):
-    permission_classes = [IsAuthenticated]
     name = "Categoria de finalidade"
 
     def get(self, request, pk):
@@ -129,9 +112,6 @@ class SingleCategoriaFinalidadeView(APIView):
             return response.error_server()
 
     def put(self, request, pk):
-        if not request.user.is_superuser:
-            return response.not_admin_user()
-
         try:
             categoria_finalidade = CategoriaFinalidade.objects.filter(pk=pk).first()
             if not categoria_finalidade:
@@ -151,9 +131,6 @@ class SingleCategoriaFinalidadeView(APIView):
             return response.error_server(e)
 
     def delete(self, request, pk):
-        if not request.user.is_superuser:
-            return response.not_admin_user()
-
         try:
             categoria_finalidade = CategoriaFinalidade.objects.filter(pk=pk).first()
             if not categoria_finalidade:
@@ -174,8 +151,6 @@ class SingleCategoriaFinalidadeView(APIView):
 
 
 class SingleFinalidadeView(APIView):
-    permission_classes = [IsAuthenticated]
-
     def get(self, request, pk):
         try:
             data = Finalidade.objects.filter(pk=pk).first()
@@ -189,9 +164,6 @@ class SingleFinalidadeView(APIView):
             return response.error_server()
 
     def put(self, request, pk):
-        if not request.user.is_superuser:
-            return response.not_admin_user()
-
         try:
             finalidade = Finalidade.objects.filter(pk=pk).first()
             if not finalidade:
@@ -213,9 +185,6 @@ class SingleFinalidadeView(APIView):
             return response.error_server()
 
     def delete(self, request, pk):
-        if not request.user.is_superuser:
-            return response.not_admin_user()
-
         try:
             finalidade = Finalidade.objects.filter(pk=pk).first()
             if not finalidade:
@@ -237,10 +206,6 @@ class FinalidadesView(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def post(self, request):
-
-        if not request.user.is_superuser:
-            return response.not_admin_user()
-
         try:
             serializer = FinalidadeSerializer(data=request.data)
 
@@ -255,7 +220,6 @@ class FinalidadesView(APIView):
 
 
 class SubunidadeView(APIView):
-
     def get(self, request):
         try:
             subunidades = Subunidade.objects.all()
@@ -266,9 +230,6 @@ class SubunidadeView(APIView):
             return response.error_server(e)
 
     def post(self, request):
-        if not request.user.is_superuser:
-            return response.not_admin_user()
-
         try:
             serializer = SubunidadeSerializer(data=request.data)
             if not serializer.is_valid():
@@ -292,9 +253,6 @@ class SingleSubunidadeView(APIView):
             return response.error_server(e)
 
     def patch(self, request, pk):
-        if not request.user.is_superuser:
-            return response.not_admin_user()
-
         try:
             subunidade = Subunidade.objects.filter(pk=pk).first()
             if not subunidade:
@@ -312,9 +270,6 @@ class SingleSubunidadeView(APIView):
             return response.error_server()
 
     def delete(self, request, pk):
-        if not request.user.is_superuser:
-            return response.not_admin_user()
-
         try:
             subunidade = Subunidade.objects.filter(pk=pk).first()
             if not subunidade:

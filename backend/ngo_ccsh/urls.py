@@ -23,7 +23,7 @@ urlpatterns = [
     path("", TemplateView.as_view(template_name="index.html"), name="index"),
     path('api-auth/', include('rest_framework.urls')),  # para fazer login na browsable API do DRF
     path("admin/", admin.site.urls),
-    path("users/", include("users.urls")),
-    path("transactions/", include("transactions.urls")),
-    path("partial-payments/", include("partial_payments.urls")),
+    path("usuarios/", include("usuarios.urls")),
+    path("despesas/", include("despesas.urls")),
+    path("parciais/", include("parciais.urls")),
 ]

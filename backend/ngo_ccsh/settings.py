@@ -20,7 +20,7 @@ from django.core.exceptions import ImproperlyConfigured
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRETS_FILE = os.path.abspath(
-    os.path.join(BASE_DIR, '..', 'instance', 'database_credentials.json')
+    os.path.join(BASE_DIR, "..", "instance", "database_credentials.json")
 )
 
 SETTINGS_MODULE = os.environ.get("DJANGO_SETTINGS_MODULE")
@@ -42,7 +42,7 @@ def get_database_parameter(key):
 
     # se estiver usando o arquivo de settings test ou dev, que usam banco de dados local sqlite, não precisa coletar
     # os parâmetros nem da linha de comando, nem do arquivo de configuração
-    if 'test' in SETTINGS_MODULE.lower() or 'dev' in SETTINGS_MODULE.lower():
+    if "test" in SETTINGS_MODULE.lower() or "dev" in SETTINGS_MODULE.lower():
         return None
 
     # parâmetro pela CLI
@@ -58,10 +58,11 @@ def get_database_parameter(key):
         f"Não foi encontrado o atributo '{key}' no CLI nem no arquivo {SECRETS_FILE}"
     )
 
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 USE_X_FORWARDED_HOST = True
 
 # SECURITY WARNING: keep the secret key used in production secret!
@@ -76,9 +77,9 @@ ALLOWED_HOSTS = ["proplan.ufsm.br", "localhost", "127.0.0.1"]
 # Application definition
 
 INSTALLED_APPS = [
-    "users",  # aplicação própria
-    "transactions",  # aplicação própria
-    "partial_payments",  # aplicação própria
+    "usuarios",  # aplicação própria
+    "despesas",  # aplicação própria
+    "parciais",  # aplicação própria
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -108,7 +109,7 @@ REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": ["rest_framework.permissions.IsAuthenticated"],
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "rest_framework_simplejwt.authentication.JWTAuthentication",
-        'rest_framework.authentication.SessionAuthentication',
+        "rest_framework.authentication.SessionAuthentication",
     ],
 }
 
@@ -143,28 +144,28 @@ WSGI_APPLICATION = "ngo_ccsh.wsgi.application"
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        "NAME": 'BEE',
-        "ENGINE": 'ibm_db_django',
-        "DATABASE": get_database_parameter('DB_DATABASE'),
-        "HOST": get_database_parameter('DB_HOST'),
-        "PORT": get_database_parameter('DB_PORT'),
-        "USER": get_database_parameter('DB_USERNAME'),
-        "PASSWORD": get_database_parameter('DB_PASSWORD'),
+    "default": {
+        "NAME": "BEE",
+        "ENGINE": "ibm_db_django",
+        "DATABASE": get_database_parameter("DB_DATABASE"),
+        "HOST": get_database_parameter("DB_HOST"),
+        "PORT": get_database_parameter("DB_PORT"),
+        "USER": get_database_parameter("DB_USERNAME"),
+        "PASSWORD": get_database_parameter("DB_PASSWORD"),
         "OPTIONS": {
-            'dsn': f"DATABASE={get_database_parameter('DB_DATABASE')};"
-                   f"HOSTNAME={get_database_parameter('DB_HOST')};"
-                   f"PORT={get_database_parameter('DB_PORT')};"
-                   f"PROTOCOL=TCPIP;"
-                   f"CURRENTSCHEMA={get_database_parameter('DB_SCHEMA')};"
+            "dsn": f"DATABASE={get_database_parameter('DB_DATABASE')};"
+            f"HOSTNAME={get_database_parameter('DB_HOST')};"
+            f"PORT={get_database_parameter('DB_PORT')};"
+            f"PROTOCOL=TCPIP;"
+            f"CURRENTSCHEMA={get_database_parameter('DB_SCHEMA')};"
         },
-        'PCONNECT': True,
+        "PCONNECT": True,
     }
 }
 
 # Password validation
 # https://docs.djangoproject.com/en/6.0/ref/settings/#auth-password-validators
-AUTH_USER_MODEL = "users.Usuario"
+AUTH_USER_MODEL = "usuarios.Usuario"
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -195,7 +196,7 @@ USE_TZ = False  # precisa ser falso para usar ibm db2
 
 # STATIC_URL = "static/"
 STATIC_URL = "/ngo-ccsh-backend/static/"
-STATICFILES_DIRS = [BASE_DIR / 'static']
+STATICFILES_DIRS = [BASE_DIR / "static"]
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
 
@@ -219,6 +220,8 @@ def force_create_unmanaged_models():
             with connection.schema_editor() as schema_editor:
                 try:
                     schema_editor.create_model(model)
-                    print(f'  [OK] Modelo criado: {model.__name__}')
+                    print(f"  [OK] Modelo criado: {model.__name__}")
                 except Exception as e:
-                    print(f'[WARN] Não foi possível criar o modelo {model.__name__}: {e}')
+                    print(
+                        f"[WARN] Não foi possível criar o modelo {model.__name__}: {e}"
+                    )

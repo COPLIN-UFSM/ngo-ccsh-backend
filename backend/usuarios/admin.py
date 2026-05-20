@@ -2,7 +2,7 @@ from django import forms
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.forms import UserCreationForm
-from users.models import Usuario
+from usuarios.models import Usuario
 
 class MyUserCreationForm(UserCreationForm):
     email = forms.EmailField(required=True)

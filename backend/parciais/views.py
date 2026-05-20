@@ -3,8 +3,8 @@ from django.db import models
 from django.core.exceptions import ObjectDoesNotExist
 
 from rest_framework.views import APIView
-from partial_payments.models import *
-from partial_payments.serializers import *
+from parciais.models import *
+from parciais.serializers import *
 from utils import response
 from django.db.models import F
 
@@ -266,10 +266,3 @@ class SingleTransacaoPagamentoParcialView(APIView):
             return response.error_server()
 
 
-# Empenho
-# Documento
-
-# Transacao - A própria regra.
-# Tipo Documento - Documento com seu valor
-# Tipo Transaco - Crédito ou débito.
-# Empenho - Empenho inicial
