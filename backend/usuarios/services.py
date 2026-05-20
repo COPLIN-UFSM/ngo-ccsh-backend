@@ -7,10 +7,10 @@ import os
 from rest_framework_simplejwt.exceptions import TokenError
 
 
-def _find_user_by_Id(id):
+def _find_user_by_id(pk):
     """Return user or None"""
     try:
-        user = Usuario.objects.get(pk=id)
+        user = Usuario.objects.get(pk=pk)
     except Usuario.DoesNotExist:
         return None
     return user
@@ -36,6 +36,7 @@ def is_token_valid(token):
 
 
 def send_email_reset_password(user, token):
+    # TODO corrigir!
     link = f"http://localhost:5173/mudar-senha/?token={token}"
 
     context = {

@@ -13,7 +13,7 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
 from usuarios.models import Usuario
 from usuarios.services import trigger_password_reset_flow
-from usuarios.services import _find_user_by_Id
+from usuarios.services import _find_user_by_id
 from utils import response
 
 
@@ -141,7 +141,7 @@ class UpdatePermissionUserView(APIView):
         if not request.user.is_superuser:
             return response.not_admin_user()
 
-        user = _find_user_by_Id(pk)
+        user = _find_user_by_id(pk)
         if user is None:
             return Response(
                 {"detail": f"Usuário com id: {pk}, não encontrado."},
@@ -277,6 +277,7 @@ class UserInfoView(APIView):
     """Retorna informações sobre um usuário em específico, dado seu ID"""
 
     permission_classes = [IsAuthenticated]
+    serializer_class = [UserSerializer]
 
     @extend_schema(
         summary="Busca usuário",
@@ -300,7 +301,7 @@ class UserInfoView(APIView):
         """
         Mostra dados de um usuário
         """
-        user = _find_user_by_Id(pk)
+        user = _find_user_by_id(pk)
         if user is None:
             return Response(
                 {"detail": f"Usuário {id} não encontrado."},
@@ -334,7 +335,7 @@ class UserInfoView(APIView):
         """
         Atualiza os dados de um usuário
         """
-        user = _find_user_by_Id(pk)
+        user = _find_user_by_id(pk)
         if user is None:
             return Response(
                 {"detail": f"Usuário {id} não encontrado."},
@@ -375,7 +376,7 @@ class UserInfoView(APIView):
         description="Remove (desativa) um usuário utilizando seu ID.",
         parameters=[
             OpenApiParameter(
-                name="id",
+                name="pk",
                 type=int,
                 location="path",
                 description="ID do usuário a ser removido",
@@ -389,11 +390,11 @@ class UserInfoView(APIView):
         },
         tags=["usuarios"],
     )
-    def delete(self, request, id):
-        user = _find_user_by_Id(id)
+    def delete(self, request, pk):
+        user = _find_user_by_id(pk)
         if user is None:
             return Response(
-                {"detail": f"Usuário com id '{id}' não encontrado."},
+                {"detail": f"Usuário com id '{pk}' não encontrado."},
                 status.HTTP_404_NOT_FOUND,
             )
         if user.id != request.user.pk and not request.user.is_superuser:
