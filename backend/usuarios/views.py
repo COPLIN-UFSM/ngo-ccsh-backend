@@ -389,11 +389,11 @@ class UserInfoView(APIView):
         },
         tags=["usuarios"],
     )
-    def delete(self, request, id):
-        user = _find_user_by_Id(id)
+    def delete(self, request, pk):
+        user = _find_user_by_Id(pk)
         if user is None:
             return Response(
-                {"detail": f"Usuário com id '{id}' não encontrado."},
+                {"detail": f"Usuário com id '{pk}' não encontrado."},
                 status.HTTP_404_NOT_FOUND,
             )
         if user.id != request.user.pk and not request.user.is_superuser:
