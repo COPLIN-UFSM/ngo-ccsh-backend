@@ -85,7 +85,7 @@ class UserView(APIView):
         """
         Retorna um usuário por ID
         """
-        users = Usuario.objects.filter(is_active=True).order_by("id")
+        users = Usuario.objects.filter().order_by("id")
         serializer = RegisterSerializer(users, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
