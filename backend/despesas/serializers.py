@@ -1,5 +1,3 @@
-from dataclasses import fields
-
 from rest_framework import serializers
 from despesas.models import *
 
@@ -20,8 +18,8 @@ class DocumentoSerializer(serializers.ModelSerializer):
 class TipoDocumentoSerializer(serializers.ModelSerializer):
     class Meta:
         model = TipoDocumento
-        fields = ["tipo_documento", "tipo_documento", "transacao", "descricao"]
-        read_only_fields = ["id_documento"]
+        fields = ["tipo_documento", "tipo_documento"]
+        read_only_fields = ["id_tipo_documento"]
 
 
 class CategoriaFinalidadeSerializer(serializers.ModelSerializer):
@@ -64,7 +62,7 @@ class FinalidadeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Finalidade
-        fields = fields = [
+        fields = [
             "id_finalidade",
             "finalidade",
             "tipo_despesa",
