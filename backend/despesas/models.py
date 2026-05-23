@@ -51,7 +51,7 @@ class Finalidade(models.Model):
     )  # Isso aqui é para Bolsa-Bolsa 2A terem os mesmo campos.
 
     modalidade = models.CharField(
-        choices=Modalidade.choices, default=Modalidade.DESPESA
+        choices=Modalidade.choices, default=Modalidade.DESPESA, max_length=255
     )
 
     finalidade = models.CharField(max_length=255)
@@ -109,7 +109,7 @@ class Subunidade(models.Model):
 
     id_subunidade = models.AutoField(primary_key=True)
     subunidade = models.CharField(max_length=255)
-    grupo = models.CharField(choices=Grupo.choices, default=Grupo.UNIDADES)
+    grupo = models.CharField(choices=Grupo.choices, default=Grupo.UNIDADES, max_length=255)
 
     class Meta:
         managed = False
@@ -174,7 +174,7 @@ class Transacao(models.Model):
         null=True,
     )
     usuario = models.ForeignKey(Usuario, models.DO_NOTHING, db_column="id_usuario")
-    status = models.CharField(choices=Status.choices, default=Status.PENDENTE)
+    status = models.CharField(choices=Status.choices, default=Status.PENDENTE, max_length=255)
 
     beneficiario = models.ForeignKey(
         Beneficiario,
