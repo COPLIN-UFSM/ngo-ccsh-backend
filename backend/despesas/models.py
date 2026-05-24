@@ -31,36 +31,6 @@ class Documento(models.Model):
         db_table = "documentos"
 
 
-class Finalidade(models.Model):
-
-    class Modalidade(models.TextChoices):
-        IDR = "IDR", "IDR"
-        TRANSFERENCIA = "TRANSFERENCIA", "Transferência"
-        DESPESA = "DESPESA", "Despesa"
-
-    id_finalidade = models.AutoField(primary_key=True)
-
-    tipo_despesa = models.ForeignKey(
-        "TipoDespesa",
-        models.DO_NOTHING,
-        db_column="id_tipo_despesa",
-    )  # Natureza da Despesa.
-
-    categoria_finalidade = models.ForeignKey(
-        "CategoriaFinalidade", models.DO_NOTHING, db_column="id_categoria_finalidade"
-    )  # Isso aqui é para Bolsa-Bolsa 2A terem os mesmo campos.
-
-    modalidade = models.CharField(
-        choices=Modalidade.choices, default=Modalidade.DESPESA, max_length=255
-    )
-
-    finalidade = models.CharField(max_length=255)
-
-    class Meta:
-        managed = False
-        db_table = "finalidades"
-
-
 class TipoTransacao(models.Model):
     id_tipo_transacao = models.AutoField(primary_key=True)
     tipo_transacao = models.CharField(max_length=100)
