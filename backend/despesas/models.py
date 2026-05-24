@@ -31,36 +31,6 @@ class Documento(models.Model):
         db_table = "documentos"
 
 
-class Finalidade(models.Model):
-
-    class Modalidade(models.TextChoices):
-        IDR = "IDR", "IDR"
-        TRANSFERENCIA = "TRANSFERENCIA", "Transferência"
-        DESPESA = "DESPESA", "Despesa"
-
-    id_finalidade = models.AutoField(primary_key=True)
-
-    tipo_despesa = models.ForeignKey(
-        "TipoDespesa",
-        models.DO_NOTHING,
-        db_column="id_tipo_despesa",
-    )  # Natureza da Despesa.
-
-    categoria_finalidade = models.ForeignKey(
-        "CategoriaFinalidade", models.DO_NOTHING, db_column="id_categoria_finalidade"
-    )  # Isso aqui é para Bolsa-Bolsa 2A terem os mesmo campos.
-
-    modalidade = models.CharField(
-        choices=Modalidade.choices, default=Modalidade.DESPESA
-    )
-
-    finalidade = models.CharField(max_length=255)
-
-    class Meta:
-        managed = False
-        db_table = "finalidades"
-
-
 class TipoTransacao(models.Model):
     id_tipo_transacao = models.AutoField(primary_key=True)
     tipo_transacao = models.CharField(max_length=100)
@@ -85,20 +55,6 @@ class Status(models.Model):
         return self.status
 
 
-class CategoriaFinalidade(models.Model):
-    id_categoria_finalidade = models.AutoField(
-        primary_key=True,
-    )
-    categoria_finalidade = models.CharField(max_length=255)
-
-    class Meta:
-        managed = False
-        db_table = "categorias_finalidades"
-
-    def __str__(self) -> str:
-        return self.categoria_finalidade
-
-
 class Subunidade(models.Model):
     class Grupo(models.TextChoices):
         UNIDADES = "UNIDADES", "Unidades"
@@ -108,8 +64,8 @@ class Subunidade(models.Model):
         PROGRAMA_POS_GRADUACAO = "PPG", "Programa de Pos Graduação"
 
     id_subunidade = models.AutoField(primary_key=True)
-    subunidade = models.CharField(max_length=255)
-    grupo = models.CharField(choices=Grupo.choices, default=Grupo.UNIDADES)
+    subunidade = models.CharField(max_length=255, unique=True)
+    grupo = models.CharField(choices=Grupo.choices)
 
     class Meta:
         managed = False
@@ -119,16 +75,60 @@ class Subunidade(models.Model):
         return self.subunidade
 
 
-class TipoDespesa(models.Model):
-    id_tipo_despesa = models.AutoField(primary_key=True)
-    tipo_despesa = models.CharField(max_length=100, blank=True, null=True)
+class NaturezaFinalidade(models.Model):
+    id_natureza_finalidade = models.AutoField(primary_key=True)
+    natureza_finalidade = models.CharField(max_length=100)
 
     class Meta:
         managed = False
-        db_table = "tipos_despesa"
+        db_table = "naturezas_finalidades"
 
     def __str__(self) -> str:
         return self.tipo_despesa
+
+
+class TipoFinalidade(models.Model):
+    id_tipo_finalidade = models.AutoField(
+        primary_key=True,
+    )
+    tipo_finalidade = models.CharField(max_length=255, unique=True)
+
+    class Meta:
+        managed = False
+        db_table = "tipos_finalidades"
+
+    def __str__(self) -> str:
+        return self.tipo_finalidade
+
+
+class Finalidade(models.Model):
+
+    class Modalidade(models.TextChoices):
+        IDR = "IDR", "IDR"
+        TRANSFERENCIA = "TRANSFERENCIA", "Transferência"
+        DESPESA = "DESPESA", "Despesa"
+
+    id_finalidade = models.AutoField(primary_key=True)
+
+    tipo_despesa = models.ForeignKey(
+        NaturezaFinalidade,
+        models.DO_NOTHING,
+        db_column="id_tipo_despesa",
+    )  # Natureza da Despesa.
+
+    tipo_finalidade = models.ForeignKey(
+        TipoFinalidade, models.DO_NOTHING, db_column="id_tipo_finalidade"
+    )  # Isso aqui é para Bolsa-Bolsa 2A terem os mesmo campos.
+
+    modalidade = models.CharField(
+        choices=Modalidade.choices, default=Modalidade.DESPESA
+    )
+
+    finalidade = models.CharField(max_length=255)
+
+    class Meta:
+        managed = False
+        db_table = "finalidades"
 
 
 class Beneficiario(models.Model):

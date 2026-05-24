@@ -7,57 +7,57 @@ from rest_framework.permissions import IsAuthenticated
 from utils import response
 
 
-class TipoDespesaView(APIView):
+class NaturezaFinalidadeView(APIView):
     def get(self, request):
-        tipos_despesa = TipoDespesa.objects.all()
-        serializer = TipoDespesaSerializer(tipos_despesa, many=True)
+        tipos_despesa = NaturezaFinalidade.objects.all()
+        serializer = NaturezaFinalidadeSerializer(tipos_despesa, many=True)
         return Response(serializer.data)
 
     def post(self, request):
         try:
-            serializer = TipoDespesaSerializer(data=request.data)
+            serializer = NaturezaFinalidadeSerializer(data=request.data)
             if not serializer.is_valid():
                 return response.serializer_errors(serializer=serializer)
 
             serializer.save()
-            return response.success("Tipo de Despesa adicionada com sucesso.")
+            return response.success("Natureza adicionada com sucesso.")
         except:
             return response.error_server()
 
 
-class SingleTipoDespesaView(APIView):
-    name = "Tipo de Despesa"
+class SingleNaturezaFinalidadeView(APIView):
+    name = "Natureza"
 
     def get(self, request, pk):
         try:
-            tipo_despesa = TipoDespesa.objects.filter(pk=pk).first()
+            tipo_despesa = NaturezaFinalidade.objects.filter(pk=pk).first()
             if not tipo_despesa:
-                return response.not_found("Tipo de Despesa não encontrado")
-            serializer = TipoDespesaSerializer(tipo_despesa)
+                return response.not_found("Natureza não encontrado")
+            serializer = NaturezaFinalidadeSerializer(tipo_despesa)
             return Response(serializer.data)
         except:
             return response.error_server()
 
     def put(self, request, pk):
         try:
-            tipo_despesa = TipoDespesa.objects.filter(pk=pk).first()
+            tipo_despesa = NaturezaFinalidade.objects.filter(pk=pk).first()
             if not tipo_despesa:
                 return response.not_found(f"{self.name} não encontrada.")
 
-            serializer = TipoDespesaSerializer(instance=tipo_despesa, data=request.data)
+            serializer = NaturezaFinalidadeSerializer(instance=tipo_despesa, data=request.data)
 
             if not serializer.is_valid():
                 return response.serializer_errors(serializer)
             serializer.save()
 
-            return response.success(f"{self.name} alterado com sucesso.")
+            return response.success(f"{self.name} alterada com sucesso.")
 
         except Exception as e:
             return response.error_server(e)
 
     def delete(self, request, pk):
         try:
-            tipo_despesa = TipoDespesa.objects.filter(pk=pk).first()
+            tipo_despesa = NaturezaFinalidade.objects.filter(pk=pk).first()
             if not tipo_despesa:
                 return response.not_found(f"{self.name} não encontrada.")
 
@@ -75,15 +75,15 @@ class SingleTipoDespesaView(APIView):
             return response.error_server()
 
 
-class CategoriaFinalidadeView(APIView):
+class TipoFinalidadeView(APIView):
     def get(self, request):
-        subtipos = CategoriaFinalidade.objects.all()
-        serializer = CategoriaFinalidadeSerializer(subtipos, many=True)
+        subtipos = TipoFinalidade.objects.all()
+        serializer = TipoFinalidadeSerializer(subtipos, many=True)
         return Response(serializer.data)
 
     def post(self, request):
         try:
-            serializer = CategoriaFinalidadeSerializer(data=request.data)
+            serializer = TipoFinalidadeSerializer(data=request.data)
             if not serializer.is_valid():
                 return response.serializer_errors(serializer=serializer)
 
@@ -95,16 +95,16 @@ class CategoriaFinalidadeView(APIView):
             return response.error_server()
 
 
-class SingleCategoriaFinalidadeView(APIView):
-    name = "Categoria de finalidade"
+class SingleTipoFinalidadeView(APIView):
+    name = "Tipo de Finalidade"
 
     def get(self, request, pk):
         try:
-            data = CategoriaFinalidade.objects.filter(pk=pk).first()
+            data = TipoFinalidade.objects.filter(pk=pk).first()
             if not data:
                 return response.not_found(f"{self.name} não encontrada.")
 
-            serializer = CategoriaFinalidadeSerializer(data)
+            serializer = TipoFinalidadeSerializer(data)
             return Response(serializer.data, status=status.HTTP_200_OK)
 
         except Exception as e:
@@ -113,11 +113,11 @@ class SingleCategoriaFinalidadeView(APIView):
 
     def put(self, request, pk):
         try:
-            categoria_finalidade = CategoriaFinalidade.objects.filter(pk=pk).first()
+            categoria_finalidade = TipoFinalidade.objects.filter(pk=pk).first()
             if not categoria_finalidade:
                 return response.not_found(f"{self.name} não encontrada.")
 
-            serializer = CategoriaFinalidadeSerializer(
+            serializer = TipoFinalidadeSerializer(
                 instance=categoria_finalidade, data=request.data
             )
 
@@ -125,18 +125,18 @@ class SingleCategoriaFinalidadeView(APIView):
                 return response.serializer_errors(serializer)
             serializer.save()
 
-            return response.success(f"{self.name} alterado com sucesso.")
+            return response.success(f"{self.name} alterada com sucesso.")
 
         except Exception as e:
             return response.error_server(e)
 
     def delete(self, request, pk):
         try:
-            categoria_finalidade = CategoriaFinalidade.objects.filter(pk=pk).first()
+            categoria_finalidade = TipoFinalidade.objects.filter(pk=pk).first()
             if not categoria_finalidade:
                 return response.not_found(f"{self.name} não encontrada.")
 
-            finalidades = Finalidade.objects.filter(categoria_finalidade=pk)
+            finalidades = Finalidade.objects.filter(tipo_finalidade=pk)
             if len(finalidades) > 0:
                 return response.bad_request(
                     f"Não é possível remover uma {self.name} que tenha filhos"
@@ -147,6 +147,7 @@ class SingleCategoriaFinalidadeView(APIView):
             return response.success(f"{self.name} deletada com sucesso.")
 
         except Exception as e:
+            print(e)
             return response.error_server()
 
 

@@ -237,15 +237,17 @@ class ChangePasswordView(APIView):
 
         if new_password != new_password_confirm:
             return Response(
-                {"detail": "Os dados da nova senha não correspondem."},
+                {"detail": "As senhas não são iguais."},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
         token = request.auth
+
         # Se for admin alterando a senha de outro, ou se o token permitir, pula a senha antiga
         is_admin_changing_other = (
             request.user.is_superuser and pk != request.user.id
         )
+
         can_skip_old_password = (
             (token and token.get("allow_password_change", False))
             or is_admin_changing_other

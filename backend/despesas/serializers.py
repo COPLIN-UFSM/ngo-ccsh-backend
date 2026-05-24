@@ -15,6 +15,7 @@ class DocumentoSerializer(serializers.ModelSerializer):
         fields = ["id_documento", "tipo_documento", "transacao", "descricao"]
         read_only_fields = ["id_documento"]
 
+
 class TipoDocumentoSerializer(serializers.ModelSerializer):
     class Meta:
         model = TipoDocumento
@@ -22,23 +23,23 @@ class TipoDocumentoSerializer(serializers.ModelSerializer):
         read_only_fields = ["id_tipo_documento"]
 
 
-class CategoriaFinalidadeSerializer(serializers.ModelSerializer):
+class TipoFinalidadeSerializer(serializers.ModelSerializer):
     class Meta:
-        model = CategoriaFinalidade
-        fields = ["id_categoria_finalidade", "categoria_finalidade"]
-        read_only_fields = ["id_categoria_finalidade"]
+        model = TipoFinalidade
+        fields = ["id_tipo_finalidade", "tipo_finalidade"]
+        read_only_fields = ["id_tipo_finalidade"]
 
 
-class TipoDespesaSerializer(serializers.ModelSerializer):
+class NaturezaFinalidadeSerializer(serializers.ModelSerializer):
     class Meta:
-        model = TipoDespesa
-        fields = ["id_tipo_despesa", "tipo_despesa"]
-        read_only_fields = ["id_tipo_despesa"]
+        model = NaturezaFinalidade
+        fields = ["id_natureza_finalidade", "natureza_finalidade"]
+        read_only_fields = ["id_natureza_finalidade"]
 
 
 class FinalidadeSerializer(serializers.ModelSerializer):
-    tipo_despesa = serializers.PrimaryKeyRelatedField(
-        queryset=TipoDespesa.objects.all(),
+    natureza_finalidade = serializers.PrimaryKeyRelatedField(
+        queryset=NaturezaFinalidade.objects.all(),
         write_only=True,
         error_messages={
             "does_not_exist": "Código de despesa inexistente.",
@@ -46,8 +47,8 @@ class FinalidadeSerializer(serializers.ModelSerializer):
         },
     )
 
-    categoria_finalidade = serializers.PrimaryKeyRelatedField(
-        queryset=CategoriaFinalidade.objects.all(),
+    tipo_finalidade = serializers.PrimaryKeyRelatedField(
+        queryset=TipoFinalidade.objects.all(),
         write_only=True,
         error_messages={
             "does_not_exist": "Código da categoria da finalidade inexistente.",
@@ -55,8 +56,10 @@ class FinalidadeSerializer(serializers.ModelSerializer):
         },
     )
 
-    tipo_despesa_detail = TipoDespesaSerializer(source="tipo_despesa", read_only=True)
-    categoria_finalidade_detail = CategoriaFinalidadeSerializer(
+    natureza_finalidade_detail = NaturezaFinalidadeSerializer(
+        source="natureza_finalidade", read_only=True
+    )
+    tipo_finalidade_detail = TipoFinalidadeSerializer(
         source="categoria_finalidade", read_only=True
     )
 
@@ -65,10 +68,10 @@ class FinalidadeSerializer(serializers.ModelSerializer):
         fields = [
             "id_finalidade",
             "finalidade",
-            "tipo_despesa",
-            "categoria_finalidade",
-            "tipo_despesa_detail",
-            "categoria_finalidade_detail",
+            "natureza_finalidade",
+            "tipo_finalidade",
+            "natureza_finalidade_detail",
+            "tipo_finalidade_detail",
             "modalidade",
         ]
         read_only_fields = ["id_finalidade"]
