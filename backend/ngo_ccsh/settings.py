@@ -80,7 +80,7 @@ INSTALLED_APPS = [
     "usuarios",  # aplicação própria
     "despesas",  # aplicação própria
     "parciais",  # aplicação própria
-    'drf_spectacular',  # para gerar documentação da API
+    "drf_spectacular",  # para gerar documentação da API
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -97,6 +97,7 @@ MIDDLEWARE = [
     "whitenoise.middleware.WhiteNoiseMiddleware",
     "corsheaders.middleware.CorsMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.middleware.locale.LocaleMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -111,7 +112,7 @@ REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ],
-    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
 
 SIMPLE_JWT = {
@@ -168,23 +169,27 @@ DATABASES = {
 # https://docs.djangoproject.com/en/6.0/ref/settings/#auth-password-validators
 AUTH_USER_MODEL = "usuarios.Usuario"
 
-AUTH_PASSWORD_VALIDATORS = [{
+AUTH_PASSWORD_VALIDATORS = [
+    {
         "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
-    }, {
+    },
+    {
         "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
-    }, {
+    },
+    {
         "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
-    }, {
+    },
+    {
         "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
-    }
+    },
 ]
 
 # documentação da API
 SPECTACULAR_SETTINGS = {
-    'TITLE': 'ngo-ccsh-backend',
-    'DESCRIPTION': 'API backend do Controle Orçamentário do CCSH',
-    'VERSION': '0.1',
-    'SERVE_INCLUDE_SCHEMA': False,
+    "TITLE": "ngo-ccsh-backend",
+    "DESCRIPTION": "API backend do Controle Orçamentário do CCSH",
+    "VERSION": "0.1",
+    "SERVE_INCLUDE_SCHEMA": False,
     "GET_LIB_DOC_EXCLUDES": "drf_spectacular.plumbing.get_lib_doc_excludes",
     # OTHER SETTINGS
 }
@@ -193,11 +198,11 @@ SPECTACULAR_SETTINGS = {
 # Internationalization
 # https://docs.djangoproject.com/en/6.0/topics/i18n/
 
+USE_I18N = True
 LANGUAGE_CODE = "pt-br"
-
 TIME_ZONE = "America/Sao_Paulo"
 
-USE_I18N = True
+
 
 USE_TZ = False  # precisa ser falso para usar ibm db2
 

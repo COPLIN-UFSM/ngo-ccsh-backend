@@ -19,7 +19,7 @@ class DocumentoSerializer(serializers.ModelSerializer):
 class TipoDocumentoSerializer(serializers.ModelSerializer):
     class Meta:
         model = TipoDocumento
-        fields = ["tipo_documento", "tipo_documento"]
+        fields = ["id_tipo_documento", "tipo_documento"]
         read_only_fields = ["id_tipo_documento"]
 
 
@@ -60,7 +60,7 @@ class FinalidadeSerializer(serializers.ModelSerializer):
         source="natureza_finalidade", read_only=True
     )
     tipo_finalidade_detail = TipoFinalidadeSerializer(
-        source="categoria_finalidade", read_only=True
+        source="tipo_finalidade", read_only=True
     )
 
     class Meta:
@@ -69,8 +69,9 @@ class FinalidadeSerializer(serializers.ModelSerializer):
             "id_finalidade",
             "finalidade",
             "natureza_finalidade",
-            "tipo_finalidade",
             "natureza_finalidade_detail",
+
+            "tipo_finalidade",
             "tipo_finalidade_detail",
             "modalidade",
         ]

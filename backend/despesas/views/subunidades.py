@@ -44,9 +44,6 @@ class SingleSubunidadeView(APIView):
             return response.error_server(e)
 
     def put(self, request, pk):
-        if not request.user.is_superuser:
-            return response.not_admin_user()
-
         try:
             subunidade = Subunidade.objects.filter(pk=pk).first()
             if not subunidade:
@@ -64,9 +61,6 @@ class SingleSubunidadeView(APIView):
             return response.error_server()
 
     def delete(self, request, pk):
-        if not request.user.is_superuser:
-            return response.not_admin_user()
-
         try:
             subunidade = Subunidade.objects.filter(pk=pk).first()
             if not subunidade:

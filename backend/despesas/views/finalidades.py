@@ -61,7 +61,7 @@ class SingleNaturezaFinalidadeView(APIView):
             if not tipo_despesa:
                 return response.not_found(f"{self.name} não encontrada.")
 
-            finalidades = Finalidade.objects.filter(tipo_despesa=pk)
+            finalidades = Finalidade.objects.filter(natureza_finalidade=pk)
             if len(finalidades) > 0:
                 return response.bad_request(
                     f"Não é possível remover um {self.name} que tenha filhos"
