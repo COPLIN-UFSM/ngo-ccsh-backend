@@ -1,4 +1,6 @@
 from django.db import models
+
+from parciais.models import Empenho
 from usuarios.models import Usuario
 
 
@@ -31,37 +33,13 @@ class Documento(models.Model):
         db_table = "documentos"
 
 
-class TipoTransacao(models.Model):
-    id_tipo_transacao = models.AutoField(primary_key=True)
-    tipo_transacao = models.CharField(max_length=100)
-
-    class Meta:
-        managed = False
-        db_table = "tipos_transacoes"
-
-    def __str__(self) -> str:
-        return self.tipo_transacao
-
-
-class Status(models.Model):
-    id_status = models.AutoField(primary_key=True)
-    status = models.CharField(max_length=100)
-
-    class Meta:
-        managed = False
-        db_table = "status"
-
-    def __str__(self) -> str:
-        return self.status
-
-
 class Subunidade(models.Model):
     class Grupo(models.TextChoices):
         UNIDADES = "UNIDADES", "Unidades"
         DIRECAO = "DIRECAO", "Direção"
         DEPARTAMENTOS = "DEPTO", "Departamentos"
         CURSOS = "CURSOS", "Cursos"
-        PROGRAMA_POS_GRADUACAO = "PPG", "Programa de Pos Graduação"
+        PROGRAMA_POS_GRADUACAO = "PPG", "Programa de Pós-Graduação"
 
     id_subunidade = models.AutoField(primary_key=True)
     subunidade = models.CharField(max_length=255, unique=True)
@@ -152,6 +130,13 @@ class Transacao(models.Model):
         ALOCADO = "ALOCADO"
 
     id_transacao = models.AutoField(primary_key=True)
+    id_empenho = models.ForeignKey(
+        Empenho,
+        models.DO_NOTHING, db_column='id_empenho',
+        blank=True,
+        null=True
+    )
+
     transacao_pai = models.ForeignKey(
         "self", models.DO_NOTHING, db_column="id_transacao_pai", blank=True, null=True
     )

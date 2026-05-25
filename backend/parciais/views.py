@@ -19,7 +19,7 @@ from rest_framework import status
 class TransacoesByEmpenho(APIView):
     def get(self, request, pk):
         try:
-            empenho = EmpenhoPagamentoParcial.objects.filter(pk=pk).first()
+            empenho = Empenho.objects.filter(pk=pk).first()
             if not empenho:
                 return response.not_found("Empenho não encontrado.")
             transacoes = TransacaoPagamentoParcial.objects.filter(empenho_pai=empenho)
@@ -37,7 +37,7 @@ class TransacoesByEmpenho(APIView):
 class EmpenhoMontante(APIView):
     def get(self, request, pk):
         try:
-            empenho = EmpenhoPagamentoParcial.objects.filter(pk=pk).first()
+            empenho = Empenho.objects.filter(pk=pk).first()
             if not empenho:
                 return response.not_found("Empenho não encontrado.")
 
@@ -54,8 +54,8 @@ class EmpenhoMontante(APIView):
 class EmpenhoView(APIView):
     def get(self, request):
         try:
-            empenhos = EmpenhoPagamentoParcial.objects.all()
-            serializer = EmpenhoPagamentoParcialSerializer(empenhos, many=True)
+            empenhos = Empenho.objects.all()
+            serializer = EmpenhoSerializer(empenhos, many=True)
             return response.success_data(serializer.data)
         except Exception as e:
             return response.error_server(e)
@@ -63,7 +63,7 @@ class EmpenhoView(APIView):
     def post(self, request):
 
         try:
-            serializer = EmpenhoPagamentoParcialSerializer(data=request.data)
+            serializer = EmpenhoSerializer(data=request.data)
             if not serializer.is_valid():
                 return response.serializer_errors(serializer)
 
@@ -76,8 +76,8 @@ class EmpenhoView(APIView):
 class SingleEmpenhoView(APIView):
     def get(self, request, pk):
         try:
-            empenho = EmpenhoPagamentoParcial.objects.get(pk=pk)
-            serializer = EmpenhoPagamentoParcialSerializer(empenho)
+            empenho = Empenho.objects.get(pk=pk)
+            serializer = EmpenhoSerializer(empenho)
             return response.success_data(serializer.data)
         except ObjectDoesNotExist:
             return response.not_found("Empenho não encontrado.")
@@ -86,11 +86,11 @@ class SingleEmpenhoView(APIView):
 
     def put(self, request, pk):
         try:
-            empenho = EmpenhoPagamentoParcial.objects.filter(pk=pk).first()
+            empenho = Empenho.objects.filter(pk=pk).first()
             if not empenho:
                 return response.not_found("Empenho não encontrado.")
 
-            serializer = EmpenhoPagamentoParcialSerializer(
+            serializer = EmpenhoSerializer(
                 instance=empenho, data=request.data
             )
 
@@ -105,7 +105,7 @@ class SingleEmpenhoView(APIView):
 
     def delete(self, request, pk):
         try:
-            empenho = EmpenhoPagamentoParcial.objects.filter(pk=pk).first()
+            empenho = Empenho.objects.filter(pk=pk).first()
             if not empenho:
                 return response.not_found("Empenho não encontrada.")
 

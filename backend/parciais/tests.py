@@ -2,7 +2,7 @@ from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
 from usuarios.models import Usuario
-from parciais.models import EmpenhoPagamentoParcial, TipoDocumentoPagamentoParcial, TransacaoPagamentoParcial
+from parciais.models import Empenho, TipoDocumentoPagamentoParcial, TransacaoPagamentoParcial
 
 
 class PartialPaymentsTestAPI:
@@ -33,7 +33,7 @@ class PartialPaymentsTestAPI:
         self.client.credentials(HTTP_AUTHORIZATION="Bearer " + token)
 
     def create_basic_data(self):
-        self.empenho = EmpenhoPagamentoParcial.objects.create(
+        self.empenho = Empenho.objects.create(
             empenho="2024NE0001", descricao="Empenho de Teste", ativo=True
         )
         self.tipo_doc = TipoDocumentoPagamentoParcial.objects.create(
@@ -91,7 +91,7 @@ class SingleEmpenhoViewTestCase(APITestCase, PartialPaymentsTestAPI):
         response = self.client.put(self.url, data=data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.empenho.refresh_from_db()
-        self.assertEqual(self.empenho.empenho, "2024NE0001-MOD")
+        self.assertEqual(self.empenho.empenho_ou_fatura, "2024NE0001-MOD")
 
     def test_delete_empenho_with_children(self):
         # Cria uma transação filha
@@ -107,7 +107,7 @@ class SingleEmpenhoViewTestCase(APITestCase, PartialPaymentsTestAPI):
         response = self.client.delete(self.url)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertTrue(
-            EmpenhoPagamentoParcial.objects.filter(pk=self.empenho.id_empenho).exists()
+            Empenho.objects.filter(pk=self.empenho.id_empenho).exists()
         )
 
 
