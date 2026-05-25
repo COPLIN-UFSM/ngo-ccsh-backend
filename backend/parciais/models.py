@@ -6,8 +6,11 @@ from decimal import Decimal
 # Empenho inicial para cada despesa. Valor a qual o crédito e débito serão realizado.
 class EmpenhoPagamentoParcial(models.Model):
     id_empenho = models.AutoField(primary_key=True)
-    empenho = models.CharField(max_length=50, unique=True)
+    n_empenho = models.CharField(max_length=50, unique=True)
+    n_pen = models.CharField(max_length=50, unique=True)
+
     descricao = models.TextField(max_length=200)
+    # Finalidade -> Replicar de despesas
     ativo = models.BooleanField(default=True, blank=True)
 
     @property
