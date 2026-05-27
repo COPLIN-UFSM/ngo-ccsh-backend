@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ app_short_name }}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap"
+    >
+    <style>
+        body {
+            font-family: "Open Sans", sans-serif;
+            font-weight: 400;
+            color: #252423;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            margin: 20px auto 0;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .header {
+            font-family: "Open Sans", sans-serif;
+            font-weight: 600;
+            text-align: center;
+            background-color: #0073a8;
+            color: #ffffff;
+            padding: 20px;
+        }
+
+        .content {
+            padding: 30px;
+            color: #252423;
+            line-height: 1.6;
+        }
+
+        .footer {
+            background-color: #dfdfdf;
+            color: #525e68;
+            padding: 15px;
+            text-align: center;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>{{ app_full_name }}</h1>
+    </div>
+    <div class="content">
+        <h2>Olá, {{ user_full_name }}!</h2>
+        <p>Recebemos uma solicitação para redefinir a senha da sua conta no {{ app_full_name }}.</p>
+        <p>Para prosseguir com a alteração, clique no botão abaixo. Este link é válido por <strong>5 minutos</strong>.
+        </p>
+
+        <a href='{{ link }}' style="color: #0073a8">Clique aqui para redefinir sua senha</a>
+        <p>Se você não solicitou esta alteração, basta ignorar este e-mail. Sua senha permanecerá a mesma.</p>
+    </div>
+    <div class="footer">
+        Este é um e-mail automático, por favor não responda.<br>
+        &copy; {{ current_year }} {{ app_full_name }}
+    </div>
+</div>
+</body>
+</html>

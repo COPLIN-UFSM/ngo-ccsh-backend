@@ -1,12 +1,17 @@
 from .models import Usuario
-from rest_framework_simplejwt.tokens import AccessToken
+
+from django.conf import settings
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
-import os
+
+from rest_framework_simplejwt.tokens import AccessToken
 from rest_framework_simplejwt.exceptions import TokenError
 
+from datetime import datetime as dt
 
+
+# TODO função desnecessária! só fazer Usuario.objects.get(pk=pk) e adicionar um try-catch!
 def _find_user_by_id(pk):
     """Return user or None"""
     try:
@@ -36,22 +41,24 @@ def is_token_valid(token):
 
 
 def send_email_reset_password(user, token):
-    # TODO corrigir!
-    link = f"http://localhost:5173/mudar-senha/?token={token}"
+    link = f"{settings.FRONTEND_URL}/trocar-senha/?token={token}"
 
     context = {
+        "app_full_name": settings.APP_FULL_NAME,
+        "app_short_name": settings.APP_SHORT_NAME,
         "username": user.username,
-        "full_name": user.full_name,
+        "user_full_name": user.full_name,
         "link": link,
+        "year": dt.now().year
     }
-    html_content = render_to_string("email/my_email.html", context)
+    html_content = render_to_string("email/recuperar_email.html", context)
     text_content = strip_tags(html_content)
     text_content += f"\n\nLink para recuperação: {link}"
 
     msg = EmailMultiAlternatives(
-        subject="Portal Transparência CCSH - Recuperação de Senha.",
+        subject=f"{settings.APP_FULL_NAME} - Recuperação de Senha",
         body=text_content,
-        from_email=os.getenv("EMAIL_USER"),
+        from_email=settings.DEFAULT_FROM_EMAIL,
         to=[user.email],
         headers={"List-Unsubscribe": "<mailto:suporte@cssh.com>"},
     )

@@ -11,11 +11,15 @@ import sys
 from pathlib import Path
 from datetime import timedelta
 
+from dotenv import load_dotenv
+
 import django
 from django.apps import apps
 from django.db import connection
 
 from django.core.exceptions import ImproperlyConfigured
+
+load_dotenv()  # carrega variáveis de ambiente do arquivo .env, se existir
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -215,9 +219,15 @@ EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = "smtp.gmail.com"
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = os.getenv("EMAIL_USER")
-EMAIL_HOST_PASSWORD = os.getenv("EMAIL_PASSWORD")
-DEFAULT_FROM_EMAIL = "Webmaster <leandrokise753@gmail.com>"
+
+EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
+DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL")
+
+APP_FULL_NAME = os.getenv("APP_FULL_NAME")
+APP_SHORT_NAME = os.getenv("APP_SHORT_NAME")
+
+FRONTEND_URL = os.getenv("FRONTEND_URL")
 
 
 def force_create_unmanaged_models():

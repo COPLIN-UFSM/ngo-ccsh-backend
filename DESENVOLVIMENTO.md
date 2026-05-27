@@ -89,3 +89,23 @@ Depois, com o container rodando, crie o super usuário:
 ```bash
 docker compose -f docker-compose.dev.yml exec web python manage.py createsuperuser
 ```
+
+## Variáveis de ambiente
+
+## Variáveis de ambiente
+
+Crie um arquivo `.env` na raiz do projeto, e adicione as seguintes variáveis de ambiente:
+
+```python
+DEBUG=True
+APP_FULL_NAME="Sistema de Gerenciamento de Gastos Acadêmicos da UFSM"
+APP_SHORT_NAME="SIGGA"
+FRONTEND_URL="https://proplan.ufsm.br/ngo-ccsh"
+EMAIL_HOST_USER="orcamento.ccsh@ufsm.br"
+EMAIL_HOST_PASSWORD="aaaa bbbb cccc dddd"
+DEFAULT_FROM_EMAIL="Núcleo de Gestão Orçamentária <orcamento.ccsh@ufsm.br>"
+```
+
+O `EMAIL_HOST_PASSWORD` deve ser obtido a partir
+do [painel de controle de segurança do Google](https://myaccount.google.com/security), criando uma senha de app para o 
+email.
