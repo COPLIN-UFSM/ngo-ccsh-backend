@@ -51,7 +51,7 @@ class PasswordResetServiceTest(TestCase, UserTestDataMixin):
         email = mail.outbox[0]
 
         self.assertEqual(
-            email.subject, "Portal Transparência CCSH - Recuperação de Senha."
+            email.subject, "Portal Transparência CCSH - Recuperação de Senha"
         )
         self.assertEqual(email.to, [self.user.email])
 
