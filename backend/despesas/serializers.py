@@ -96,7 +96,7 @@ class TransacaoSerializer(serializers.ModelSerializer):
             "usuarios",
             "status",
             "beneficiario",
-            "descrocao",
+            "descricao",
             "montante",
             "quantidade",
             "local_trecho",
@@ -104,4 +104,4 @@ class TransacaoSerializer(serializers.ModelSerializer):
             "data_modificacao",
         ]
         
-        read_only_field = ["id_transacao"]
+
