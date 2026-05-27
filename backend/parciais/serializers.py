@@ -1,22 +1,3 @@
-from rest_framework import serializers
-from parciais.models import *
-from django.db.models import Q
-
-class EmpenhoSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Empenho
-        fields = ["id_empenho", "empenho_ou_fatura", "descricao", "ativo", "montante"]
-        read_only_fields = ["id_empenho", "ativo", "montante"]
-
-
-# Aqui é definido qual o tipo do documento: Emepenho, Lista SIAFE, Fatura...
-# class TipoDocumentoPagamentoParcialSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = TipoDocumentoPagamentoParcial
-#         fields = ["id_tipo_documento", "tipo_documento", "ativo"]
-#         read_only_fields = ["id_tipo_documento", "ativo"]
-
-
 # class TransacaoPagamentoParcialSerializer(serializers.ModelSerializer):
 #     saldo_no_momento = serializers.SerializerMethodField()
 #

@@ -1,8 +1,10 @@
 from django.db import models
+from decimal import Decimal
 
-from parciais.models import Empenho
+
+from django.db.models import Sum, Case, When, F, DecimalField
 from usuarios.models import Usuario
-
+from despesas.models import Transacao, Finalidade, Empenho
 
 class TipoDocumento(models.Model):
     id_tipo_documento = models.AutoField(primary_key=True)
@@ -18,13 +20,9 @@ class TipoDocumento(models.Model):
 
 class Documento(models.Model):
     id_documento = models.AutoField(primary_key=True)
-    tipo_documento = models.ForeignKey(
-        TipoDocumento, models.DO_NOTHING, db_column="id_tipo_documento"
-    )
+    tipo_documento = models.ForeignKey(TipoDocumento, models.DO_NOTHING, db_column="id_tipo_documento")
 
-    transacao = models.ForeignKey(
-        "Transacao", models.DO_NOTHING, db_column="id_transacao"
-    )
+    transacao = models.ForeignKey("Transacao", models.DO_NOTHING, db_column="id_transacao")
 
     descricao = models.CharField(max_length=100)
 
@@ -98,9 +96,7 @@ class Finalidade(models.Model):
         TipoFinalidade, models.DO_NOTHING, db_column="id_tipo_finalidade"
     )  # Isso aqui é para Bolsa-Bolsa 2A terem os mesmo campos.
 
-    modalidade = models.CharField(
-        choices=Modalidade.choices, default=Modalidade.DESPESA
-    )
+    modalidade = models.CharField(choices=Modalidade.choices, default=Modalidade.DESPESA)
 
     finalidade = models.CharField(max_length=255)
 
@@ -130,19 +126,10 @@ class Transacao(models.Model):
         ALOCADO = "ALOCADO"
 
     id_transacao = models.AutoField(primary_key=True)
-    id_empenho = models.ForeignKey(
-        Empenho,
-        models.DO_NOTHING, db_column='id_empenho',
-        blank=True,
-        null=True
-    )
+    id_empenho = models.ForeignKey(Empenho, models.DO_NOTHING, db_column="id_empenho", blank=True, null=True)
 
-    transacao_pai = models.ForeignKey(
-        "self", models.DO_NOTHING, db_column="id_transacao_pai", blank=True, null=True
-    )
-    finalidade = models.ForeignKey(
-        Finalidade, models.DO_NOTHING, db_column="id_finalidade", blank=True, null=True
-    )
+    transacao_pai = models.ForeignKey("self", models.DO_NOTHING, db_column="id_transacao_pai", blank=True, null=True)
+    finalidade = models.ForeignKey(Finalidade, models.DO_NOTHING, db_column="id_finalidade", blank=True, null=True)
     subunidade_credora = models.ForeignKey(
         Subunidade,
         models.DO_NOTHING,
@@ -159,9 +146,7 @@ class Transacao(models.Model):
         null=True,
     )
     usuario = models.ForeignKey(Usuario, models.DO_NOTHING, db_column="id_usuario")
-    status = models.CharField(
-        choices=Status.choices, default=Status.PENDENTE, max_length=255
-    )
+    status = models.CharField(choices=Status.choices, default=Status.PENDENTE, max_length=255)
 
     beneficiario = models.ForeignKey(
         Beneficiario,
@@ -172,9 +157,7 @@ class Transacao(models.Model):
     )
 
     descricao = models.CharField(max_length=500, blank=True, null=True)
-    montante = models.DecimalField(
-        max_digits=15, decimal_places=2, blank=True, null=True
-    )
+    montante = models.DecimalField(max_digits=15, decimal_places=2, blank=True, null=True)
     motivo_modificacao = models.CharField(max_length=500, blank=True, null=True)
     quantidade = models.FloatField(blank=True, null=True)
     local_techo = models.CharField(max_length=255, blank=True, null=True)
@@ -185,3 +168,30 @@ class Transacao(models.Model):
     class Meta:
         managed = False
         db_table = "transacoes"
+
+
+class Empenho(models.Model):
+    id_empenho = models.AutoField(primary_key=True)
+    empenho_ou_fatura = models.CharField(max_length=50, unique=True)
+    descricao = models.TextField(max_length=200)
+    ativo = models.BooleanField(default=True, blank=True)
+    # Finalidade -> Replicar de despesas
+    finalidade = models.ForeignKey(Finalidade, models.DO_NOTHING, db_column="id_finalidade")
+
+    @property
+    def montante(self):
+        related_transaction = Transacao.objects.filter(empenho_pai=self).aggregate(
+            montante=Sum(
+                Case(
+                    When(eh_credito=True, then=F("montante")),
+                    When(eh_credito=False, then=-F("montante")),
+                    default=Decimal(0.00),
+                ),
+                output_field=DecimalField(),
+            )
+        )
+        return related_transaction["montante"] or Decimal(0.00)
+
+    class Meta:
+        managed = False
+        db_table = "empenho"

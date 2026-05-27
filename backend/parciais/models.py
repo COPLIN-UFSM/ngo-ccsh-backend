@@ -1,38 +1,3 @@
-from django.db import models
-from django.db.models import Sum, Case, When, F, DecimalField
-from decimal import Decimal
-
-from despesas.models import TipoDocumento, Transacao
-
-
-# Empenho inicial para cada despesa. Valor a qual o crédito e débito serão realizado.
-class Empenho(models.Model):
-    id_empenho = models.AutoField(primary_key=True)
-    empenho_ou_fatura = models.CharField(max_length=50, unique=True)
-    descricao = models.TextField(max_length=200)
-    ativo = models.BooleanField(default=True, blank=True)
-
-    @property
-    def montante(self):
-        related_transaction = Transacao.objects.filter(
-            empenho_pai=self
-        ).aggregate(
-            montante=Sum(
-                Case(
-                    When(eh_credito=True, then=F("montante")),
-                    When(eh_credito=False, then=-F("montante")),
-                    default=Decimal(0.00),
-                ),
-                output_field=DecimalField(),
-            )
-        )
-        return related_transaction["montante"] or Decimal(0.00)
-
-    class Meta:
-        managed = False
-        db_table = 'empenho'
-
-
 # Fatura/Nota Fiscal / Empenho
 # class TipoDocumentoPagamentoParcial(models.Model):
 #     id_tipo_documento = models.AutoField(primary_key=True)
@@ -52,7 +17,7 @@ class Empenho(models.Model):
 #         Empenho, models.DO_NOTHING, db_column="id_empenho"
 #     )
 #     tipo_documento = models.ForeignKey(
-#         # TODO Henry: troquei mas não sei se funciona!
+#         # Henry: troquei mas não sei se funciona!
 #         TipoDocumento, models.DO_NOTHING, db_column="id_tipo_documento"
 #     )
 #     eh_credito = models.BooleanField(default=False, db_column="credito")

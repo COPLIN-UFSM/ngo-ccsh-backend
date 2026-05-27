@@ -70,7 +70,6 @@ class FinalidadeSerializer(serializers.ModelSerializer):
             "finalidade",
             "natureza_finalidade",
             "natureza_finalidade_detail",
-
             "tipo_finalidade",
             "tipo_finalidade_detail",
             "modalidade",
@@ -83,3 +82,31 @@ class SubunidadeSerializer(serializers.ModelSerializer):
         model = Subunidade
         fields = ["id_subunidade", "subunidade", "grupo"]
         read_only_fields = ["id_subunidade"]
+
+
+class TransacaoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Transacao
+        fields = [
+            "id_transacao",
+            "transacao_pai",
+            "finalidade",
+            "subunidade_credora",
+            "subunidade_executora",
+            "usuarios",
+            "status",
+            "beneficiario",
+            "descricao",
+            "montante",
+            "quantidade",
+            "local_trecho",
+            "data_lancamento",
+            "data_modificacao",
+        ]
+        
+
+class EmpenhoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Empenho
+        fields = ["id_empenho", "empenho_ou_fatura", "descricao", "ativo", "montante"]
+        read_only_fields = ["id_empenho", "ativo", "montante"]
