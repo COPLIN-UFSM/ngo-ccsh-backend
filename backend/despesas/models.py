@@ -1,14 +1,15 @@
 from django.db import models
-from decimal import Decimal
+from django.core.validators import MinLengthValidator
 
-
-from django.db.models import Sum, Case, When, F, DecimalField
 from usuarios.models import Usuario
-from despesas.models import Transacao, Finalidade, Empenho
+
+# from decimal import Decimal
+# from django.db.models import Sum, Case, When, F, DecimalField
 
 class TipoDocumento(models.Model):
     id_tipo_documento = models.AutoField(primary_key=True)
     tipo_documento = models.CharField(max_length=100)
+    ativo = models.BooleanField(default=True, blank=True)
 
     class Meta:
         managed = False
@@ -21,10 +22,9 @@ class TipoDocumento(models.Model):
 class Documento(models.Model):
     id_documento = models.AutoField(primary_key=True)
     tipo_documento = models.ForeignKey(TipoDocumento, models.DO_NOTHING, db_column="id_tipo_documento")
-
+    documento = models.CharField(max_length=100)
     transacao = models.ForeignKey("Transacao", models.DO_NOTHING, db_column="id_transacao")
-
-    descricao = models.CharField(max_length=100)
+    descricao = models.CharField(max_length=255, blank=True, null=True)
 
     class Meta:
         managed = False
@@ -53,7 +53,7 @@ class Subunidade(models.Model):
 
 class NaturezaFinalidade(models.Model):
     id_natureza_finalidade = models.AutoField(primary_key=True)
-    natureza_finalidade = models.CharField(max_length=100)
+    natureza_finalidade = models.CharField(max_length=100, unique=True)
 
     class Meta:
         managed = False
@@ -98,18 +98,51 @@ class Finalidade(models.Model):
 
     modalidade = models.CharField(choices=Modalidade.choices, default=Modalidade.DESPESA)
 
-    finalidade = models.CharField(max_length=255)
+    finalidade = models.CharField(max_length=255, unique=True)
 
     class Meta:
         managed = False
         db_table = "finalidades"
 
 
+class Empenho(models.Model):
+    id_empenho = models.AutoField(primary_key=True)
+    empenho = models.CharField(max_length=50, unique=True)
+    pen = models.CharField(max_length=100, unique=True, null=True, blank=True)
+    descricao = models.TextField(max_length=200)
+    finalidade = models.ForeignKey(Finalidade, models.DO_NOTHING, db_column="id_finalidade")
+    data = models.DateField(auto_now_add=True, blank=True)
+    ativo = models.BooleanField(default=True, blank=True)
+
+    class Meta:
+        managed = False
+        db_table = "empenho"
+
+    # @property
+    # def montante(self):
+    #     related_transaction = Transacao.objects.filter(empenho_pai=self).aggregate(
+    #         montante=Sum(
+    #             Case(
+    #                 When(eh_credito=True, then=F("montante")),
+    #                 When(eh_credito=False, then=-F("montante")),
+    #                 default=Decimal(0.00),
+    #             ),
+    #             output_field=DecimalField(),
+    #         )
+    #     )
+    #     return related_transaction["montante"] or Decimal(0.00)
+
+
 class Beneficiario(models.Model):
     id_beneficiario = models.AutoField(primary_key=True)
     nome_beneficiario = models.CharField(max_length=100)
-    cpf = models.CharField(max_length=14, blank=True, null=True)
-    matricula = models.CharField(max_length=50, blank=True, null=True)
+    cpf = models.CharField(
+        max_length=11,
+        validators=[MinLengthValidator(11, message="O CPF deve conter pelo menos 11 caracteres.")],
+        help_text="Digite o CPF apenas com números.",
+        unique=True,
+    )
+    matricula = models.CharField(max_length=50, blank=True, null=True, unique=True)
 
     class Meta:
         managed = False
@@ -126,10 +159,11 @@ class Transacao(models.Model):
         ALOCADO = "ALOCADO"
 
     id_transacao = models.AutoField(primary_key=True)
-    id_empenho = models.ForeignKey(Empenho, models.DO_NOTHING, db_column="id_empenho", blank=True, null=True)
+
+    empenho = models.ForeignKey(Empenho, models.DO_NOTHING, db_column="id_empenho", blank=True, null=True)
+    finalidade = models.ForeignKey(Finalidade, models.DO_NOTHING, db_column="id_finalidade", blank=True, null=True)
 
     transacao_pai = models.ForeignKey("self", models.DO_NOTHING, db_column="id_transacao_pai", blank=True, null=True)
-    finalidade = models.ForeignKey(Finalidade, models.DO_NOTHING, db_column="id_finalidade", blank=True, null=True)
     subunidade_credora = models.ForeignKey(
         Subunidade,
         models.DO_NOTHING,
@@ -145,9 +179,9 @@ class Transacao(models.Model):
         blank=True,
         null=True,
     )
+
     usuario = models.ForeignKey(Usuario, models.DO_NOTHING, db_column="id_usuario")
     status = models.CharField(choices=Status.choices, default=Status.PENDENTE, max_length=255)
-
     beneficiario = models.ForeignKey(
         Beneficiario,
         models.DO_NOTHING,
@@ -156,6 +190,7 @@ class Transacao(models.Model):
         null=True,
     )
 
+    eh_credito = models.BooleanField(default=False, blank=True)
     descricao = models.CharField(max_length=500, blank=True, null=True)
     montante = models.DecimalField(max_digits=15, decimal_places=2, blank=True, null=True)
     motivo_modificacao = models.CharField(max_length=500, blank=True, null=True)
@@ -168,30 +203,3 @@ class Transacao(models.Model):
     class Meta:
         managed = False
         db_table = "transacoes"
-
-
-class Empenho(models.Model):
-    id_empenho = models.AutoField(primary_key=True)
-    empenho_ou_fatura = models.CharField(max_length=50, unique=True)
-    descricao = models.TextField(max_length=200)
-    ativo = models.BooleanField(default=True, blank=True)
-    # Finalidade -> Replicar de despesas
-    finalidade = models.ForeignKey(Finalidade, models.DO_NOTHING, db_column="id_finalidade")
-
-    @property
-    def montante(self):
-        related_transaction = Transacao.objects.filter(empenho_pai=self).aggregate(
-            montante=Sum(
-                Case(
-                    When(eh_credito=True, then=F("montante")),
-                    When(eh_credito=False, then=-F("montante")),
-                    default=Decimal(0.00),
-                ),
-                output_field=DecimalField(),
-            )
-        )
-        return related_transaction["montante"] or Decimal(0.00)
-
-    class Meta:
-        managed = False
-        db_table = "empenho"

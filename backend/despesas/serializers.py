@@ -12,7 +12,7 @@ class BeneficiarioSerializer(serializers.ModelSerializer):
 class DocumentoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Documento
-        fields = ["id_documento", "tipo_documento", "transacao", "descricao"]
+        fields = ["id_documento", "tipo_documento", "documento", "transacao", "descricao"]
         read_only_fields = ["id_documento"]
 
 
@@ -90,6 +90,7 @@ class TransacaoSerializer(serializers.ModelSerializer):
         fields = [
             "id_transacao",
             "transacao_pai",
+            "empenho",
             "finalidade",
             "subunidade_credora",
             "subunidade_executora",
