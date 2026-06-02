@@ -82,7 +82,7 @@ class SingleEmpenhoView(APIView):
                 return response.not_found("Empenho não encontrada.")
 
             related_transacoes = Transacao.objects.filter(
-                empenho_pai=pk
+                empenho=pk
             )
             if len(related_transacoes) > 0:
                 return response.bad_request(

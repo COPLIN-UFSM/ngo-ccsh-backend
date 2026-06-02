@@ -56,12 +56,8 @@ class FinalidadeSerializer(serializers.ModelSerializer):
         },
     )
 
-    natureza_finalidade_detail = NaturezaFinalidadeSerializer(
-        source="natureza_finalidade", read_only=True
-    )
-    tipo_finalidade_detail = TipoFinalidadeSerializer(
-        source="tipo_finalidade", read_only=True
-    )
+    natureza_finalidade_detail = NaturezaFinalidadeSerializer(source="natureza_finalidade", read_only=True)
+    tipo_finalidade_detail = TipoFinalidadeSerializer(source="tipo_finalidade", read_only=True)
 
     class Meta:
         model = Finalidade
@@ -104,10 +100,10 @@ class TransacaoSerializer(serializers.ModelSerializer):
             "data_lancamento",
             "data_modificacao",
         ]
-        
+
 
 class EmpenhoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Empenho
-        fields = ["id_empenho", "empenho_ou_fatura", "descricao", "ativo", "montante"]
-        read_only_fields = ["id_empenho", "ativo", "montante"]
+        fields = ["id_empenho", "empenho", "pen", "descricao", "finalidade", "ativo"]
+        read_only_fields = ["id_empenho", "ativo"]

@@ -116,7 +116,7 @@ class Empenho(models.Model):
 
     class Meta:
         managed = False
-        db_table = "empenho"
+        db_table = "empenhos"
 
     # @property
     # def montante(self):
