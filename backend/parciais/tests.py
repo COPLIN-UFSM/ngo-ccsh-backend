@@ -23,7 +23,7 @@ class PartialPaymentsTestAPI:
         }
 
     def authentication(self, data):
-        url_auth = reverse("usuarios:login")
+        url_auth = reverse("autenticacao:login")
         response = self.client.post(url_auth, data=data)
         token = response.data["token"]
         self.client.credentials(HTTP_AUTHORIZATION="Bearer " + token)
@@ -49,8 +49,7 @@ class EmpenhoViewTestCase(APITestCase, PartialPaymentsTestAPI):
         self.new_empenho = {
             "empenho": "2024NE0002",
             "descricao": "Novo Empenho",
-            "finalidade": self.finalidade,
-            "ativo": True,
+            "finalidade": self.finalidade.id_finalidade,
         }
 
     def test_get_all_empenhos_not_authenticated(self):
@@ -83,24 +82,23 @@ class SingleEmpenhoViewTestCase(APITestCase, PartialPaymentsTestAPI):
 
     def test_update_empenho(self):
         self.authentication(self.user_data_adm)
-        data = {"empenho": "2024NE0001-MOD", "descricao": "Desc Modificada"}
+        data = {"empenho": "2024NE0001-MOD", "descricao": "Desc Modificada", "finalidade": self.finalidade.id_finalidade}
         response = self.client.put(self.url, data=data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.empenho.refresh_from_db()
-        self.assertEqual(self.empenho.empenho_ou_fatura, "2024NE0001-MOD")
+        self.assertEqual(self.empenho.empenho, "2024NE0001-MOD")
 
+    # Erro ao criar transação -> Criar testes para Transação
     def test_delete_empenho_with_children(self):
         # Cria uma transação filha
         Transacao.objects.create(
             empenho=self.empenho,
             usuario=self.user_normal,
-            eh_credito=True,
-            documento="DOC001",
-            descricao="Transação Teste",
             montante=100.00,
         )
         self.authentication(self.user_data_adm)
         response = self.client.delete(self.url)
+        print(response)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertTrue(Empenho.objects.filter(pk=self.empenho.id_empenho).exists())
 

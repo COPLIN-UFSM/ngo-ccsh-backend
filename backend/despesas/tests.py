@@ -16,12 +16,8 @@ from despesas.models import (
 
 class DespesasTestAPI:
     def create_test_users(self):
-        self.user_admin = Usuario.objects.create_superuser(
-            username="admin_test", email="admin_test@gmail.com", password="adminpass"
-        )
-        self.user_normal = Usuario.objects.create_user(
-            username="user_test", email="user_test@gmail.com", password="userpass"
-        )
+        self.user_admin = Usuario.objects.create_superuser(username="admin_test", email="admin_test@gmail.com", password="adminpass")
+        self.user_normal = Usuario.objects.create_user(username="user_test", email="user_test@gmail.com", password="userpass")
         self.user_data_adm = {
             "username": self.user_admin.username,
             "password": "adminpass",
@@ -32,7 +28,7 @@ class DespesasTestAPI:
         }
 
     def authentication(self, data):
-        url_auth = reverse("usuarios:login")
+        url_auth = reverse("autenticacao:login")
         response = self.client.post(url_auth, data=data)
         token = response.data["token"]
         self.client.credentials(HTTP_AUTHORIZATION="Bearer " + token)
@@ -42,9 +38,7 @@ class BeneficiarioViewSetTestCase(APITestCase, DespesasTestAPI):
     def setUp(self):
         self.create_test_users()
         self.url_list = reverse("despesas:beneficiario-list")
-        self.beneficiario = Beneficiario.objects.create(
-            nome_beneficiario="João Silva", cpf="12345678901"
-        )
+        self.beneficiario = Beneficiario.objects.create(nome_beneficiario="João Silva", cpf="12345678901")
 
     def test_get_beneficiarios_unauthenticated(self):
         response = self.client.get(self.url_list)
@@ -71,9 +65,7 @@ class BeneficiarioViewSetTestCase(APITestCase, DespesasTestAPI):
 
     def test_update_beneficiario(self):
         self.authentication(self.user_data_normal)
-        url_detail = reverse(
-            "despesas:beneficiario-detail", kwargs={"pk": self.beneficiario.pk}
-        )
+        url_detail = reverse("despesas:beneficiario-detail", kwargs={"pk": self.beneficiario.pk})
         data = {"nome_beneficiario": "João Silva Editado"}
         response = self.client.patch(url_detail, data=data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -81,9 +73,7 @@ class BeneficiarioViewSetTestCase(APITestCase, DespesasTestAPI):
 
     def test_delete_beneficiario(self):
         self.authentication(self.user_data_normal)
-        url_detail = reverse(
-            "despesas:beneficiario-detail", kwargs={"pk": self.beneficiario.pk}
-        )
+        url_detail = reverse("despesas:beneficiario-detail", kwargs={"pk": self.beneficiario.pk})
         response = self.client.delete(url_detail)
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
 
@@ -118,9 +108,7 @@ class DocumentoViewSetTestCase(APITestCase, DespesasTestAPI):
         self.url_list = reverse("despesas:documentos-list")
         self.tipo_doc = TipoDocumento.objects.create(tipo_documento="Recibo")
         self.transacao = Transacao.objects.create(usuario=self.user_normal)
-        self.documento = Documento.objects.create(
-            tipo_documento=self.tipo_doc, transacao=self.transacao, descricao="Recibo 1"
-        )
+        self.documento = Documento.objects.create(tipo_documento=self.tipo_doc, transacao=self.transacao, descricao="Recibo 1")
 
     def test_get_documentos_authenticated(self):
         self.authentication(self.user_data_normal)
@@ -129,11 +117,7 @@ class DocumentoViewSetTestCase(APITestCase, DespesasTestAPI):
 
     def test_create_documento(self):
         self.authentication(self.user_data_normal)
-        data = {
-            "tipo_documento": self.tipo_doc.pk,
-            "transacao": self.transacao.pk,
-            "descricao": "Recibo 2",
-        }
+        data = {"tipo_documento": self.tipo_doc.pk, "transacao": self.transacao.pk, "documento": "7FDSFSDJ", "descricao": "Recibo 2"}
         response = self.client.post(self.url_list, data=data)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
@@ -142,7 +126,7 @@ class DocumentoViewSetTestCase(APITestCase, DespesasTestAPI):
         data = {
             "transacao": self.transacao.pk,
             "descricao": "Recibo 2",
-        }  # Missing tipo_documento
+        }
         response = self.client.post(self.url_list, data=data)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
@@ -151,9 +135,7 @@ class SubunidadeViewTestCase(APITestCase, DespesasTestAPI):
     def setUp(self):
         self.create_test_users()
         self.url = reverse("despesas:subunidades")
-        self.subunidade = Subunidade.objects.create(
-            subunidade="Departamento A", grupo="DEPTO"
-        )
+        self.subunidade = Subunidade.objects.create(subunidade="Departamento A", grupo="DEPTO")
 
     def test_get_subunidades(self):
         self.authentication(self.user_data_adm)
@@ -182,12 +164,8 @@ class SubunidadeViewTestCase(APITestCase, DespesasTestAPI):
 class SingleSubunidadeViewTestCase(APITestCase, DespesasTestAPI):
     def setUp(self):
         self.create_test_users()
-        self.subunidade = Subunidade.objects.create(
-            subunidade="Departamento B", grupo="DEPTO"
-        )
-        self.url = reverse(
-            "despesas:single_subunidade", kwargs={"pk": self.subunidade.pk}
-        )
+        self.subunidade = Subunidade.objects.create(subunidade="Departamento B", grupo="DEPTO")
+        self.url = reverse("despesas:single_subunidade", kwargs={"pk": self.subunidade.pk})
 
     def test_get_single_subunidade(self):
         self.authentication(self.user_data_adm)
@@ -239,12 +217,8 @@ class NaturezaFinalidadeViewTestCase(APITestCase, DespesasTestAPI):
 class SingleNaturezaFinalidadeViewTestCase(APITestCase, DespesasTestAPI):
     def setUp(self):
         self.create_test_users()
-        self.natureza = NaturezaFinalidade.objects.create(
-            natureza_finalidade="Equipamentos"
-        )
-        self.url = reverse(
-            "despesas:single_natureza_finalidade", kwargs={"pk": self.natureza.pk}
-        )
+        self.natureza = NaturezaFinalidade.objects.create(natureza_finalidade="Equipamentos")
+        self.url = reverse("despesas:single_natureza_finalidade", kwargs={"pk": self.natureza.pk})
 
     def test_get_single_natureza(self):
         self.authentication(self.user_data_adm)
@@ -296,9 +270,7 @@ class SingleTipoFinalidadeViewTestCase(APITestCase, DespesasTestAPI):
     def setUp(self):
         self.create_test_users()
         self.tipo_finalidade = TipoFinalidade.objects.create(tipo_finalidade="Extensão")
-        self.url = reverse(
-            "despesas:single_subtipo_finalidade", kwargs={"pk": self.tipo_finalidade.pk}
-        )
+        self.url = reverse("despesas:single_subtipo_finalidade", kwargs={"pk": self.tipo_finalidade.pk})
 
     def test_get_single_tipo_finalidade(self):
         self.authentication(self.user_data_adm)
@@ -366,9 +338,7 @@ class FinalidadesViewTestCase(APITestCase, DespesasTestAPI):
 class SingleFinalidadeViewTestCase(APITestCase, DespesasTestAPI):
     def setUp(self):
         self.create_test_users()
-        self.natureza = NaturezaFinalidade.objects.create(
-            natureza_finalidade="Inovação"
-        )
+        self.natureza = NaturezaFinalidade.objects.create(natureza_finalidade="Inovação")
         self.tipo = TipoFinalidade.objects.create(tipo_finalidade="Projeto")
         self.finalidade = Finalidade.objects.create(
             natureza_finalidade=self.natureza,
@@ -376,9 +346,7 @@ class SingleFinalidadeViewTestCase(APITestCase, DespesasTestAPI):
             modalidade="DESPESA",
             finalidade="Projeto X",
         )
-        self.url = reverse(
-            "despesas:single_finalidades", kwargs={"pk": self.finalidade.pk}
-        )
+        self.url = reverse("despesas:single_finalidades", kwargs={"pk": self.finalidade.pk})
 
     def test_get_single_finalidade(self):
         self.authentication(self.user_data_normal)

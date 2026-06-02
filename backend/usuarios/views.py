@@ -1,5 +1,4 @@
 # Create your views here.
-from datetime import datetime
 
 from drf_spectacular.utils import extend_schema, OpenApiParameter, OpenApiResponse
 from rest_framework.views import APIView
@@ -9,68 +8,12 @@ from .serializers import RegisterSerializer, UserSerializer
 
 # Autenticação + JWT
 from django.contrib.auth import authenticate
-from rest_framework.permissions import AllowAny, IsAuthenticated
-from rest_framework_simplejwt.tokens import RefreshToken
 from usuarios.models import Usuario
-from usuarios.services import trigger_password_reset_flow
-from usuarios.services import _find_user_by_id
 from utils import response
-
-
-class LoginView(APIView):
-    permission_classes = [AllowAny]
-
-    @extend_schema(
-        summary="Login",
-        description="Autentica o usuário e retorna os tokens JWT de acesso e atualização.",
-        responses={
-            200: OpenApiResponse(description="Login realizado com sucesso"),
-            400: OpenApiResponse(description="Usuário e senha são obrigatórios"),
-            401: OpenApiResponse(description="Credenciais inválidas"),
-        },
-        tags=["usuarios"],
-    )
-    def post(self, request):
-        username = request.data.get("username")
-        password = request.data.get("password")
-
-        if not username or not password:
-            return Response(
-                {
-                    "detail": "Dados não inseridos. Por favor insira o usuário e a senha."
-                },
-                status=status.HTTP_400_BAD_REQUEST,
-            )
-
-        user = authenticate(username=username, password=password)
-        if user is None:
-            return Response(
-                {
-                    "detail": "Credenciais inválidas.",
-                },
-                status=status.HTTP_401_UNAUTHORIZED,
-            )
-
-        user.last_login = datetime.now()
-        user.save()
-
-        refresh = RefreshToken.for_user(user=user)
-        refresh["is_superuser"] = user.is_superuser
-        refresh["username"] = user.get_username()
-
-        return Response(
-            {
-                "refresh": str(refresh),
-                "token": str(refresh.access_token),
-            },
-            status=status.HTTP_200_OK
-        )
 
 
 class UserView(APIView):
     """View para dar listar usuários e atualizar"""
-
-    permission_classes = [IsAuthenticated]
 
     @extend_schema(
         summary="Lista usuários",
@@ -115,7 +58,6 @@ class UserView(APIView):
 
 
 class UpdatePermissionUserView(APIView):
-    permission_classes = [IsAuthenticated]
 
     @extend_schema(
         summary="Atualiza permissões do usuário",
@@ -141,8 +83,10 @@ class UpdatePermissionUserView(APIView):
         if not request.user.is_superuser:
             return response.not_admin_user()
 
-        user = _find_user_by_id(pk)
-        if user is None:
+
+        try:
+            user = Usuario.objects.get(pk=pk)
+        except:
             return Response(
                 {"detail": f"Usuário com id: {pk}, não encontrado."},
                 status=status.HTTP_404_NOT_FOUND,
@@ -187,8 +131,6 @@ class UpdatePermissionUserView(APIView):
 
 class ChangePasswordView(APIView):
     """Change password with user authenticated and current password"""
-
-    permission_classes = [IsAuthenticated]
 
     @extend_schema(
         summary="Altera senha",
@@ -278,7 +220,6 @@ class ChangePasswordView(APIView):
 class UserInfoView(APIView):
     """Retorna informações sobre um usuário em específico, dado seu ID"""
 
-    permission_classes = [IsAuthenticated]
     serializer_class = [UserSerializer]
 
     @extend_schema(
@@ -303,12 +244,14 @@ class UserInfoView(APIView):
         """
         Mostra dados de um usuário
         """
-        user = _find_user_by_id(pk)
-        if user is None:
+        try:
+            user = Usuario.objects.get(pk=pk)
+        except:
             return Response(
-                {"detail": f"Usuário {pk} não encontrado."},
-                status.HTTP_404_NOT_FOUND,
+                {"detail": f"Usuário com id: {pk}, não encontrado."},
+                status=status.HTTP_404_NOT_FOUND,
             )
+        
         serializer = RegisterSerializer(user)
 
         return Response(serializer.data, status=status.HTTP_200_OK)
@@ -337,11 +280,12 @@ class UserInfoView(APIView):
         """
         Atualiza os dados de um usuário
         """
-        user = _find_user_by_id(pk)
-        if user is None:
+        try:
+            user = Usuario.objects.get(pk=pk)
+        except:
             return Response(
-                {"detail": f"Usuário {pk} não encontrado."},
-                status.HTTP_404_NOT_FOUND,
+                {"detail": f"Usuário com id: {pk}, não encontrado."},
+                status=status.HTTP_404_NOT_FOUND,
             )
 
         if user.id != request.user.pk and not request.user.is_superuser:
@@ -393,12 +337,14 @@ class UserInfoView(APIView):
         tags=["usuarios"],
     )
     def delete(self, request, pk):
-        user = _find_user_by_id(pk)
-        if user is None:
+        try:
+            user = Usuario.objects.get(pk=pk)
+        except:
             return Response(
-                {"detail": f"Usuário com id '{pk}' não encontrado."},
-                status.HTTP_404_NOT_FOUND,
+                {"detail": f"Usuário com id: {pk}, não encontrado."},
+                status=status.HTTP_404_NOT_FOUND,
             )
+        
         if user.id != request.user.pk and not request.user.is_superuser:
             return response.not_admin_user()
 
@@ -407,37 +353,3 @@ class UserInfoView(APIView):
         return Response(status.HTTP_204_NO_CONTENT)
 
 
-class RecoverPasswordView(APIView):
-    """Recover password with email"""
-
-    permission_classes = [AllowAny]
-
-    @extend_schema(
-        summary="Recupera senha",
-        description="Inicia o fluxo de recuperação de senha via email.",
-        responses={
-            200: OpenApiResponse(description="Link de recuperação enviado ao email"),
-            400: OpenApiResponse(description="Email não informado"),
-            404: OpenApiResponse(description="Email não encontrado"),
-        },
-        tags=["usuarios"],
-    )
-    def post(self, request):
-        email = request.data.get("email", None)
-        if not email:
-            return Response(
-                {"detail": "Por favor, forneça o email."},
-                status=status.HTTP_400_BAD_REQUEST,
-            )
-
-        user = Usuario.objects.filter(email=email).first()
-        if not user:
-            return Response(
-                {"detail": "Email não encontrado."}, status=status.HTTP_404_NOT_FOUND
-            )
-        trigger_password_reset_flow(user=user)
-
-        return Response(
-            {"detail": "Link de recuperação enviado ao seu email."},
-            status=status.HTTP_200_OK,
-        )

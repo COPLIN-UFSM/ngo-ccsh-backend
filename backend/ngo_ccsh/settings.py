@@ -77,9 +77,10 @@ ALLOWED_HOSTS = ["proplan.ufsm.br", "localhost", "127.0.0.1"]
 # Application definition
 
 INSTALLED_APPS = [
-    "usuarios",  # aplicação própria
     "despesas",  # aplicação própria
     "parciais",  # aplicação própria
+    "usuarios",  # aplicação própria
+    "autenticacao",  # aplicação própria
     "drf_spectacular",  # para gerar documentação da API
     "django.contrib.admin",
     "django.contrib.auth",

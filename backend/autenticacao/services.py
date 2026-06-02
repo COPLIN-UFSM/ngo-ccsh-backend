@@ -1,19 +1,9 @@
-from .models import Usuario
 from rest_framework_simplejwt.tokens import AccessToken
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 import os
 from rest_framework_simplejwt.exceptions import TokenError
-
-
-def _find_user_by_id(pk):
-    """Return user or None"""
-    try:
-        user = Usuario.objects.get(pk=pk)
-    except Usuario.DoesNotExist:
-        return None
-    return user
 
 
 def trigger_password_reset_flow(user):
