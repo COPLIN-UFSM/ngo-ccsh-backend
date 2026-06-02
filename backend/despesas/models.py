@@ -120,9 +120,7 @@ class Finalidade(models.Model):
         TipoFinalidade, models.DO_NOTHING, db_column="id_tipo_finalidade"
     )  # Isso aqui é para Bolsa-Bolsa 2A terem os mesmo campos.
 
-    modalidade = models.CharField(
-        choices=Modalidade.choices, default=Modalidade.DESPESA
-    )
+    modalidade = models.CharField(choices=Modalidade.choices, default=Modalidade.DESPESA, max_length=255)
 
     finalidade = models.CharField(max_length=255)
 
@@ -174,9 +172,7 @@ class Transacao(models.Model):
         null=True,
     )
     usuario = models.ForeignKey(Usuario, models.DO_NOTHING, db_column="id_usuario")
-    status = models.CharField(
-        choices=Status.choices, default=Status.PENDENTE, max_length=255
-    )
+    status = models.CharField(choices=Status.choices, default=Status.PENDENTE, max_length=255)
 
     beneficiario = models.ForeignKey(
         Beneficiario,
