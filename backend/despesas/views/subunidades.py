@@ -10,7 +10,7 @@ class SubunidadeView(APIView):
 
     def get(self, request):
         try:
-            subunidades = Subunidade.objects.all()
+            subunidades = Subunidade.objects.filter(ativo=True)
             serializer = SubunidadeSerializer(subunidades, many=True)
             return response.success_data(serializer.data)
 
@@ -34,7 +34,7 @@ class SubunidadeView(APIView):
 class SingleSubunidadeView(APIView):
     def get(self, request, pk):
         try:
-            data = Subunidade.objects.filter(pk=pk).first()
+            data = Subunidade.objects.filter(pk=pk, ativo=True).first()
             if not data:
                 return response.not_found("Subunidade não encontrada.")
             serializer = SubunidadeSerializer(data)
@@ -62,7 +62,7 @@ class SingleSubunidadeView(APIView):
 
     def delete(self, request, pk):
         try:
-            subunidade = Subunidade.objects.filter(pk=pk).first()
+            subunidade = Subunidade.objects.filter(pk=pk, ativo=True).first()
             if not subunidade:
                 return response.not_found("Subunidade não encontrada.")
             subunidade.delete()

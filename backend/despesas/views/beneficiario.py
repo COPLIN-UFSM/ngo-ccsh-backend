@@ -8,5 +8,12 @@ class BeneficiarioViewSet(viewsets.ModelViewSet):
     queryset = Beneficiario.objects.all()
     serializer_class = BeneficiarioSerializer
 
+    def get_queryset(self):
+        return Beneficiario.objects.filter(ativo=True)
+    
     def get_permissions(self):
         return [IsAuthenticated()]
+    
+    def perform_destroy(self, instance):
+        instance.ativo = False
+        instance.save()

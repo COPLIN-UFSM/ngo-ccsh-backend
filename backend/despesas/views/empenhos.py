@@ -6,13 +6,14 @@ from utils import response
 
 from despesas.serializers import *
 
+
 class TransacoesByEmpenho(APIView):
     def get(self, request, pk):
         try:
             empenho = Empenho.objects.filter(pk=pk).first()
             if not empenho:
                 return response.not_found("Empenho não encontrado.")
-            transacoes = Transacao.objects.filter(empenho_pai=empenho)
+            transacoes = Transacao.objects.filter(empenho=empenho)
             serializer = TransacaoSerializer(transacoes, many=True)
 
             return Response(
@@ -22,6 +23,7 @@ class TransacoesByEmpenho(APIView):
         except Exception as e:
             print(e)
             return response.error_server(e)
+
 
 class EmpenhoView(APIView):
     def get(self, request):
@@ -62,9 +64,7 @@ class SingleEmpenhoView(APIView):
             if not empenho:
                 return response.not_found("Empenho não encontrado.")
 
-            serializer = EmpenhoSerializer(
-                instance=empenho, data=request.data
-            )
+            serializer = EmpenhoSerializer(instance=empenho, data=request.data)
 
             if not serializer.is_valid():
                 return response.serializer_errors(serializer)
@@ -75,19 +75,16 @@ class SingleEmpenhoView(APIView):
         except Exception as e:
             return response.error_server(e)
 
+    # Nesse caso pode deletar mesmo, pois aqui o empenho não tem nenhum filho e pode ser recriado posteriormente.
     def delete(self, request, pk):
         try:
             empenho = Empenho.objects.filter(pk=pk).first()
             if not empenho:
                 return response.not_found("Empenho não encontrada.")
 
-            related_transacoes = Transacao.objects.filter(
-                empenho=pk
-            )
+            related_transacoes = Transacao.objects.filter(empenho=pk)
             if len(related_transacoes) > 0:
-                return response.bad_request(
-                    f"Não é possível remover um empenho que tenha filhos"
-                )
+                return response.bad_request(f"Não é possível remover um empenho que tenha filhos")
 
             empenho.delete()
             return response.success_no_content()
