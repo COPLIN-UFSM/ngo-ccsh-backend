@@ -19,9 +19,7 @@ from django.core.exceptions import ImproperlyConfigured
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRETS_FILE = os.path.abspath(
-    os.path.join(BASE_DIR, "..", "instance", "database_credentials.json")
-)
+SECRETS_FILE = os.path.abspath(os.path.join(BASE_DIR, "..", "instance", "database_credentials.json"))
 
 SETTINGS_MODULE = os.environ.get("DJANGO_SETTINGS_MODULE", "")
 
@@ -54,9 +52,7 @@ def get_database_parameter(key):
     if key in DB_PARAMETERS:
         return DB_PARAMETERS[key]
 
-    raise ImproperlyConfigured(
-        f"Não foi encontrado o atributo '{key}' no CLI nem no arquivo {SECRETS_FILE}"
-    )
+    raise ImproperlyConfigured(f"Não foi encontrado o atributo '{key}' no CLI nem no arquivo {SECRETS_FILE}")
 
 
 # Quick-start development settings - unsuitable for production
@@ -114,6 +110,7 @@ REST_FRAMEWORK = {
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ],
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+    "EXCEPTION_HANDLER": "ngo_ccsh.utils.custom_exception_handler",
 }
 
 SIMPLE_JWT = {
@@ -204,7 +201,6 @@ LANGUAGE_CODE = "pt-br"
 TIME_ZONE = "America/Sao_Paulo"
 
 
-
 USE_TZ = False  # precisa ser falso para usar ibm db2
 
 STATIC_URL = "/ngo-ccsh-backend/static/"
@@ -234,6 +230,4 @@ def force_create_unmanaged_models():
                     schema_editor.create_model(model)
                     print(f"  [OK] Modelo criado: {model.__name__}")
                 except Exception as e:
-                    print(
-                        f"[WARN] Não foi possível criar o modelo {model.__name__}: {e}"
-                    )
+                    print(f"[WARN] Não foi possível criar o modelo {model.__name__}: {e}")
