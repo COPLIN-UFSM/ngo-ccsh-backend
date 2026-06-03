@@ -15,7 +15,6 @@ from autenticacao.services import (
     send_email_reset_password,
 )
 
-
 # Create your tests here.
 class LoginViewTestCase(APITestCase, UserTestAPI):
     def setUp(self):
