@@ -1,6 +1,6 @@
 from django.test import TestCase
 from django.core import mail
-from django.contrib.auth import get_user_model
+from django.conf import settings
 from rest_framework_simplejwt.tokens import AccessToken
 
 from ..services import (
@@ -47,12 +47,19 @@ class PasswordResetServiceTest(TestCase, UserTestDataMixin):
         token = "token-de-teste-123"
         send_email_reset_password(self.user, token)
 
+        # verifica se o e-mail foi enviado
         self.assertEqual(len(mail.outbox), 1)
+
         email = mail.outbox[0]
 
+        # verifica o assunto
         self.assertEqual(
-            email.subject, "Portal Transparência CCSH - Recuperação de Senha"
+            email.subject,
+            f"{settings.APP_FULL_NAME} - Recuperação de Senha"
         )
+
+        # verifica o recipiente
         self.assertEqual(email.to, [self.user.email])
 
-        self.assertIn(token, email.body)  # type: ignore
+        # o token deve aparecer no corpo da mensagem
+        self.assertIn(token, email.body)

@@ -20,7 +20,7 @@ if not os.path.exists(DATABASES['default']['NAME']):
 del FORCE_SCRIPT_NAME
 
 # adiciona autenticação por sessão APENAS para o ambiente dev
-# REST_FRAMEWORK["DEFAULT_AUTHENTICATION_CLASSES"] += ["rest_framework.authentication.SessionAuthentication"]
+REST_FRAMEWORK["DEFAULT_AUTHENTICATION_CLASSES"] += ["rest_framework.authentication.SessionAuthentication"]
 
 # remove configurações do servidor de produção
 STATIC_URL = "/static/"
