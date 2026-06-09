@@ -9,7 +9,7 @@ from utils import response
 
 class NaturezaFinalidadeView(APIView):
     def get(self, request):
-        tipos_despesa = NaturezaFinalidade.objects.all()
+        tipos_despesa = NaturezaFinalidade.objects.filter(ativo=True)
         serializer = NaturezaFinalidadeSerializer(tipos_despesa, many=True)
         return Response(serializer.data)
 
@@ -30,7 +30,7 @@ class SingleNaturezaFinalidadeView(APIView):
 
     def get(self, request, pk):
         try:
-            tipo_despesa = NaturezaFinalidade.objects.filter(pk=pk).first()
+            tipo_despesa = NaturezaFinalidade.objects.filter(pk=pk, ativo=True).first()
             if not tipo_despesa:
                 return response.not_found("Natureza não encontrado")
             serializer = NaturezaFinalidadeSerializer(tipo_despesa)
@@ -57,19 +57,12 @@ class SingleNaturezaFinalidadeView(APIView):
 
     def delete(self, request, pk):
         try:
-            tipo_despesa = NaturezaFinalidade.objects.filter(pk=pk).first()
+            tipo_despesa = NaturezaFinalidade.objects.filter(pk=pk, ativo=True).first()
             if not tipo_despesa:
                 return response.not_found(f"{self.name} não encontrada.")
 
-            finalidades = Finalidade.objects.filter(natureza_finalidade=pk)
-            if len(finalidades) > 0:
-                return response.bad_request(
-                    f"Não é possível remover um {self.name} que tenha filhos"
-                )
-
-            tipo_despesa.delete()
-
-            return response.success(f"{self.name} deletado com sucesso.")
+            tipo_despesa.ativo = False
+            return response.success(f"{self.name} desativado com sucesso.")
 
         except Exception as e:
             return response.error_server()
@@ -77,7 +70,7 @@ class SingleNaturezaFinalidadeView(APIView):
 
 class TipoFinalidadeView(APIView):
     def get(self, request):
-        subtipos = TipoFinalidade.objects.all()
+        subtipos = TipoFinalidade.objects.filter(ativo=True)
         serializer = TipoFinalidadeSerializer(subtipos, many=True)
         return Response(serializer.data)
 
@@ -100,7 +93,7 @@ class SingleTipoFinalidadeView(APIView):
 
     def get(self, request, pk):
         try:
-            data = TipoFinalidade.objects.filter(pk=pk).first()
+            data = TipoFinalidade.objects.filter(pk=pk, ativo=True).first()
             if not data:
                 return response.not_found(f"{self.name} não encontrada.")
 
@@ -117,9 +110,7 @@ class SingleTipoFinalidadeView(APIView):
             if not categoria_finalidade:
                 return response.not_found(f"{self.name} não encontrada.")
 
-            serializer = TipoFinalidadeSerializer(
-                instance=categoria_finalidade, data=request.data
-            )
+            serializer = TipoFinalidadeSerializer(instance=categoria_finalidade, data=request.data)
 
             if not serializer.is_valid():
                 return response.serializer_errors(serializer)
@@ -132,19 +123,17 @@ class SingleTipoFinalidadeView(APIView):
 
     def delete(self, request, pk):
         try:
-            categoria_finalidade = TipoFinalidade.objects.filter(pk=pk).first()
+            categoria_finalidade = TipoFinalidade.objects.filter(pk=pk, ativo=True).first()
             if not categoria_finalidade:
                 return response.not_found(f"{self.name} não encontrada.")
 
-            finalidades = Finalidade.objects.filter(tipo_finalidade=pk)
-            if len(finalidades) > 0:
-                return response.bad_request(
-                    f"Não é possível remover uma {self.name} que tenha filhos"
-                )
+            # finalidades = Finalidade.objects.filter(tipo_finalidade=pk)
+            # if len(finalidades) > 0:
+            #     return response.bad_request(f"Não é possível remover um {self.name} que tenha filhos")
+            # categoria_finalidade.delete()
+            categoria_finalidade.ativo = False
 
-            categoria_finalidade.delete()
-
-            return response.success(f"{self.name} deletada com sucesso.")
+            return response.success(f"{self.name} desativado com sucesso.")
 
         except Exception as e:
             print(e)
@@ -154,7 +143,7 @@ class SingleTipoFinalidadeView(APIView):
 class SingleFinalidadeView(APIView):
     def get(self, request, pk):
         try:
-            data = Finalidade.objects.filter(pk=pk).first()
+            data = Finalidade.objects.filter(pk=pk, ativo=True).first()
             if not data:
                 return response.not_found("Finalidade não encontrada.")
             serializer = FinalidadeSerializer(data)
@@ -187,12 +176,12 @@ class SingleFinalidadeView(APIView):
 
     def delete(self, request, pk):
         try:
-            finalidade = Finalidade.objects.filter(pk=pk).first()
+            finalidade = Finalidade.objects.filter(pk=pk, ativo=True).first()
             if not finalidade:
                 return response.not_found("Finalidade não encontrada.")
-            finalidade.delete()
+            finalidade.ativo = False
 
-            return response.success("Finalidade deletada com sucesso.")
+            return response.success("Finalidade desativada com sucesso.")
 
         except Exception as e:
             return response.error_server()
@@ -202,7 +191,7 @@ class FinalidadesView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        data = Finalidade.objects.all()
+        data = Finalidade.objects.filter(ativo=True)
         serializer = FinalidadeSerializer(data, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -223,7 +212,7 @@ class FinalidadesView(APIView):
 class SubunidadeView(APIView):
     def get(self, request):
         try:
-            subunidades = Subunidade.objects.all()
+            subunidades = Subunidade.objects.filter(ativo=True)
             serializer = SubunidadeSerializer(subunidades, many=True)
             return response.success_data(serializer.data)
 
@@ -244,7 +233,7 @@ class SubunidadeView(APIView):
 class SingleSubunidadeView(APIView):
     def get(self, request, pk):
         try:
-            data = Subunidade.objects.filter(pk=pk).first()
+            data = Subunidade.objects.filter(pk=pk, ativo=True).first()
             if not data:
                 return response.not_found("Subunidade não encontrada.")
             serializer = SubunidadeSerializer(data)
@@ -272,12 +261,12 @@ class SingleSubunidadeView(APIView):
 
     def delete(self, request, pk):
         try:
-            subunidade = Subunidade.objects.filter(pk=pk).first()
+            subunidade = Subunidade.objects.filter(pk=pk, ativo=True).first()
             if not subunidade:
                 return response.not_found("Subunidade não encontrada.")
-            subunidade.delete()
+            subunidade.ativo = False
 
-            return response.success("Subunidade deletada com sucesso.")
+            return response.success("Subunidade desativada com sucesso.")
 
         except Exception as e:
             return response.error_server()

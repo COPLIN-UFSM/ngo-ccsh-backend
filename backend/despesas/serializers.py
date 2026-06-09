@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from despesas.models import *
+from django.db.models import Sum, Case, When, F
 
 
 class BeneficiarioSerializer(serializers.ModelSerializer):
@@ -12,7 +13,7 @@ class BeneficiarioSerializer(serializers.ModelSerializer):
 class DocumentoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Documento
-        fields = ["id_documento", "tipo_documento", "transacao", "descricao"]
+        fields = ["id_documento", "tipo_documento", "documento", "transacao", "descricao"]
         read_only_fields = ["id_documento"]
 
 
@@ -56,12 +57,8 @@ class FinalidadeSerializer(serializers.ModelSerializer):
         },
     )
 
-    natureza_finalidade_detail = NaturezaFinalidadeSerializer(
-        source="natureza_finalidade", read_only=True
-    )
-    tipo_finalidade_detail = TipoFinalidadeSerializer(
-        source="tipo_finalidade", read_only=True
-    )
+    natureza_finalidade_detail = NaturezaFinalidadeSerializer(source="natureza_finalidade", read_only=True)
+    tipo_finalidade_detail = TipoFinalidadeSerializer(source="tipo_finalidade", read_only=True)
 
     class Meta:
         model = Finalidade
@@ -90,18 +87,57 @@ class TransacaoSerializer(serializers.ModelSerializer):
         fields = [
             "id_transacao",
             "transacao_pai",
+            "empenho",
             "finalidade",
             "subunidade_credora",
             "subunidade_executora",
-            "usuarios",
+            "usuario",
             "status",
             "beneficiario",
-            "descrocao",
+            "eh_credito",
+            "descricao",
             "montante",
             "quantidade",
             "local_trecho",
             "data_lancamento",
             "data_modificacao",
+            "motivo_modificacao",
         ]
-        
-        read_only_field = ["id_transacao"]
+
+    def validate(self, data):
+        empenho = data.get("empenho")
+        montante = data.get("montante")
+        id_transacao = data.get("id_transacao")
+        eh_credito = data.get("eh_credito")
+
+        queryset = Transacao.objects.filter(empenho=empenho)
+        if self.instance:
+            queryset = queryset.exclude(id_transacao=id_transacao)
+
+        total_despesas = (
+            queryset.aggregate(
+                total=Sum(
+                    Case(
+                        When(eh_credito=True, then=F("montante")),
+                        When(eh_credito=False, then=-F("montante")),
+                    )
+                )
+            )["total"]
+            or 0.00
+        )
+
+        if not eh_credito and montante > total_despesas:
+            raise serializers.ValidationError(
+                {"montante": f"Saldo insuficiente. O Valor da despesa (R$ {montante:.2f}) é maior que o saldo atual (R$ {total_despesas:.2f})."}
+            )
+        return data
+
+
+class EmpenhoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Empenho
+        fields = ["id_empenho", "empenho", "pen", "descricao", "finalidade"]
+        read_only_fields = ["id_empenho"]
+
+
+# Finalidade em empenho? Finalidade em Transação.

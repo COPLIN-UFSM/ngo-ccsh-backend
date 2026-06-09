@@ -1,6 +1,4 @@
-from .models import Usuario
-
-from django.conf import settings
+from rest_framework_simplejwt.tokens import AccessToken
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
@@ -9,18 +7,7 @@ from rest_framework_simplejwt.tokens import AccessToken
 from rest_framework_simplejwt.exceptions import TokenError
 
 from datetime import datetime as dt
-
-
-# TODO função desnecessária! só fazer Usuario.objects.get(pk=pk) e adicionar um try-catch!
-def _find_user_by_id(pk):
-    """Return user or None"""
-    try:
-        user = Usuario.objects.get(pk=pk)
-    except Usuario.DoesNotExist:
-        return None
-    return user
-
-
+from ngo_ccsh import settings  
 def trigger_password_reset_flow(user):
     token = create_token_with_allow_password_change(user=user)
     send_email_reset_password(user=user, token=token)

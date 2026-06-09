@@ -8,13 +8,26 @@ class TipoDocumentoViewSet(viewsets.ModelViewSet):
     queryset = TipoDocumento.objects.all()
     serializer_class = TipoDocumentoSerializer
 
+    def get_queryset(self):
+        return TipoDocumento.objects.filter(ativo=True)
+
     def get_permissions(self):
         return [IsAuthenticated()]
-
+    
+    def perform_destroy(self, instance):
+        instance.ativo = False
+        instance.save()
 
 class DocumentoViewSet(viewsets.ModelViewSet):
     queryset = Documento.objects.all()
     serializer_class = DocumentoSerializer
 
+    def get_queryset(self):
+        return Documento.objects.filter(ativo=True)
+    
     def get_permissions(self):
         return [IsAuthenticated()]
+    
+    def perform_destroy(self, instance):
+        instance.ativo = False
+        instance.save()
