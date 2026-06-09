@@ -176,6 +176,7 @@ class Transacao(models.Model):
         models.DO_NOTHING,
         db_column="id_subunidade_executora",
         related_name="transacoes_id_subunidade_executora_set",
+        
     )
 
     usuario = models.ForeignKey(Usuario, models.DO_NOTHING, db_column="id_usuario")

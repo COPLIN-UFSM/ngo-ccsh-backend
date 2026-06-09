@@ -2,7 +2,7 @@ from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
 from usuarios.models import Usuario
-from despesas.models import TipoDocumento, Transacao, Empenho, Finalidade, NaturezaFinalidade, TipoFinalidade
+from despesas.models import Transacao, TipoDocumento, Empenho, Finalidade, NaturezaFinalidade, TipoFinalidade, Subunidade
 
 
 class SetupTestAPI:
@@ -37,8 +37,8 @@ class SetupTestAPI:
 
     def create_basic_data(self):
         self.empenho = Empenho.objects.create(empenho="2024NE0001", descricao="Empenho de Teste", finalidade=self.finalidade)
-
         self.tipo_doc = TipoDocumento.objects.create(tipo_documento="Nota Fiscal")
+        self.subunidade = Subunidade.objects.create(subunidade="PROPLAN")
 
 
 class EmpenhoViewTestCase(APITestCase, SetupTestAPI):
@@ -89,7 +89,7 @@ class SingleEmpenhoViewTestCase(APITestCase, SetupTestAPI):
         self.assertEqual(self.empenho.empenho, "2024NE0001-MOD")
 
     def test_delete_empenho_with_children(self):
-        Transacao.objects.create(empenho=self.empenho, usuario=self.user_normal, montante=100.00)
+        Transacao.objects.create(empenho=self.empenho, usuario=self.user_normal, montante=100.00, subunidade_executora=self.subunidade)
         self.authentication(self.user_data_adm)
         response = self.client.delete(self.url)
         print(response)

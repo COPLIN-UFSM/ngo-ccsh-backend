@@ -37,10 +37,13 @@ class TipoDocumentoViewSetTestCase(APITestCase, DespesasTestAPI):
 class DocumentoViewSetTestCase(APITestCase, DespesasTestAPI):
     def setUp(self):
         self.create_test_users()
+        self.create_finalidade()
+        self.create_basic_data()
         self.url_list = reverse("despesas:documentos-list")
         self.tipo_doc = TipoDocumento.objects.create(tipo_documento="Recibo")
-        self.transacao = Transacao.objects.create(usuario=self.user_normal)
+        self.transacao = Transacao.objects.create(empenho=self.empenho, usuario=self.user_normal, montante=100.00, subunidade_executora=self.subunidade)
         self.documento = Documento.objects.create(tipo_documento=self.tipo_doc, transacao=self.transacao, descricao="Recibo 1")
+
 
     def test_get_documentos_authenticated(self):
         self.authentication(self.user_data_normal)
