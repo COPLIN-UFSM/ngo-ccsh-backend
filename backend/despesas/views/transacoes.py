@@ -4,7 +4,6 @@ from despesas.models import Transacao
 from despesas.serializers import TransacaoSerializer
 
 
-#Continuar daqui.
 class TransacoesViewSet(viewsets.ModelViewSet):
     queryset = Transacao.objects.all()
     serializer_class = TransacaoSerializer

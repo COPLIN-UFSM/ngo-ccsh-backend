@@ -18,20 +18,6 @@ class TipoDocumento(models.Model):
     def __str__(self) -> str:
         return self.tipo_documento
 
-
-class Documento(models.Model):
-    id_documento = models.AutoField(primary_key=True)
-    tipo_documento = models.ForeignKey(TipoDocumento, models.DO_NOTHING, db_column="id_tipo_documento")
-    documento = models.CharField(max_length=100)
-    transacao = models.ForeignKey("Transacao", models.DO_NOTHING, db_column="id_transacao")
-    descricao = models.CharField(max_length=255, blank=True, null=True)
-    ativo = models.BooleanField(default=True, blank=True)
-
-    class Meta:
-        managed = False
-        db_table = "documentos"
-
-
 class Subunidade(models.Model):
     class Grupo(models.TextChoices):
         UNIDADES = "UNIDADES", "Unidades"
@@ -93,7 +79,7 @@ class Finalidade(models.Model):
         NaturezaFinalidade,
         models.DO_NOTHING,
         db_column="id_tipo_despesa",
-    )  # Natureza da Despesa.
+    ) 
     tipo_finalidade = models.ForeignKey(
         TipoFinalidade, models.DO_NOTHING, db_column="id_tipo_finalidade"
     )  # Isso aqui é para Bolsa-Bolsa 2A terem os mesmo campos.
@@ -107,7 +93,7 @@ class Finalidade(models.Model):
 
 class Beneficiario(models.Model):
     id_beneficiario = models.AutoField(primary_key=True)
-    nome_beneficiario = models.CharField(max_length=100)
+    beneficiario = models.CharField(max_length=100)
     cpf = models.CharField(
         max_length=11,
         validators=[MinLengthValidator(11, message="O CPF deve conter pelo menos 11 caracteres.")],
@@ -122,7 +108,7 @@ class Beneficiario(models.Model):
         db_table = "beneficiarios"
 
     def __str__(self) -> str:
-        return self.nome_beneficiario
+        return self.beneficiario
 
 class Empenho(models.Model):
     id_empenho = models.AutoField(primary_key=True)
@@ -151,7 +137,17 @@ class Empenho(models.Model):
         return related_transaction["montante"] or Decimal(0.00)
 
 
+class Documento(models.Model):
+    id_documento = models.AutoField(primary_key=True)
+    tipo_documento = models.ForeignKey(TipoDocumento, models.DO_NOTHING, db_column="id_tipo_documento")
+    documento = models.CharField(max_length=100)
+    transacao = models.ForeignKey("Transacao", models.DO_NOTHING, db_column="id_transacao")
+    descricao = models.CharField(max_length=255, blank=True, null=True)
+    ativo = models.BooleanField(default=True, blank=True)
 
+    class Meta:
+        managed = False
+        db_table = "documentos"
 
 class Transacao(models.Model):
     class Status(models.TextChoices):

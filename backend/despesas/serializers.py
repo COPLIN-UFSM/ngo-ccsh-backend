@@ -6,7 +6,7 @@ from django.db.models import Sum, Case, When, F
 class BeneficiarioSerializer(serializers.ModelSerializer):
     class Meta:
         model = Beneficiario
-        fields = ["id_beneficiario", "nome_beneficiario", "cpf", "matricula"]
+        fields = ["id_beneficiario", "beneficiario", "cpf", "matricula"]
         read_only_fields = ["id_beneficiario"]
 
 
