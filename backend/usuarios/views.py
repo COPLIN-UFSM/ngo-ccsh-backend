@@ -58,7 +58,7 @@ class UpdatePermissionUserView(APIView):
 
     @extend_schema(
         summary="Atualiza permissões do usuário",
-        description="Atualiza permissões de superusuário e/ou staff de um usuário por ID.",
+        description="Atualiza permissões de um usuário por ID.",
         parameters=[
             OpenApiParameter(
                 name="pk",
@@ -150,7 +150,9 @@ class ChangePasswordView(APIView):
         },
         tags=["usuarios"],
     )
-    def patch(self, request, pk):
+    def patch(self, request, *args, **kwargs):
+        pk = kwargs['pk']
+
         try:
             user = Usuario.objects.get(pk=pk)
         except Usuario.DoesNotExist:

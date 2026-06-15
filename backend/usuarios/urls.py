@@ -12,6 +12,6 @@ app_name = "usuarios"
 urlpatterns = [
     path("", UserView.as_view(), name="userView"),
     path("<int:pk>/", UserInfoView.as_view(), name="single_info"),
-    path("<int:pk>/senha", ChangePasswordView.as_view(), name="change_password"),
-    path("<int:pk>/permissoes", UpdatePermissionUserView.as_view(), name="permission_update"),
+    path("<int:pk>/senha/", ChangePasswordView.as_view(), name="change_password"),
+    path("<int:pk>/permissoes/", UpdatePermissionUserView.as_view(), name="permission_update"),
 ]
