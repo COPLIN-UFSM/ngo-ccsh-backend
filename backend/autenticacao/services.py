@@ -1,4 +1,3 @@
-from rest_framework_simplejwt.tokens import AccessToken
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
@@ -7,7 +6,9 @@ from rest_framework_simplejwt.tokens import AccessToken
 from rest_framework_simplejwt.exceptions import TokenError
 
 from datetime import datetime as dt
-from ngo_ccsh import settings  
+from ngo_ccsh import settings
+
+
 def trigger_password_reset_flow(user):
     token = create_token_with_allow_password_change(user=user)
     send_email_reset_password(user=user, token=token)
@@ -23,7 +24,7 @@ def is_token_valid(token):
     try:
         AccessToken(str(token))
         return True
-    except TokenError as e:
+    except TokenError:
         return False
 
 

@@ -166,7 +166,6 @@ class ChangePasswordView(APIView):
                 status=status.HTTP_403_FORBIDDEN,
             )
 
-        old_password = request.data.get("old_password")
         new_password = request.data.get("password1")
         new_password_confirm = request.data.get("password2")
 
@@ -195,14 +194,8 @@ class ChangePasswordView(APIView):
         )
 
         if not can_skip_old_password:
-            if not old_password:
-                return Response(
-                    {"detail": "Por favor insira a senha atual."},
-                    status=status.HTTP_400_BAD_REQUEST,
-                )
-
             username = user.username
-            user_authenticated = authenticate(username=username, password=old_password)
+            user_authenticated = authenticate(username=username, password=user.password)
             if user_authenticated is None:
                 return Response(
                     {"detail": "Senha atual incorreta."},
