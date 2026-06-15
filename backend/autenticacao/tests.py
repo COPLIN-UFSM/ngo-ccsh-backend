@@ -6,6 +6,7 @@ from rest_framework import status
 from rest_framework.test import APITestCase
 from rest_framework_simplejwt.tokens import AccessToken
 
+from ngo_ccsh import settings
 from usuarios.models import Usuario
 from usuarios.tests.test_views import UserTestAPI
 
@@ -128,7 +129,7 @@ class PasswordResetServiceTest(TestCase, UserTestDataMixin):
         self.assertEqual(len(mail.outbox), 1)
         email = mail.outbox[0]
 
-        self.assertEqual(email.subject, "Portal Transparência CCSH - Recuperação de Senha")
+        self.assertEqual(email.subject, f"{settings.APP_FULL_NAME} - Recuperação de Senha")
         self.assertEqual(email.to, [self.user.email])
 
         self.assertIn(token, email.body)  # type: ignore
