@@ -25,9 +25,6 @@ class UserView(APIView):
         tags=["usuarios"],
     )
     def get(self, request):
-        """
-        Retorna um usuário por ID
-        """
         users = Usuario.objects.filter().order_by("id")
         serializer = RegisterSerializer(users, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
@@ -154,9 +151,9 @@ class ChangePasswordView(APIView):
         tags=["usuarios"],
     )
     def patch(self, request, pk):
-        user = Usuario.objects.filter(pk=pk).first()
-
-        if user is None:
+        try:
+            user = Usuario.objects.get(pk=pk)
+        except Usuario.DoesNotExist:
             return Response(
                 {"detail": "Usuário não cadastrado."}, status=status.HTTP_404_NOT_FOUND
             )
@@ -288,7 +285,7 @@ class UserInfoView(APIView):
                 status=status.HTTP_404_NOT_FOUND,
             )
 
-        if user.id != request.user.pk and not request.user.is_superuser:
+        if (user.id != request.user.pk) and not request.user.is_superuser:
             return Response(
                 {"detail": "Não é possível alterar dados de outro usuário."},
                 status=status.HTTP_403_FORBIDDEN,
@@ -307,13 +304,13 @@ class UserInfoView(APIView):
         if not changes:
             return Response(
                 {"detail": f"Nenhuma mudança realizada."},
-                status.HTTP_200_OK,
+                status.HTTP_304_NOT_MODIFIED,
             )
 
         serializer.save()
         changes.__str__()
         return Response(
-            {"detail": "Campos  atualizado com sucesso.", "changes": changes},
+            {"detail": "Campos atualizado com sucesso.", "changes": changes},
             status.HTTP_200_OK,
         )
 

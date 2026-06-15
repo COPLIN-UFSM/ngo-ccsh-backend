@@ -53,16 +53,19 @@ especificado no arquivo `environment.yml`).
 
 ### Rodando a aplicação em ambiente de desenvolvimento
 
-Você pode rodá-la diretamente pela linha de comando com:
+Crie o banco de dados com
 
 ```bash
-cd backend
 conda activate ngo
-cd backend
-python manage.py makemigrations --settings=ngo_ccsh.dev_settings
-python manage.py migrate --settings=ngo_ccsh.dev_settings
-python manage.py createsuperuser --settings=ngo_ccsh.dev_settings
-python manage.py runserver --settings=ngo_ccsh.dev_settings
+python backend/manage.py makemigrations --settings=ngo_ccsh.dev_settings
+python backend/manage.py migrate --settings=ngo_ccsh.dev_settings
+python backend/manage.py createsuperuser --settings=ngo_ccsh.dev_settings
+```
+
+Rode a aplicação com 
+
+```bash
+python backend/manage.py runserver --settings=ngo_ccsh.dev_settings
 ```
 
 Ou então criar uma configuração no PyCharm, adicionando a variável de ambiente `DJANGO_SETTINGS_MODULE` com o valor 
@@ -89,8 +92,6 @@ Depois, com o container rodando, crie o super usuário:
 ```bash
 docker compose -f docker-compose.dev.yml exec web python manage.py createsuperuser
 ```
-
-## Variáveis de ambiente
 
 ## Variáveis de ambiente
 
