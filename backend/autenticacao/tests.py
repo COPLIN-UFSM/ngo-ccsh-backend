@@ -8,7 +8,7 @@ from rest_framework_simplejwt.tokens import AccessToken
 
 from ngo_ccsh import settings
 from usuarios.models import Usuario
-from usuarios.tests.test_views import UserTestAPI
+from usuarios.tests.test_views import UserTestMixin
 
 from autenticacao.services import (
     create_token_with_allow_password_change,
@@ -16,30 +16,28 @@ from autenticacao.services import (
     send_email_reset_password,
 )
 
-# Create your tests here.
-class LoginViewTestCase(APITestCase, UserTestAPI):
+class LoginViewTestCase(APITestCase, UserTestMixin):
     def setUp(self):
-        self.create_test_users()
-        self.create_user_not_active()
+        self.create_users()
         self.url = reverse("autenticacao:login")
 
     def test_login_username_not_provided(self):
         data = {
-            "password": self.user_data_normal["password"],
+            "password": self.user_regular_credentials["password"],
         }
         response = self.client.post(self.url, data=data)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_login_password_not_provided(self):
         data = {
-            "username": self.user_data_normal["username"],
+            "username": self.user_regular_credentials["username"],
         }
         response = self.client.post(self.url, data=data)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_login_password_failed_authentication(self):
         data = {
-            "username": self.user_data_normal["username"],
+            "username": self.user_regular_credentials["username"],
             "password": "password_failed",
         }
         response = self.client.post(self.url, data=data)
@@ -48,17 +46,17 @@ class LoginViewTestCase(APITestCase, UserTestAPI):
     def test_login_username_failed_authentication(self):
         data = {
             "username": "users1231",
-            "password": self.user_data_normal["password"],
+            "password": self.user_regular_credentials["password"],
         }
         response = self.client.post(self.url, data=data)
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_login_user_not_active(self):
-        response = self.client.post(self.url, data=self.user_data_not_active)
+        response = self.client.post(self.url, data=self.user_inactive_credentials)
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_login_authenticated(self):
-        response = self.client.post(self.url, data=self.user_data_normal)
+        response = self.client.post(self.url, data=self.user_regular_credentials)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_methods_not_authorized(self):
@@ -71,11 +69,11 @@ class LoginViewTestCase(APITestCase, UserTestAPI):
         self.assertEqual(response_delete.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
 
 
-class RecoverPasswordViewTestCase(APITestCase, UserTestAPI):
+class RecoverPasswordViewTestCase(APITestCase, UserTestMixin):
     def setUp(self):
-        self.create_test_users()
+        self.create_users()
         self.url = reverse("autenticacao:recover_password")
-        self.data = {"email": self.user_normal.email}
+        self.data = {"email": self.user_regular.email}
 
     def test_recover_password_with_email_not_provided(self):
         response = self.client.post(self.url, data={})

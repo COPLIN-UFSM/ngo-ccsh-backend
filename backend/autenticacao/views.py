@@ -25,7 +25,7 @@ class RecoverPasswordView(APIView):
             400: OpenApiResponse(description="Email não informado"),
             404: OpenApiResponse(description="Email não encontrado"),
         },
-        tags=["usuarios"],
+        tags=["autenticacao"],
     )
     def post(self, request):
         email = request.data.get("email", None)
@@ -58,7 +58,7 @@ class LoginView(APIView):
             400: OpenApiResponse(description="Usuário e senha são obrigatórios"),
             401: OpenApiResponse(description="Credenciais inválidas"),
         },
-        tags=["usuarios"],
+        tags=["autenticacao"],
     )
     def post(self, request):
         username = request.data.get("username")

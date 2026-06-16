@@ -1,56 +1,68 @@
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
+from rest_framework_simplejwt.tokens import RefreshToken
 
 from usuarios.models import Usuario
 from autenticacao.services import create_token_with_allow_password_change
 
 
-class UserTestAPI(object):
-    def create_test_users(self):
+class UserTestMixin(object):
+    def create_users(self):
+        """
+        Cria usuários para testes.
+        """
         self.user_admin = Usuario.objects.create_superuser(username="admin", email="admin@gmail.com", password="adminpass")
-        self.user_normal = Usuario.objects.create_user(username="user", email="user@gmail.com", password="userpass")
-        self.user_data_adm = {
-            "username": self.user_admin.username,
-            "password": "adminpass",
-        }
-        self.user_data_normal = {
-            "username": self.user_normal.username,
-            "password": "userpass",
-        }
-
-    def create_user_not_active(self):
-        self.user_not_active = Usuario.objects.create_user(
+        self.user_regular = Usuario.objects.create_user(username="user", email="user@gmail.com", password="userpass")
+        self.user_inactive = Usuario.objects.create_user(
             username="user_not_active",
             email="user2@gmail.com",
             password="userpass2",
             is_active=False,
         )
-        self.user_data_not_active = {
-            "username": self.user_not_active.username,
+
+    @property
+    def user_admin_credentials(self):
+        return {
+            "username": self.user_admin.username,
+            "password": "adminpass",
+        }
+
+    @property
+    def user_regular_credentials(self):
+        return {
+            "username": self.user_regular.username,
+            "password": "userpass",
+        }
+
+    @property
+    def user_inactive_credentials(self):
+        return {
+            "username": self.user_inactive.username,
             "password": "userpass2",
         }
 
-    def authentication(self, data):
-        url_auth = reverse("autenticacao:login")
-        response = self.client.post(url_auth, data=data)
-        token = response.data["token"]
-        self.client.credentials(HTTP_AUTHORIZATION="Bearer " + token)
+    def authenticate(self, user):
+        token = str(RefreshToken.for_user(user).access_token)
+        self.client.credentials(
+            HTTP_AUTHORIZATION=f"Bearer {token}"
+        )
 
-    def authentication_super_token(self, user):
+    def authenticate_with_reset_password_token(self, user):
         token = create_token_with_allow_password_change(user=user)
         self.client.credentials(HTTP_AUTHORIZATION=f"Bearer {token}")
 
 
-class UserViewTestCase(APITestCase, UserTestAPI):
+class UserViewTestCase(APITestCase, UserTestMixin):
     def setUp(self):
-        self.create_test_users()
+        self.create_users()
         self.url = reverse("usuarios:userView")
-        self.newUser = {
-            "username": "Kakaroto",
-            "email": "goku@gmail.com",
+        self.new_user_data = {
+            "username": "1234",
+            "full_name": "Goku",
+            "email": "goku@capsulecorporation.com",
             "password": "vegeta",
-            "password2": "vegeta",
+            "password2": "vegeta"
         }
 
     def test_get_all_users_with_not_user_authenticated(self):
@@ -58,21 +70,21 @@ class UserViewTestCase(APITestCase, UserTestAPI):
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_get_all_users_with_user_authenticated(self):
-        self.authentication(self.user_data_normal)
+        self.authenticate(self.user_regular_credentials)
         response = self.client.get(self.url, format="json")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_register_user_with_not_user_authenticated(self):
-        response = self.client.post(self.url, self.newUser)
+        response = self.client.post(self.url, self.new_user_data)
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_register_user_with_normal_user(self):
-        self.authentication(self.user_data_normal)
-        response = self.client.post(self.url, data=self.newUser)
+        self.authenticate(self.user_regular_credentials)
+        response = self.client.post(self.url, data=self.new_user_data)
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
     def test_register_user_with_password_confirm_not_provided(self):
-        self.authentication(self.user_data_adm)
+        self.authenticate(self.user_admin_credentials)
         response = self.client.post(
             self.url,
             data={
@@ -84,7 +96,7 @@ class UserViewTestCase(APITestCase, UserTestAPI):
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_register_user_with_passwords_not_equal(self):
-        self.authentication(self.user_data_adm)
+        self.authenticate(self.user_admin_credentials)
         response = self.client.post(
             self.url,
             data={
@@ -97,15 +109,15 @@ class UserViewTestCase(APITestCase, UserTestAPI):
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_register_user_with_admin_user(self):
-        self.authentication(self.user_data_adm)
-        response = self.client.post(self.url, data=self.newUser)
+        self.authenticate(self.user_admin_credentials)
+        response = self.client.post(self.url, data=self.new_user_data)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
 
-class UpdatePermissionsTestCase(APITestCase, UserTestAPI):
+class UpdatePermissionsTestCase(APITestCase, UserTestMixin):
     def setUp(self):
-        self.create_test_users()
-        self.url = reverse("usuarios:permission_update", kwargs={"pk": self.user_normal.id})
+        self.create_users()
+        self.url = reverse("usuarios:permission_update", kwargs={"pk": self.user_regular.id})
         self.newData = {"is_superuser": True}
 
     def test_update_user_permission_with_not_user_authenticated(self):
@@ -113,38 +125,38 @@ class UpdatePermissionsTestCase(APITestCase, UserTestAPI):
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_update_user_permission_with_normal_user_authenticated(self):
-        self.authentication(self.user_data_normal)
+        self.authenticate(self.user_regular_credentials)
         response = self.client.patch(self.url, data=self.newData)
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
     def test_update_user_permission_with_user_pk_not_found(self):
         url_not_found = reverse("usuarios:permission_update", kwargs={"pk": 3131232})
-        self.authentication(self.user_data_adm)
+        self.authenticate(self.user_admin_credentials)
         response = self.client.patch(url_not_found, data=self.newData)
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
     def test_update_user_permission_with_not_provided_fields(self):
-        self.authentication(self.user_data_adm)
+        self.authenticate(self.user_admin_credentials)
         response = self.client.patch(self.url, data={"xadrez": False})
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_update_user_permission_with_admin_user_authenticated_no_change(self):
-        self.authentication(self.user_data_adm)
-        response = self.client.patch(self.url, data={"is_superuser": self.user_normal.is_superuser})
+        self.authenticate(self.user_admin_credentials)
+        response = self.client.patch(self.url, data={"is_superuser": self.user_regular.is_superuser})
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_update_user_permission_with_admin_user_authenticated(self):
-        self.authentication(self.user_data_adm)
+        self.authenticate(self.user_admin_credentials)
         response = self.client.patch(self.url, data=self.newData)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
 
-class ChangePasswordViewTestCase(UserTestAPI, APITestCase):
+class ChangePasswordViewTestCase(UserTestMixin, APITestCase):
     def setUp(self):
-        self.create_test_users()
-        self.url = reverse("usuarios:change_password", kwargs={"pk": self.user_normal.id})
+        self.create_users()
+        self.url = reverse("usuarios:change_password", kwargs={"pk": self.user_regular.id})
         self.new_password = {
-            "old_password": self.user_data_normal["password"],
+            "old_password": self.user_regular_credentials["password"],
             "password1": "spider_man",
             "password2": "spider_man",
         }
@@ -159,29 +171,29 @@ class ChangePasswordViewTestCase(UserTestAPI, APITestCase):
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_change_password_with_user_not_found(self):
-        self.authentication(data=self.user_data_normal)
+        self.authenticate(data=self.user_regular_credentials)
         url = reverse("usuarios:change_password", kwargs={"pk": 122131})
         response = self.client.patch(url, data=self.new_password)
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
     def test_change_password_different_user_by_normal_user(self):
-        self.authentication(data=self.user_data_normal)
+        self.authenticate(data=self.user_regular_credentials)
         url = reverse("usuarios:change_password", kwargs={"pk": self.user_admin.id})
         response = self.client.patch(url, data=self.new_password)
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
     def test_change_password_new_password_not_provided(self):
-        self.authentication(data=self.user_data_normal)
+        self.authenticate(data=self.user_regular_credentials)
         response = self.client.patch(self.url, data={"password1": "1s231321"})
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_change_password_new_password_confirm_not_provided(self):
-        self.authentication(data=self.user_data_normal)
+        self.authenticate(data=self.user_regular_credentials)
         response = self.client.patch(self.url, data={"password2": "12313f21"})
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_change_password_new_passwords_not_equal(self):
-        self.authentication(data=self.user_data_normal)
+        self.authenticate(data=self.user_regular_credentials)
         response = self.client.patch(
             self.url,
             data={"password1": "1231231", "password2": "12313f21"},
@@ -189,49 +201,49 @@ class ChangePasswordViewTestCase(UserTestAPI, APITestCase):
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_change_password_adm_dont_need_old_password(self):
-        self.authentication(data=self.user_data_adm)
+        self.authenticate(data=self.user_admin_credentials)
         response = self.client.patch(
             self.url,
             data={
-                "password1": self.user_data_normal["password"],
-                "password2": self.user_data_normal["password"],
+                "password1": self.user_regular_credentials["password"],
+                "password2": self.user_regular_credentials["password"],
             },
         )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_change_password_by_user(self):
-        self.authentication(data=self.user_data_normal)
+        self.authenticate(data=self.user_regular_credentials)
         response = self.client.patch(self.url, data=self.new_password)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_change_password_with_token_can_skip_old_password(self):
-        self.authentication_super_token(self.user_normal)
+        self.authenticate_with_reset_password_token(self.user_regular)
         response = self.client.patch(
             self.url,
             data={
-                "password1": self.user_data_normal["password"],
-                "password2": self.user_data_normal["password"],
+                "password1": self.user_regular_credentials["password"],
+                "password2": self.user_regular_credentials["password"],
             },
         )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_change_password_different_user_by_admin_user(self):
-        self.authentication(self.user_data_adm)
-        url = reverse("usuarios:change_password", kwargs={"pk": self.user_normal.id})
+        self.authenticate(self.user_admin_credentials)
+        url = reverse("usuarios:change_password", kwargs={"pk": self.user_regular.id})
         response = self.client.patch(
             url,
             data={
-                "password1": self.user_data_normal["password"],
-                "password2": self.user_data_normal["password"],
+                "password1": self.user_regular_credentials["password"],
+                "password2": self.user_regular_credentials["password"],
             },
         )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
 
-class UserInfoViewTestCase(APITestCase, UserTestAPI):
+class UserInfoViewTestCase(APITestCase, UserTestMixin):
     def setUp(self):
-        self.create_test_users()
-        self.url_normal = reverse("usuarios:single_info", kwargs={"pk": self.user_normal.id})
+        self.create_users()
+        self.url_normal = reverse("usuarios:single_info", kwargs={"pk": self.user_regular.id})
 
         self.url_adm = reverse("usuarios:single_info", kwargs={"pk": self.user_admin.id})
         self.data = {
@@ -244,34 +256,34 @@ class UserInfoViewTestCase(APITestCase, UserTestAPI):
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_get_info_with_user_not_found(self):
-        self.authentication(data=self.user_data_normal)
+        self.authenticate(data=self.user_regular_credentials)
         url = reverse("usuarios:single_info", kwargs={"pk": 999999})
         response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
     def test_change_info_with_user_not_found(self):
-        self.authentication(data=self.user_data_normal)
+        self.authenticate(data=self.user_regular_credentials)
         url = reverse("usuarios:single_info", kwargs={"pk": 999999})
         response = self.client.patch(url, data=self.data)
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
     def test_change_info_different_user_by_normal_user(self):
-        self.authentication(data=self.user_data_normal)
+        self.authenticate(data=self.user_regular_credentials)
         response = self.client.patch(self.url_adm, data=self.data)
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
     def test_change_info_with_no_valid_fields(self):
-        self.authentication(data=self.user_data_normal)
+        self.authenticate(data=self.user_regular_credentials)
         response = self.client.patch(self.url_normal, data={"email": "email_bad_format"})
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_change_info_with_non_existing_fields(self):
-        self.authentication(data=self.user_data_normal)
+        self.authenticate(data=self.user_regular_credentials)
         response = self.client.patch(self.url_normal, {"field_dont_exists": "oii", "is_superuser": True})
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_change_info_different_user_by_admin_user(self):
-        self.authentication(self.user_data_adm)
+        self.authenticate(self.user_admin_credentials)
         response = self.client.patch(
             self.url_normal,
             data=self.data,
@@ -279,7 +291,7 @@ class UserInfoViewTestCase(APITestCase, UserTestAPI):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_change_info_by_owner_user(self):
-        self.authentication(data=self.user_data_normal)
+        self.authenticate(data=self.user_regular_credentials)
         response = self.client.patch(self.url_normal, data=self.data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
@@ -289,17 +301,17 @@ class UserInfoViewTestCase(APITestCase, UserTestAPI):
 
     def test_delete_user_with_user_not_found(self):
         url = reverse("usuarios:single_info", kwargs={"pk": 9999999})
-        self.authentication(data=self.user_data_normal)
+        self.authenticate(data=self.user_regular_credentials)
         response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
     def test_delete_by_owner_user(self):
-        self.authentication(data=self.user_data_normal)
+        self.authenticate(data=self.user_regular_credentials)
         response = self.client.get(self.url_normal)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_delete_different_user_by_admin_user(self):
-        self.authentication(self.user_data_adm)
+        self.authenticate(self.user_admin_credentials)
         response = self.client.patch(
             self.url_normal,
             data=self.data,

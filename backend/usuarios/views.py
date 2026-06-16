@@ -1,52 +1,49 @@
-# Create your views here.
-
 from drf_spectacular.utils import extend_schema, OpenApiParameter, OpenApiResponse
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from .serializers import RegisterSerializer, UserSerializer
+from .serializers import UserListSerializer, UserDetailsSerializer
 
-# Autenticação + JWT
-from django.contrib.auth import authenticate
 from usuarios.models import Usuario
 from utils import response
 
 
-class UserView(APIView):
-    """View para dar listar usuários e atualizar"""
+class UserListView(APIView):
+    """
+    View para listar usuários e criar um novo usuário
+    """
+    serializer_class = UserListSerializer
 
     @extend_schema(
         summary="Lista usuários",
-        description="Retorna a lista de usuários ativos.",
+        description="Retorna a lista de usuários, ativos ou inativos",
         responses={
             200: OpenApiResponse(description="Lista de usuários retornada com sucesso"),
             401: OpenApiResponse(description="Usuário não autenticado"),
         },
-        tags=["usuarios"],
+        tags=["usuários"],
     )
     def get(self, request):
-        users = Usuario.objects.filter().order_by("id")
-        serializer = RegisterSerializer(users, many=True)
+        # TODO adicionar depois possibilidade de filtrar!
+        users = Usuario.objects.all().order_by('id')
+        serializer = self.serializer_class(users, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     @extend_schema(
-        summary="Cria usuário",
-        description="Cria um novo usuário (apenas administradores).",
+        summary="Cria novo usuário",
+        description="Cria um novo usuário. Disponível apenas para administradores",
         responses={
             201: OpenApiResponse(description="Usuário criado com sucesso"),
             400: OpenApiResponse(description="Dados inválidos para criação do usuário"),
             403: OpenApiResponse(description="Apenas administradores podem criar usuários"),
         },
-        tags=["usuarios"],
+        tags=["usuários"],
     )
     def post(self, request):
-        """
-        Cria ou atualiza um usuário por ID
-        """
         if not request.user.is_superuser:
             return response.not_admin_user()
 
-        serializer = RegisterSerializer(data=request.data)
+        serializer = self.serializer_class(data=request.data)
         if not serializer.is_valid():
             return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
 
@@ -54,87 +51,143 @@ class UserView(APIView):
         return response.created("Usuário criado com sucesso.")
 
 
-class UpdatePermissionUserView(APIView):
+class UserDetailsView(APIView):
+    """Retorna informações sobre um usuário em específico, dado seu ID"""
+
+    serializer_class = UserDetailsSerializer
 
     @extend_schema(
-        summary="Atualiza permissões do usuário",
-        description="Atualiza permissões de um usuário por ID.",
+        summary="Busca usuário",
+        description="Retorna os dados de um usuário pelo ID.",
         parameters=[
             OpenApiParameter(
-                name="pk",
+                name="id_usuario",
                 type=int,
                 location="path",
-                description="ID do usuário a ter as permissões alteradas",
+                description="ID do usuário",
                 required=True,
             )
         ],
         responses={
-            200: OpenApiResponse(description="Permissões atualizadas com sucesso"),
-            400: OpenApiResponse(description="Nenhuma permissão nova informada"),
-            401: OpenApiResponse(description="Apenas administradores podem alterar permissões"),
+            200: OpenApiResponse(description="Dados do usuário retornados com sucesso"),
             404: OpenApiResponse(description="Usuário não encontrado"),
         },
-        tags=["usuarios"],
+        tags=["usuários"],
     )
-    def patch(self, request, pk):
-        if not request.user.is_superuser:
-            return response.not_admin_user()
-
-
+    def get(self, request, id_usuario):
+        """
+        Mostra dados de um usuário
+        """
         try:
-            user = Usuario.objects.get(pk=pk)
-        except:
+            user = Usuario.objects.get(id=id_usuario)
+        except Usuario.DoesNotExist:
             return Response(
-                {"detail": f"Usuário com id: {pk}, não encontrado."},
+                {"detail": f"Usuário com id: {id_usuario}, não encontrado."},
+                status=status.HTTP_404_NOT_FOUND,
+            )
+        serializer = self.serializer_class(user)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    @extend_schema(
+        summary="Atualiza dados de um usuário",
+        description="Atualiza parcialmente os dados de um usuário pelo ID.",
+        parameters=[
+            OpenApiParameter(
+                name="id_usuario",
+                type=int,
+                location="path",
+                description="ID do usuário",
+                required=True,
+            )
+        ],
+        responses={
+            200: OpenApiResponse(description="Dados do usuário atualizados com sucesso"),
+            400: OpenApiResponse(description="Dados inválidos para atualização"),
+            403: OpenApiResponse(description="Não é possível alterar dados de outro usuário"),
+            404: OpenApiResponse(description="Usuário não encontrado"),
+        },
+        tags=["usuários"],
+    )
+    def patch(self, request, id_usuario):
+        try:
+            user = Usuario.objects.get(id=id_usuario)
+        except Usuario.DoesNotExist:
+            return Response(
+                {"detail": f"Usuário com id: {id_usuario}, não encontrado."},
                 status=status.HTTP_404_NOT_FOUND,
             )
 
-        old_permission_super = user.is_superuser
-        old_permission_staff = user.is_staff
-
-        if request.data.get("is_superuser") is not None:
-            user.is_superuser = request.data.get("is_superuser")
-            user.is_staff = request.data.get("is_superuser")
-
-        elif request.data.get("is_staff") is not None:
-            user.is_staff = request.data.get("is_staff")
-        else:
+        if (user.id != request.user.id) and not request.user.is_superuser:
             return Response(
-                {"detail": "Nenhuma permissão nova informada."},
-                status=status.HTTP_400_BAD_REQUEST,
+                {"detail": "Não é possível alterar dados de outro usuário."},
+                status=status.HTTP_403_FORBIDDEN,
             )
-        user.save()
 
-        detail = (
-            (
-                "Nenhuma permissão alterada"
-                if old_permission_super == user.is_superuser
-                and old_permission_staff == user.is_staff
-                else f"O usuário {user.username} teve seu status de usuário alterado."
-            ),
-        )
+        serializer = self.serializer_class(user, data=request.data, partial=True)
 
+        if not serializer.is_valid():
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        changes = dict()
+        for field, value in serializer.validated_data.items():
+            if getattr(user, field) != value:
+                changes[field] = value
+
+        if not changes:
+            return Response(
+                {"detail": f"Nenhuma mudança realizada."},
+                status.HTTP_200_OK,
+            )
+
+        serializer.save()
         return Response(
-            {
-                "detail": detail,
-                "data": {
-                    "is_superuser": user.is_superuser,
-                    "is_staff": user.is_staff,
-                },
-            },
-            status=status.HTTP_200_OK,
+            {"detail": "Campos atualizado com sucesso.", "changes": changes},
+            status.HTTP_200_OK,
         )
+
+    @extend_schema(
+        summary="Desativa usuário",
+        description="Desativa um usuário utilizando seu ID.",
+        parameters=[
+            OpenApiParameter(
+                name="id_usuario",
+                type=int,
+                location="path",
+                description="ID do usuário a ser desativado",
+                required=True,
+            )
+        ],
+        responses={
+            204: OpenApiResponse(description="Usuário desativado com sucesso"),
+            401: OpenApiResponse(description="Não é possível desativar este usuário"),
+            404: OpenApiResponse(description="Usuário não encontrado"),
+        },
+        tags=["usuários"],
+    )
+    def delete(self, request, id_usuario):
+        try:
+            user = Usuario.objects.get(id=id_usuario)
+        except Usuario.DoesNotExist:
+            return Response(
+                {"detail": f"Usuário com id: {id_usuario}, não encontrado."},
+                status=status.HTTP_404_NOT_FOUND,
+            )
+
+        if user.id != request.user.id and not request.user.is_superuser:
+            return response.not_admin_user()
+
+        user.is_active = False
+        user.save()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class ChangePasswordView(APIView):
-    """Change password with user authenticated and current password"""
-
     @extend_schema(
         summary="Altera senha",
         description="Altera a senha de um usuário autenticado por ID.",
         parameters=[
             OpenApiParameter(
-                name="pk",
+                name="id_usuario",
                 type=int,
                 location="path",
                 description="ID do usuário",
@@ -148,20 +201,20 @@ class ChangePasswordView(APIView):
             403: OpenApiResponse(description="Não é possível alterar senha de outro usuário"),
             404: OpenApiResponse(description="Usuário não cadastrado"),
         },
-        tags=["usuarios"],
+        tags=["usuários"],
     )
     def patch(self, request, *args, **kwargs):
-        pk = kwargs['pk']
+        id_usuario = kwargs['id_usuario']
 
         try:
-            user = Usuario.objects.get(pk=pk)
+            user = Usuario.objects.get(id=id_usuario)
         except Usuario.DoesNotExist:
             return Response(
                 {'detail': 'Usuário não encontrado!'}, status=status.HTTP_404_NOT_FOUND
             )
 
         is_admin = request.user.is_superuser
-        changing_other = pk != request.user.id
+        changing_other = id_usuario != request.user.id
 
         if not is_admin and changing_other:
             return Response(
@@ -189,141 +242,3 @@ class ChangePasswordView(APIView):
         return Response(
             {"detail": 'Senha atualizada com sucesso!'}, status=status.HTTP_200_OK
         )
-
-
-class UserInfoView(APIView):
-    """Retorna informações sobre um usuário em específico, dado seu ID"""
-
-    serializer_class = [UserSerializer]
-
-    @extend_schema(
-        summary="Busca usuário",
-        description="Retorna os dados de um usuário pelo ID.",
-        parameters=[
-            OpenApiParameter(
-                name="pk",
-                type=int,
-                location="path",
-                description="ID do usuário",
-                required=True,
-            )
-        ],
-        responses={
-            200: OpenApiResponse(description="Dados do usuário retornados com sucesso"),
-            404: OpenApiResponse(description="Usuário não encontrado"),
-        },
-        tags=["usuarios"],
-    )
-    def get(self, request, pk):
-        """
-        Mostra dados de um usuário
-        """
-        try:
-            user = Usuario.objects.get(pk=pk)
-        except:
-            return Response(
-                {"detail": f"Usuário com id: {pk}, não encontrado."},
-                status=status.HTTP_404_NOT_FOUND,
-            )
-        
-        serializer = RegisterSerializer(user)
-
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
-    @extend_schema(
-        summary="Atualiza usuário",
-        description="Atualiza parcialmente os dados de um usuário pelo ID.",
-        parameters=[
-            OpenApiParameter(
-                name="pk",
-                type=int,
-                location="path",
-                description="ID do usuário",
-                required=True,
-            )
-        ],
-        responses={
-            200: OpenApiResponse(description="Dados do usuário atualizados com sucesso"),
-            400: OpenApiResponse(description="Dados inválidos para atualização"),
-            403: OpenApiResponse(description="Não é possível alterar dados de outro usuário"),
-            404: OpenApiResponse(description="Usuário não encontrado"),
-        },
-        tags=["usuarios"],
-    )
-    def patch(self, request, pk):
-        """
-        Atualiza os dados de um usuário
-        """
-        try:
-            user = Usuario.objects.get(pk=pk)
-        except:
-            return Response(
-                {"detail": f"Usuário com id: {pk}, não encontrado."},
-                status=status.HTTP_404_NOT_FOUND,
-            )
-
-        if (user.id != request.user.pk) and not request.user.is_superuser:
-            return Response(
-                {"detail": "Não é possível alterar dados de outro usuário."},
-                status=status.HTTP_403_FORBIDDEN,
-            )
-
-        serializer = UserSerializer(user, data=request.data, partial=True)
-
-        if not serializer.is_valid():
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-        changes = {}
-        for field, value in serializer.validated_data.items():
-            if getattr(user, field) != value:
-                changes[field] = value
-
-        if not changes:
-            return Response(
-                {"detail": f"Nenhuma mudança realizada."},
-                status.HTTP_304_NOT_MODIFIED,
-            )
-
-        serializer.save()
-        changes.__str__()
-        return Response(
-            {"detail": "Campos atualizado com sucesso.", "changes": changes},
-            status.HTTP_200_OK,
-        )
-
-    @extend_schema(
-        summary="Remove usuário",
-        description="Remove (desativa) um usuário utilizando seu ID.",
-        parameters=[
-            OpenApiParameter(
-                name="pk",
-                type=int,
-                location="path",
-                description="ID do usuário a ser removido",
-                required=True,
-            )
-        ],
-        responses={
-            204: OpenApiResponse(description="Usuário removido com sucesso"),
-            401: OpenApiResponse(description="Não é possível deletar este usuário"),
-            404: OpenApiResponse(description="Usuário não encontrado"),
-        },
-        tags=["usuarios"],
-    )
-    def delete(self, request, pk):
-        try:
-            user = Usuario.objects.get(pk=pk)
-        except:
-            return Response(
-                {"detail": f"Usuário com id: {pk}, não encontrado."},
-                status=status.HTTP_404_NOT_FOUND,
-            )
-        
-        if user.id != request.user.pk and not request.user.is_superuser:
-            return response.not_admin_user()
-
-        user.is_active = False
-        user.save()
-        return Response(status.HTTP_204_NO_CONTENT)
-
-
