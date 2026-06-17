@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from rest_framework.exceptions import ValidationError
 
 from .models import Usuario
 
@@ -30,3 +31,29 @@ class UserDetailsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Usuario
         fields = ["id", "username", "email", "full_name", "is_superuser", "is_active"]
+
+
+class ChangePasswordSerializer(serializers.Serializer):
+    password1 = serializers.CharField(
+        required=True,
+        error_messages={
+            "required": "Por favor informe a nova senha.",
+            "blank": "A nova senha não pode estar vazia.",
+        }
+    )
+    password2 = serializers.CharField(
+        required=True,
+        error_messages={
+            "required": "Por favor informe a nova senha.",
+            "blank": "A nova senha não pode estar vazia.",
+        }
+    )
+
+    def validate(self, attrs):
+        new_password = attrs['password1']
+        new_password_confirm = attrs['password2']
+
+        if new_password != new_password_confirm:
+            raise ValidationError({"detail": 'As senhas não são iguais!'})
+
+        return attrs

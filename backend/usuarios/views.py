@@ -2,7 +2,7 @@ from drf_spectacular.utils import extend_schema, OpenApiParameter, OpenApiRespon
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from .serializers import UserListSerializer, UserDetailsSerializer
+from .serializers import UserListSerializer, UserDetailsSerializer, ChangePasswordSerializer
 
 from usuarios.models import Usuario
 from utils import response
@@ -113,18 +113,11 @@ class UserDetailsView(APIView):
             user = Usuario.objects.get(id=id_usuario)
         except Usuario.DoesNotExist:
             return Response(
-                {"detail": f"Usuário com id: {id_usuario}, não encontrado."},
-                status=status.HTTP_404_NOT_FOUND,
-            )
-
-        if (user.id != request.user.id) and not request.user.is_superuser:
-            return Response(
-                {"detail": "Não é possível alterar dados de outro usuário."},
-                status=status.HTTP_403_FORBIDDEN,
+                {"detail": f"Usuário com não encontrado!"},
+                status=status.HTTP_404_NOT_FOUND
             )
 
         serializer = self.serializer_class(user, data=request.data, partial=True)
-
         if not serializer.is_valid():
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -138,6 +131,23 @@ class UserDetailsView(APIView):
                 {"detail": f"Nenhuma mudança realizada."},
                 status.HTTP_200_OK,
             )
+
+        if not not request.user.is_superuser:
+            if user.id != request.user.id:
+                return Response(
+                    {"detail": "Não é possível alterar dados de outro usuário sem ser administrador."},
+                    status=status.HTTP_403_FORBIDDEN
+                )
+            elif 'is_superuser' in changes:
+                return Response(
+                    {"detail": "Não é possível conceder-se privilégio de administrador sem ser administrador!"},
+                    status=status.HTTP_403_FORBIDDEN
+                )
+            elif 'is_active' in changes:
+                return Response(
+                    {"detail": "Apenas um administrador pode desativar sua conta!"},
+                    status=status.HTTP_403_FORBIDDEN
+                )
 
         serializer.save()
         return Response(
@@ -222,23 +232,13 @@ class ChangePasswordView(APIView):
                 status=status.HTTP_403_FORBIDDEN,
             )
 
-        new_password = request.data.get('password1')
-        new_password_confirm = request.data.get('password2')
+        serializer = ChangePasswordSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
 
-        if not new_password or not new_password_confirm:
-            return Response(
-                {"detail": 'Por favor preencha todos os campos!'},
-                status=status.HTTP_400_BAD_REQUEST,
-            )
-
-        if new_password != new_password_confirm:
-            return Response(
-                {"detail": 'As senhas não são idênticas!'},
-                status=status.HTTP_400_BAD_REQUEST,
-            )
-
-        user.set_password(new_password)
+        user.set_password(serializer.validated_data["password1"])
         user.save()
+
         return Response(
-            {"detail": 'Senha atualizada com sucesso!'}, status=status.HTTP_200_OK
+            {"detail": "Senha atualizada com sucesso!"},
+            status=status.HTTP_200_OK,
         )

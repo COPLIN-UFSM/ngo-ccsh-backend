@@ -240,7 +240,7 @@ class ChangePasswordViewTestCase(UserTestMixin, APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
 
-class UserInfoViewTestCase(APITestCase, UserTestMixin):
+class UserDetailsViewTestCase(APITestCase, UserTestMixin):
     def setUp(self):
         self.create_users()
         self.url_normal = reverse("usuarios:single_info", kwargs={"pk": self.user_regular.id})
