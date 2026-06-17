@@ -81,7 +81,37 @@ class SubunidadeSerializer(serializers.ModelSerializer):
         read_only_fields = ["id_subunidade"]
 
 
+class DocumentoNestedSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Documento
+        exclude = ["transacao"]
+
+
 class TransacaoSerializer(serializers.ModelSerializer):
+    documentos = DocumentoNestedSerializer(many=True, required=False, allow_empty=True)
+
+    def create(self, validated_data):
+        documentos_data = validated_data.pop("documentos", [])
+        transacao = Transacao.objects.create(**validated_data)
+
+        for doc_data in documentos_data:
+            Documento.objects.create(transacao=transacao, **doc_data)
+        return transacao
+
+    def update(self, instance, validated_data):
+        documentos_data = validated_data.pop("documentos", None)
+
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+        instance.save()
+
+        if documentos_data is not None:
+            instance.documentos.all().delete()
+            for doc_data in documentos_data:
+                Documento.objects.create(transacao=instance, **doc_data)
+
+        return instance
+
     class Meta:
         model = Transacao
         fields = [
@@ -102,6 +132,7 @@ class TransacaoSerializer(serializers.ModelSerializer):
             "data_lancamento",
             "data_modificacao",
             "motivo_modificacao",
+            "documentos",
         ]
 
     def validate(self, data):

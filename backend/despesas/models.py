@@ -141,9 +141,11 @@ class Documento(models.Model):
     id_documento = models.AutoField(primary_key=True)
     tipo_documento = models.ForeignKey(TipoDocumento, models.DO_NOTHING, db_column="id_tipo_documento")
     documento = models.CharField(max_length=100)
-    transacao = models.ForeignKey("Transacao", models.DO_NOTHING, db_column="id_transacao")
+
+    transacao = models.ForeignKey("Transacao", models.DO_NOTHING, db_column="id_transacao", related_name="documentos")
     descricao = models.CharField(max_length=255, blank=True, null=True)
     ativo = models.BooleanField(default=True, blank=True)
+
 
     class Meta:
         managed = False
