@@ -1,11 +1,11 @@
-from drf_spectacular.utils import extend_schema, OpenApiParameter, OpenApiResponse
+from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status
+from drf_spectacular.utils import extend_schema, OpenApiParameter, OpenApiResponse
 from .serializers import UserListSerializer, UserDetailsSerializer, ChangePasswordSerializer
 
-from usuarios.models import Usuario
 from utils import response
+from usuarios.models import Usuario
 
 
 class UserListView(APIView):
