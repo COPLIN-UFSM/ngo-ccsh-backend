@@ -25,9 +25,6 @@ class UserView(APIView):
         tags=["usuarios"],
     )
     def get(self, request):
-        """
-        Retorna um usuário por ID
-        """
         users = Usuario.objects.filter().order_by("id")
         serializer = RegisterSerializer(users, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
@@ -61,7 +58,7 @@ class UpdatePermissionUserView(APIView):
 
     @extend_schema(
         summary="Atualiza permissões do usuário",
-        description="Atualiza permissões de superusuário e/ou staff de um usuário por ID.",
+        description="Atualiza permissões de um usuário por ID.",
         parameters=[
             OpenApiParameter(
                 name="pk",
@@ -153,67 +150,44 @@ class ChangePasswordView(APIView):
         },
         tags=["usuarios"],
     )
-    def patch(self, request, pk):
-        user = Usuario.objects.filter(pk=pk).first()
+    def patch(self, request, *args, **kwargs):
+        pk = kwargs['pk']
 
-        if user is None:
+        try:
+            user = Usuario.objects.get(pk=pk)
+        except Usuario.DoesNotExist:
             return Response(
-                {"detail": "Usuário não cadastrado."}, status=status.HTTP_404_NOT_FOUND
+                {'detail': 'Usuário não encontrado!'}, status=status.HTTP_404_NOT_FOUND
             )
 
-        if pk != request.user.id and not request.user.is_superuser:
+        is_admin = request.user.is_superuser
+        changing_other = pk != request.user.id
+
+        if not is_admin and changing_other:
             return Response(
-                {"detail": "Não é possível alterar dados de outro usuário."},
+                {'detail': 'Apenas administradores podem trocar a senha de outros usuários.'},
                 status=status.HTTP_403_FORBIDDEN,
             )
 
-        old_password = request.data.get("old_password")
-        new_password = request.data.get("password1")
-        new_password_confirm = request.data.get("password2")
+        new_password = request.data.get('password1')
+        new_password_confirm = request.data.get('password2')
 
         if not new_password or not new_password_confirm:
             return Response(
-                {"detail": "Por favor insira todos os campos."},
+                {"detail": 'Por favor preencha todos os campos!'},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
         if new_password != new_password_confirm:
             return Response(
-                {"detail": "As senhas não são iguais."},
+                {"detail": 'As senhas não são idênticas!'},
                 status=status.HTTP_400_BAD_REQUEST,
             )
-
-        token = request.auth
-
-        # Se for admin alterando a senha de outro, ou se o token permitir, pula a senha antiga
-        is_admin_changing_other = (
-            request.user.is_superuser and pk != request.user.id
-        )
-
-        can_skip_old_password = (
-            (token and token.get("allow_password_change", False))
-            or is_admin_changing_other
-        )
-
-        if not can_skip_old_password:
-            if not old_password:
-                return Response(
-                    {"detail": "Por favor insira a senha atual."},
-                    status=status.HTTP_400_BAD_REQUEST,
-                )
-
-            username = user.username
-            user_authenticated = authenticate(username=username, password=old_password)
-            if user_authenticated is None:
-                return Response(
-                    {"detail": "Senha atual incorreta."},
-                    status=status.HTTP_401_UNAUTHORIZED,
-                )
 
         user.set_password(new_password)
         user.save()
         return Response(
-            {"detail": "Senha atualizada com sucesso."}, status=status.HTTP_200_OK
+            {"detail": 'Senha atualizada com sucesso!'}, status=status.HTTP_200_OK
         )
 
 
@@ -288,7 +262,7 @@ class UserInfoView(APIView):
                 status=status.HTTP_404_NOT_FOUND,
             )
 
-        if user.id != request.user.pk and not request.user.is_superuser:
+        if (user.id != request.user.pk) and not request.user.is_superuser:
             return Response(
                 {"detail": "Não é possível alterar dados de outro usuário."},
                 status=status.HTTP_403_FORBIDDEN,
@@ -307,13 +281,13 @@ class UserInfoView(APIView):
         if not changes:
             return Response(
                 {"detail": f"Nenhuma mudança realizada."},
-                status.HTTP_200_OK,
+                status.HTTP_304_NOT_MODIFIED,
             )
 
         serializer.save()
         changes.__str__()
         return Response(
-            {"detail": "Campos  atualizado com sucesso.", "changes": changes},
+            {"detail": "Campos atualizado com sucesso.", "changes": changes},
             status.HTTP_200_OK,
         )
 

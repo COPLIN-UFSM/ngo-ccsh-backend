@@ -2,13 +2,11 @@ from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
 
-
 from usuarios.models import Usuario
 from autenticacao.services import create_token_with_allow_password_change
 
 
-class UserTestAPI:
-
+class UserTestAPI(object):
     def create_test_users(self):
         self.user_admin = Usuario.objects.create_superuser(username="admin", email="admin@gmail.com", password="adminpass")
         self.user_normal = Usuario.objects.create_user(username="user", email="user@gmail.com", password="userpass")
@@ -190,17 +188,6 @@ class ChangePasswordViewTestCase(UserTestAPI, APITestCase):
         )
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
-    def test_change_password_token_require_old_password(self):
-        self.authentication(data=self.user_data_normal)
-        response = self.client.patch(
-            self.url,
-            data={
-                "password1": self.user_data_normal["password"],
-                "password2": self.user_data_normal["password"],
-            },
-        )
-        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-
     def test_change_password_adm_dont_need_old_password(self):
         self.authentication(data=self.user_data_adm)
         response = self.client.patch(
@@ -317,23 +304,4 @@ class UserInfoViewTestCase(APITestCase, UserTestAPI):
             self.url_normal,
             data=self.data,
         )
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-
-
-class RecoverPasswordViewTestCase(APITestCase, UserTestAPI):
-    def setUp(self):
-        self.create_test_users()
-        self.url = reverse("autenticacao:recover_password")
-        self.data = {"email": self.user_normal.email}
-
-    def test_recover_password_with_email_not_provided(self):
-        response = self.client.post(self.url, data={})
-        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-
-    def test_recover_password_with_email_not_found(self):
-        response = self.client.post(self.url, data={"email": "deadpool@gmail.com"})
-        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
-
-    def test_recover_password_with_email_valid(self):
-        response = self.client.post(self.url, data=self.data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)

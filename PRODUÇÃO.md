@@ -54,5 +54,5 @@ DEFAULT_FROM_EMAIL="Núcleo de Gestão Orçamentária <orcamento.ccsh@ufsm.br>"
 ```
 
 O `EMAIL_HOST_PASSWORD` deve ser obtido a partir
-do [painel de controle de segurança do Google](https://myaccount.google.com/security), criando uma senha de app para o 
-email.
+do [painel de controle de segurança do Google](https://myaccount.google.com/u/0/apppasswords), criando uma **senha de App** 
+para o email.

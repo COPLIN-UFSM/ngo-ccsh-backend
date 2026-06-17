@@ -38,6 +38,7 @@ class RecoverPasswordView(APIView):
         user = Usuario.objects.filter(email=email).first()
         if not user:
             return Response({"detail": "Email não encontrado."}, status=status.HTTP_404_NOT_FOUND)
+
         trigger_password_reset_flow(user=user)
 
         return Response(

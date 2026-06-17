@@ -53,16 +53,19 @@ especificado no arquivo `environment.yml`).
 
 ### Rodando a aplicação em ambiente de desenvolvimento
 
-Você pode rodá-la diretamente pela linha de comando com:
+Crie o banco de dados com
 
 ```bash
-cd backend
 conda activate ngo
-cd backend
-python manage.py makemigrations --settings=ngo_ccsh.dev_settings
-python manage.py migrate --settings=ngo_ccsh.dev_settings
-python manage.py createsuperuser --settings=ngo_ccsh.dev_settings
-python manage.py runserver --settings=ngo_ccsh.dev_settings
+python backend/manage.py makemigrations --settings=ngo_ccsh.dev_settings
+python backend/manage.py migrate --settings=ngo_ccsh.dev_settings
+python backend/manage.py createsuperuser --settings=ngo_ccsh.dev_settings
+```
+
+Rode a aplicação com 
+
+```bash
+python backend/manage.py runserver --settings=ngo_ccsh.dev_settings
 ```
 
 Ou então criar uma configuração no PyCharm, adicionando a variável de ambiente `DJANGO_SETTINGS_MODULE` com o valor 
@@ -92,20 +95,18 @@ docker compose -f docker-compose.dev.yml exec web python manage.py createsuperus
 
 ## Variáveis de ambiente
 
-## Variáveis de ambiente
-
 Crie um arquivo `.env` na raiz do projeto, e adicione as seguintes variáveis de ambiente:
 
 ```python
 DEBUG=True
 APP_FULL_NAME="Sistema de Gerenciamento de Gastos Acadêmicos da UFSM"
 APP_SHORT_NAME="SIGGA"
-FRONTEND_URL="https://proplan.ufsm.br/ngo-ccsh"
-EMAIL_HOST_USER="orcamento.ccsh@ufsm.br"
+FRONTEND_URL="http://localhost:5173"
+EMAIL_HOST_USER="henry.cagnini@ufsm.br"
 EMAIL_HOST_PASSWORD="aaaa bbbb cccc dddd"
-DEFAULT_FROM_EMAIL="Núcleo de Gestão Orçamentária <orcamento.ccsh@ufsm.br>"
+DEFAULT_FROM_EMAIL="Núcleo de Gestão Orçamentária <henry.cagnini@ufsm.br>"
 ```
 
 O `EMAIL_HOST_PASSWORD` deve ser obtido a partir
-do [painel de controle de segurança do Google](https://myaccount.google.com/security), criando uma senha de app para o 
-email.
+do [painel de controle de segurança do Google](https://myaccount.google.com/u/0/apppasswords), criando uma **senha de App** 
+para o email.
