@@ -11,7 +11,7 @@ from despesas.views.finalidades import (
 )
 
 from despesas.views.subunidades import SubunidadeView, SingleSubunidadeView
-from despesas.views.empenhos import EmpenhoView, SingleEmpenhoView, TransacoesByEmpenho
+from despesas.views.empenhos import EmpenhoView, SingleEmpenhoView
 from despesas.views.beneficiario import BeneficiarioViewSet
 from despesas.views.documentos import DocumentoViewSet, TipoDocumentoViewSet
 from despesas.views.transacoes import TransacoesViewSet

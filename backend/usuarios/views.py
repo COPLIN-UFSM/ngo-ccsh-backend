@@ -10,7 +10,7 @@ from .serializers import RegisterSerializer, UserSerializer
 from django.contrib.auth import authenticate
 from usuarios.models import Usuario
 from utils import response
-
+from utils.pagination import PaginationWithSize
 
 class UserView(APIView):
     """View para dar listar usuários e atualizar"""
@@ -25,8 +25,14 @@ class UserView(APIView):
         tags=["usuarios"],
     )
     def get(self, request):
-        users = Usuario.objects.filter().order_by("id")
-        serializer = RegisterSerializer(users, many=True)
+        queryset = Usuario.objects.filter().order_by("id")
+        paginator = PaginationWithSize()
+        page = paginator.paginate_queryset(queryset, request, self)
+
+        serializer = RegisterSerializer(queryset, many=True)
+        if page is not None:
+            return paginator.get_paginated_response(serializer.data)
+
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     @extend_schema(

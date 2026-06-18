@@ -4,14 +4,21 @@ from rest_framework import status
 from despesas.serializers import *
 from rest_framework.views import APIView
 from utils import response
+from utils.pagination import PaginationWithSize
 
 
 class SubunidadeView(APIView):
 
     def get(self, request):
         try:
-            subunidades = Subunidade.objects.filter(ativo=True)
-            serializer = SubunidadeSerializer(subunidades, many=True)
+            queryset = Subunidade.objects.filter(ativo=True)
+
+            paginator = PaginationWithSize()
+            page = paginator.paginate_queryset(queryset, request, self)
+            serializer = SubunidadeSerializer(queryset, many=True)
+            if page is not None:
+                return paginator.get_paginated_response(serializer.data)
+
             return response.success_data(serializer.data)
 
         except Exception as e:
@@ -33,8 +40,8 @@ class SubunidadeView(APIView):
 
 class SingleSubunidadeView(APIView):
     def get(self, request, *args, **kwargs):
-        pk = kwargs['pk']
-        
+        pk = kwargs["pk"]
+
         try:
             data = Subunidade.objects.filter(pk=pk, ativo=True).first()
             if not data:
@@ -46,7 +53,7 @@ class SingleSubunidadeView(APIView):
             return response.error_server(e)
 
     def put(self, request, *args, **kwargs):
-        pk = kwargs['pk']
+        pk = kwargs["pk"]
 
         try:
             subunidade = Subunidade.objects.filter(pk=pk).first()
@@ -65,7 +72,7 @@ class SingleSubunidadeView(APIView):
             return response.error_server()
 
     def delete(self, request, *args, **kwargs):
-        pk = kwargs['pk']
+        pk = kwargs["pk"]
 
         try:
             subunidade = Subunidade.objects.filter(pk=pk, ativo=True).first()

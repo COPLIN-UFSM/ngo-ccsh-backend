@@ -5,12 +5,20 @@ from despesas.serializers import *
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from utils import response
+from utils.pagination import PaginationWithSize
 
 
 class NaturezaFinalidadeView(APIView):
     def get(self, request):
-        naturezas_finalidades = NaturezaFinalidade.objects.filter(ativo=True)
-        serializer = NaturezaFinalidadeSerializer(naturezas_finalidades, many=True)
+        queryset = NaturezaFinalidade.objects.filter(ativo=True)
+        paginator = PaginationWithSize()
+        page = paginator.paginate_queryset(queryset, request, self)
+
+        serializer = NaturezaFinalidadeSerializer(queryset, many=True)
+
+        if page is not None:
+            return paginator.get_paginated_response(serializer.data)
+
         return Response(serializer.data)
 
     def post(self, request):
@@ -78,8 +86,15 @@ class SingleNaturezaFinalidadeView(APIView):
 
 class TipoFinalidadeView(APIView):
     def get(self, request):
-        tipos = TipoFinalidade.objects.filter(ativo=True)
-        serializer = TipoFinalidadeSerializer(tipos, many=True)
+        queryset = TipoFinalidade.objects.filter(ativo=True)
+        paginator = PaginationWithSize()
+        page = paginator.paginate_queryset(queryset, request, self)
+
+        serializer = TipoFinalidadeSerializer(queryset, many=True)
+
+        if page is not None:
+            return paginator.get_paginated_response(serializer.data)
+
         return Response(serializer.data)
 
     def post(self, request):
@@ -207,8 +222,15 @@ class FinalidadesView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        data = Finalidade.objects.filter(ativo=True)
-        serializer = FinalidadeSerializer(data, many=True)
+        queryset = Finalidade.objects.filter(ativo=True)
+
+        paginator = PaginationWithSize()
+        page = paginator.paginate_queryset(queryset, request, self)
+        serializer = FinalidadeSerializer(queryset, many=True)
+
+        if page is not None:
+            return paginator.get_paginated_response(serializer.data)
+
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def post(self, request):

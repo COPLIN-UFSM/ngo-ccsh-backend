@@ -3,35 +3,22 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from utils import response
-
 from despesas.serializers import *
-
-
-class TransacoesByEmpenho(APIView):
-    def get(self, request, *args, **kwargs):
-        pk = kwargs["pk"]
-        try:
-            empenho = Empenho.objects.filter(pk=pk).first()
-            if not empenho:
-                return response.not_found("Empenho não encontrado.")
-
-            transacoes = Transacao.objects.filter(empenho=empenho)
-            serializer = TransacaoSerializer(transacoes, many=True)
-
-            return Response(
-                data=serializer.data,
-                status=status.HTTP_200_OK,
-            )
-        except Exception as e:
-            print(e)
-            return response.error_server(e)
+from utils.pagination import PaginationWithSize
 
 
 class EmpenhoView(APIView):
     def get(self, request):
         try:
-            empenhos = Empenho.objects.all()
-            serializer = EmpenhoSerializer(empenhos, many=True)
+            queryset = Empenho.objects.all()
+            paginator = PaginationWithSize()
+
+            page = paginator.paginate_queryset(queryset, request, view=self)
+            serializer = EmpenhoSerializer(queryset, many=True)
+
+            if page is not None:
+                return paginator.get_paginated_response(serializer.data)
+
             return response.success_data(serializer.data)
         except Exception as e:
             return response.error_server(e)
