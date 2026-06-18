@@ -9,8 +9,8 @@ from utils import response
 
 class NaturezaFinalidadeView(APIView):
     def get(self, request):
-        tipos_despesa = NaturezaFinalidade.objects.filter(ativo=True)
-        serializer = NaturezaFinalidadeSerializer(tipos_despesa, many=True)
+        naturezas_finalidades = NaturezaFinalidade.objects.filter(ativo=True)
+        serializer = NaturezaFinalidadeSerializer(naturezas_finalidades, many=True)
         return Response(serializer.data)
 
     def post(self, request):
@@ -20,31 +20,37 @@ class NaturezaFinalidadeView(APIView):
                 return response.serializer_errors(serializer=serializer)
 
             serializer.save()
-            return response.success("Natureza adicionada com sucesso.")
-        except:
+            return response.success("Natureza de Finalidade adicionada com sucesso.")
+        except Exception as e:
+
             return response.error_server()
 
 
 class SingleNaturezaFinalidadeView(APIView):
-    name = "Natureza"
+    name = "Natureza de Finalidade"
 
-    def get(self, request, pk):
+    def get(self, request, *args, **kwargs):
+        pk = kwargs["pk"]
+
         try:
-            tipo_despesa = NaturezaFinalidade.objects.filter(pk=pk, ativo=True).first()
-            if not tipo_despesa:
-                return response.not_found("Natureza não encontrado")
-            serializer = NaturezaFinalidadeSerializer(tipo_despesa)
+            natureza_finalidade = NaturezaFinalidade.objects.filter(pk=pk, ativo=True).first()
+            if not natureza_finalidade:
+                return response.not_found(f"{self.name} não encontrado")
+            serializer = NaturezaFinalidadeSerializer(natureza_finalidade)
             return Response(serializer.data)
-        except:
+        except Exception as e:
+
             return response.error_server()
 
-    def put(self, request, pk):
+    def put(self, request, *args, **kwargs):
+        pk = kwargs["pk"]
+
         try:
-            tipo_despesa = NaturezaFinalidade.objects.filter(pk=pk).first()
-            if not tipo_despesa:
+            natureza_finalidade = NaturezaFinalidade.objects.filter(pk=pk).first()
+            if not natureza_finalidade:
                 return response.not_found(f"{self.name} não encontrada.")
 
-            serializer = NaturezaFinalidadeSerializer(instance=tipo_despesa, data=request.data)
+            serializer = NaturezaFinalidadeSerializer(instance=natureza_finalidade, data=request.data)
 
             if not serializer.is_valid():
                 return response.serializer_errors(serializer)
@@ -55,13 +61,15 @@ class SingleNaturezaFinalidadeView(APIView):
         except Exception as e:
             return response.error_server(e)
 
-    def delete(self, request, pk):
+    def delete(self, request, *args, **kwargs):
+        pk = kwargs["pk"]
+
         try:
-            tipo_despesa = NaturezaFinalidade.objects.filter(pk=pk, ativo=True).first()
-            if not tipo_despesa:
+            natureza_finalidade = NaturezaFinalidade.objects.filter(pk=pk, ativo=True).first()
+            if not natureza_finalidade:
                 return response.not_found(f"{self.name} não encontrada.")
 
-            tipo_despesa.ativo = False
+            natureza_finalidade.ativo = False
             return response.success(f"{self.name} desativado com sucesso.")
 
         except Exception as e:
@@ -70,8 +78,8 @@ class SingleNaturezaFinalidadeView(APIView):
 
 class TipoFinalidadeView(APIView):
     def get(self, request):
-        subtipos = TipoFinalidade.objects.filter(ativo=True)
-        serializer = TipoFinalidadeSerializer(subtipos, many=True)
+        tipos = TipoFinalidade.objects.filter(ativo=True)
+        serializer = TipoFinalidadeSerializer(tipos, many=True)
         return Response(serializer.data)
 
     def post(self, request):
@@ -81,7 +89,7 @@ class TipoFinalidadeView(APIView):
                 return response.serializer_errors(serializer=serializer)
 
             serializer.save()
-            return response.success("Categoria de Finalidade adicionado com sucesso.")
+            return response.success("Tipo de Finalidade adicionado com sucesso.")
 
         except Exception as e:
             print(e)
@@ -91,7 +99,9 @@ class TipoFinalidadeView(APIView):
 class SingleTipoFinalidadeView(APIView):
     name = "Tipo de Finalidade"
 
-    def get(self, request, pk):
+    def get(self, request, *args, **kwargs):
+        pk = kwargs["pk"]
+
         try:
             data = TipoFinalidade.objects.filter(pk=pk, ativo=True).first()
             if not data:
@@ -104,13 +114,15 @@ class SingleTipoFinalidadeView(APIView):
             print(e)
             return response.error_server()
 
-    def put(self, request, pk):
+    def put(self, request, *args, **kwargs):
+        pk = kwargs["pk"]
+
         try:
-            categoria_finalidade = TipoFinalidade.objects.filter(pk=pk).first()
-            if not categoria_finalidade:
+            tipo_finalidade = TipoFinalidade.objects.filter(pk=pk).first()
+            if not tipo_finalidade:
                 return response.not_found(f"{self.name} não encontrada.")
 
-            serializer = TipoFinalidadeSerializer(instance=categoria_finalidade, data=request.data)
+            serializer = TipoFinalidadeSerializer(instance=tipo_finalidade, data=request.data)
 
             if not serializer.is_valid():
                 return response.serializer_errors(serializer)
@@ -121,19 +133,17 @@ class SingleTipoFinalidadeView(APIView):
         except Exception as e:
             return response.error_server(e)
 
-    def delete(self, request, pk):
+    def delete(self, request, *args, **kwargs):
+        pk = kwargs["pk"]
+
         try:
-            categoria_finalidade = TipoFinalidade.objects.filter(pk=pk, ativo=True).first()
-            if not categoria_finalidade:
+            tipo_finalidade = TipoFinalidade.objects.filter(pk=pk, ativo=True).first()
+            if not tipo_finalidade:
                 return response.not_found(f"{self.name} não encontrada.")
 
-            # finalidades = Finalidade.objects.filter(tipo_finalidade=pk)
-            # if len(finalidades) > 0:
-            #     return response.bad_request(f"Não é possível remover um {self.name} que tenha filhos")
-            # categoria_finalidade.delete()
-            categoria_finalidade.ativo = False
+            tipo_finalidade.ativo = False
 
-            return response.success(f"{self.name} desativado com sucesso.")
+            return response.success(f"{self.name} desativada com sucesso.")
 
         except Exception as e:
             print(e)
@@ -141,7 +151,9 @@ class SingleTipoFinalidadeView(APIView):
 
 
 class SingleFinalidadeView(APIView):
-    def get(self, request, pk):
+    def get(self, request, *args, **kwargs):
+        pk = kwargs["pk"]
+
         try:
             data = Finalidade.objects.filter(pk=pk, ativo=True).first()
             if not data:
@@ -153,7 +165,9 @@ class SingleFinalidadeView(APIView):
             print(e)
             return response.error_server()
 
-    def put(self, request, pk):
+    def put(self, request, *args, **kwargs):
+        pk = kwargs["pk"]
+
         try:
             finalidade = Finalidade.objects.filter(pk=pk).first()
             if not finalidade:
@@ -174,7 +188,9 @@ class SingleFinalidadeView(APIView):
         except Exception as e:
             return response.error_server()
 
-    def delete(self, request, pk):
+    def delete(self, request, *args, **kwargs):
+        pk = kwargs["pk"]
+
         try:
             finalidade = Finalidade.objects.filter(pk=pk, ativo=True).first()
             if not finalidade:
@@ -231,7 +247,9 @@ class SubunidadeView(APIView):
 
 
 class SingleSubunidadeView(APIView):
-    def get(self, request, pk):
+    def get(self, request, *args, **kwargs):
+        pk = kwargs["pk"]
+
         try:
             data = Subunidade.objects.filter(pk=pk, ativo=True).first()
             if not data:
@@ -242,7 +260,9 @@ class SingleSubunidadeView(APIView):
         except Exception as e:
             return response.error_server(e)
 
-    def patch(self, request, pk):
+    def patch(self, request, *args, **kwargs):
+        pk = kwargs["pk"]
+
         try:
             subunidade = Subunidade.objects.filter(pk=pk).first()
             if not subunidade:
@@ -259,7 +279,9 @@ class SingleSubunidadeView(APIView):
         except Exception as e:
             return response.error_server()
 
-    def delete(self, request, pk):
+    def delete(self, request, *args, **kwargs):
+        pk = kwargs["pk"]
+
         try:
             subunidade = Subunidade.objects.filter(pk=pk, ativo=True).first()
             if not subunidade:

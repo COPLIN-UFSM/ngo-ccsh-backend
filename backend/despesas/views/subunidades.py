@@ -32,7 +32,9 @@ class SubunidadeView(APIView):
 
 
 class SingleSubunidadeView(APIView):
-    def get(self, request, pk):
+    def get(self, request, *args, **kwargs):
+        pk = kwargs['pk']
+        
         try:
             data = Subunidade.objects.filter(pk=pk, ativo=True).first()
             if not data:
@@ -43,7 +45,9 @@ class SingleSubunidadeView(APIView):
         except Exception as e:
             return response.error_server(e)
 
-    def put(self, request, pk):
+    def put(self, request, *args, **kwargs):
+        pk = kwargs['pk']
+
         try:
             subunidade = Subunidade.objects.filter(pk=pk).first()
             if not subunidade:
@@ -60,7 +64,9 @@ class SingleSubunidadeView(APIView):
         except Exception as e:
             return response.error_server()
 
-    def delete(self, request, pk):
+    def delete(self, request, *args, **kwargs):
+        pk = kwargs['pk']
+
         try:
             subunidade = Subunidade.objects.filter(pk=pk, ativo=True).first()
             if not subunidade:

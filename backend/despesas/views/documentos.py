@@ -23,11 +23,8 @@ class DocumentoViewSet(viewsets.ModelViewSet):
     serializer_class = DocumentoSerializer
 
     def get_queryset(self):
-        return Documento.objects.filter(ativo=True)
+        return Documento.objects.filter()
     
     def get_permissions(self):
         return [IsAuthenticated()]
     
-    def perform_destroy(self, instance):
-        instance.ativo = False
-        instance.save()
