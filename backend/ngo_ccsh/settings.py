@@ -115,6 +115,9 @@ REST_FRAMEWORK = {
     ],
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
     "EXCEPTION_HANDLER": "ngo_ccsh.utils.custom_exception_handler",
+
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10
 }
 
 SIMPLE_JWT = {
@@ -223,6 +226,9 @@ DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL")
 
 APP_FULL_NAME = os.getenv("APP_FULL_NAME") or "Portal Transparência CCSH"
 APP_SHORT_NAME = os.getenv("APP_SHORT_NAME")
+
+
+
 
 FRONTEND_URL = os.getenv("FRONTEND_URL")
 
