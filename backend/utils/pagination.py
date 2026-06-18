@@ -21,7 +21,6 @@ class PaginationWithSize(PageNumberPagination):
     max_page_size = 1000
 
     def get_paginated_response(self, data):
-        print("oii")
         return Response(
             {
                 "status": "success",

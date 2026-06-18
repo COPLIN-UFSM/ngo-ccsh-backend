@@ -16,6 +16,7 @@ class SubunidadeView(APIView):
             paginator = PaginationWithSize()
             page = paginator.paginate_queryset(queryset, request, self)
             serializer = SubunidadeSerializer(queryset, many=True)
+            print(serializer.data)
             if page is not None:
                 return paginator.get_paginated_response(serializer.data)
 
