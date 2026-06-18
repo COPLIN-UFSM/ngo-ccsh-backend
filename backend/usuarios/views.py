@@ -132,7 +132,7 @@ class UserDetailsView(APIView):
                 status.HTTP_200_OK,
             )
 
-        if not not request.user.is_superuser:
+        if not request.user.is_superuser:
             if user.id != request.user.id:
                 return Response(
                     {"detail": "Não é possível alterar dados de outro usuário sem ser administrador."},
@@ -146,6 +146,12 @@ class UserDetailsView(APIView):
             elif 'is_active' in changes:
                 return Response(
                     {"detail": "Apenas um administrador pode desativar sua conta!"},
+                    status=status.HTTP_403_FORBIDDEN
+                )
+        elif user.id == request.user.id:
+            if 'is_superuser' in changes:
+                return Response(
+                    {"detail": "Apenas outro usuário administrador pode remover seu privilégio de administrador!"},
                     status=status.HTTP_403_FORBIDDEN
                 )
 
@@ -185,6 +191,11 @@ class UserDetailsView(APIView):
 
         if user.id != request.user.id and not request.user.is_superuser:
             return response.not_admin_user()
+
+        if user.id == request.user.id:
+            return Response(
+                {'detail': 'Apenas outro usuário administrador pode desativar sua conta!'}, status=status.HTTP_403_FORBIDDEN
+            )
 
         user.is_active = False
         user.save()
