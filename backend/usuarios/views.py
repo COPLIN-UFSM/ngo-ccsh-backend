@@ -76,14 +76,14 @@ class UpdatePermissionUserView(APIView):
         },
         tags=["usuarios"],
     )
-    def patch(self, request, pk):
+    def patch(self, request, *args, **kwargs):
+        pk = kwargs["pk"]
+
         if not request.user.is_superuser:
             return response.not_admin_user()
-
-
         try:
             user = Usuario.objects.get(pk=pk)
-        except:
+        except Usuario.DoesNotExist:
             return Response(
                 {"detail": f"Usuário com id: {pk}, não encontrado."},
                 status=status.HTTP_404_NOT_FOUND,
@@ -108,8 +108,7 @@ class UpdatePermissionUserView(APIView):
         detail = (
             (
                 "Nenhuma permissão alterada"
-                if old_permission_super == user.is_superuser
-                and old_permission_staff == user.is_staff
+                if old_permission_super == user.is_superuser and old_permission_staff == user.is_staff
                 else f"O usuário {user.username} teve seu status de usuário alterado."
             ),
         )
@@ -151,44 +150,40 @@ class ChangePasswordView(APIView):
         tags=["usuarios"],
     )
     def patch(self, request, *args, **kwargs):
-        pk = kwargs['pk']
+        pk = kwargs["pk"]
 
         try:
             user = Usuario.objects.get(pk=pk)
         except Usuario.DoesNotExist:
-            return Response(
-                {'detail': 'Usuário não encontrado!'}, status=status.HTTP_404_NOT_FOUND
-            )
+            return Response({"detail": "Usuário não encontrado!"}, status=status.HTTP_404_NOT_FOUND)
 
         is_admin = request.user.is_superuser
         changing_other = pk != request.user.id
 
         if not is_admin and changing_other:
             return Response(
-                {'detail': 'Apenas administradores podem trocar a senha de outros usuários.'},
+                {"detail": "Apenas administradores podem trocar a senha de outros usuários."},
                 status=status.HTTP_403_FORBIDDEN,
             )
 
-        new_password = request.data.get('password1')
-        new_password_confirm = request.data.get('password2')
+        new_password = request.data.get("password1")
+        new_password_confirm = request.data.get("password2")
 
         if not new_password or not new_password_confirm:
             return Response(
-                {"detail": 'Por favor preencha todos os campos!'},
+                {"detail": "Por favor preencha todos os campos!"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
         if new_password != new_password_confirm:
             return Response(
-                {"detail": 'As senhas não são idênticas!'},
+                {"detail": "As senhas não são idênticas!"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
         user.set_password(new_password)
         user.save()
-        return Response(
-            {"detail": 'Senha atualizada com sucesso!'}, status=status.HTTP_200_OK
-        )
+        return Response({"detail": "Senha atualizada com sucesso!"}, status=status.HTTP_200_OK)
 
 
 class UserInfoView(APIView):
@@ -214,18 +209,20 @@ class UserInfoView(APIView):
         },
         tags=["usuarios"],
     )
-    def get(self, request, pk):
+    def get(self, request, *args, **kwargs):
         """
         Mostra dados de um usuário
         """
+        pk = kwargs["pk"]
+
         try:
             user = Usuario.objects.get(pk=pk)
-        except:
+        except Usuario.DoesNotExist:
             return Response(
                 {"detail": f"Usuário com id: {pk}, não encontrado."},
                 status=status.HTTP_404_NOT_FOUND,
             )
-        
+
         serializer = RegisterSerializer(user)
 
         return Response(serializer.data, status=status.HTTP_200_OK)
@@ -250,13 +247,14 @@ class UserInfoView(APIView):
         },
         tags=["usuarios"],
     )
-    def patch(self, request, pk):
+    def patch(self, request, *args, **kwargs):
         """
         Atualiza os dados de um usuário
         """
+        pk = kwargs["pk"]
         try:
             user = Usuario.objects.get(pk=pk)
-        except:
+        except Usuario.DoesNotExist:
             return Response(
                 {"detail": f"Usuário com id: {pk}, não encontrado."},
                 status=status.HTTP_404_NOT_FOUND,
@@ -310,20 +308,19 @@ class UserInfoView(APIView):
         },
         tags=["usuarios"],
     )
-    def delete(self, request, pk):
+    def delete(self, request, *args, **kwargs):
+        pk = kwargs["pk"]
         try:
             user = Usuario.objects.get(pk=pk)
-        except:
+        except Usuario.DoesNotExist:
             return Response(
                 {"detail": f"Usuário com id: {pk}, não encontrado."},
                 status=status.HTTP_404_NOT_FOUND,
             )
-        
+
         if user.id != request.user.pk and not request.user.is_superuser:
             return response.not_admin_user()
 
         user.is_active = False
         user.save()
         return Response(status.HTTP_204_NO_CONTENT)
-
-

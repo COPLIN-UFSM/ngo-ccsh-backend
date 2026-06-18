@@ -8,11 +8,13 @@ from despesas.serializers import *
 
 
 class TransacoesByEmpenho(APIView):
-    def get(self, request, pk):
+    def get(self, request, *args, **kwargs):
+        pk = kwargs["pk"]
         try:
             empenho = Empenho.objects.filter(pk=pk).first()
             if not empenho:
                 return response.not_found("Empenho não encontrado.")
+
             transacoes = Transacao.objects.filter(empenho=empenho)
             serializer = TransacaoSerializer(transacoes, many=True)
 
@@ -48,7 +50,9 @@ class EmpenhoView(APIView):
 
 
 class SingleEmpenhoView(APIView):
-    def get(self, request, pk):
+    def get(self, request, *args, **kwargs):
+        pk = kwargs["pk"]
+
         try:
             empenho = Empenho.objects.get(pk=pk)
             serializer = EmpenhoSerializer(empenho)
@@ -58,7 +62,9 @@ class SingleEmpenhoView(APIView):
         except Exception as e:
             return response.error_server(e)
 
-    def put(self, request, pk):
+    def put(self, request, *args, **kwargs):
+        pk = kwargs["pk"]
+
         try:
             empenho = Empenho.objects.filter(pk=pk).first()
             if not empenho:
@@ -76,7 +82,9 @@ class SingleEmpenhoView(APIView):
             return response.error_server(e)
 
     # Nesse caso pode deletar mesmo, pois aqui o empenho não tem nenhum filho e pode ser recriado posteriormente.
-    def delete(self, request, pk):
+    def delete(self, request, *args, **kwargs):
+        pk = kwargs["pk"]
+
         try:
             empenho = Empenho.objects.filter(pk=pk).first()
             if not empenho:
