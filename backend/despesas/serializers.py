@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from despesas.models import *
 from django.db.models import Sum, Case, When, F
+from rest_framework import serializers
 
 
 class BeneficiarioSerializer(serializers.ModelSerializer):
@@ -10,18 +11,21 @@ class BeneficiarioSerializer(serializers.ModelSerializer):
         read_only_fields = ["id_beneficiario"]
 
 
-class DocumentoSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Documento
-        fields = ["id_documento", "tipo_documento", "documento", "transacao", "descricao"]
-        read_only_fields = ["id_documento"]
-
-
 class TipoDocumentoSerializer(serializers.ModelSerializer):
     class Meta:
         model = TipoDocumento
         fields = ["id_tipo_documento", "tipo_documento"]
         read_only_fields = ["id_tipo_documento"]
+
+
+class DocumentoSerializer(serializers.ModelSerializer):
+
+    tipo_documento  = TipoDocumentoSerializer(read_only=True)
+
+    class Meta:
+        model = Documento
+        fields = ["id_documento", "tipo_documento", "documento", "transacao", "descricao"]
+        read_only_fields = ["id_documento"]
 
 
 class TipoFinalidadeSerializer(serializers.ModelSerializer):
@@ -82,6 +86,8 @@ class SubunidadeSerializer(serializers.ModelSerializer):
 
 
 class DocumentoNestedSerializer(serializers.ModelSerializer):
+    tipo_documento  = TipoDocumentoSerializer(read_only=True)
+
     class Meta:
         model = Documento
         exclude = ["transacao"]
@@ -165,10 +171,29 @@ class TransacaoSerializer(serializers.ModelSerializer):
 
 
 class EmpenhoSerializer(serializers.ModelSerializer):
+    transacoes = TransacaoSerializer(many=True, read_only=True)
+    montante = serializers.SerializerMethodField()
+
     class Meta:
         model = Empenho
-        fields = ["id_empenho", "empenho", "pen", "descricao", "finalidade"]
+        fields = ["id_empenho", "empenho", "pen", "descricao", "finalidade", "montante", "transacoes"]
         read_only_fields = ["id_empenho"]
+
+    def get_montante(self, obj):
+
+        valor_somado = (
+            Transacao.objects.filter(empenho=obj).aggregate(
+                total=Sum(
+                    Case(
+                        When(eh_credito=True, then=F("montante")),
+                        When(eh_credito=False, then=-F("montante")),
+                    )
+                )
+            )["total"]
+            or 0.00
+        )
+
+        return valor_somado
 
 
 # Finalidade em empenho? Finalidade em Transação.
