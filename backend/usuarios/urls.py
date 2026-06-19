@@ -1,17 +1,11 @@
-# from django.contrib import admin
 from django.urls import path
-from usuarios.views import (
-    UserView,
-    UserInfoView,
-    ChangePasswordView,
-    UpdatePermissionUserView,
-)
+
+from usuarios.views import UserListView, UserDetailsView, ChangePasswordView
 
 app_name = "usuarios"
 
 urlpatterns = [
-    path("", UserView.as_view(), name="userView"),
-    path("<int:pk>/", UserInfoView.as_view(), name="single_info"),
-    path("<int:pk>/senha/", ChangePasswordView.as_view(), name="change_password"),
-    path("<int:pk>/permissoes/", UpdatePermissionUserView.as_view(), name="permission_update"),
+    path("", UserListView.as_view(), name="userList"),
+    path("<int:id_usuario>/", UserDetailsView.as_view(), name="userDetails"),
+    path("<int:id_usuario>/senha/", ChangePasswordView.as_view(), name="changePassword")
 ]
