@@ -10,8 +10,8 @@ class CustomJSONRenderer(JSONRenderer):
             if isinstance(data, dict) and "status" in data:
                 custom_data = data
             else:
-                custom_data = {"status": "success", "message": "Operação realizada com sucesso.", "data": data}
+                custom_data = {"data": data}
         else:
-            custom_data = {"status": "error", "message": "Ocorreu um erro na requisição.", "errors": data}
+            custom_data = {"errors": data}
 
         return super().render(custom_data, accepted_media_type, renderer_context)
