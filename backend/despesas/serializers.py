@@ -1,7 +1,7 @@
+from django.db.models import Case, F, Sum, When
 from rest_framework import serializers
+
 from despesas.models import *
-from django.db.models import Sum, Case, When, F
-from rest_framework import serializers
 
 
 class BeneficiarioSerializer(serializers.ModelSerializer):
@@ -22,9 +22,14 @@ class DocumentoSerializer(serializers.ModelSerializer):
 
     tipo_documento  = TipoDocumentoSerializer(read_only=True)
 
+    id_tipo_documento = serializers.PrimaryKeyRelatedField(
+        queryset=TipoDocumento.objects.all(),
+        source="tipo_documento",  # Aponta para o atributo do modelo Django
+        write_only=True
+    )
     class Meta:
         model = Documento
-        fields = ["id_documento", "tipo_documento", "documento", "transacao", "descricao"]
+        fields = ["id_documento", "id_tipo_documento", "tipo_documento", "documento", "transacao", "descricao"]
         read_only_fields = ["id_documento"]
 
 
@@ -87,7 +92,12 @@ class SubunidadeSerializer(serializers.ModelSerializer):
 
 class DocumentoNestedSerializer(serializers.ModelSerializer):
     tipo_documento  = TipoDocumentoSerializer(read_only=True)
-
+    id_tipo_documento = serializers.PrimaryKeyRelatedField(
+        queryset=TipoDocumento.objects.all(),
+        source="tipo_documento",  # Aponta para o atributo do modelo Django
+        write_only=True
+    )
+    
     class Meta:
         model = Documento
         exclude = ["transacao"]

@@ -1,8 +1,9 @@
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
+
+from despesas.models import Documento, TipoDocumento, Transacao
 from despesas.tests import DespesasTestAPI
-from despesas.models import TipoDocumento, Documento, Transacao
 
 
 class TipoDocumentoViewSetTestCase(APITestCase, DespesasTestAPI):
@@ -40,7 +41,7 @@ class DocumentoViewSetTestCase(APITestCase, DespesasTestAPI):
         self.create_finalidade()
         self.create_basic_data()
         self.url_list = reverse("despesas:documentos-list")
-        self.tipo_doc = TipoDocumento.objects.create(tipo_documento="Recibo")
+        self.id_tipo_doc = TipoDocumento.objects.create(tipo_documento="Recibo")
         self.transacao = Transacao.objects.create(empenho=self.empenho, usuario=self.user_normal, montante=100.00, subunidade_executora=self.subunidade)
         self.documento = Documento.objects.create(tipo_documento=self.tipo_doc, transacao=self.transacao, descricao="Recibo 1")
 
@@ -52,7 +53,7 @@ class DocumentoViewSetTestCase(APITestCase, DespesasTestAPI):
 
     def test_create_documento(self):
         self.authentication(self.user_data_normal)
-        data = {"tipo_documento": self.tipo_doc.pk, "transacao": self.transacao.pk, "documento": "7FDSFSDJ", "descricao": "Recibo 2"}
+        data = {"id_tipo_documento": self.tipo_doc.pk, "transacao": self.transacao.pk, "documento": "7FDSFSDJ", "descricao": "Recibo 2"}
         response = self.client.post(self.url_list, data=data)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
