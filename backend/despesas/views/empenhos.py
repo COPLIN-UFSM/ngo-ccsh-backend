@@ -1,7 +1,5 @@
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework import status
 from utils import response
 from despesas.serializers import *
 from utils.pagination import PaginationWithSize
@@ -77,12 +75,10 @@ class SingleEmpenhoView(APIView):
             if not empenho:
                 return response.not_found("Empenho não encontrada.")
 
-            related_transacoes = Transacao.objects.filter(empenho=pk)
-            if len(related_transacoes) > 0:
-                return response.bad_request(f"Não é possível remover um empenho que tenha filhos")
+            empenho.ativo = False
+            empenho.save()
 
-            empenho.delete()
             return response.success_no_content()
 
-        except Exception as e:
+        except Exception:
             return response.error_server()

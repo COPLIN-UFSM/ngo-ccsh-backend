@@ -1,9 +1,9 @@
-from django.db import models
-from django.core.validators import MinLengthValidator
-from usuarios.models import Usuario
-
 from decimal import Decimal
-from django.db.models import Sum, Case, When, F, DecimalField
+
+from django.core.validators import MinLengthValidator
+from django.db import models
+from django.db.models import Case, DecimalField, F, Sum, When
+from usuarios.models import Usuario
 
 
 class Subunidade(models.Model):
@@ -107,7 +107,7 @@ class Empenho(models.Model):
     descricao = models.TextField(max_length=200)
     finalidade = models.ForeignKey(Finalidade, models.DO_NOTHING, db_column="id_finalidade")
     data = models.DateField(auto_now_add=True, blank=True)
-
+    ativo = models.BooleanField(default=True)
     class Meta:
         managed = False
         db_table = "empenhos"

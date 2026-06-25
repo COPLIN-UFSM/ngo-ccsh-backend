@@ -157,6 +157,11 @@ class TransacaoSerializer(serializers.ModelSerializer):
         id_transacao = data.get("id_transacao")
         eh_credito = data.get("eh_credito")
 
+        if empenho and not empenho.ativo:
+            raise serializers.ValidationError(
+                {"empenho": "Não é possível criar ou modificar transações de um empenho inativo."}
+            )
+
         queryset = Transacao.objects.filter(empenho=empenho)
         if self.instance:
             queryset = queryset.exclude(id_transacao=id_transacao)

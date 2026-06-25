@@ -11,6 +11,3 @@ class TransacoesViewSet(viewsets.ModelViewSet):
     def get_permissions(self):
         return [IsAuthenticated()]
     
-    def perform_destroy(self, instance):
-        instance.ativo = False
-        instance.save()

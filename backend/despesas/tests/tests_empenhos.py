@@ -12,11 +12,14 @@ class SetupTestAPI:
 
     def create_test_users(self):
         self.user_admin = Usuario.objects.create_superuser(username="admin_test", email="admin_test@gmail.com", password="adminpass")
+        
         self.user_normal = Usuario.objects.create_user(username="user_test", email="user_test@gmail.com", password="userpass")
+        
         self.user_data_adm = {
             "username": self.user_admin.username,
             "password": "adminpass",
         }
+        
         self.user_data_normal = {
             "username": self.user_normal.username,
             "password": "userpass",
@@ -88,10 +91,3 @@ class SingleEmpenhoViewTestCase(APITestCase, SetupTestAPI):
         self.empenho.refresh_from_db()
         self.assertEqual(self.empenho.empenho, "2024NE0001-MOD")
 
-    def test_delete_empenho_with_children(self):
-        Transacao.objects.create(empenho=self.empenho, usuario=self.user_normal, montante=100.00, subunidade_executora=self.subunidade)
-        self.authentication(self.user_data_adm)
-        response = self.client.delete(self.url)
-        print(response)
-        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertTrue(Empenho.objects.filter(pk=self.empenho.id_empenho).exists())
