@@ -1,11 +1,13 @@
 from django.core.management.base import BaseCommand
-from despesas.models import Beneficiario, Subunidade,Finalidade, TipoFinalidade, NaturezaFinalidade,TipoDocumento, Empenho, Transacao
+from despesas.models import Beneficiario, Unidade,Finalidade, TipoFinalidade, NaturezaFinalidade,TipoDocumento, Empenho, Transacao
 from usuarios.models import Usuario
 
+# TODO será assim mas não realmente
+
 subunidades_insert = [
-    Subunidade(subunidade="Proplan", grupo="Unidades"),
-    Subunidade(subunidade="Depto. de C. Administrativas", grupo="DEPTO"),
-    Subunidade(subunidade="Depto. de Direito", grupo="DEPTO"),
+    Unidade(subunidade="Proplan", grupo="Unidades"),
+    Unidade(subunidade="Depto. de C. Administrativas", grupo="DEPTO"),
+    Unidade(subunidade="Depto. de Direito", grupo="DEPTO"),
 ]
 
 beneficiarios = [
@@ -19,7 +21,9 @@ tipos_documentos = [
 ]
 
 class Command(BaseCommand):
+
     help = 'Cria dados iniciais para o projeto'
+
     def handle(self, *args, **kwargs):
         bolsas, _ = TipoFinalidade.objects.get_or_create(tipo_finalidade="Bolsas")
         viagens, _ = TipoFinalidade.objects.get_or_create(tipo_finalidade="Viagens")
@@ -32,8 +36,8 @@ class Command(BaseCommand):
         Finalidade.objects.get_or_create(finalidade="Viagem Área", natureza_finalidade=custeio, tipo_finalidade=viagens)
         Finalidade.objects.get_or_create(finalidade="Bolsa PRAE", natureza_finalidade=custeio, tipo_finalidade=bolsas)
         
-        subunidades = Subunidade.objects.bulk_create(subunidades_insert,ignore_conflicts=True)
-        subunidade_1 = Subunidade.objects.filter(subunidade="Proplan").first()
+        subunidades = Unidade.objects.bulk_create(subunidades_insert, ignore_conflicts=True)
+        subunidade_1 = Unidade.objects.filter(subunidade="Proplan").first()
         
         usuario = Usuario.objects.create_user(username="leandrogalbarino", email="leandrogalbarino@gmail.com", password="leandrogalbarino")
 

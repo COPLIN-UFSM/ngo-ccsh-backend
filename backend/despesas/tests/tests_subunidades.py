@@ -1,7 +1,7 @@
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
-from despesas.models import Subunidade
+from despesas.models import Unidade
 from despesas.tests import DespesasTestAPI
 
 
@@ -9,7 +9,7 @@ class SubunidadeViewTestCase(APITestCase, DespesasTestAPI):
     def setUp(self):
         self.create_test_users()
         self.url = reverse("despesas:subunidades")
-        self.subunidade = Subunidade.objects.create(subunidade="Departamento A", grupo="DEPTO")
+        self.subunidade = Unidade.objects.create(subunidade="Departamento A", grupo="DEPTO")
 
     def test_get_subunidades(self):
         self.authentication(self.user_data_adm)
@@ -38,7 +38,7 @@ class SubunidadeViewTestCase(APITestCase, DespesasTestAPI):
 class SingleSubunidadeViewTestCase(APITestCase, DespesasTestAPI):
     def setUp(self):
         self.create_test_users()
-        self.subunidade = Subunidade.objects.create(subunidade="Departamento B", grupo="DEPTO")
+        self.subunidade = Unidade.objects.create(subunidade="Departamento B", grupo="DEPTO")
         self.url = reverse("despesas:single_subunidade", kwargs={"pk": self.subunidade.pk})
 
     def test_get_single_subunidade(self):

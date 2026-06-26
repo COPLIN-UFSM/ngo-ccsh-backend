@@ -2,7 +2,7 @@ from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
 from usuarios.models import Usuario
-from despesas.models import Transacao, TipoDocumento, Empenho, Finalidade, NaturezaFinalidade, TipoFinalidade, Subunidade
+from despesas.models import Transacao, TipoDocumento, Empenho, Finalidade, NaturezaFinalidade, TipoFinalidade, Unidade
 
 
 class SetupTestAPI:
@@ -38,7 +38,7 @@ class SetupTestAPI:
     def create_basic_data(self):
         self.empenho = Empenho.objects.create(empenho="2024NE0001", descricao="Empenho de Teste", finalidade=self.finalidade)
         self.tipo_doc = TipoDocumento.objects.create(tipo_documento="Nota Fiscal")
-        self.subunidade = Subunidade.objects.create(subunidade="PROPLAN")
+        self.subunidade = Unidade.objects.create(subunidade="PROPLAN")
 
 
 class EmpenhoViewTestCase(APITestCase, SetupTestAPI):

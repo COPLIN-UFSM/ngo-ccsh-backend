@@ -1,6 +1,6 @@
 from usuarios.models import Usuario
 from django.urls import reverse
-from despesas.models import TipoDocumento, Empenho, Finalidade, NaturezaFinalidade, TipoFinalidade, Subunidade
+from despesas.models import TipoDocumento, Empenho, Finalidade, NaturezaFinalidade, TipoFinalidade, Unidade
 
 
 class DespesasTestAPI:
@@ -32,4 +32,4 @@ class DespesasTestAPI:
     def create_basic_data(self):
         self.empenho = Empenho.objects.create(empenho="2024NE0001", descricao="Empenho de Teste", finalidade=self.finalidade)
         self.tipo_doc = TipoDocumento.objects.create(tipo_documento="Nota Fiscal")
-        self.subunidade = Subunidade.objects.create(subunidade="PROPLAN")
+        self.subunidade = Unidade.objects.create(subunidade="PROPLAN")

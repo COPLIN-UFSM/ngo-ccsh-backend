@@ -10,7 +10,7 @@ from despesas.views.finalidades import (
     SingleNaturezaFinalidadeView,
 )
 
-from despesas.views.subunidades import SubunidadeView, SingleSubunidadeView
+from despesas.views.unidades import SubunidadeView, SingleSubunidadeView
 from despesas.views.empenhos import EmpenhoView, SingleEmpenhoView
 from despesas.views.beneficiario import BeneficiarioViewSet
 from despesas.views.documentos import DocumentoViewSet, TipoDocumentoViewSet

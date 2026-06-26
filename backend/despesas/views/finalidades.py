@@ -250,7 +250,7 @@ class FinalidadesView(APIView):
 class SubunidadeView(APIView):
     def get(self, request):
         try:
-            subunidades = Subunidade.objects.filter(ativo=True)
+            subunidades = Unidade.objects.filter(ativo=True)
             serializer = SubunidadeSerializer(subunidades, many=True)
             return response.success_data(serializer.data)
 
@@ -273,7 +273,7 @@ class SingleSubunidadeView(APIView):
         pk = kwargs["pk"]
 
         try:
-            data = Subunidade.objects.filter(pk=pk, ativo=True).first()
+            data = Unidade.objects.filter(pk=pk, ativo=True).first()
             if not data:
                 return response.not_found("Subunidade não encontrada.")
             serializer = SubunidadeSerializer(data)
@@ -286,7 +286,7 @@ class SingleSubunidadeView(APIView):
         pk = kwargs["pk"]
 
         try:
-            subunidade = Subunidade.objects.filter(pk=pk).first()
+            subunidade = Unidade.objects.filter(pk=pk).first()
             if not subunidade:
                 return response.not_found("Subunidade não encontrada.")
 
@@ -305,7 +305,7 @@ class SingleSubunidadeView(APIView):
         pk = kwargs["pk"]
 
         try:
-            subunidade = Subunidade.objects.filter(pk=pk, ativo=True).first()
+            subunidade = Unidade.objects.filter(pk=pk, ativo=True).first()
             if not subunidade:
                 return response.not_found("Subunidade não encontrada.")
             subunidade.ativo = False

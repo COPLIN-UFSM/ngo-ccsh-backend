@@ -8,10 +8,9 @@ from utils.pagination import PaginationWithSize
 
 
 class SubunidadeView(APIView):
-
     def get(self, request):
         try:
-            queryset = Subunidade.objects.filter(ativo=True)
+            queryset = Unidade.objects.filter(ativo=True)
 
             paginator = PaginationWithSize()
             page = paginator.paginate_queryset(queryset, request, self)
@@ -44,7 +43,7 @@ class SingleSubunidadeView(APIView):
         pk = kwargs["pk"]
 
         try:
-            data = Subunidade.objects.filter(pk=pk, ativo=True).first()
+            data = Unidade.objects.filter(pk=pk, ativo=True).first()
             if not data:
                 return response.not_found("Subunidade não encontrada.")
             serializer = SubunidadeSerializer(data)
@@ -57,7 +56,7 @@ class SingleSubunidadeView(APIView):
         pk = kwargs["pk"]
 
         try:
-            subunidade = Subunidade.objects.filter(pk=pk).first()
+            subunidade = Unidade.objects.filter(pk=pk).first()
             if not subunidade:
                 return response.not_found("Subunidade não encontrada.")
 
@@ -76,7 +75,7 @@ class SingleSubunidadeView(APIView):
         pk = kwargs["pk"]
 
         try:
-            subunidade = Subunidade.objects.filter(pk=pk, ativo=True).first()
+            subunidade = Unidade.objects.filter(pk=pk, ativo=True).first()
             if not subunidade:
                 return response.not_found("Subunidade não encontrada.")
             subunidade.delete()

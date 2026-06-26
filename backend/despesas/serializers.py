@@ -85,9 +85,9 @@ class FinalidadeSerializer(serializers.ModelSerializer):
 
 class SubunidadeSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Subunidade
-        fields = ["id_subunidade", "subunidade", "grupo"]
-        read_only_fields = ["id_subunidade"]
+        model = Unidade
+        fields = ["id_unidade", "nome_unidade", "grupo"]
+        read_only_fields = ["id_unidade"]
 
 
 class DocumentoNestedSerializer(serializers.ModelSerializer):

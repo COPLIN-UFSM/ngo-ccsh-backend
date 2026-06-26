@@ -5,27 +5,49 @@ from usuarios.models import Usuario
 from decimal import Decimal
 from django.db.models import Sum, Case, When, F, DecimalField
 
-
-class Subunidade(models.Model):
-    class Grupo(models.TextChoices):
-        UNIDADES = "UNIDADES", "Unidades"
-        DIRECAO = "DIRECAO", "Direção"
-        DEPARTAMENTOS = "DEPTO", "Departamentos"
-        CURSOS = "CURSOS", "Cursos"
-        PROGRAMA_POS_GRADUACAO = "PPG", "Programa de Pós-Graduação"
-
-    id_subunidade = models.AutoField(primary_key=True)
-    subunidade = models.CharField(max_length=255, unique=True)
-    grupo = models.CharField(choices=Grupo.choices, max_length=255)
-    ativo = models.BooleanField(default=True, blank=True)
+class Centro(models.Model):
+    id_centro = models.AutoField(primary_key=True, db_column='id_centro')
+    nome_centro = models.CharField(max_length=256, db_column='nome_centro')
+    sigla_centro = models.CharField(max_length=16, unique=True, db_column='sigla_centro')
+    cod_estruturado = models.CharField(max_length=15, unique=True, db_column='cod_estruturado')
 
     class Meta:
         managed = False
-        db_table = "subunidades"
+        db_table = "v_centros"
+
+class SituacaoUnidade(models.Model):
+    id_situacao_unidade = models.AutoField(primary_key=True, db_column='id_situacao_unidade')
+    situacao_unidade = models.CharField(max_length=16, db_column='situacao_unidade')
+
+    class Meta:
+        managed = False
+        db_table = "v_situacoes_unidades"
+
+class TipoUnidade(models.Model):
+    id_tipo_unidade = models.AutoField(primary_key=True, db_column='id_tipo_unidade')
+    tipo_unidade = models.CharField(max_length=64, db_column='tipo_unidade')
+
+    class Meta:
+        managed = False
+        db_table = "v_tipos_unidades"
+
+class Unidade(models.Model):
+    id_unidade = models.AutoField(primary_key=True, db_column='id_unidade')
+    nome_unidade = models.CharField(max_length=256, unique=True, db_column='nome_unidade')
+    cod_estruturado = models.CharField(max_length=15, unique=True, db_column='cod_estruturado')
+
+    centro = models.ForeignKey(Centro, models.DO_NOTHING, db_column="id_centro")
+    tipo_unidade = models.ForeignKey(TipoUnidade, models.DO_NOTHING, db_column="id_tipo_unidade")
+    situacao_unidade = models.ForeignKey(SituacaoUnidade, models.DO_NOTHING, db_column="id_situacao")
+
+    class Meta:
+        managed = False
+        db_table = "v_unidades"
 
     def __str__(self) -> str:
-        return self.subunidade
+        return self.nome_unidade
 
+# TODO daqui pra baixo nada tá ok
 
 class NaturezaFinalidade(models.Model):
     id_natureza_finalidade = models.AutoField(primary_key=True)
@@ -168,14 +190,14 @@ class Transacao(models.Model):
     finalidade = models.ForeignKey(Finalidade, models.DO_NOTHING, db_column="id_finalidade", blank=True, null=True)
 
     subunidade_credora = models.ForeignKey(
-        Subunidade,
+        Unidade,
         models.DO_NOTHING,
         db_column="id_subunidade_credora",
         blank=True,
         null=True,
     )
     subunidade_executora = models.ForeignKey(
-        Subunidade,
+        Unidade,
         models.DO_NOTHING,
         db_column="id_subunidade_executora",
         related_name="transacoes_id_subunidade_executora_set",
