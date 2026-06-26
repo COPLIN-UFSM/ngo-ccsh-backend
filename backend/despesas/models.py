@@ -33,7 +33,7 @@ class TipoUnidade(models.Model):
 
 class Unidade(models.Model):
     id_unidade = models.AutoField(primary_key=True, db_column='id_unidade')
-    nome_unidade = models.CharField(max_length=256, unique=True, db_column='nome_unidade')
+    nome_unidade = models.CharField(max_length=256, unique=False, db_column='nome_unidade')
     cod_estruturado = models.CharField(max_length=15, unique=True, db_column='cod_estruturado')
 
     centro = models.ForeignKey(Centro, models.DO_NOTHING, db_column="id_centro")
@@ -213,7 +213,7 @@ class Transacao(models.Model):
         blank=True,
         null=True,
     )
-    eh_credito = models.BooleanField(default=False, blank=True)
+    credito = models.BooleanField(default=False, blank=True)
     motivo_modificacao = models.CharField(max_length=500, blank=True, null=True)
 
     descricao = models.CharField(max_length=500, blank=True, null=True)

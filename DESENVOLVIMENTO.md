@@ -60,6 +60,7 @@ conda activate ngo
 python backend/manage.py makemigrations --settings=ngo_ccsh.dev_settings
 python backend/manage.py migrate --settings=ngo_ccsh.dev_settings
 python backend/manage.py createsuperuser --settings=ngo_ccsh.dev_settings
+python backend/manage.py seed_dev_database --settings=ngo_ccsh.dev_settings
 ```
 
 Rode a aplicação com 

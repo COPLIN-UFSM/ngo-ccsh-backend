@@ -47,7 +47,6 @@ O banco de dados de desenvolvimento é usado para fazer testes locais em um banc
    python manage.py makemigrations --settings=ngo_ccsh.dev_settings
    python manage.py migrate --settings=ngo_ccsh.dev_settings
    python manage.py createsuperuser --settings=ngo_ccsh.dev_settings
-   python manage.py seed --settings=ngo_ccsh.dev_settings # Popular Banco de Dados.
    ```
 4. Para executar a aplicação:
    ```bash

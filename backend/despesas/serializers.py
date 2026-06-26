@@ -140,7 +140,7 @@ class TransacaoSerializer(serializers.ModelSerializer):
             "usuario",
             "status",
             "beneficiario",
-            "eh_credito",
+            "credito",
             "descricao",
             "montante",
             "quantidade",
