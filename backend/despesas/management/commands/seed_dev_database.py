@@ -61,7 +61,7 @@ class Command(BaseCommand):
         # subunidades = Unidade.objects.bulk_create(subunidades_insert, ignore_conflicts=True)
         # subunidade_1 = Unidade.objects.filter(subunidade="Proplan").first()
         #
-        # usuario = Usuario.objects.create_user(username="leandrogalbarino", email="leandrogalbarino@gmail.com", password="leandrogalbarino")
+        # usuario = Usuario.objects.create_user(matricula="leandrogalbarino", email="leandrogalbarino@gmail.com", password="leandrogalbarino")
         #
         # Beneficiario.objects.bulk_create(beneficiarios,ignore_conflicts=True)
         # empenho,_ = Empenho.objects.get_or_create(empenho="fsfdsf45", descricao="Empenho de bolsas 2A", finalidade=finalidade)

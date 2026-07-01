@@ -61,7 +61,7 @@ class LoginView(APIView):
         tags=["autenticacao"],
     )
     def post(self, request):
-        username = request.data.get("username")
+        username = request.data.get("matricula")
         password = request.data.get("password")
 
         if not username or not password:
@@ -84,7 +84,7 @@ class LoginView(APIView):
 
         refresh = RefreshToken.for_user(user=user)
         refresh["is_superuser"] = user.is_superuser
-        refresh["username"] = user.get_username()
+        refresh["matricula"] = user.get_username()
 
         return Response(
             {

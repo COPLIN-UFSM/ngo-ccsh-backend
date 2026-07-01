@@ -14,11 +14,11 @@ class SetupTestAPI:
         self.user_admin = Usuario.objects.create_superuser(username="admin_test", email="admin_test@gmail.com", password="adminpass")
         self.user_normal = Usuario.objects.create_user(username="user_test", email="user_test@gmail.com", password="userpass")
         self.user_data_adm = {
-            "username": self.user_admin.username,
+            "matricula": self.user_admin.matricula,
             "password": "adminpass",
         }
         self.user_data_normal = {
-            "username": self.user_normal.username,
+            "matricula": self.user_normal.matricula,
             "password": "userpass",
         }
 

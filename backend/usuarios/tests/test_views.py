@@ -50,7 +50,7 @@ class UserListViewTestCase(UserTestCase):
         super().setUp()
         self.url = reverse("usuarios:userList")
         self.new_user_data = {
-            "username": "1234",
+            "matricula": "1234",
             "full_name": "Goku",
             "is_superuser": False,
             "email": "goku@capsulecorporation.com",
@@ -86,7 +86,7 @@ class UserListViewTestCase(UserTestCase):
         response = self.client.post(
             self.url,
             data={
-                "username": "Donatelo",
+                "matricula": "Donatelo",
                 "password": "TartarugaNinja",
                 "email": "escultordonatelo@gmail.com",
             },
@@ -98,7 +98,7 @@ class UserListViewTestCase(UserTestCase):
         response = self.client.post(
             self.url,
             data={
-                "username": "Donatelo",
+                "matricula": "Donatelo",
                 "password": "TartarugaNinja",
                 "password2": "TheNinja",
                 "email": "escultordonatelo@gmail.com",
@@ -110,7 +110,7 @@ class UserListViewTestCase(UserTestCase):
 class UserDetailsViewTestCase(UserTestCase):
     def setUp(self):
         super().setUp()
-        self.url = lambda x: reverse("usuarios:userDetails", kwargs={"id_usuario": x})
+        self.url = lambda x: reverse("usuarios:userDetails", kwargs={"id": x})
         self.new_user_data = {
             "email": "sasuke@gmail.com",
             "full_name": "Sasuke Uchiha",
@@ -234,7 +234,7 @@ class UserDetailsViewTestCase(UserTestCase):
 class ChangePasswordViewTestCase(UserTestCase):
     def setUp(self):
         super().setUp()
-        self.url = lambda x: reverse("usuarios:changePassword", kwargs={"id_usuario": x})
+        self.url = lambda x: reverse("usuarios:changePassword", kwargs={"id": x})
         self.new_password = {
             "password1": "spider_man",
             "password2": "spider_man",

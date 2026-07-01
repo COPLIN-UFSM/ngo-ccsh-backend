@@ -145,8 +145,8 @@ class Beneficiario(models.Model):
 class Empenho(models.Model):
     id_empenho = models.AutoField(primary_key=True)
     empenho = models.CharField(max_length=50, unique=True)
-    pen = models.CharField(max_length=100, unique=True, null=True, blank=True)
-    descricao = models.TextField(max_length=200)
+    pen = models.CharField(max_length=100, unique=True, null=True, blank=True)  # TODO pen é um número menor, conferir
+    descricao = models.TextField(max_length=256)
     finalidade = models.ForeignKey(Finalidade, models.DO_NOTHING, db_column="id_finalidade")
     data = models.DateField(auto_now_add=True, blank=True)
 
@@ -223,7 +223,7 @@ class Transacao(models.Model):
         related_name="transacoes_id_subunidade_executora_set",
     )
 
-    usuario = models.ForeignKey(Usuario, models.DO_NOTHING, db_column="id_usuario")
+    usuario = models.ForeignKey(Usuario, models.DO_NOTHING, db_column="id")
     status = models.CharField(choices=Status.choices, default=Status.PENDENTE, max_length=256)
 
     beneficiario = models.ForeignKey(

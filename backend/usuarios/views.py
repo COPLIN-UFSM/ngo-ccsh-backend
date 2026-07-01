@@ -68,7 +68,7 @@ class UserDetailsView(APIView):
         description="Retorna os dados de um usuário pelo ID.",
         parameters=[
             OpenApiParameter(
-                name="id_usuario",
+                name="id",
                 type=int,
                 location="path",
                 description="ID do usuário",
@@ -100,7 +100,7 @@ class UserDetailsView(APIView):
         description="Atualiza parcialmente os dados de um usuário pelo ID.",
         parameters=[
             OpenApiParameter(
-                name="id_usuario",
+                name="id",
                 type=int,
                 location="path",
                 description="ID do usuário",
@@ -150,7 +150,7 @@ class UserDetailsView(APIView):
                     {"detail": "Não é possível conceder-se privilégio de administrador sem ser administrador!"},
                     status=status.HTTP_403_FORBIDDEN
                 )
-            elif 'is_active' in changes:
+            elif 'ativo' in changes:
                 return Response(
                     {"detail": "Apenas um administrador pode desativar sua conta!"},
                     status=status.HTTP_403_FORBIDDEN
@@ -173,7 +173,7 @@ class UserDetailsView(APIView):
         description="Desativa um usuário utilizando seu ID.",
         parameters=[
             OpenApiParameter(
-                name="id_usuario",
+                name="id",
                 type=int,
                 location="path",
                 description="ID do usuário a ser desativado",
@@ -204,7 +204,7 @@ class UserDetailsView(APIView):
                 {'detail': 'Apenas outro usuário administrador pode desativar sua conta!'}, status=status.HTTP_403_FORBIDDEN
             )
 
-        user.is_active = False
+        user.ativo = False
         user.save()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
@@ -215,7 +215,7 @@ class ChangePasswordView(APIView):
         description="Altera a senha de um usuário autenticado por ID.",
         parameters=[
             OpenApiParameter(
-                name="id_usuario",
+                name="id",
                 type=int,
                 location="path",
                 description="ID do usuário",
@@ -232,7 +232,7 @@ class ChangePasswordView(APIView):
         tags=["usuários"],
     )
     def patch(self, request, *args, **kwargs):
-        id_usuario = kwargs['id_usuario']
+        id_usuario = kwargs['id']
 
         try:
             user = Usuario.objects.get(id=id_usuario)

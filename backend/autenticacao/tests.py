@@ -17,7 +17,7 @@ from autenticacao.services import (
 class UserTestDataMixin:
     def create_test_user(self):
         self.user_data = {
-            "username": "loki",
+            "matricula": "loki",
             "email": "loki@gmail.com",
             "password": "olámundo",
         }
@@ -37,14 +37,14 @@ class LoginViewTestCase(APITestCase, UserTestDataMixin):
 
     def test_login_password_not_provided(self):
         data = {
-            "username": self.user.username,
+            "matricula": self.user.matricula,
         }
         response = self.client.post(self.url, data=data)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_login_password_failed_authentication(self):
         data = {
-            "username": self.user.username,
+            "matricula": self.user.matricula,
             "password": "password_failed",
         }
         response = self.client.post(self.url, data=data)
@@ -52,7 +52,7 @@ class LoginViewTestCase(APITestCase, UserTestDataMixin):
 
     def test_login_username_failed_authentication(self):
         data = {
-            "username": "users1231",
+            "matricula": "users1231",
             "password": self.user.password,
         }
         response = self.client.post(self.url, data=data)
@@ -60,21 +60,21 @@ class LoginViewTestCase(APITestCase, UserTestDataMixin):
 
     def test_login_user_not_active(self):
         userData = {
-            "username": "perfilNaoAtivo",
+            "matricula": "perfilNaoAtivo",
             "password": "12345667",
             "email": "leandrosnascimento@gmail.com",
-            "is_active": False
+            "ativo": False
         }
         self.user = Usuario.objects.create_user(**userData)
         response = self.client.post(self.url, data={
-            "username": userData['username'],
+            "matricula": userData['matricula'],
             "password": userData['password'],
         })
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_login_authenticated(self):
         data = {
-            "username": self.user_data["username"],
+            "matricula": self.user_data["matricula"],
             "password": self.user_data["password"],
         }
         response = self.client.post(self.url, data=data)
