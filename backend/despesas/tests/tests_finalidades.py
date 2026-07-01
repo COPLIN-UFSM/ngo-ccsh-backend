@@ -2,7 +2,7 @@ from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
 from despesas.tests import DespesasTestAPI
-from despesas.models import NaturezaFinalidade, TipoFinalidade, Finalidade
+from despesas.models import NaturezaFinalidade, GrupoFinalidade, Finalidade
 
 
 
@@ -54,7 +54,7 @@ class SingleNaturezaFinalidadeViewTestCase(APITestCase, DespesasTestAPI):
 
     def test_desactive_natureza_with_children(self):
         self.authentication(self.user_data_adm)
-        tipo = TipoFinalidade.objects.create(tipo_finalidade="Tipo Teste 1")
+        tipo = GrupoFinalidade.objects.create(tipo_finalidade="Tipo Teste 1")
         Finalidade.objects.create(
             natureza_finalidade=self.natureza,
             tipo_finalidade=tipo,
@@ -77,7 +77,7 @@ class TipoFinalidadeViewTestCase(APITestCase, DespesasTestAPI):
 
     def test_create_tipo_finalidade(self):
         self.authentication(self.user_data_adm)
-        data = {"tipo_finalidade": "Pesquisa"}
+        data = {"grupo_finalidade": "Pesquisa"}
         response = self.client.post(self.url, data=data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
@@ -85,7 +85,7 @@ class TipoFinalidadeViewTestCase(APITestCase, DespesasTestAPI):
 class SingleTipoFinalidadeViewTestCase(APITestCase, DespesasTestAPI):
     def setUp(self):
         self.create_test_users()
-        self.tipo_finalidade = TipoFinalidade.objects.create(tipo_finalidade="Extensão")
+        self.tipo_finalidade = GrupoFinalidade.objects.create(tipo_finalidade="Extensão")
         self.url = reverse("despesas:single_subtipo_finalidade", kwargs={"pk": self.tipo_finalidade.pk})
 
     def test_get_single_tipo_finalidade(self):
@@ -95,7 +95,7 @@ class SingleTipoFinalidadeViewTestCase(APITestCase, DespesasTestAPI):
 
     def test_put_tipo_finalidade(self):
         self.authentication(self.user_data_adm)
-        data = {"tipo_finalidade": "Extensão e Cultura"}
+        data = {"grupo_finalidade": "Extensão e Cultura"}
         response = self.client.put(self.url, data=data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
@@ -122,7 +122,7 @@ class FinalidadesViewTestCase(APITestCase, DespesasTestAPI):
         self.create_test_users()
         self.url = reverse("despesas:finalidades")
         self.natureza = NaturezaFinalidade.objects.create(natureza_finalidade="Ensino")
-        self.tipo = TipoFinalidade.objects.create(tipo_finalidade="Monitoria")
+        self.tipo = GrupoFinalidade.objects.create(tipo_finalidade="Monitoria")
 
     def test_get_finalidades_unauthenticated(self):
         response = self.client.get(self.url)
@@ -137,7 +137,7 @@ class FinalidadesViewTestCase(APITestCase, DespesasTestAPI):
         self.authentication(self.user_data_adm)
         data = {
             "natureza_finalidade": self.natureza.pk,
-            "tipo_finalidade": self.tipo.pk,
+            "grupo_finalidade": self.tipo.pk,
             "modalidade": "DESPESA",
             "finalidade": "Bolsa de Monitoria",
         }
@@ -155,7 +155,7 @@ class SingleFinalidadeViewTestCase(APITestCase, DespesasTestAPI):
     def setUp(self):
         self.create_test_users()
         self.natureza = NaturezaFinalidade.objects.create(natureza_finalidade="Inovação")
-        self.tipo = TipoFinalidade.objects.create(tipo_finalidade="Projeto")
+        self.tipo = GrupoFinalidade.objects.create(tipo_finalidade="Projeto")
         self.finalidade = Finalidade.objects.create(
             natureza_finalidade=self.natureza,
             tipo_finalidade=self.tipo,
@@ -173,7 +173,7 @@ class SingleFinalidadeViewTestCase(APITestCase, DespesasTestAPI):
         self.authentication(self.user_data_adm)
         data = {
             "natureza_finalidade": self.natureza.pk,
-            "tipo_finalidade": self.tipo.pk,
+            "grupo_finalidade": self.tipo.pk,
             "modalidade": "DESPESA",
             "finalidade": "Projeto X Editado",
         }

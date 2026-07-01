@@ -86,7 +86,7 @@ class SingleNaturezaFinalidadeView(APIView):
 
 class TipoFinalidadeView(APIView):
     def get(self, request):
-        queryset = TipoFinalidade.objects.filter(ativo=True)
+        queryset = GrupoFinalidade.objects.filter(ativo=True)
         paginator = PaginationWithSize()
         page = paginator.paginate_queryset(queryset, request, self)
 
@@ -118,7 +118,7 @@ class SingleTipoFinalidadeView(APIView):
         pk = kwargs["pk"]
 
         try:
-            data = TipoFinalidade.objects.filter(pk=pk, ativo=True).first()
+            data = GrupoFinalidade.objects.filter(pk=pk, ativo=True).first()
             if not data:
                 return response.not_found(f"{self.name} não encontrada.")
 
@@ -133,7 +133,7 @@ class SingleTipoFinalidadeView(APIView):
         pk = kwargs["pk"]
 
         try:
-            tipo_finalidade = TipoFinalidade.objects.filter(pk=pk).first()
+            tipo_finalidade = GrupoFinalidade.objects.filter(pk=pk).first()
             if not tipo_finalidade:
                 return response.not_found(f"{self.name} não encontrada.")
 
@@ -152,7 +152,7 @@ class SingleTipoFinalidadeView(APIView):
         pk = kwargs["pk"]
 
         try:
-            tipo_finalidade = TipoFinalidade.objects.filter(pk=pk, ativo=True).first()
+            tipo_finalidade = GrupoFinalidade.objects.filter(pk=pk, ativo=True).first()
             if not tipo_finalidade:
                 return response.not_found(f"{self.name} não encontrada.")
 

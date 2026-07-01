@@ -2,7 +2,7 @@
 # from rest_framework import status
 # from rest_framework.test import APITestCase
 # from usuarios.models import Usuario
-# from despesas.models import TipoDocumento, Transacao, Empenho, Finalidade, NaturezaFinalidade, TipoFinalidade
+# from despesas.models import TipoDocumento, Transacao, Empenho, Finalidade, NaturezaFinalidade, GrupoFinalidade
 
 
 

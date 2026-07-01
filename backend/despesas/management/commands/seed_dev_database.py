@@ -5,7 +5,7 @@ import pandas as pd
 from django.core.management.base import BaseCommand
 from django.db import IntegrityError
 
-from despesas.models import Beneficiario, Unidade, Finalidade, TipoFinalidade, NaturezaFinalidade, TipoDocumento, \
+from despesas.models import Beneficiario, Unidade, Finalidade, GrupoFinalidade, NaturezaFinalidade, TipoDocumento, \
     Empenho, Transacao, Centro, TipoUnidade, SituacaoUnidade
 from usuarios.models import Usuario
 
@@ -47,16 +47,16 @@ class Command(BaseCommand):
                         raise ie
 
 
-        # bolsas, _ = TipoFinalidade.objects.get_or_create(tipo_finalidade="Bolsas")
-        # viagens, _ = TipoFinalidade.objects.get_or_create(tipo_finalidade="Viagens")
+        # bolsas, _ = GrupoFinalidade.objects.get_or_create(grupo_finalidade="Bolsas")
+        # viagens, _ = GrupoFinalidade.objects.get_or_create(grupo_finalidade="Viagens")
         #
         # custeio, _ = NaturezaFinalidade.objects.get_or_create(natureza_finalidade="Custeio")
         # NaturezaFinalidade.objects.get_or_create(natureza_finalidade="Capital")
         #
-        # finalidade,_ = Finalidade.objects.get_or_create(finalidade="Bolsa 2A", natureza_finalidade=custeio, tipo_finalidade=bolsas)
-        # Finalidade.objects.get_or_create(finalidade="Bolsa Formação", natureza_finalidade=custeio, tipo_finalidade=bolsas)
-        # Finalidade.objects.get_or_create(finalidade="Viagem Área", natureza_finalidade=custeio, tipo_finalidade=viagens)
-        # Finalidade.objects.get_or_create(finalidade="Bolsa PRAE", natureza_finalidade=custeio, tipo_finalidade=bolsas)
+        # finalidade,_ = Finalidade.objects.get_or_create(finalidade="Bolsa 2A", natureza_finalidade=custeio, grupo_finalidade=bolsas)
+        # Finalidade.objects.get_or_create(finalidade="Bolsa Formação", natureza_finalidade=custeio, grupo_finalidade=bolsas)
+        # Finalidade.objects.get_or_create(finalidade="Viagem Área", natureza_finalidade=custeio, grupo_finalidade=viagens)
+        # Finalidade.objects.get_or_create(finalidade="Bolsa PRAE", natureza_finalidade=custeio, grupo_finalidade=bolsas)
         #
         # subunidades = Unidade.objects.bulk_create(subunidades_insert, ignore_conflicts=True)
         # subunidade_1 = Unidade.objects.filter(subunidade="Proplan").first()

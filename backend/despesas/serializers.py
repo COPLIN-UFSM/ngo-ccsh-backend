@@ -35,9 +35,9 @@ class DocumentoSerializer(serializers.ModelSerializer):
 
 class TipoFinalidadeSerializer(serializers.ModelSerializer):
     class Meta:
-        model = TipoFinalidade
-        fields = ["id_tipo_finalidade", "tipo_finalidade"]
-        read_only_fields = ["id_tipo_finalidade"]
+        model = GrupoFinalidade
+        fields = ["id_grupo_finalidade", "grupo_finalidade"]
+        read_only_fields = ["id_grupo_finalidade"]
 
 
 class NaturezaFinalidadeSerializer(serializers.ModelSerializer):
@@ -58,7 +58,7 @@ class FinalidadeSerializer(serializers.ModelSerializer):
     )
 
     tipo_finalidade = serializers.PrimaryKeyRelatedField(
-        queryset=TipoFinalidade.objects.all(),
+        queryset=GrupoFinalidade.objects.all(),
         write_only=True,
         error_messages={
             "does_not_exist": "Código da categoria da finalidade inexistente.",
@@ -67,7 +67,7 @@ class FinalidadeSerializer(serializers.ModelSerializer):
     )
 
     natureza_finalidade_detail = NaturezaFinalidadeSerializer(source="natureza_finalidade", read_only=True)
-    tipo_finalidade_detail = TipoFinalidadeSerializer(source="tipo_finalidade", read_only=True)
+    tipo_finalidade_detail = TipoFinalidadeSerializer(source="grupo_finalidade", read_only=True)
 
     class Meta:
         model = Finalidade

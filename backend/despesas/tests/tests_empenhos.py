@@ -2,7 +2,7 @@ from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
 from usuarios.models import Usuario
-from despesas.models import Transacao, TipoDocumento, Empenho, Finalidade, NaturezaFinalidade, TipoFinalidade, Unidade
+from despesas.models import Transacao, TipoDocumento, Empenho, Finalidade, NaturezaFinalidade, GrupoFinalidade, Unidade
 
 
 class SetupTestAPI:
@@ -29,7 +29,7 @@ class SetupTestAPI:
         self.client.credentials(HTTP_AUTHORIZATION="Bearer " + token)
 
     def create_finalidade(self):
-        self.tipo_finalidade = TipoFinalidade.objects.create(tipo_finalidade="Bolsas")
+        self.tipo_finalidade = GrupoFinalidade.objects.create(tipo_finalidade="Bolsas")
         self.natureza_finalidade = NaturezaFinalidade.objects.create(natureza_finalidade="Custeio")
         self.finalidade = Finalidade.objects.create(
             tipo_finalidade=self.tipo_finalidade, natureza_finalidade=self.natureza_finalidade, finalidade="Bolsa 2A"
