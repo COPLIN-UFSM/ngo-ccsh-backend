@@ -111,3 +111,12 @@ DEFAULT_FROM_EMAIL="Núcleo de Gestão Orçamentária <henry.cagnini@ufsm.br>"
 O `EMAIL_HOST_PASSWORD` deve ser obtido a partir
 do [painel de controle de segurança do Google](https://myaccount.google.com/u/0/apppasswords), criando uma **senha de App** 
 para o email.
+
+## Gerar diagramas do banco de dados
+
+Para gerar diagramas do banco de dados, use o seguinte comando:
+
+```bash
+python backend/manage.py runserver --settings=ngo_ccsh.dev_settings -a -o instance/schema.png
+```
+

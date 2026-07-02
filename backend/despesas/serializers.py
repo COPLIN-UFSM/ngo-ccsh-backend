@@ -3,12 +3,12 @@ from rest_framework import serializers
 
 from despesas.models import *
 
-
-class BeneficiarioSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Beneficiario
-        fields = ["id_beneficiario", "beneficiario_interno", "cpf", "matricula"]
-        read_only_fields = ["id_beneficiario"]
+# TODO here!
+# class BeneficiarioSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Beneficiario
+#         fields = ["id_beneficiario", "beneficiario_interno", "cpf", "matricula"]
+#         read_only_fields = ["id_beneficiario"]
 
 
 class TipoDocumentoSerializer(serializers.ModelSerializer):

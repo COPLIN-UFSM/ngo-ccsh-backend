@@ -12,14 +12,14 @@ from despesas.views.finalidades import (
 
 from despesas.views.unidades import SubunidadeView, SingleSubunidadeView
 from despesas.views.empenhos import EmpenhoView, SingleEmpenhoView
-from despesas.views.beneficiario import BeneficiarioViewSet
+# from despesas.views.beneficiario import BeneficiarioViewSet
 from despesas.views.documentos import DocumentoViewSet, TipoDocumentoViewSet
 from despesas.views.transacoes import TransacoesViewSet
 
 app_name = "despesas"
 
 router = DefaultRouter()
-router.register(r"beneficiarios", BeneficiarioViewSet, basename="beneficiario_interno")
+# router.register(r"beneficiarios", BeneficiarioViewSet, basename="beneficiario_interno")
 router.register(r"documentos", DocumentoViewSet, basename="documentos")
 router.register(r"tipos-documentos", TipoDocumentoViewSet, basename="tipos_documentos")
 router.register(r"transacoes", TransacoesViewSet, basename="transacoes")

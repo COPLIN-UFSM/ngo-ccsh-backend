@@ -10,7 +10,7 @@ class MyUserCreationForm(UserCreationForm):
 
     class Meta:
         model = Usuario
-        fields = ("matricula", "email", "full_name")
+        fields = ("cpf", "email", "full_name")
 
 
 @admin.register(Usuario)
@@ -18,7 +18,7 @@ class CustomUserAdmin(UserAdmin):
     add_form = MyUserCreationForm
     model = Usuario
 
-    list_display = ["matricula", "email", "full_name"]
+    list_display = ["cpf", "email", "full_name"]
 
     add_fieldsets = (
         (
@@ -36,10 +36,10 @@ class CustomUserAdmin(UserAdmin):
         ),
     )
 
-    ordering = ("matricula",)
+    ordering = ("cpf",)
 
     search_fields = (
-        "matricula",
+        "cpf",
         "full_name",
         "email",
     )
@@ -51,7 +51,7 @@ class CustomUserAdmin(UserAdmin):
     )
 
     fieldsets = (
-        ("Auth", {"fields": ("matricula", "password")}),
+        ("Auth", {"fields": ("cpf", "password")}),
         ("Infos", {"fields": ("full_name", "email")}),
         ("Permissions", {
             "fields": (

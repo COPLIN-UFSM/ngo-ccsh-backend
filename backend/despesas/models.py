@@ -1,68 +1,10 @@
-from django.db import models
-from django.core.validators import MinLengthValidator, MaxLengthValidator
-from usuarios.models import Usuario, Pessoa
-
 from decimal import Decimal
+
+from django.db import models
 from django.db.models import Sum, Case, When, F, DecimalField
 
-
-class Centro(models.Model):
-    id_centro = models.AutoField(primary_key=True, db_column='id_centro')
-    nome_centro = models.CharField(max_length=256, db_column='nome_centro')
-    sigla_centro = models.CharField(max_length=16, unique=True, db_column='sigla_centro')
-    cod_estruturado = models.CharField(max_length=15, unique=True, db_column='cod_estruturado')
-
-    class Meta:
-        managed = False
-        db_table = "v_centros"
-
-
-class SituacaoUnidade(models.Model):
-    id_situacao_unidade = models.AutoField(primary_key=True, db_column='id_situacao_unidade')
-    situacao_unidade = models.CharField(max_length=16, db_column='situacao_unidade')
-
-    class Meta:
-        managed = False
-        db_table = "v_situacoes_unidades"
-
-
-class TipoUnidade(models.Model):
-    id_tipo_unidade = models.AutoField(primary_key=True, db_column='id_tipo_unidade')
-    tipo_unidade = models.CharField(max_length=128, db_column='tipo_unidade')
-
-    class Meta:
-        managed = False
-        db_table = "v_tipos_unidades"
-
-
-class Unidade(models.Model):
-    id_unidade = models.AutoField(primary_key=True, db_column='id_unidade')
-    nome_unidade = models.CharField(max_length=256, unique=False, db_column='nome_unidade')
-    cod_estruturado = models.CharField(max_length=15, unique=True, db_column='cod_estruturado')
-
-    centro = models.ForeignKey(Centro, models.DO_NOTHING, db_column="id_centro")
-    tipo_unidade = models.ForeignKey(TipoUnidade, models.DO_NOTHING, db_column="id_tipo_unidade")
-    situacao_unidade = models.ForeignKey(SituacaoUnidade, models.DO_NOTHING, db_column="id_situacao")
-
-    class Meta:
-        managed = False
-        db_table = "v_unidades"
-
-    def __str__(self) -> str:
-        return self.nome_unidade
-
-
-class UnidadeExterna(models.Model):
-    """
-    Uma entidade externa é uma unidade que não pertence a estrutura da UFSM.
-    """
-    id_unidade_externa = models.AutoField(primary_key=True, db_column='id_unidade_externa')
-    nome_unidade_externa = models.CharField(max_length=256, unique=False, db_column='nome_unidade_externa')
-    situacao_entidade_externa = models.ForeignKey(SituacaoUnidade, models.DO_NOTHING, db_column="id_situacao")
-
-    class Meta:
-        managed = False
-        db_table = "unidades_externas"
+from entidades.models import Unidade, Pessoa, PessoaExterna
+from usuarios.models import Usuario
 
 
 # idr, transferência, custeio, capital
@@ -209,9 +151,7 @@ class Transacao(models.Model):
         blank=True,
         null=True,
     )
-    beneficiario_externo = models.ForeignKey(
-        PessoaExterna,
-    )
+    beneficiario_externo = models.ForeignKey(PessoaExterna, models.DO_NOTHING, db_column='id_beneficiario_externo')
 
     credito = models.BooleanField(default=False, blank=True)
     motivo_modificacao = models.CharField(max_length=500, blank=True, null=True)
