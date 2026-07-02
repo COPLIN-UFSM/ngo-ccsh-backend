@@ -51,6 +51,8 @@ FRONTEND_URL="https://proplan.ufsm.br/ngo-ccsh"
 EMAIL_HOST_USER="orcamento.ccsh@ufsm.br"
 EMAIL_HOST_PASSWORD="aaaa bbbb cccc dddd"
 DEFAULT_FROM_EMAIL="Núcleo de Gestão Orçamentária <orcamento.ccsh@ufsm.br>"
+DJANGO_SECRET_KEY="alguma_string_com_pelo_menos_32_caracteres"
+JWT_SIGNING_KEY="alguma_OUTRA_string_com_pelo_menos_32_caracteres"
 ```
 
 O `EMAIL_HOST_PASSWORD` deve ser obtido a partir
