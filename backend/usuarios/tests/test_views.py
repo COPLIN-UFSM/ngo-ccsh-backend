@@ -3,6 +3,7 @@ from rest_framework import status
 from rest_framework.test import APITestCase
 from rest_framework_simplejwt.tokens import RefreshToken
 
+from entidades.models import Servidor, Cargo, Pessoa
 from usuarios.models import Usuario
 from autenticacao.services import create_token_with_allow_password_change
 
@@ -12,21 +13,78 @@ class UserTestCase(APITestCase):
         """
         Cria usuários para testes.
         """
+        self.cargo_analista = Cargo.objects.create(
+            cargo="Analista"
+        )
+        self.pessoa_1 = Pessoa.objects.create(
+            nome_pessoa="Loki",
+            cpf="00000000000",
+            rg="00000000000"
+        )
+        self.pessoa_2 = Pessoa.objects.create(
+            nome_pessoa="Odin",
+            cpf="00000000001",
+            rg="00000000001"
+        )
+        self.pessoa_3 = Pessoa.objects.create(
+            nome_pessoa="Thor",
+            cpf="00000000002",
+            rg="00000000002"
+        )
+        self.pessoa_4 = Pessoa.objects.create(
+            nome_pessoa="Valkyrie",
+            cpf="00000000003",
+            rg="00000000003"
+        )
+        self.servidor_1 = Servidor.objects.create(
+            pessoa=self.pessoa_1,
+            matricula="0000000",
+            cargo=self.cargo_analista,
+            ativo=True
+        )
+        self.servidor_2 = Servidor.objects.create(
+            pessoa=self.pessoa_2,
+            matricula="0000001",
+            cargo=self.cargo_analista,
+            ativo=True
+        )
+        self.servidor_3 = Servidor.objects.create(
+            pessoa=self.pessoa_3,
+            matricula="0000002",
+            cargo=self.cargo_analista,
+            ativo=True
+        )
+        self.servidor_4 = Servidor.objects.create(
+            pessoa=self.pessoa_4,
+            matricula="0000003",
+            cargo=self.cargo_analista,
+            ativo=True
+        )
+
+        self.usuario_admin_raw_password = "1234"
+        self.usuario_regular_raw_password = "1234"
+        self.usuario_inactive_raw_password = "1234"
+
         self.user_admin = Usuario.objects.create_superuser(
-            username="admin",
-            email="admin@gmail.com",
-            password="adminpass"
+            cpf=self.servidor_1.pessoa.cpf,
+            email="loki@gmail.com",
+            password=self.usuario_admin_raw_password,
+            is_active=True,
+            is_superuser=True
         )
         self.user_regular = Usuario.objects.create_user(
-            username="user",
-            email="user@gmail.com",
-            password="userpass"
+            cpf=self.servidor_2.pessoa.cpf,
+            email="odin@gmail.com",
+            password=self.usuario_regular_raw_password,
+            is_active=True,
+            is_superuser=False
         )
         self.user_inactive = Usuario.objects.create_user(
-            username="user_not_active",
-            email="user2@gmail.com",
-            password="userpass2",
+            cpf=self.servidor_3.pessoa.cpf,
+            email="thor@gmail.com",
+            password=self.usuario_inactive_raw_password,
             is_active=False,
+            is_superuser=False
         )
 
     def authenticate_with_invalid_token(self):
@@ -48,10 +106,9 @@ class UserTestCase(APITestCase):
 class UserListViewTestCase(UserTestCase):
     def setUp(self):
         super().setUp()
-        self.url = reverse("usuarios:userList")
+        self.url = reverse("usuarios:user_list")
         self.new_user_data = {
-            "matricula": "1234",
-            "full_name": "Goku",
+            "cpf": self.servidor_4.pessoa.cpf,
             "is_superuser": False,
             "email": "goku@capsulecorporation.com",
             "password": "vegeta",
@@ -86,7 +143,7 @@ class UserListViewTestCase(UserTestCase):
         response = self.client.post(
             self.url,
             data={
-                "matricula": "Donatelo",
+                "cpf": self.servidor_4.pessoa.cpf,
                 "password": "TartarugaNinja",
                 "email": "escultordonatelo@gmail.com",
             },
@@ -98,7 +155,7 @@ class UserListViewTestCase(UserTestCase):
         response = self.client.post(
             self.url,
             data={
-                "matricula": "Donatelo",
+                "cpf": self.servidor_4.pessoa.cpf,
                 "password": "TartarugaNinja",
                 "password2": "TheNinja",
                 "email": "escultordonatelo@gmail.com",
@@ -110,7 +167,7 @@ class UserListViewTestCase(UserTestCase):
 class UserDetailsViewTestCase(UserTestCase):
     def setUp(self):
         super().setUp()
-        self.url = lambda x: reverse("usuarios:userDetails", kwargs={"id": x})
+        self.url = lambda x: reverse("usuarios:user_details", kwargs={"id": x})
         self.new_user_data = {
             "email": "sasuke@gmail.com",
             "full_name": "Sasuke Uchiha",
@@ -234,7 +291,7 @@ class UserDetailsViewTestCase(UserTestCase):
 class ChangePasswordViewTestCase(UserTestCase):
     def setUp(self):
         super().setUp()
-        self.url = lambda x: reverse("usuarios:changePassword", kwargs={"id": x})
+        self.url = lambda x: reverse("usuarios:change_password", kwargs={"id": x})
         self.new_password = {
             "password1": "spider_man",
             "password2": "spider_man",

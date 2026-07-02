@@ -104,6 +104,7 @@ class Discente(models.Model):
         managed = False
         db_table = "v_discentes"
 
+
 class Servidor(models.Model):
     id_contrato_rh = models.AutoField(primary_key=True, db_column="id_contrato_rh")
     pessoa = models.ForeignKey(Pessoa, on_delete=models.DO_NOTHING, db_column="id_pessoa")
@@ -128,8 +129,24 @@ class PessoaExterna(models.Model):
         managed = False
         db_table = "pessoas_externas"
 
+
 class Email(models.Model):
     id_conta = models.AutoField(primary_key=True, db_column="id_conta")
     pessoa = models.ForeignKey(Pessoa, on_delete=models.DO_NOTHING, db_column="id_pessoa")
     email = models.EmailField(unique=False, db_column="email")
     ativo = models.BooleanField(unique=False, null=False, blank=False, db_column="ativo")
+
+    class Meta:
+        managed = False
+        db_table = "v_emails"
+
+
+class Telefone(models.Model):
+    id_telefone = models.AutoField(primary_key=True, db_column="id_telefone")
+    pessoa = models.ForeignKey(Pessoa, on_delete=models.DO_NOTHING, db_column="id_pessoa")
+    telefone = models.TextField(max_length=16, unique=False, null=False, blank=False, db_column="telefone")
+    ativo = models.BooleanField(unique=False, null=False, blank=False, db_column="ativo")
+
+    class Meta:
+        managed = False
+        db_table = "telefones"

@@ -20,10 +20,6 @@ class AuthenticationBaseTestCase(APITestCase):
         self.cargo_professor = Cargo.objects.create(
             cargo="Professor"
         )
-        self.cargo_analista = Cargo.objects.create(
-            cargo="Analista"
-        )
-
         self.pessoa_ativa = Pessoa.objects.create(
             nome_pessoa="Loki",
             cpf="00000000000",
@@ -34,7 +30,6 @@ class AuthenticationBaseTestCase(APITestCase):
             cpf="00000000001",
             rg="00000000001"
         )
-
         self.servidor_ativo_1 = Servidor.objects.create(
             pessoa=self.pessoa_ativa,
             matricula="123456789",

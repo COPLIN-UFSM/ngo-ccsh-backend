@@ -120,6 +120,5 @@ para o email.
 Para gerar diagramas do banco de dados, use o seguinte comando:
 
 ```bash
-python backend/manage.py runserver --settings=ngo_ccsh.dev_settings -a -o instance/schema.png
+python .\backend\manage.py graph_models -a -g -o instance/models.png --settings=ngo_ccsh.dev_settings
 ```
-

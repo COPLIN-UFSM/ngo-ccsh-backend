@@ -8,9 +8,9 @@ class UserListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Usuario
-        fields = ["id", "matricula", "email", "full_name", "is_superuser", "ativo", "password", "password2"]
+        fields = ["id", "cpf", "email", "full_name", "is_superuser", "is_active", "password", "password2"]
 
-        read_only_fields = ["ativo"]
+        read_only_fields = ["is_active"]
         extra_kwargs = {"password": {"write_only": True}}
 
     def validate(self, data):
@@ -30,7 +30,7 @@ class UserListSerializer(serializers.ModelSerializer):
 class UserDetailsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Usuario
-        fields = ["id", "matricula", "email", "full_name", "is_superuser", "ativo"]
+        fields = ["id", "cpf", "email", "full_name", "is_superuser", "is_active"]
 
 
 class ChangePasswordSerializer(serializers.Serializer):

@@ -4,7 +4,6 @@ from rest_framework.response import Response
 from drf_spectacular.utils import extend_schema, OpenApiParameter, OpenApiResponse
 from .serializers import UserListSerializer, UserDetailsSerializer, ChangePasswordSerializer
 
-from utils import response
 from usuarios.models import Usuario
 from utils import response
 from utils.pagination import PaginationWithSize
@@ -81,10 +80,12 @@ class UserDetailsView(APIView):
         },
         tags=["usuários"],
     )
-    def get(self, request, id_usuario):
+    def get(self, request, *args, **kwargs):
         """
         Mostra dados de um usuário
         """
+
+        id_usuario = kwargs['id']
         try:
             user = Usuario.objects.get(id=id_usuario)
         except Usuario.DoesNotExist:
@@ -115,7 +116,9 @@ class UserDetailsView(APIView):
         },
         tags=["usuários"],
     )
-    def patch(self, request, id_usuario):
+    def patch(self, request, *args, **kwargs):
+        id_usuario = kwargs['id']
+
         try:
             user = Usuario.objects.get(id=id_usuario)
         except Usuario.DoesNotExist:
@@ -187,7 +190,9 @@ class UserDetailsView(APIView):
         },
         tags=["usuários"],
     )
-    def delete(self, request, id_usuario):
+    def delete(self, request, *args, **kwargs):
+        id_usuario = kwargs['id']
+
         try:
             user = Usuario.objects.get(id=id_usuario)
         except Usuario.DoesNotExist:
