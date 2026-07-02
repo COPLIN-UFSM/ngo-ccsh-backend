@@ -19,7 +19,7 @@ from despesas.views.transacoes import TransacoesViewSet
 app_name = "despesas"
 
 router = DefaultRouter()
-router.register(r"beneficiarios", BeneficiarioViewSet, basename="beneficiario")
+router.register(r"beneficiarios", BeneficiarioViewSet, basename="beneficiario_interno")
 router.register(r"documentos", DocumentoViewSet, basename="documentos")
 router.register(r"tipos-documentos", TipoDocumentoViewSet, basename="tipos_documentos")
 router.register(r"transacoes", TransacoesViewSet, basename="transacoes")

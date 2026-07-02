@@ -1,6 +1,6 @@
 from django.db import models
 from django.core.validators import MinLengthValidator, MaxLengthValidator
-from usuarios.models import Usuario
+from usuarios.models import Usuario, Pessoa
 
 from decimal import Decimal
 from django.db.models import Sum, Case, When, F, DecimalField
@@ -52,17 +52,17 @@ class Unidade(models.Model):
         return self.nome_unidade
 
 
-class EntidadeExterna(models.Model):
+class UnidadeExterna(models.Model):
     """
     Uma entidade externa é uma unidade que não pertence a estrutura da UFSM.
     """
-    id_entidade_externa = models.AutoField(primary_key=True, db_column='id_entidade_externa')
-    nome_entidade_externa = models.CharField(max_length=256, unique=False, db_column='nome_entidade_externa')
+    id_unidade_externa = models.AutoField(primary_key=True, db_column='id_unidade_externa')
+    nome_unidade_externa = models.CharField(max_length=256, unique=False, db_column='nome_unidade_externa')
     situacao_entidade_externa = models.ForeignKey(SituacaoUnidade, models.DO_NOTHING, db_column="id_situacao")
 
     class Meta:
         managed = False
-        db_table = "entidades_externas"
+        db_table = "unidades_externas"
 
 
 # idr, transferência, custeio, capital
@@ -113,34 +113,6 @@ class Finalidade(models.Model):
         db_table = "finalidades"
 
 # TODO daqui pra baixo nada tá ok
-
-
-# TODO pode ser um beneficiário externo!
-# modelo de formulário (documento formulário de diárias e passagens): https://www.ufsm.br/unidades-universitarias/ccsh/passagens-aereas-e-diarias
-class Beneficiario(models.Model):
-    id_beneficiario = models.AutoField(primary_key=True)
-    beneficiario = models.CharField(max_length=256)
-
-    cpf = models.CharField(
-        max_length=11,
-        validators=[
-            MinLengthValidator(11, message="O CPF deve conter 11 caracteres."),
-            MaxLengthValidator(11, message="O CPF deve conter 11 caracteres.")
-        ],
-        help_text="Para o CPF, digite apenas números.",
-        unique=True,
-    )
-
-    matricula = models.CharField(max_length=50, blank=True, null=True, unique=True)
-    ativo = models.BooleanField(default=True, blank=True)
-
-    class Meta:
-        managed = False
-        db_table = "beneficiarios"
-
-    def __str__(self) -> str:
-        return self.beneficiario
-
 
 class Empenho(models.Model):
     id_empenho = models.AutoField(primary_key=True)
@@ -197,6 +169,7 @@ class Documento(models.Model):
         db_table = "documentos"
 
 
+# TODO revisar beneficiário!
 class Transacao(models.Model):
     class Status(models.TextChoices):
         PAGO = "PAGO"
@@ -204,8 +177,11 @@ class Transacao(models.Model):
         ALOCADO = "ALOCADO"
 
     id_transacao = models.AutoField(primary_key=True)
-    transacao_pai = models.ForeignKey("self", models.DO_NOTHING, db_column="id_transacao_pai", blank=True, null=True)
-    empenho = models.ForeignKey(Empenho, models.DO_NOTHING, db_column="id_empenho", blank=True, null=True, related_name="transacoes")
+    # transacao_pai = models.ForeignKey("self", models.DO_NOTHING, db_column="id_transacao_pai", blank=True, null=True)
+    empenho = models.ForeignKey(
+        Empenho, models.DO_NOTHING, db_column="id_empenho", blank=True, null=True,
+        related_name="transacoes"
+    )
 
     finalidade = models.ForeignKey(Finalidade, models.DO_NOTHING, db_column="id_finalidade", blank=True, null=True)
 
@@ -226,13 +202,17 @@ class Transacao(models.Model):
     usuario = models.ForeignKey(Usuario, models.DO_NOTHING, db_column="id")
     status = models.CharField(choices=Status.choices, default=Status.PENDENTE, max_length=256)
 
-    beneficiario = models.ForeignKey(
-        Beneficiario,
+    beneficiario_interno = models.ForeignKey(
+        Pessoa,
         models.DO_NOTHING,
-        db_column="id_beneficiario",
+        db_column="id_beneficiario_interno",
         blank=True,
         null=True,
     )
+    beneficiario_externo = models.ForeignKey(
+        PessoaExterna,
+    )
+
     credito = models.BooleanField(default=False, blank=True)
     motivo_modificacao = models.CharField(max_length=500, blank=True, null=True)
 

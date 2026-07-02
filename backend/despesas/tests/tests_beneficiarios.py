@@ -9,7 +9,7 @@ from despesas.tests import DespesasTestAPI
 class BeneficiarioViewSetTestCase(APITestCase, DespesasTestAPI):
     def setUp(self):
         self.create_test_users()
-        self.url_list = reverse("despesas:beneficiario-list")
+        self.url_list = reverse("despesas:beneficiario_interno-list")
         self.beneficiario = Beneficiario.objects.create(beneficiario="João Silva", cpf="12345678901")
 
     def test_get_beneficiarios_unauthenticated(self):
@@ -24,10 +24,10 @@ class BeneficiarioViewSetTestCase(APITestCase, DespesasTestAPI):
 
     def test_create_beneficiario(self):
         self.authentication(self.user_data_normal)
-        data = {"beneficiario": "Maria Souza", "cpf": "98765432100"}
+        data = {"beneficiario_interno": "Maria Souza", "cpf": "98765432100"}
         response = self.client.post(self.url_list, data=data)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        self.assertEqual(response.data["beneficiario"], "Maria Souza")
+        self.assertEqual(response.data["beneficiario_interno"], "Maria Souza")
 
     def test_create_beneficiario_bad_request(self):
         self.authentication(self.user_data_normal)
@@ -37,14 +37,14 @@ class BeneficiarioViewSetTestCase(APITestCase, DespesasTestAPI):
 
     def test_update_beneficiario(self):
         self.authentication(self.user_data_normal)
-        url_detail = reverse("despesas:beneficiario-detail", kwargs={"pk": self.beneficiario.pk})
-        data = {"beneficiario": "João Silva Editado"}
+        url_detail = reverse("despesas:beneficiario_interno-detail", kwargs={"pk": self.beneficiario.pk})
+        data = {"beneficiario_interno": "João Silva Editado"}
         response = self.client.patch(url_detail, data=data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data["beneficiario"], "João Silva Editado")
+        self.assertEqual(response.data["beneficiario_interno"], "João Silva Editado")
 
     def test_delete_beneficiario(self):
         self.authentication(self.user_data_normal)
-        url_detail = reverse("despesas:beneficiario-detail", kwargs={"pk": self.beneficiario.pk})
+        url_detail = reverse("despesas:beneficiario_interno-detail", kwargs={"pk": self.beneficiario.pk})
         response = self.client.delete(url_detail)
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)

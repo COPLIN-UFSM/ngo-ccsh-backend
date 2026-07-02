@@ -13,8 +13,8 @@ from pathlib import Path
 from django.conf import settings
 
 # beneficiarios = [
-#     Beneficiario(beneficiario="Leandro", cpf="05186605085",matricula="202311173"),
-#     Beneficiario(beneficiario="Raíssa", cpf="00000000012",matricula="202411173")
+#     Beneficiario(beneficiario_interno="Leandro", cpf="05186605085",matricula="202311173"),
+#     Beneficiario(beneficiario_interno="Raíssa", cpf="00000000012",matricula="202411173")
 # ]
 #
 # tipos_documentos = [

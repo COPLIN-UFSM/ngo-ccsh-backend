@@ -7,7 +7,7 @@ from despesas.models import *
 class BeneficiarioSerializer(serializers.ModelSerializer):
     class Meta:
         model = Beneficiario
-        fields = ["id_beneficiario", "beneficiario", "cpf", "matricula"]
+        fields = ["id_beneficiario", "beneficiario_interno", "cpf", "matricula"]
         read_only_fields = ["id_beneficiario"]
 
 
@@ -139,7 +139,7 @@ class TransacaoSerializer(serializers.ModelSerializer):
             "subunidade_executora",
             "usuario",
             "status",
-            "beneficiario",
+            "beneficiario_interno",
             "credito",
             "descricao",
             "montante",
