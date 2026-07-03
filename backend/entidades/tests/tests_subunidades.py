@@ -8,7 +8,7 @@ from despesas.tests import DespesasTestAPI
 class SubunidadeViewTestCase(APITestCase, DespesasTestAPI):
     def setUp(self):
         self.create_test_users()
-        self.url = reverse("despesas:subunidades")
+        self.url = reverse("entidades:subunidades")
         self.subunidade = Unidade.objects.create(subunidade="Departamento A", grupo="DEPTO")
 
     def test_get_subunidades(self):
@@ -39,7 +39,7 @@ class SingleSubunidadeViewTestCase(APITestCase, DespesasTestAPI):
     def setUp(self):
         self.create_test_users()
         self.subunidade = Unidade.objects.create(subunidade="Departamento B", grupo="DEPTO")
-        self.url = reverse("despesas:single_subunidade", kwargs={"pk": self.subunidade.pk})
+        self.url = reverse("entidades:single_subunidade", kwargs={"pk": self.subunidade.pk})
 
     def test_get_single_subunidade(self):
         self.authentication(self.user_data_adm)

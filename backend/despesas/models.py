@@ -3,7 +3,7 @@ from decimal import Decimal
 from django.db import models
 from django.db.models import Sum, Case, When, F, DecimalField
 
-from entidades.models import Unidade, Pessoa, PessoaExterna
+from entidades.models import Unidade, Pessoa
 from usuarios.models import Usuario
 
 
@@ -144,14 +144,13 @@ class Transacao(models.Model):
     usuario = models.ForeignKey(Usuario, models.DO_NOTHING, db_column="id")
     status = models.CharField(choices=Status.choices, default=Status.PENDENTE, max_length=256)
 
-    beneficiario_interno = models.ForeignKey(
+    beneficiario = models.ForeignKey(
         Pessoa,
         models.DO_NOTHING,
-        db_column="id_beneficiario_interno",
+        db_column="id_beneficiario",
         blank=True,
         null=True,
     )
-    beneficiario_externo = models.ForeignKey(PessoaExterna, models.DO_NOTHING, db_column='id_beneficiario_externo')
 
     credito = models.BooleanField(default=False, blank=True)
     motivo_modificacao = models.CharField(max_length=500, blank=True, null=True)

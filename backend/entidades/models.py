@@ -117,13 +117,13 @@ class Pessoa(models.Model):
     objects = PessoaManager()
 
     id_pessoa_interna = models.AutoField(primary_key=True, db_column="id_pessoa_interna")
-    id_pessoa_sie = models.OneToOneField(PessoaSIE, on_delete=models.DO_NOTHING, db_column="id_pessoa_sie")
+    id_pessoa_sie = models.OneToOneField(PessoaSIE, on_delete=models.DO_NOTHING, null=True, blank=True, db_column="id_pessoa_sie")
     nome_pessoa = models.TextField(max_length=256, unique=False, null=False, blank=False, db_column="nome_pessoa")
     cpf = models.TextField(max_length=11, unique=False, null=False, blank=False, db_column="cpf")
     rg = models.TextField(max_length=11, unique=False, null=False, blank=False, db_column="rg")
 
     class Meta:
-        manage = False
+        managed = False
         db_table = 'pessoas'
 
 
