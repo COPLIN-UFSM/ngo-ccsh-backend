@@ -1,15 +1,31 @@
 from django.db import models
 
+from entidades.managers import PessoaManager, CentroManager, UnidadeManager
 
-class Centro(models.Model):
-    id_centro = models.AutoField(primary_key=True, db_column='id_centro')
+
+class CentroSIE(models.Model):
+    id_centro_sie = models.AutoField(primary_key=True, db_column="id_centro")
     nome_centro = models.CharField(max_length=256, db_column='nome_centro')
     sigla_centro = models.CharField(max_length=16, unique=True, db_column='sigla_centro')
     cod_estruturado = models.CharField(max_length=15, unique=True, db_column='cod_estruturado')
 
     class Meta:
         managed = False
-        db_table = "v_centros"
+        db_table = "v_centros_sie"
+
+
+class Centro(models.Model):
+    objects = CentroManager()
+
+    id_centro_interno = models.AutoField(primary_key=True, db_column='id_centro_interno')
+    centro_sie = models.OneToOneField(CentroSIE, on_delete=models.DO_NOTHING, db_column='id_centro_sie')
+    nome_centro = models.CharField(max_length=256, db_column='nome_centro')
+    sigla_centro = models.CharField(max_length=16, unique=True, db_column='sigla_centro')
+    cod_estruturado = models.CharField(max_length=15, unique=False, null=True, blank=True, db_column='cod_estruturado')
+
+    class Meta:
+        managed = False
+        db_table = "centros"
 
 
 class SituacaoUnidade(models.Model):
@@ -30,34 +46,38 @@ class TipoUnidade(models.Model):
         db_table = "v_tipos_unidades"
 
 
-class Unidade(models.Model):
-    id_unidade = models.AutoField(primary_key=True, db_column='id_unidade')
+class UnidadeSIE(models.Model):
+    id_unidade_sie = models.AutoField(primary_key=True, db_column='id_unidade_sie')
     nome_unidade = models.CharField(max_length=256, unique=False, db_column='nome_unidade')
     cod_estruturado = models.CharField(max_length=15, unique=True, db_column='cod_estruturado')
 
-    centro = models.ForeignKey(Centro, models.DO_NOTHING, db_column="id_centro")
+    centro = models.ForeignKey(Centro, models.DO_NOTHING, db_column="id_centro_interno")
     tipo_unidade = models.ForeignKey(TipoUnidade, models.DO_NOTHING, db_column="id_tipo_unidade")
     situacao_unidade = models.ForeignKey(SituacaoUnidade, models.DO_NOTHING, db_column="id_situacao")
 
     class Meta:
         managed = False
-        db_table = "v_unidades"
-
-    def __str__(self) -> str:
-        return self.nome_unidade
+        db_table = "v_unidades_sie"
 
 
-class UnidadeExterna(models.Model):
-    """
-    Uma entidade externa é uma unidade que não pertence a estrutura da UFSM.
-    """
-    id_unidade_externa = models.AutoField(primary_key=True, db_column='id_unidade_externa')
-    nome_unidade_externa = models.CharField(max_length=256, unique=False, db_column='nome_unidade_externa')
-    situacao_entidade_externa = models.ForeignKey(SituacaoUnidade, models.DO_NOTHING, db_column="id_situacao")
+class Unidade(models.Model):
+    objects = UnidadeManager()
+
+    id_unidade_interna = models.AutoField(primary_key=True, db_column='id_unidade')
+    unidade_sie = models.OneToOneField(UnidadeSIE, on_delete=models.DO_NOTHING, db_column="id_unidade_sie")
+    nome_unidade = models.CharField(max_length=256, unique=False, db_column='nome_unidade')
+    cod_estruturado = models.CharField(max_length=15, unique=True, db_column='cod_estruturado')
+
+    centro = models.ForeignKey(Centro, models.DO_NOTHING, db_column="id_centro_interno")
+    tipo_unidade = models.ForeignKey(TipoUnidade, models.DO_NOTHING, db_column="id_tipo_unidade")
+    situacao_unidade = models.ForeignKey(SituacaoUnidade, models.DO_NOTHING, db_column="id_situacao")
 
     class Meta:
         managed = False
-        db_table = "unidades_externas"
+        db_table = "unidades"
+
+    def __str__(self) -> str:
+        return self.nome_unidade
 
 
 class Curso(models.Model):
@@ -82,15 +102,29 @@ class Cargo(models.Model):
         db_table = "v_cargos"
 
 
-class Pessoa(models.Model):
-    id_pessoa = models.AutoField(primary_key=True, db_column="id_pessoa")
+class PessoaSIE(models.Model):
+    id_pessoa_sie = models.AutoField(primary_key=True, db_column="id_pessoa_sie")
     nome_pessoa = models.TextField(max_length=256, unique=False, null=False, blank=False, db_column="nome_pessoa")
     cpf = models.TextField(max_length=11, unique=False, null=False, blank=False, db_column="cpf")
     rg = models.TextField(max_length=11, unique=False, null=False, blank=False, db_column="rg")
 
     class Meta:
         managed = False
-        db_table = "v_pessoas"
+        db_table = "v_pessoas_sie"
+
+
+class Pessoa(models.Model):
+    objects = PessoaManager()
+
+    id_pessoa_interna = models.AutoField(primary_key=True, db_column="id_pessoa_interna")
+    id_pessoa_sie = models.OneToOneField(PessoaSIE, on_delete=models.DO_NOTHING, db_column="id_pessoa_sie")
+    nome_pessoa = models.TextField(max_length=256, unique=False, null=False, blank=False, db_column="nome_pessoa")
+    cpf = models.TextField(max_length=11, unique=False, null=False, blank=False, db_column="cpf")
+    rg = models.TextField(max_length=11, unique=False, null=False, blank=False, db_column="rg")
+
+    class Meta:
+        manage = False
+        db_table = 'pessoas'
 
 
 class Discente(models.Model):
@@ -117,28 +151,15 @@ class Servidor(models.Model):
         db_table = "v_servidores"
 
 
-class PessoaExterna(models.Model):
-    id_pessoa_externa = models.AutoField(primary_key=True, db_column="id_pessoa_externa")
-    nome_pessoa = models.TextField(max_length=256, unique=False, null=False, blank=False, db_column="nome_pessoa")
-    cpf = models.TextField(max_length=11, unique=False, null=False, blank=False, db_column="cpf")
-    rg = models.TextField(max_length=11, unique=False, null=False, blank=False, db_column="rg")
-    email = models.EmailField(unique=False, db_column="email")
-    telefone = models.TextField(max_length=16, unique=False, null=True, blank=True, db_column="telefone")
-
-    class Meta:
-        managed = False
-        db_table = "pessoas_externas"
-
-
 class Email(models.Model):
-    id_conta = models.AutoField(primary_key=True, db_column="id_conta")
+    id_email = models.AutoField(primary_key=True, db_column="id_conta")
     pessoa = models.ForeignKey(Pessoa, on_delete=models.DO_NOTHING, db_column="id_pessoa")
     email = models.EmailField(unique=False, db_column="email")
     ativo = models.BooleanField(unique=False, null=False, blank=False, db_column="ativo")
 
     class Meta:
         managed = False
-        db_table = "v_emails"
+        db_table = "emails"
 
 
 class Telefone(models.Model):
