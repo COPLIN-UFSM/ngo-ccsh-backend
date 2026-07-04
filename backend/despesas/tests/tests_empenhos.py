@@ -86,7 +86,7 @@ class SingleEmpenhoViewTestCase(APITestCase, SetupTestAPI):
         response = self.client.put(self.url, data=data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.empenho.refresh_from_db()
-        self.assertEqual(self.empenho.empenho, "2024NE0001-MOD")
+        self.assertEqual(self.empenho.numero_empenho, "2024NE0001-MOD")
 
     def test_delete_empenho_with_children(self):
         Transacao.objects.create(empenho=self.empenho, usuario=self.user_normal, montante=100.00, subunidade_executora=self.subunidade)

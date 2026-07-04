@@ -7,7 +7,6 @@ from entidades.models import Unidade, Pessoa
 from usuarios.models import Usuario
 
 
-# idr, transferência, custeio, capital
 class NaturezaFinalidade(models.Model):
     """
     Pode ser IDR (distribuição orçamentária inicial), custeio, capital, transferência, ou outras categorias com reserva
@@ -43,26 +42,77 @@ class GrupoFinalidade(models.Model):
 
 
 class Finalidade(models.Model):
+    """
+    Uma finalidade é um destino para uma transação. Por exemplo, dentro do GrupoFinalidade Bolsas, existem
+    as finalidades de bolsa 2A, bolsa Monitoria, bolsa Descubra...
+    """
     id_finalidade = models.AutoField(primary_key=True, db_column='id_finalidade')
     natureza_finalidade = models.ForeignKey(NaturezaFinalidade, models.DO_NOTHING, db_column="id_natureza_finalidade")
     grupo_finalidade = models.ForeignKey(GrupoFinalidade, models.DO_NOTHING, db_column="id_grupo_finalidade")
 
-    finalidade = models.CharField(max_length=512, unique=True)
+    finalidade = models.CharField(max_length=512, unique=True, null=False, blank=False)
     ativo = models.BooleanField(default=True, blank=True)
 
     class Meta:
         managed = False
         db_table = "finalidades"
 
-# TODO daqui pra baixo nada tá ok
+
+class TipoDocumento(models.Model):
+    """
+    Um tipo de documento é uma informação necessária a alguns tipos de finalidade. Por exemplo,
+    uma bolsa precisa de uma Lista SIAFI.
+    """
+    id_tipo_documento = models.AutoField(primary_key=True, db_column='id_tipo_documento')
+    tipo_documento = models.CharField(max_length=128, unique=True, db_column='tipo_documento')
+    ativo = models.BooleanField(default=True, blank=True, db_column='ativo')
+
+    class Meta:
+        managed = False
+        db_table = "tipos_documentos"
+
+    def __str__(self) -> str:
+        return self.tipo_documento
+
+
+class TiposDocumentosParaFinalidades(models.Model):
+    """
+    Tabela que liga os tipos de documentos às finalidades.
+    """
+    id_tipo_documento_finalidade = models.AutoField(primary_key=True, db_column='id_tipo_documento_finalidade')
+    tipo_documento = models.ForeignKey(TipoDocumento, models.DO_NOTHING, db_column="id_tipo_documento")
+    finalidade = models.ForeignKey(Finalidade, models.DO_NOTHING, db_column="id_finalidade")
+    obrigatorio = models.BooleanField(
+        default=True, blank=True, db_column='obrigatorio',
+        db_comment='Se este tipo de documento é obrigatório para esta finalidade'
+    )
+
+    class Meta:
+        managed = False
+        db_table = "tipos_documentos_para_finalidades"
+
+
+class ValorDocumento(models.Model):
+    """
+    Valor de um documento. Por exemplo, o valor da Lista SIAFI.
+    """
+    id_valor_documento = models.AutoField(primary_key=True, db_column='id_valor_documento')
+    tipo_documento = models.ForeignKey(TipoDocumento, models.DO_NOTHING, db_column="id_tipo_documento")
+    transacao = models.ForeignKey("Transacao", models.DO_NOTHING, related_name="documentos", db_column="id_transacao")
+
+    valor_documento = models.CharField(max_length=256, db_column='valor_documento')
+
+    class Meta:
+        managed = False
+        db_table = "valores_documentos"
+
 
 class Empenho(models.Model):
-    id_empenho = models.AutoField(primary_key=True)
-    empenho = models.CharField(max_length=50, unique=True)
-    pen = models.CharField(max_length=100, unique=True, null=True, blank=True)  # TODO pen é um número menor, conferir
-    descricao = models.TextField(max_length=256)
+    id_empenho = models.AutoField(primary_key=True, db_column='id_empenho')
+    numero_empenho = models.CharField(max_length=32, unique=True, db_column='numero_empenho')
+    numero_pen = models.CharField(max_length=32, unique=True, null=True, blank=True, db_column='numero_pen')
     finalidade = models.ForeignKey(Finalidade, models.DO_NOTHING, db_column="id_finalidade")
-    data = models.DateField(auto_now_add=True, blank=True)
+    data_lancamento = models.DateTimeField(blank=True, auto_now_add=True)
 
     class Meta:
         managed = False
@@ -83,46 +133,24 @@ class Empenho(models.Model):
         return related_transaction["montante"] or Decimal(0.00)
 
 
-class TipoDocumento(models.Model):
-    id_tipo_documento = models.AutoField(primary_key=True)
-    tipo_documento = models.CharField(max_length=100, unique=True)
-    ativo = models.BooleanField(default=True, blank=True)
+# pago, pendente, alocado
+class StatusPagamento(models.Model):
+    id_status_pagamento = models.AutoField(primary_key=True, db_column='id_status_pagamento')
+    status_pagamento = models.TextField(max_length=64, db_column='status_pagamento')
 
     class Meta:
         managed = False
-        db_table = "tipos_documentos"
-
-    def __str__(self) -> str:
-        return self.tipo_documento
+        db_table = "status_pagamento"
 
 
-class Documento(models.Model):
-    id_documento = models.AutoField(primary_key=True)
-    tipo_documento = models.ForeignKey(TipoDocumento, models.DO_NOTHING, db_column="id_tipo_documento")
-    documento = models.CharField(max_length=100)
-
-    transacao = models.ForeignKey("Transacao", models.DO_NOTHING, db_column="id_transacao", related_name="documentos")
-
-    descricao = models.CharField(max_length=256, blank=True, null=True)
-    ativo = models.BooleanField(default=True, blank=True)
-
-    class Meta:
-        managed = False
-        db_table = "documentos"
-
-
-# TODO revisar beneficiário!
 class Transacao(models.Model):
-    class Status(models.TextChoices):
-        PAGO = "PAGO"
-        PENDENTE = "PENDENTE"
-        ALOCADO = "ALOCADO"
+    id_transacao = models.AutoField(primary_key=True, db_column='id_transacao')
+    id_transacao_anterior = models.OneToOneField("Transacao", models.DO_NOTHING, db_column="id_transacao_anterior")
 
-    id_transacao = models.AutoField(primary_key=True)
-    # transacao_pai = models.ForeignKey("self", models.DO_NOTHING, db_column="id_transacao_pai", blank=True, null=True)
     empenho = models.ForeignKey(
-        Empenho, models.DO_NOTHING, db_column="id_empenho", blank=True, null=True,
-        related_name="transacoes"
+        Empenho, models.DO_NOTHING,
+        blank=True, null=True,
+        db_column="id_empenho"
     )
 
     finalidade = models.ForeignKey(Finalidade, models.DO_NOTHING, db_column="id_finalidade", blank=True, null=True)
@@ -138,11 +166,17 @@ class Transacao(models.Model):
         Unidade,
         models.DO_NOTHING,
         db_column="id_subunidade_executora",
-        related_name="transacoes_id_subunidade_executora_set",
+        blank=False,
+        null=False,
     )
 
-    usuario = models.ForeignKey(Usuario, models.DO_NOTHING, db_column="id")
-    status = models.CharField(choices=Status.choices, default=Status.PENDENTE, max_length=256)
+    usuario = models.ForeignKey(Usuario, models.DO_NOTHING, db_column="id_usuario")
+
+    status_pagamento = models.ForeignKey(
+        StatusPagamento,
+        on_delete=models.DO_NOTHING,
+        db_column="id_status_pagamento"
+    )
 
     beneficiario = models.ForeignKey(
         Pessoa,
@@ -153,14 +187,8 @@ class Transacao(models.Model):
     )
 
     credito = models.BooleanField(default=False, blank=True)
-    motivo_modificacao = models.CharField(max_length=500, blank=True, null=True)
-
-    descricao = models.CharField(max_length=500, blank=True, null=True)
-    montante = models.DecimalField(max_digits=15, decimal_places=2, blank=True, null=True)
-    quantidade = models.FloatField(blank=True, null=True)
-    local_trecho = models.CharField(max_length=256, blank=True, null=True)
+    montante = models.DecimalField(decimal_places=2, blank=True, null=True, default=Decimal(0.00))
     data_lancamento = models.DateTimeField(blank=True, auto_now_add=True)
-    data_modificacao = models.DateTimeField(blank=True, auto_now=True)
 
     class Meta:
         managed = False

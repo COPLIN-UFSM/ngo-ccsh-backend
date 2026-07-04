@@ -1,6 +1,6 @@
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
-from despesas.models import TipoDocumento, Documento
+from despesas.models import TipoDocumento, ValorDocumento
 from despesas.serializers import DocumentoSerializer, TipoDocumentoSerializer
 
 
@@ -19,11 +19,11 @@ class TipoDocumentoViewSet(viewsets.ModelViewSet):
         instance.save()
 
 class DocumentoViewSet(viewsets.ModelViewSet):
-    queryset = Documento.objects.all()
+    queryset = ValorDocumento.objects.all()
     serializer_class = DocumentoSerializer
 
     def get_queryset(self):
-        return Documento.objects.filter()
+        return ValorDocumento.objects.filter()
     
     def get_permissions(self):
         return [IsAuthenticated()]

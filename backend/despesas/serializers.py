@@ -28,9 +28,9 @@ class DocumentoSerializer(serializers.ModelSerializer):
         write_only=True
     )
     class Meta:
-        model = Documento
-        fields = ["id_documento", "id_tipo_documento", "tipo_documento", "documento", "transacao", "descricao"]
-        read_only_fields = ["id_documento"]
+        model = ValorDocumento
+        fields = ["id_valor_documento", "id_tipo_documento", "tipo_documento", "valor_documento", "transacao", "descricao"]
+        read_only_fields = ["id_valor_documento"]
 
 
 class TipoFinalidadeSerializer(serializers.ModelSerializer):
@@ -99,7 +99,7 @@ class DocumentoNestedSerializer(serializers.ModelSerializer):
     )
     
     class Meta:
-        model = Documento
+        model = ValorDocumento
         exclude = ["transacao"]
 
 
@@ -111,7 +111,7 @@ class TransacaoSerializer(serializers.ModelSerializer):
         transacao = Transacao.objects.create(**validated_data)
 
         for doc_data in documentos_data:
-            Documento.objects.create(transacao=transacao, **doc_data)
+            ValorDocumento.objects.create(transacao=transacao, **doc_data)
         return transacao
 
     def update(self, instance, validated_data):
@@ -124,7 +124,7 @@ class TransacaoSerializer(serializers.ModelSerializer):
         if documentos_data is not None:
             instance.documentos.all().delete()
             for doc_data in documentos_data:
-                Documento.objects.create(transacao=instance, **doc_data)
+                ValorDocumento.objects.create(transacao=instance, **doc_data)
 
         return instance
 
@@ -186,7 +186,7 @@ class EmpenhoSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Empenho
-        fields = ["id_empenho", "empenho", "pen", "descricao", "finalidade", "montante", "transacoes"]
+        fields = ["id_empenho", "numero_empenho", "numero_pen", "descricao", "finalidade", "montante", "transacoes"]
         read_only_fields = ["id_empenho"]
 
     def get_montante(self, obj):
