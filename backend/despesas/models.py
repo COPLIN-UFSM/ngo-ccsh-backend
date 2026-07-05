@@ -144,52 +144,126 @@ class StatusPagamento(models.Model):
 
 
 class Transacao(models.Model):
-    id_transacao = models.AutoField(primary_key=True, db_column='id_transacao')
-    id_transacao_anterior = models.OneToOneField("Transacao", models.DO_NOTHING, db_column="id_transacao_anterior")
+    """
+    Transações imutáveis. As múltiplas versões de uma transação são armazenadas em VersaoTransacao.
 
-    empenho = models.ForeignKey(
-        Empenho, models.DO_NOTHING,
-        blank=True, null=True,
-        db_column="id_empenho"
+    Cada nova versão é criada quando por exemplo o montante é atualizado, ou o status de pagamento trocado.
+    """
+
+    id_transacao = models.AutoField(
+        primary_key=True,
+        db_column="id_transacao"
     )
 
-    finalidade = models.ForeignKey(Finalidade, models.DO_NOTHING, db_column="id_finalidade", blank=True, null=True)
+    versao_atual = models.OneToOneField(
+        "VersaoTransacao",
+        null=True,
+        blank=True,
+        on_delete=models.PROTECT,
+        related_name="+",
+        db_column="id_versao_atual",
+    )
+
+    data_criacao = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        managed = False
+        db_table = "transacoes"
+
+
+class VersaoTransacao(models.Model):
+    """
+    Versão de uma transação.
+
+    Ao editar uma transação, uma nova versão de transação é criada.
+    As versões existentes nunca são modificadas.
+    """
+
+    id_versao_transacao = models.AutoField(
+        primary_key=True,
+        db_column="id_versao_transacao"
+    )
+
+    transacao = models.ForeignKey(
+        Transacao,
+        on_delete=models.PROTECT,
+        related_name="versoes",
+        db_column="id_transacao",
+    )
+
+    numero_versao = models.PositiveIntegerField()
+
+    empenho = models.ForeignKey(
+        Empenho,
+        models.DO_NOTHING,
+        null=True,
+        blank=True,
+        db_column="id_empenho",
+    )
+
+    finalidade = models.ForeignKey(
+        Finalidade,
+        models.DO_NOTHING,
+        null=True,
+        blank=True,
+        db_column="id_finalidade",
+    )
 
     subunidade_credora = models.ForeignKey(
         Unidade,
         models.DO_NOTHING,
-        db_column="id_subunidade_credora",
-        blank=True,
         null=True,
+        blank=True,
+        related_name="+",
+        db_column="id_subunidade_credora",
     )
+
     subunidade_executora = models.ForeignKey(
         Unidade,
         models.DO_NOTHING,
+        related_name="+",
         db_column="id_subunidade_executora",
-        blank=False,
-        null=False,
     )
 
-    usuario = models.ForeignKey(Usuario, models.DO_NOTHING, db_column="id_usuario")
+    usuario = models.ForeignKey(
+        Usuario,
+        models.DO_NOTHING,
+        db_column="id_usuario",
+    )
 
     status_pagamento = models.ForeignKey(
         StatusPagamento,
-        on_delete=models.DO_NOTHING,
-        db_column="id_status_pagamento"
+        models.DO_NOTHING,
+        db_column="id_status_pagamento",
     )
 
     beneficiario = models.ForeignKey(
         Pessoa,
         models.DO_NOTHING,
-        db_column="id_beneficiario",
-        blank=True,
         null=True,
+        blank=True,
+        db_column="id_beneficiario",
     )
 
-    credito = models.BooleanField(default=False, blank=True)
-    montante = models.DecimalField(decimal_places=2, blank=True, null=True, default=Decimal(0.00))
-    data_lancamento = models.DateTimeField(blank=True, auto_now_add=True)
+    credito = models.BooleanField(default=False)
+
+    montante = models.DecimalField(
+        max_digits=15,
+        decimal_places=2,
+        default=Decimal("0.00"),
+    )
+
+    data_criacao = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         managed = False
-        db_table = "transacoes"
+        db_table = "versoes_transacoes"
+
+        constraints = [
+            models.UniqueConstraint(
+                fields=["transacao", "numero_versao"],
+                name="uk_transacao_numero_versao",
+            )
+        ]
+
+        ordering = ["numero_versao"]
