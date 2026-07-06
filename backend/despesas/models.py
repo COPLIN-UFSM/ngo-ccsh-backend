@@ -114,10 +114,6 @@ class Empenho(models.Model):
     finalidade = models.ForeignKey(Finalidade, models.DO_NOTHING, db_column="id_finalidade")
     data_lancamento = models.DateTimeField(blank=True, auto_now_add=True)
 
-    class Meta:
-        managed = False
-        db_table = "empenhos"
-
     @property
     def montante(self):
         related_transaction = Transacao.objects.filter(empenho=self).aggregate(
@@ -132,15 +128,19 @@ class Empenho(models.Model):
         )
         return related_transaction["montante"] or Decimal(0.00)
 
+    class Meta:
+        managed = False
+        db_table = "empenhos"
+
 
 # pago, pendente, alocado
-class StatusPagamento(models.Model):
-    id_status_pagamento = models.AutoField(primary_key=True, db_column='id_status_pagamento')
-    status_pagamento = models.TextField(max_length=64, db_column='status_pagamento')
+class StatusTransacao(models.Model):
+    id_status_pagamento = models.AutoField(primary_key=True, db_column='id_status_transacao')
+    status_pagamento = models.TextField(max_length=64, db_column='status_transacao')
 
     class Meta:
         managed = False
-        db_table = "status_pagamento"
+        db_table = "status_transacoes"
 
 
 class Transacao(models.Model):
@@ -152,13 +152,13 @@ class Transacao(models.Model):
 
     id_transacao = models.AutoField(primary_key=True, db_column="id_transacao")
 
-    versao_atual = models.OneToOneField(
+    versao_transacao = models.OneToOneField(
         "VersaoTransacao",
         null=True,
         blank=True,
         on_delete=models.PROTECT,
         related_name="+",
-        db_column="id_versao_atual",
+        db_column="id_versao_transacao",
     )
 
     data_criacao = models.DateTimeField(auto_now_add=True)
@@ -176,14 +176,11 @@ class VersaoTransacao(models.Model):
     As versões existentes nunca são modificadas.
     """
 
-    id_versao_transacao = models.AutoField(
-        primary_key=True,
-        db_column="id_versao_transacao"
-    )
+    id_versao_transacao = models.AutoField(primary_key=True, db_column="id_versao_transacao")
 
     transacao = models.ForeignKey(Transacao, on_delete=models.PROTECT, related_name="versoes", db_column="id_transacao")
 
-    numero_versao = models.PositiveIntegerField()
+    numero_versao = models.PositiveIntegerField(default=1)
 
     empenho = models.ForeignKey(
         Empenho,
@@ -201,20 +198,20 @@ class VersaoTransacao(models.Model):
         db_column="id_finalidade",
     )
 
-    subunidade_credora = models.ForeignKey(
+    unidade_credora = models.ForeignKey(
         Unidade,
         models.DO_NOTHING,
         null=True,
         blank=True,
         related_name="+",
-        db_column="id_subunidade_credora",
+        db_column="id_unidade_credora",
     )
 
-    subunidade_executora = models.ForeignKey(
+    unidade_executora = models.ForeignKey(
         Unidade,
         models.DO_NOTHING,
         related_name="+",
-        db_column="id_subunidade_executora",
+        db_column="id_unidade_executora",
     )
 
     usuario = models.ForeignKey(
@@ -224,7 +221,7 @@ class VersaoTransacao(models.Model):
     )
 
     status_pagamento = models.ForeignKey(
-        StatusPagamento,
+        StatusTransacao,
         models.DO_NOTHING,
         db_column="id_status_pagamento",
     )

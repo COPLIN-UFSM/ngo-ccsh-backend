@@ -1,7 +1,7 @@
 create view orcamento.v_servidores as (
     select
         gsu.id_contrato_rh,
-        gsu.id_pessoa,
+        gsu.id_pessoa as ID_PESSOA_SIE,
         strip(MATR_EXTERNA) MATRICULA,
         gsu.ID_CARGO,
     CASE

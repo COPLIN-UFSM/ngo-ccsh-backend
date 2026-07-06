@@ -1,6 +1,6 @@
 CREATE TABLE ORCAMENTO.EMAILS (
     id_email INTEGER NOT NULL PRIMARY KEY,
-    id_pessoa INTEGER NOT NULL,
+    id_pessoa_interna INTEGER NOT NULL,
     email varchar(64) NOT NULL,
     ATIVO BOOLEAN NOT NULL
 );

@@ -68,7 +68,7 @@ class Command(BaseCommand):
         # transacao = Transacao.objects.get_or_create(
         #         finalidade=finalidade,
         #         empenho=empenho,
-        #         subunidade_executora=subunidade_1,
+        #         unidade_executora=subunidade_1,
         #         usuario=usuario,
         #         status="PAGO",
         #         descricao="Blá blá blá.........",

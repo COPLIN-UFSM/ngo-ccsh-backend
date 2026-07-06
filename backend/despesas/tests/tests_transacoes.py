@@ -55,7 +55,7 @@ class TransacoesTestAPI(APITestCase, SetupTestAPI):
             "descricao": "Blá blá blá.........",
             "montante": 1000,
             "eh_credito": True,
-            "subunidade_executora": self.subunidade.pk
+            "unidade_executora": self.subunidade.pk
         }
         response = self.client.post(self.url, data=data, format='json')
         
@@ -71,7 +71,7 @@ class TransacoesTestAPI(APITestCase, SetupTestAPI):
             "descricao": "Blá blá blá.........",
             "montante": 1000,
             "eh_credito": True,
-            "subunidade_executora": self.subunidade.pk
+            "unidade_executora": self.subunidade.pk
         }
         response = self.client.post(self.url, data=data, format="json")
         self.assertEqual(response.status_code, 201)
@@ -84,7 +84,7 @@ class TransacoesTestAPI(APITestCase, SetupTestAPI):
             "descricao": "Blá blá blá.........",
             "eh_credito": False, 
             "montante": 900,
-            "subunidade_executora": self.subunidade.pk
+            "unidade_executora": self.subunidade.pk
 
         })
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
@@ -138,7 +138,7 @@ class TransacoesTestAPI(APITestCase, SetupTestAPI):
             "descricao": "Blá blá blá.........",
             "montante": 1000,
             "eh_credito": True,
-            "subunidade_executora": self.subunidade.id_subunidade
+            "unidade_executora": self.subunidade.id_subunidade
         }
 
         response = self.client.post(self.url, data=data, format="json")
@@ -153,7 +153,7 @@ class TransacoesTestAPI(APITestCase, SetupTestAPI):
             "descricao": "Sem auth",
             "montante": 100,
             "eh_credito": True,
-            "subunidade_executora": self.subunidade.pk
+            "unidade_executora": self.subunidade.pk
         }
         response = self.client.post(self.url, data=data, format="json")
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
@@ -181,7 +181,7 @@ class TransacoesTestAPI(APITestCase, SetupTestAPI):
             "descricao": "Despesa sem saldo suficiente",
             "montante": 600,
             "eh_credito": False,
-            "subunidade_executora": self.subunidade.id_subunidade
+            "unidade_executora": self.subunidade.id_subunidade
         }
         response = self.client.post(self.url, data=data, format="json")
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
@@ -197,7 +197,7 @@ class TransacoesTestAPI(APITestCase, SetupTestAPI):
             "descricao": "Transação com documentos",
             "montante": 500,
             "eh_credito": True,
-            "subunidade_executora": self.subunidade.id_subunidade,
+            "unidade_executora": self.subunidade.id_subunidade,
             "documentos": [
                 {
                     "id_tipo_documento": self.tipo_doc.id_tipo_documento,
@@ -250,7 +250,7 @@ class TransacoesTestAPI(APITestCase, SetupTestAPI):
             "descricao": "Transação atualizada",
             "montante": 300,
             "eh_credito": True,
-            "subunidade_executora": self.subunidade.id_subunidade,
+            "unidade_executora": self.subunidade.id_subunidade,
             "documentos": [
                 {
                     "id_tipo_documento": self.tipo_doc.id_tipo_documento,

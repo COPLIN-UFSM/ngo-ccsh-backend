@@ -121,8 +121,8 @@ class TransacaoSerializer(serializers.ModelSerializer):
             "transacao_pai",
             "empenho",
             "finalidade",
-            "subunidade_credora",
-            "subunidade_executora",
+            "unidade_credora",
+            "unidade_executora",
             "usuario",
             "status",
             "beneficiario_interno",
@@ -197,4 +197,7 @@ class EmpenhoSerializer(serializers.ModelSerializer):
         return valor_somado
 
 
-# Finalidade em empenho? Finalidade em Transação.
+class StatusTransacaoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = StatusTransacao
+        fields = "__all__"

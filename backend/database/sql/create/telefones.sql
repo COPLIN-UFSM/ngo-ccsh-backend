@@ -1,6 +1,6 @@
 CREATE TABLE ORCAMENTO.TELEFONES (
     id_telefone INTEGER NOT NULL PRIMARY KEY,
-    id_pessoa INTEGER NOT NULL,
+    id_pessoa_interna INTEGER NOT NULL,
     telefone varchar(16) NOT NULL,
     ATIVO BOOLEAN NOT NULL
 );

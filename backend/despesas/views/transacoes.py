@@ -1,7 +1,7 @@
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
-from despesas.models import Transacao
-from despesas.serializers import TransacaoSerializer
+from despesas.models import Transacao, StatusTransacao
+from despesas.serializers import TransacaoSerializer, StatusTransacaoSerializer
 
 
 class TransacoesViewSet(viewsets.ModelViewSet):
@@ -10,4 +10,11 @@ class TransacoesViewSet(viewsets.ModelViewSet):
 
     def get_permissions(self):
         return [IsAuthenticated()]
-    
+
+
+class StatusTransacaoViewSet(viewsets.ModelViewSet):
+    queryset = StatusTransacao.objects.all()
+    serializer_class = StatusTransacaoSerializer
+
+    def get_permissions(self):
+        return [IsAuthenticated()]

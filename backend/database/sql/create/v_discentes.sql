@@ -1,7 +1,7 @@
 create view orcamento.v_discentes as (
     select
         caa.ID_CURSO_ALUNO,
-        caa.id_pessoa,
+        caa.id_pessoa as ID_PESSOA_SIE,
         strip(MATRICULA) MATRICULA,
         caa.ID_CURSO,
         ANO_EVASAO is NULL as ATIVO

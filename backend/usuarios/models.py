@@ -67,11 +67,11 @@ class UserManager(BaseUserManager):
 class Usuario(AbstractBaseUser, PermissionsMixin):
     id = models.AutoField(primary_key=True, editable=False, db_column="id")
     cpf = models.CharField(max_length=11, unique=True, null=False, blank=False, db_column="cpf")
-    email = models.EmailField(unique=True, db_column='email')
+    email = models.EmailField(unique=True, max_length=64, db_column='email')
     is_active = models.BooleanField(blank=True, default=True, db_column='is_active')
     is_staff = models.BooleanField(blank=True, default=False, db_column='is_staff')
-    created_at = models.DateTimeField(auto_now_add=True, db_column='created_at')
     # is_superuser é um campo herdado de permissionsMixin
+    created_at = models.DateTimeField(auto_now_add=True, db_column='created_at')
 
     pessoa = models.OneToOneField(
         Pessoa,

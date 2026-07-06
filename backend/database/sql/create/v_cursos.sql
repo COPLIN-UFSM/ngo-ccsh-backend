@@ -1,7 +1,7 @@
-create view orcamento.v_cursos as (
+create view ORCAMENTO.V_CURSOS as (
     select
         ac.ID_CURSO,
-        ac.ID_CENTRO,
+        ac.ID_CENTRO AS ID_CENTRO_SIE,
         strip(ac.NOME_CURSO) NOME_CURSO,
         strip(anc.DESCRICAO) NIVEL_CURSO,
         strip(am.descricao) MODALIDADE_CURSO,
@@ -12,4 +12,4 @@ create view orcamento.v_cursos as (
     inner join bee.ACAD_CLASSIFICACAO acla on ac.ID_CLASSIF = acla.ID_CLASSIF
 );
 
-comment on table orcamento.v_cursos is 'View criada a partir das tabelas do banco bee ACAD_CURSOS, ACAD_NIVEL_CURSOS, ACAD_MODALIDADE e ACAD_CLASSIFICACAO.';
+comment on table ORCAMENTO.V_CURSOS is 'View criada a partir das tabelas do banco bee ACAD_CURSOS, ACAD_NIVEL_CURSOS, ACAD_MODALIDADE e ACAD_CLASSIFICACAO.';
