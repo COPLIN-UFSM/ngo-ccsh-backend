@@ -8,13 +8,12 @@ from utils import response
 from utils.pagination import PaginationWithSize
 
 
-class NaturezaFinalidadeView(APIView):
+class NaturezaFinalidadeListView(APIView):
     def get(self, request):
         queryset = NaturezaFinalidade.objects.filter(ativo=True)
         paginator = PaginationWithSize()
         page = paginator.paginate_queryset(queryset, request, self)
-
-        serializer = NaturezaFinalidadeSerializer(queryset, many=True)
+        serializer = NaturezaFinalidadeSerializer(page, many=True)
 
         if page is not None:
             return paginator.get_paginated_response(serializer.data)
@@ -34,7 +33,7 @@ class NaturezaFinalidadeView(APIView):
             return response.error_server()
 
 
-class SingleNaturezaFinalidadeView(APIView):
+class NaturezaFinalidadeDetailsView(APIView):
     name = "Natureza de Finalidade"
 
     def get(self, request, *args, **kwargs):
@@ -84,13 +83,12 @@ class SingleNaturezaFinalidadeView(APIView):
             return response.error_server()
 
 
-class TipoFinalidadeView(APIView):
+class GrupoFinalidadeListView(APIView):
     def get(self, request):
         queryset = GrupoFinalidade.objects.filter(ativo=True)
         paginator = PaginationWithSize()
         page = paginator.paginate_queryset(queryset, request, self)
-
-        serializer = TipoFinalidadeSerializer(queryset, many=True)
+        serializer = TipoFinalidadeSerializer(page, many=True)
 
         if page is not None:
             return paginator.get_paginated_response(serializer.data)
@@ -165,7 +163,7 @@ class SingleTipoFinalidadeView(APIView):
             return response.error_server()
 
 
-class SingleFinalidadeView(APIView):
+class FinalidadeDetailsView(APIView):
     def get(self, request, *args, **kwargs):
         pk = kwargs["pk"]
 
@@ -218,7 +216,7 @@ class SingleFinalidadeView(APIView):
             return response.error_server()
 
 
-class FinalidadesView(APIView):
+class FinalidadesListView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
@@ -226,7 +224,7 @@ class FinalidadesView(APIView):
 
         paginator = PaginationWithSize()
         page = paginator.paginate_queryset(queryset, request, self)
-        serializer = FinalidadeSerializer(queryset, many=True)
+        serializer = FinalidadeSerializer(page, many=True)
 
         if page is not None:
             return paginator.get_paginated_response(serializer.data)
@@ -245,72 +243,3 @@ class FinalidadesView(APIView):
 
         except Exception as error:
             return response.error_server(error)
-
-
-class SubunidadeView(APIView):
-    def get(self, request):
-        try:
-            subunidades = Unidade.objects.filter(ativo=True)
-            serializer = SubunidadeSerializer(subunidades, many=True)
-            return response.success_data(serializer.data)
-
-        except Exception as e:
-            return response.error_server(e)
-
-    def post(self, request):
-        try:
-            serializer = SubunidadeSerializer(data=request.data)
-            if not serializer.is_valid():
-                return response.serializer_errors(serializer)
-            serializer.save()
-            return response.success("Subunidade adicionada com sucesso.")
-        except Exception as e:
-            return response.error_server(e)
-
-
-class SingleSubunidadeView(APIView):
-    def get(self, request, *args, **kwargs):
-        pk = kwargs["pk"]
-
-        try:
-            data = Unidade.objects.filter(pk=pk, ativo=True).first()
-            if not data:
-                return response.not_found("Subunidade não encontrada.")
-            serializer = SubunidadeSerializer(data)
-            return Response(serializer.data, status=status.HTTP_200_OK)
-
-        except Exception as e:
-            return response.error_server(e)
-
-    def patch(self, request, *args, **kwargs):
-        pk = kwargs["pk"]
-
-        try:
-            subunidade = Unidade.objects.filter(pk=pk).first()
-            if not subunidade:
-                return response.not_found("Subunidade não encontrada.")
-
-            serializer = SubunidadeSerializer(instance=subunidade, data=request.data)
-
-            if not serializer.is_valid():
-                return response.serializer_errors(serializer)
-            serializer.save()
-
-            return response.success("Subunidade alterada com sucesso.")
-
-        except Exception as e:
-            return response.error_server()
-
-    def delete(self, request, *args, **kwargs):
-        pk = kwargs["pk"]
-
-        try:
-            subunidade = Unidade.objects.filter(pk=pk, ativo=True).first()
-            if not subunidade:
-                return response.not_found("Subunidade não encontrada.")
-            subunidade.ativo = False
-
-            return response.success("Subunidade desativada com sucesso.")
-
-        except Exception as e:
-            return response.error_server()

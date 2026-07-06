@@ -1,7 +1,7 @@
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 from despesas.models import TipoDocumento, ValorDocumento
-from despesas.serializers import DocumentoSerializer, TipoDocumentoSerializer
+from despesas.serializers import ValorDocumentoSerializer, TipoDocumentoSerializer
 
 
 class TipoDocumentoViewSet(viewsets.ModelViewSet):
@@ -18,9 +18,10 @@ class TipoDocumentoViewSet(viewsets.ModelViewSet):
         instance.ativo = False
         instance.save()
 
+
 class DocumentoViewSet(viewsets.ModelViewSet):
     queryset = ValorDocumento.objects.all()
-    serializer_class = DocumentoSerializer
+    serializer_class = ValorDocumentoSerializer
 
     def get_queryset(self):
         return ValorDocumento.objects.filter()

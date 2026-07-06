@@ -5,7 +5,7 @@ from despesas.serializers import *
 from utils.pagination import PaginationWithSize
 
 
-class EmpenhoView(APIView):
+class EmpenhoListView(APIView):
     def get(self, request):
         try:
             queryset = Empenho.objects.all()
@@ -34,7 +34,7 @@ class EmpenhoView(APIView):
             return response.error_server(e)
 
 
-class SingleEmpenhoView(APIView):
+class EmpenhoDetailsView(APIView):
     def get(self, request, *args, **kwargs):
         pk = kwargs["pk"]
 

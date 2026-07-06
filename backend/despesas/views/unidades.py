@@ -14,7 +14,7 @@ class SubunidadeView(APIView):
 
             paginator = PaginationWithSize()
             page = paginator.paginate_queryset(queryset, request, self)
-            serializer = SubunidadeSerializer(queryset, many=True)
+            serializer = UnidadeSerializer(queryset, many=True)
             print(serializer.data)
             if page is not None:
                 return paginator.get_paginated_response(serializer.data)
@@ -29,7 +29,7 @@ class SubunidadeView(APIView):
             return response.not_admin_user()
 
         try:
-            serializer = SubunidadeSerializer(data=request.data)
+            serializer = UnidadeSerializer(data=request.data)
             if not serializer.is_valid():
                 return response.serializer_errors(serializer)
             serializer.save()
@@ -46,7 +46,7 @@ class SingleSubunidadeView(APIView):
             data = Unidade.objects.filter(pk=pk, ativo=True).first()
             if not data:
                 return response.not_found("Subunidade não encontrada.")
-            serializer = SubunidadeSerializer(data)
+            serializer = UnidadeSerializer(data)
             return Response(serializer.data, status=status.HTTP_200_OK)
 
         except Exception as e:
@@ -60,7 +60,7 @@ class SingleSubunidadeView(APIView):
             if not subunidade:
                 return response.not_found("Subunidade não encontrada.")
 
-            serializer = SubunidadeSerializer(instance=subunidade, data=request.data)
+            serializer = UnidadeSerializer(instance=subunidade, data=request.data)
 
             if not serializer.is_valid():
                 return response.serializer_errors(serializer)
