@@ -79,7 +79,7 @@ class TiposDocumentosParaFinalidades(models.Model):
     """
     Tabela que liga os tipos de documentos às finalidades.
     """
-    id_tipo_documento_finalidade = models.AutoField(primary_key=True, db_column='id_tipo_documento_finalidade')
+    pk = models.CompositePrimaryKey("tipo_documento_id", "finalidade_id")
     tipo_documento = models.ForeignKey(TipoDocumento, models.DO_NOTHING, db_column="id_tipo_documento")
     finalidade = models.ForeignKey(Finalidade, models.DO_NOTHING, db_column="id_finalidade")
     obrigatorio = models.BooleanField(
@@ -135,8 +135,8 @@ class Empenho(models.Model):
 
 # pago, pendente, alocado
 class StatusTransacao(models.Model):
-    id_status_pagamento = models.AutoField(primary_key=True, db_column='id_status_transacao')
-    status_pagamento = models.TextField(max_length=64, db_column='status_transacao')
+    id_status_transacao = models.AutoField(primary_key=True, db_column='id_status_transacao')
+    status_transacao = models.TextField(max_length=64, db_column='status_transacao')
 
     class Meta:
         managed = False

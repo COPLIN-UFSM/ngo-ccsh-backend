@@ -1,0 +1,33 @@
+ID_FINALIDADE,NATUREZA_FINALIDADE,GRUPO_FINALIDADE,FINALIDADE,ATIVO
+1,1,2,"Investimentos - Obras (capital)",TRUE
+2,1,,"Permanente - Equipamentos",TRUE
+3,1,,"Permanente - Móveis",TRUE
+4,1,,"Software de Informática  - Capital",TRUE
+9,2,,"Almoxarifado",TRUE
+10,2,1,"Bolsas - 2A (recursos próprios)",TRUE
+11,2,1,"Bolsas "Descubra" (recursos próprios)",TRUE
+12,3,1,"(Despesas) Bolsa Monitoria Global",TRUE
+13,3,1,"(Despesas) Bolsas BAE PRAE PNAES Cód 2CCSH",TRUE
+14,2,1,"Bolsas Eventuais Rec. Extraorçamentário",TRUE
+15,2,1,"Bolsas Formação",TRUE
+16,2,1,"Bolsas Pró-Revistas",TRUE
+17,2,,"Veículos do Núcleo de Transporte",TRUE
+18,2,,"Correios",TRUE
+19,2,3,"Diárias - Colaborador Eventual",TRUE
+20,2,3,"Diárias no Exterior",TRUE
+21,2,3,"Diárias no País",TRUE
+22,2,,"Gráfica (Imprensa)",TRUE
+23,2,4,"Hospedagem - Dom Rafael Premium - Ernesto Beck - Contrato 087/2023 - Valor Unitário R$ 209,00",TRUE
+24,2,4,"Hospedagem - Dom Rafael Premium - Ernesto Beck - Contrato 144/2025 - Valor Unitário R$ 307,00",TRUE
+25,2,4,"Hospedagem - Hotel Dom Rafael BUSINESS - Av. Dores - R$ 125,33",TRUE
+26,2,5,"Passagem rodoviária",TRUE
+27,2,5,"Passagem aérea nacional",TRUE
+28,2,5,"Passagem aérea internacional",TRUE
+29,2,,"Refeições - Dom Rafael Premium - Ernesto Beck - Contrato 144/2025 - Valor Unitário R$ 50,00",TRUE
+30,2,,"Taxa de Inscrição/Publicação",TRUE
+31,2,,"Manutenções, Consertos e Reformas",TRUE
+32,2,,"Registro de Preços - Serviços e Manutenções",TRUE
+33,2,,"Registro de Preços - Material de Consumo",TRUE
+34,2,,"Anuidades e participação institucional",TRUE
+35,2,,"Suprimento de Fundos",TRUE
+38,3,1,"(Despesas) Bolsa Monitoria PNAES",TRUE

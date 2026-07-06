@@ -1,0 +1,4 @@
+ID_STATUS_TRANSACAO,STATUS_TRANSACAO
+1,"Pago"
+2,"Pendente"
+3,"Alocado"

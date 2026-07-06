@@ -1,0 +1,1035 @@
+ID_CURSO,ID_CENTRO_SIE,NOME_CURSO,NIVEL_CURSO,MODALIDADE_CURSO,CLASSIFICACAO_CURSO
+1891,82,PG-E Ensino de Matemática no Ensino Médio/EAD/Gramado/RS,Especialização,Especialização,EAD
+2229,4564,PG em Saúde e Ruralidade - Mestrado Acadêmico/PM,Pós-Graduação,Mestrado,Presencial
+2225,205,PROMOVER - Mobilidade virtual em rede,Graduação,Formação Especial,Apenas para vinculo dos alunos
+2227,205,Mobilidade Virtual Internacional,Graduação,Formação Especial,Apenas para vinculo dos alunos
+2224,3202,Controle de Inscrição e Matrícula da Educação,Ensino Básico,Educação Infantil,Presencial
+811,117,PG Engenharia Civil - Mestrado,Pós-Graduação,Mestrado,Presencial
+935,85,PG Mestrado em Ciência do Solo,Pós-Graduação,Mestrado,Presencial
+936,85,PG Doutorado em Ciência do Solo,Pós-Graduação,Doutorado,Presencial
+2245,2712,CPOL - Curso Técnico em Cooperativismo/Distância/Silveira Martins/RS,Pós-Médio,Técnico,EAD
+1454,88,PG em Ciências Farmacêuticas - Doutorado,Pós-Graduação,Doutorado,Presencial
+817,78,PG Letras - Doutorado,Pós-Graduação,Doutorado,Presencial
+1021,88,PG em Farmacologia - Mestrado,Pós-Graduação,Mestrado,Presencial
+1175,88,PG em Farmacologia - Doutorado,Pós-Graduação,Doutorado,Presencial
+783,88,PG Distúrbios da Comunicação Humana - Mestrado,Pós-Graduação,Mestrado,Presencial
+1057,82,PG em Matemática - Mestrado,Pós-Graduação,Mestrado,Presencial
+1062,78,PG em Artes Visuais - Mestrado,Pós-Graduação,Mestrado,Presencial
+1105,91,PG Profissionalizante em Patrimônio Cultural- Mestrado,Pós-Graduação,Mestrado,Presencial
+1178,82,PG Biodiversidade Animal - Mestrado,Pós-Graduação,Mestrado,Presencial
+715,85,PG Mestrado em Extensão Rural,Pós-Graduação,Mestrado,Presencial
+1108,117,PG em Engenharia de Processos  - Mestrado,Pós-Graduação,Mestrado,Presencial
+822,78,Música - Licenciatura,Graduação,Licenciatura,Presencial
+844,91,História - Licenciatura Plena,Graduação,Licenciatura,Presencial
+1244,91,Curso Superior de Tecnologia em Gestão de Turismo,Graduação,Tecnológico,Presencial
+911,78,Desenho e Plástica - Desenho Industrial,Graduação,Bacharelado,Presencial
+1127,82,PG em Meteorologia - Mestrado,Pós-Graduação,Mestrado,Presencial
+1128,88,PG em Ciências Odontológicas - Mestrado,Pós-Graduação,Mestrado,Presencial
+1556,88,PG em Ciências Odontológicas - Doutorado,Pós-Graduação,Doutorado,Presencial
+1906,91,PG em Ciências Sociais - Doutorado,Pós-Graduação,Doutorado,Presencial
+1130,82,PG-M Educação em Ciências: Química da Vida e Saúde,Pós-Graduação,Mestrado,Presencial
+1186,91,PG em Psicologia da Saúde - Mestrado,Pós-Graduação,Mestrado,Presencial
+1400,91,PG em História - Mestrado Acadêmico,Pós-Graduação,Mestrado,Presencial
+1793,91,PG em História - Doutorado,Pós-Graduação,Doutorado,Presencial
+1406,91,PG em Economia e Desenvolvimento - Mestrado Acadêmico,Pós-Graduação,Mestrado,Presencial
+1408,88,PG-Mestrado Profissional em Ciências da Saúde,Pós-Graduação,Mestrado,Presencial
+953,91,PG - Administração - Mestrado Acadêmico,Pós-Graduação,Mestrado,Presencial
+1464,97,PG - Educação Física - Mestrado Acadêmico,Pós-Graduação,Mestrado,Presencial
+1022,91,PG - Comunicação - Mestrado Acadêmico,Pós-Graduação,Mestrado,Presencial
+1480,117,PG em Engenharia Ambiental - Mestrado Acadêmico,Pós-Graduação,Mestrado,Presencial
+1935,117,PG em Engenharia Ambiental - Doutorado Acadêmico,Pós-Graduação,Doutorado,Presencial
+1576,82,PG em Educação Matemática e Ensino de Física - Mestrado,Pós-Graduação,Mestrado,Presencial
+1695,94,PG em História em Rede Nacional - Mestrado Profissional,Pós-Graduação,Mestrado,Presencial
+1792,88,PG em Nanotecnologia Farmacêutica - Doutorado,Pós-Graduação,Doutorado,Presencial
+1796,88,PG em Reabilitação Funcional - Mestrado Acadêmico,Pós-Graduação,Mestrado,Presencial
+2285,4634,PG-E Gestão de Tecnologia da Informação,Especialização,Especialização,Presencial
+876,78,Letras - Espanhol,Graduação,Licenciatura,Presencial
+1375,2712,Curso Técnico em Agropecuária Integrado ao Ensino Médio,Ensino Médio,Técnico,Presencial
+2406,88,Residência Médica - Oncologia Pediátrica,Residencia Médica,Especialização,Presencial
+2407,78,Espec. Tec. da Inf. e da Com. Aplicadas Educação/EAD/Balneário Pinhal/RS,Especialização,Especialização,EAD
+2408,78,Espec. Tec. da Inf. e da Com. Aplicadas Educação/EAD/Candelária/RS,Especialização,Especialização,EAD
+2409,78,Espec. Tec. da Inf. e da Com. Aplicadas Educação/EAD/Cruz Alta/RS,Especialização,Especialização,EAD
+2411,78,Espec. Tec. da Inf. e da Com. Aplicadas Educação/EAD/Sapucaia do Sul/RS,Especialização,Especialização,EAD
+1854,4564,PG em Agronegócios - Mestrado Acadêmico/PM,Pós-Graduação,Mestrado,Presencial
+1923,91,PG - Psicologia - Doutorado Acadêmico,Pós-Graduação,Doutorado,Presencial
+1402,4634,PG Agronomia - Agricultura e Ambiente - Mestrado/FW,Pós-Graduação,Mestrado,Presencial
+950,82,PG em Geografia - Mestrado,Pós-Graduação,Mestrado,Presencial
+1888,117,"PG em Arquitetura, Urbanismo e Paisagismo - Mestrado",Pós-Graduação,Mestrado,Presencial
+1058,117,Pós-Graduação em Ciência da Computação - Mestrado Acadêmico,Pós-Graduação,Mestrado,Presencial
+1912,91,PG - Relações Internacionais - Mestrado Acadêmico,Pós-Graduação,Mestrado,Presencial
+2136,91,PG em Administração Pública - Mestrado Acadêmico,Pós-Graduação,Mestrado,Presencial
+2164,91,PG em Ciências Contábeis - Mestrado Acadêmico,Pós-Graduação,Mestrado,Presencial
+1861,94,Licenciatura em Ciências da Religião/EAD/Quaraí/RS,Graduação,Licenciatura,EAD
+1864,94,Licenciatura em Ciências da Religião/EAD/São Francisco de Paula/RS,Graduação,Licenciatura,EAD
+1887,91,Licenciatura Sociologia/Distância/Mostardas/RS,Graduação,Licenciatura,EAD
+1995,85,Licenciatura em Educação do Campo/Distância/Encantado/RS,Graduação,Licenciatura,EAD
+1969,94,Pedagogia-Licenciatura/Distância/Sarandi/RS,Graduação,Licenciatura,EAD
+1632,2712,Técnico Agrícola Habilitação Agropecuária-Turno Tarde-Pós-Médio,Pós-Médio,Técnico,Presencial
+1774,2732,Espanhol/Sem Fronteiras/Faxinal do Soturno,FIC - Formação Inicial e Continuada,Formação Inicial e Continuada,EAD
+1780,82,Geografia Licenciatura -EaD-UAB/Sapiranga/RS,Graduação,Licenciatura,EAD
+1785,82,Geografia Licenciatura -EaD-UAB/São Francisco de Paula/RS,Graduação,Licenciatura,EAD
+1829,91,PG-E em Ensino de Filosofia no Ensino Médio/EAD/Seberi/RS,Especialização,Especialização,EAD
+2304,94,Licenciatura em Ciências da Religião,Graduação,Licenciatura,EAD
+2425,78,Espec. Tec. da Inf. e da Com. Aplicadas Educação/EAD/Picada Café/RS,Especialização,Especialização,EAD
+2431,85,"PG-E em Agroecologia, Educação do Campo e Inovações Sociais/EAD/Agudo/RS",Especialização,Especialização,EAD
+2433,85,"PG-E em Agroecologia, Educação do Campo e Inovações Sociais/EAD/Balneário Pinhal/RS",Especialização,Especialização,EAD
+2435,85,"PG-E em Agroecologia, Educação do Campo e Inovações Sociais/EAD/Picada Café/RS",Especialização,Especialização,EAD
+2436,85,"PG-E em Agroecologia, Educação do Campo e Inovações Sociais/EAD/Santana do Livramento/RS",Especialização,Especialização,EAD
+2437,85,"PG-E em Agroecologia, Educação do Campo e Inovações Sociais/EAD/Seberi/RS",Especialização,Especialização,EAD
+2439,85,"PG-E em Agroecologia, Educação do Campo e Inovações Sociais/EAD/Três Passos/RS",Especialização,Especialização,EAD
+1832,78,Letras - Português e Literaturas/Distância/Santana da Boa Vista/RS,Graduação,Licenciatura,EAD
+1842,94,Pedagogia-Licenciatura/Distância/Tio Hugo/RS,Graduação,Licenciatura,EAD
+1339,4634,Sistemas de Informação/FW,Graduação,Bacharelado,Presencial
+1366,4564,PG-E Gestão de Organização Pública em Saúde/EAD/Sobradinho/RS,Especialização,Especialização,EAD
+1536,4564,Administração Pública Bacharelado/EAD/Vila Flores/RS,Graduação,Bacharelado,EAD
+1487,117,PG-E Educação Ambiental/Distância/Pólo Faxinal do Soturno,Especialização,Especialização,EAD
+1559,94,Curso de Formação de Professores para Educação Profissional/Ead/São Lourenço do Sul/RS,Graduação,Licenciatura,EAD
+1874,82,Física - Licenciatura/Distância/Cachoeira do Sul/RS,Graduação,Licenciatura,EAD
+1667,78,Licenc. Letras Espanhol - Literaturas/Distância/Encantado/RS,Graduação,Licenciatura,EAD
+1684,91,PG-E em Ensino de Filosofia no Ensino Médio/EAD/Santa Maria/RS,Especialização,Especialização,EAD
+1689,91,PG-E em Ensino de Sociologia no Ensino Médio/EAD/Palmeira das Missões/RS,Especialização,Especialização,EAD
+1763,94,Curso de Formação de Professores para Educação Profissional/Ead/Três de Maio/RS,Graduação,Licenciatura,EAD
+1258,91,Licenciatura Sociologia/Distância/Santana do Livramento/RS,Graduação,Licenciatura,EAD
+1345,2732,CTISM - Automação Industrial/Distância/Santo Antônio da Patrulha/RS,Pós-Médio,Técnico,EAD
+1356,78,Licenc. Letras Espanhol - Literaturas/Distância/Jales/SP,Graduação,Licenciatura,EAD
+1442,88,Residência Médica - Radioterapia,Residencia Médica,Especialização,Presencial
+1461,94,Educação Especial - Licenciatura/Distância/Sobradinho/RS,Graduação,Licenciatura,EAD
+1159,94,Esp. Educ. Esp. Déficit Cognitivo e Educ. Surdos/EAD/Governador,Especialização,Especialização,EAD
+2388,94,Espec. Gestão Educacional/EAD/São Sepé/RS,Especialização,Especialização,EAD
+2405,88,Residência Médica - Oncologia Clínica,Residencia Médica,Especialização,Presencial
+2443,91,PG-E em Ensino de Filosofia no Ensino Médio/EAD/Cerro Largo/RS,Especialização,Especialização,EAD
+2444,91,PG-E em Ensino de Filosofia no Ensino Médio/EAD/Esteio/RS,Especialização,Especialização,EAD
+2445,91,PG-E em Ensino de Filosofia no Ensino Médio/EAD/Sapiranga/RS,Especialização,Especialização,EAD
+2432,91,PG-E em Ciência de Dados na Administração Pública/EAD/Esteio/RS,Especialização,Especialização,EAD
+2438,91,PG-E em Ciência de Dados na Administração Pública/EAD/Foz do Iguaçu/PR,Especialização,Especialização,EAD
+2440,91,PG-E em Ciência de Dados na Administração Pública/EAD/Rosário do Sul/RS,Especialização,Especialização,EAD
+1162,94,Esp. Educ. Esp. Déficit Cognitivo e Educ. Surdos/EAD/Teófilo Otoni,Especialização,Especialização,EAD
+1168,94,Esp. Educ. Esp. Déficit Cognitivo e Educ. Surdos/EAD/Gravataí/RS,Especialização,Especialização,EAD
+1255,94,Programa Especial de Graduação de Formação de Professores para a Educação Profissional,Graduação,Licenciatura,Presencial
+980,82,Meteorologia - Bacharelado,Graduação,Bacharelado,Presencial
+985,82,Matemática - Bacharelado,Graduação,Bacharelado,Presencial
+1150,2712,Técnico em Agroindústria - Pós-Médio,Pós-Médio,Técnico,Presencial
+1371,91,"PG-E Sociedade, Violência e Juventude em Risco",Especialização,Especialização,Presencial
+800,117,Engenharia Civil,Graduação,Bacharelado,Presencial
+826,78,Desenho Industrial - Habilitação Programação Visual,Graduação,Bacharelado,Presencial
+1246,85,Curso Superior de Tecnologia em Agronegócio,Graduação,Tecnológico,Presencial
+2024,4634,Licenciatura em Educação Indígena/Distância/Tapejara/RS,Graduação,Licenciatura,EAD
+1397,2712,Técnico em Meio Ambiente,Pós-Médio,Técnico,Presencial
+1063,2732,Ensino Médio - Integrado à Eletrotécnica,Ensino Médio,Técnico,Presencial
+2194,82,Física - Licenciatura/Distância/Gramado/RS,Graduação,Licenciatura,EAD
+2207,88,Residência Médica - Geriatria,Residencia Médica,Especialização,Presencial
+1728,78,Letras - Português e Literaturas/Distância/São Francisco de Paula/RS,Graduação,Licenciatura,EAD
+1803,91,PG Espec. em Gestão em Arquivos/EAD/São Francico de Paula/RS,Especialização,Especialização,EAD
+1820,94,Espec. Gestão Educacional/EAD/São Lourenço do Sul/RS,Especialização,Especialização,EAD
+1809,91,PG-E em Ensino de Filosofia no Ensino Médio/EAD/Tio Hugo/RS,Especialização,Especialização,EAD
+2441,91,PG-E em Ciência de Dados na Administração Pública/EAD/Santana da Boa Vista/RS,Especialização,Especialização,EAD
+2442,91,PG-E em Ciência de Dados na Administração Pública/EAD/São João do Polêsine/RS,Especialização,Especialização,EAD
+2426,94,PG-E de Gestão Pública na Educação Infantil e Docência/EAD/Tapejara/RS,Especialização,Especialização,EAD
+2427,94,PG-E de Gestão Pública na Educação Infantil e Docência/EAD/Sobradinho/RS,Especialização,Especialização,EAD
+2428,94,PG-E de Gestão Pública na Educação Infantil e Docência/EAD/Três de Maio/RS,Especialização,Especialização,EAD
+2429,94,PG-E de Gestão Pública na Educação Infantil e Docência/EAD/Santana do Livramento/RS,Especialização,Especialização,EAD
+2430,94,PG-E de Gestão Pública na Educação Infantil e Docência/EAD/Três Passos/RS,Especialização,Especialização,EAD
+2510,117,Curso de Engenharia Ambiental e Sanitária,Graduação,Bacharelado,Presencial
+1235,4564,Curso de Nutrição/PM,Graduação,Bacharelado,Presencial
+1378,4564,Administração Pública Bacharelado/EAD/Santana do Livramento/RS,Graduação,Bacharelado,EAD
+1420,91,Curso de Bacharelado em Administração,Graduação,Bacharelado,Presencial
+1894,94,Curso de Formação de Professores para Educação Profissional/Ead/Agudo/RS,Graduação,Licenciatura,EAD
+1098,78,Espec. Tec. da Inf. e da Com. Aplicadas Educação/EAD/São João do Polêsine/RS,Especialização,Especialização,EAD
+1571,117,PG-E Educação Ambiental/Distância/Pólo Constantina,Especialização,Especialização,EAD
+1614,2712,Curso de Desenhista de Produtos Gráficos Web,FIC - Formação Inicial e Continuada,Formação Inicial e Continuada,Presencial
+1625,85,Tec. Agric. Familiar Sustentabilidade/Distância/Sarandi/RS,Graduação,Tecnológico,EAD
+1603,2712,Curso de Açougueiro,FIC - Formação Inicial e Continuada,Formação Inicial e Continuada,Presencial
+2184,4634,Licenciatura em Computação/EAD/Constantina/RS,Graduação,Licenciatura,EAD
+1588,94,Espec. Gestão Educacional/EAD/Cacequi/RS,Especialização,Especialização,EAD
+1593,117,PG-E Eficiência Energética Aplicada aos Processos Produtivos/EAD/Vila Flores/RS,Especialização,Especialização,EAD
+1709,2732,CTISM - Mecânica/Distância/São Francisco de Paula/RS,Pós-Médio,Técnico,EAD
+1225,2732,CTISM - Automação Industrial/Distância/São Borja/RS,Pós-Médio,Técnico,EAD
+1214,2732,Curso Superior de Tecnologia em Fabricação Mecânica,Graduação,Tecnológico,Presencial
+1193,2712,Curso Superior de Tecnologia em Sistemas de Internet,Graduação,Tecnológico,Presencial
+1203,78,Espec. Tec. da Inf. e da Com. Aplicadas Educação/EAD/Sobradinho/RS,Especialização,Especialização,EAD
+1505,94,Espec. Gestão Educacional/EAD/Sapiranga/RS,Especialização,Especialização,EAD
+922,205,Aluno Especial de Pós-Graduação,Aluno Especial de Pós-Graduação,Formação Especial,Apenas para vinculo dos alunos
+992,78,Música - Bacharelado Trombone,Graduação,Bacharelado,Presencial
+1095,78,Letras - Português e Literaturas/Distância/São Lourenço do Sul/RS,Graduação,Licenciatura,EAD
+1085,94,Pedagogia/Distância/Cruz Alta/RS,Graduação,Licenciatura,EAD
+1104,94,Espec. Gestão Educacional/EAD/Palmas/TO,Especialização,Especialização,EAD
+1582,78,Letras - Português e Literaturas/Distância/Vila Flores/RS,Graduação,Licenciatura,EAD
+793,91,PG-E História do Brasil,Especialização,Especialização,Presencial
+709,85,Engenharia Florestal,Graduação,Bacharelado,Presencial
+1696,78,Desenho Industrial - Bacharelado,Graduação,Bacharelado,Presencial
+1391,78,Música e Tecnologia - Bacharelado,Graduação,Bacharelado,Presencial
+690,82,Geografia - Licenciatura Plena,Graduação,Licenciatura,Presencial
+680,82,Física - Bacharelado,Graduação,Bacharelado,Presencial
+722,91,Ciências Contábeis - Noturno,Graduação,Bacharelado,Presencial
+1188,94,Licenciatura em Educação Especial - Noturno,Graduação,Licenciatura,Presencial
+1220,117,PG-E Mídias na Educação/EAD/Santa Maria/RS,Especialização,Especialização,EAD
+1714,2712,CPOL - Curso Técnico em Fruticultura/Distância/Santa Maria/RS,Pós-Médio,Técnico,EAD
+1727,78,Letras - Português e Literaturas/Distância/Balneário Pinhal/RS,Graduação,Licenciatura,EAD
+1795,88,Residência Médica - Ultrassonografia em Ginecologia e Obstetrícia,Residencia Médica,Especialização,Presencial
+1812,91,PG-E em Ensino de Filosofia no Ensino Médio/EAD/Novo Hamburgo/RS,Especialização,Especialização,EAD
+2385,91,PG-Lato Sensu Gestão Pública/Distância/Candelária/RS,Especialização,Especialização,EAD
+1817,91,PG-E em Ensino de Sociologia no Ensino Médio/EAD/Tio Hugo/RS,Especialização,Especialização,EAD
+1383,4564,Administração Pública Bacharelado/EAD/Tio Hugo/RS,Graduação,Bacharelado,EAD
+1534,4564,Administração Pública Bacharelado/EAD/São Sepé /RS,Graduação,Bacharelado,EAD
+1243,2712,Curso Superior de Tecnologia em Gestão Ambiental,Graduação,Tecnológico,Presencial
+1804,78,Espec. Tec. da Inf. e da Com. Aplicadas Educação/EAD/Constantina/RS,Especialização,Especialização,EAD
+1902,2712,Técnico em Agricultura,Pós-Médio,Técnico,Presencial
+1228,117,PG-E Educação Ambiental/Distância/Pólo Agudo,Especialização,Especialização,EAD
+1617,78,Música Bacharelado - Tuba,Graduação,Bacharelado,Presencial
+1628,78,PG-E Design de Superfície,Especialização,Especialização,Presencial
+1574,2712,Curso de Padeiro,FIC - Formação Inicial e Continuada,Formação Inicial e Continuada,Presencial
+1585,78,Licenc. Letras Espanhol - Literaturas/Distância/Santa Maria/RS,Graduação,Licenciatura,EAD
+1596,97,PG-E Educação Física Infantil e Anos Iniciais/EAD/Quaraí/RS,Especialização,Especialização,EAD
+2189,94,Educação Especial - Licenciatura/Distância/Cachoeira do Sul /RS,Graduação,Licenciatura,EAD
+1704,2732,CTISM - Informática para Internet/Distância/Santa Maria/RS,Pós-Médio,Técnico,EAD
+672,2712,Ensino Médio,Ensino Médio,Ensino Médio,Presencial
+730,91,Comunicação Social - Relações Públicas,Graduação,Bacharelado,Presencial
+1386,117,PG-E Mídias na Educação/EAD/Panambi/RS,Especialização,Especialização,EAD
+1392,2732,CTISM - Automação Industrial/Distância/Santana do Livramento/RS,Pós-Médio,Técnico,EAD
+1412,91,PG Espec. em Gestão em Arquivos/EAD/Sapucaia do Sul/RS,Especialização,Especialização,EAD
+2305,94,Licenciatura em Ciências da Religião,Graduação,Licenciatura,EAD
+1417,91,Licenciatura Sociologia/Distância/Quaraí/RS,Graduação,Licenciatura,EAD
+1427,2732,CTISM - Automação Industrial/Distância/São João do Polêsine/RS,Pós-Médio,Técnico,EAD
+1077,85,Tec. Agric. Familiar Sustentabilidade/Distância/Constantina/RS,Graduação,Tecnológico,EAD
+1080,85,Tec. Agric. Familiar Sustentabilidade/Distância/S.Livramento/RS,Graduação,Tecnológico,EAD
+1103,94,Espec. Gestão Educacional/EAD/Cruzeiro do Oeste/PR,Especialização,Especialização,EAD
+1112,82,Licenciatura em Geografia/Distância/Santa Maria/RS,Graduação,Licenciatura,EAD
+1217,117,Curso de Engenharia Acústica,Graduação,Bacharelado,Presencial
+1701,2732,CTISM - Segurança do Trabalho/Distância/Restinga Sêca/RS,Pós-Médio,Técnico,EAD
+779,88,Residência Médica - Cirurgia,Residencia Médica,Especialização,Presencial
+1405,97,"PG-E Pesquisa em Movimento Humano, Sociedade e Cultura",Outras Residências,Especialização,Presencial
+997,78,Música - Bacharelado Violino,Graduação,Bacharelado,Presencial
+685,82,Matemática - Licenciatura Plena - Noturno,Graduação,Licenciatura,Presencial
+695,117,Engenharia Elétrica,Graduação,Bacharelado,Presencial
+698,117,Engenharia Mecânica,Graduação,Bacharelado,Presencial
+1206,78,Letras - Português e Literaturas/Distância/Cerro Largo/RS,Graduação,Licenciatura,EAD
+1211,78,Letras - Português e Literaturas/Distância/Tapejara/RS,Graduação,Licenciatura,EAD
+2093,88,Residência Médica - Administração em Saúde,Residencia Médica,Especialização,Presencial
+2211,91,PG-Lato Sensu Gestão Pública Municipal/Distância/Serafina Corrêa,Especialização,Especialização,EAD
+2364,2712,Técnico em Comércio,Pós-Médio,Técnico,Presencial
+1850,2712,Técnico em Zootecnia,Pós-Médio,Técnico,Presencial
+1879,4634,Licenciatura em Computação/EAD/Três Passos/RS,Graduação,Licenciatura,EAD
+1837,4634,Relações Públicas Bacharelado/FW,Graduação,Bacharelado,Presencial
+1541,4564,PG-E Gestão de Organização Pública em Saúde/EAD/Santa Maria/RS,Especialização,Especialização,EAD
+1544,4564,PG-E Gestão de Organização Pública em Saúde/EAD/Restinga Sêca/RS,Especialização,Especialização,EAD
+1869,85,Licenciatura em Educação do Campo/Distância/São Sepé/RS,Graduação,Licenciatura,EAD
+1882,91,Licenciatura Sociologia/Distância/Faxinal do Soturno/RS,Graduação,Licenciatura,EAD
+1972,85,Licenciatura em Educação do Campo/Distância/Balneário Pinhal/RS,Graduação,Licenciatura,EAD
+1955,94,Pedagogia-Licenciatura/Distância/Santana da Boa Vista/RS,Graduação,Licenciatura,EAD
+1675,4051,Engenharia Agrícola,Graduação,Bacharelado,Presencial
+1670,4051,Engenharia Elétrica,Graduação,Bacharelado,Presencial
+1681,91,PG-E em Ensino de Filosofia no Ensino Médio/EAD/Palmeira das Missões/RS,Especialização,Especialização,EAD
+1766,2732,Inglês/Sem Fronteiras/CTISM,FIC - Formação Inicial e Continuada,Formação Inicial e Continuada,EAD
+1771,2732,Espanhol/Sem Fronteiras/CTISM,FIC - Formação Inicial e Continuada,Formação Inicial e Continuada,EAD
+1777,82,Geografia Licenciatura -EaD-UAB/Serefina Corrêa/RS,Graduação,Licenciatura,EAD
+1824,78,Espec. Tec. da Inf. e da Com. Aplicadas Educação/EAD/Vila Flores/RS,Especialização,Especialização,EAD
+1847,2732,Espanhol/Sem Fronteiras/Cruz Alta,FIC - Formação Inicial e Continuada,Formação Inicial e Continuada,EAD
+1374,88,Residência Médica - Medicina Intensiva,Residencia Médica,Especialização,Presencial
+1450,88,Residência Médica - R4 - Psicoterapia,Residencia Médica,Especialização,Presencial
+2306,94,Licenciatura em Ciências da Religião,Graduação,Licenciatura,EAD
+1469,94,Educação Especial - Licenciatura/PARFOR/Distância/Balneário Pinhal/RS,Graduação,Licenciatura,EAD
+1479,85,PG-E Residência Profissional da Saúde-Medicina Veterinária: Medicina Veterinária Preventiva,Residencia Médica,Especialização,Presencial
+1501,91,PG Espec. em Gestão em Arquivos/EAD/São Sepé/RS,Especialização,Especialização,EAD
+1637,2732,CTISM - Automação Industrial Subsequente - Noturno,Pós-Médio,Técnico,Presencial
+1567,117,PG-E Mídias na Educação/EAD/Três Passos/RS,Especialização,Especialização,EAD
+1650,94,PG-Lato  Sensu em Gestão da Educação Municipal/EAD/Santa Maria/RS,Especialização,Especialização,EAD
+1173,94,Esp. Educ. Esp. Déficit Cognitivo e Educ. Surdos/EAD/Polo Santa Maria/RS,Especialização,Especialização,EAD
+1176,78,Música - Bacharelado - Composição,Graduação,Bacharelado,Presencial
+1316,91,PG-Lato Sensu Gestão Pública/Distância/Tapejara/RS,Especialização,Especialização,EAD
+1250,117,Bacharelado em Sistemas de Informação,Graduação,Bacharelado,Presencial
+1321,91,PG-Lato Sensu Gestão Pública Municipal/Distância/Restinga Sêca/RS,Especialização,Especialização,EAD
+1788,88,Residência Médica - Medicina de Urgência,Residencia Médica,Especialização,Presencial
+1640,117,PG-E Educação Ambiental/Distância/Polo Palmeira das Missões,Especialização,Especialização,EAD
+1353,94,Pedagogia/Distância/Agudo/RS,Graduação,Licenciatura,EAD
+1363,94,Educação Especial - Licenciatura/Distância/Cruzeiro do Oeste/PR,Graduação,Licenciatura,EAD
+1482,2732,CTISM - Segurança do Trabalho/Distância/Santana do Livramento/RS,Pós-Médio,Técnico,EAD
+1046,91,Comunicação Social - Jornalismo,Graduação,Bacharelado,Presencial
+1132,85,Tec. Agric. Familiar Sustentabilidade/Distância/Jales/SP,Graduação,Tecnológico,EAD
+1154,94,Esp. Educ. Esp. Déficit Cognitivo e Educ. Surdos/EAD/Palmas/TO,Especialização,Especialização,EAD
+1167,94,Esp. Educ. Esp. Déficit Cognitivo e Educ. Surdos/EAD/Encruzilhada,Especialização,Especialização,EAD
+850,88,Residência Médica - Infectologia,Residencia Médica,Especialização,Presencial
+966,91,Ciências Contábeis - Diurno,Graduação,Bacharelado,Presencial
+971,78,Letras - Lic.- Hab. Espanhol e Literaturas Língua Espanhola,Graduação,Licenciatura,Presencial
+1342,78,Música Bacharelado - Oboé,Graduação,Bacharelado,Presencial
+1147,2712,Técnico Agrícola Habilitação em Agropecuária - Pós-Médio,Pós-Médio,Técnico,Presencial
+761,94,PG-E Educação Ambiental,Especialização,Especialização,Presencial
+837,78,Artes Cênicas - Bacharelado,Graduação,ABI,Presencial
+1988,85,Licenciatura em Educação do Campo/Distância/Sobradinho/RS,Graduação,Licenciatura,EAD
+2119,88,Residência Médica - Cirúrgica Básica,Residencia Médica,Especialização,Presencial
+834,82,PG-E Estatística e Modelagem Quantitativa,Especialização,Especialização,Presencial
+972,78,Artes Visuais - Licenciatura Plena em Desenho e Plástica,Graduação,Licenciatura,Presencial
+1831,78,Letras - Português e Literaturas/Distância/Encantado/RS,Graduação,Licenciatura,EAD
+1834,94,Pedagogia-Licenciatura/Distância/Jacuizinho/RS,Graduação,Licenciatura,EAD
+1840,94,Pedagogia-Licenciatura/Distância/Novo Hamburgo/RS,Graduação,Licenciatura,EAD
+1364,4564,PG-E Gestão de Organização Pública em Saúde/EAD/Constantina/RS,Especialização,Especialização,EAD
+1369,4564,PG-E Gestão de Organização Pública em Saúde/EAD/Tio Hugo/RS,Especialização,Especialização,EAD
+1863,94,Licenciatura em Ciências da Religião/EAD/Cacequi/RS,Graduação,Licenciatura,EAD
+1872,85,Licenciatura em Educação do Campo/Distância/Agudo/RS,Graduação,Licenciatura,EAD
+1885,78,Letras - Português e Literaturas/Distância/Gramado/RS,Graduação,Licenciatura,EAD
+1560,94,Curso de Formação de Professores para Educação Profissional/Ead/Tapejara/RS,Graduação,Licenciatura,EAD
+1647,94,Educação Especial - Licenciatura/Distância/Vila Flores/RS,Graduação,Licenciatura,EAD
+1787,88,Residência Médica - Cirurgia de Cabeça e Pescoço,Residencia Médica,Especialização,Presencial
+1686,91,PG-E em Ensino de Filosofia no Ensino Médio/EAD/Três de Maio/RS,Especialização,Especialização,EAD
+1691,91,PG-E em Ensino de Sociologia no Ensino Médio/EAD/Jaguarão/RS,Especialização,Especialização,EAD
+1866,4634,Licenciatura em Computação/EAD/Frederico Westphalen/RS,Graduação,Licenciatura,EAD
+1772,2732,Espanhol/Sem Fronteiras/Politécnico,FIC - Formação Inicial e Continuada,Formação Inicial e Continuada,EAD
+929,2732,CTISM - Segurança do Trabalho - Noturno,Pós-Médio,Técnico,Presencial
+1453,88,Residência Médica - R3 - Nefrologia - Ano Opcional I,Residencia Médica,Especialização,Presencial
+1463,78,Licenc. Letras Espanhol - Literaturas/Distância/Vila Flores,Graduação,Licenciatura,EAD
+1472,78,Licenc. Letras Espanhol - Literaturas/Distância/Sobradinho/RS,Graduação,Licenciatura,EAD
+1538,91,PG-Lato Sensu Gestão Pública Municipal/Distância/Cachoeira do Sul/RS,Especialização,Especialização,EAD
+1653,85,PG-E Residência Profissional da Saúde-Medicina Veterinária: Medicina Veterinária Preventiva: Análises Micotoxicológicas e Patologia Aviária,Outras Residências,Especialização,Presencial
+1634,2712,Técnico em Informática-Turno Noite-Pós-Médio,Pós-Médio,Técnico,Presencial
+1557,94,Curso de Formação de Professores para Educação Profissional/Ead/Novo Hamburgo/RS,Graduação,Licenciatura,EAD
+1137,78,Licenc. Letras Espanhol - Literaturas/Distância/Quaraí/RS,Graduação,Licenciatura,EAD
+1157,94,Esp. Educ. Esp. Déficit Cognitivo e Educ. Surdos/EAD/Conselheiro,Especialização,Especialização,EAD
+2387,94,Espec. Gestão Educacional/EAD/Cachoeira do Sul/RS,Especialização,Especialização,EAD
+1160,94,Esp. Educ. Esp. Déficit Cognitivo e Educ. Surdos/EAD/Januária/MG,Especialização,Especialização,EAD
+1170,94,Esp. Educ. Esp. Déficit Cognitivo e Educ. Surdos/EAD/Pelotas/RS,Especialização,Especialização,EAD
+1315,91,PG-Lato Sensu Gestão Pública/Distância/Tio Hugo/RS,Especialização,Especialização,EAD
+1326,91,PG-Lato Sensu Gestão Pública Municipal/Distância/Jacuizinho/RS,Especialização,Especialização,EAD
+982,78,Desenho Industrial - Projeto de Produto,Graduação,Bacharelado,Presencial
+1253,91,Licenciatura em Sociologia,Graduação,Licenciatura,Presencial
+987,78,Música - Bacharelado Canto,Graduação,Bacharelado,Presencial
+1485,2732,CTISM - Segurança do Trabalho/Distância/Cachoeira do Sul/RS,Pós-Médio,Técnico,EAD
+1256,91,Licenciatura Sociologia/Distância/Foz do Iguaçu/PR,Graduação,Licenciatura,EAD
+1730,117,Curso de Engenharia Aeroespacial,Graduação,Bacharelado,Presencial
+769,88,Residência Médica  - Oncologia,Residencia Médica,Especialização,Presencial
+2186,4634,Licenciatura em Computação/EAD/Jacuizinho/RS,Graduação,Licenciatura,EAD
+2192,94,Educação Especial - Licenciatura/Distância/Gramado/RS,Graduação,Licenciatura,EAD
+2205,4564,PG-E Gestão de Organização Pública em Saúde/EAD/Sapucaia do Sul/RS,Especialização,Especialização,EAD
+1711,2712,CPOL - Curso Técnico em Manutenção e Suporte em Informática/Distância/Faxinal do Soturno/RS,Pós-Médio,Técnico,EAD
+1720,82,PG-E Ensino de Matemática no Ensino Médio/EAD/São Francisco de Paula/RS,Especialização,Especialização,EAD
+1822,91,PG-Lato Sensu Gestão Pública/Distância/São João do Polêsine/RS,Especialização,Especialização,EAD
+1801,117,PG-E Educação Ambiental/Distância/Polo São Francisco de Paula /RS,Especialização,Especialização,EAD
+1811,91,PG-E em Ensino de Filosofia no Ensino Médio/EAD/Santana do Livramento/RS,Especialização,Especialização,EAD
+1376,4564,Administração Pública Bacharelado/EAD/Agudo/RS,Graduação,Bacharelado,EAD
+1892,82,PG-E Ensino de Matemática no Ensino Médio/EAD/Santana do Livramento/RS,Especialização,Especialização,EAD
+1897,91,História Bacharelado,Graduação,Bacharelado,Presencial
+720,91,Administração - Noturno,Graduação,Bacharelado,Presencial
+1569,2712,Curso de Programador de Dispositivos Móveis,FIC - Formação Inicial e Continuada,Formação Inicial e Continuada,Presencial
+1595,97,PG-E Educação Física Infantil e Anos Iniciais/EAD/Sapiranga/RS,Especialização,Especialização,EAD
+1590,117,PG-E Eficiência Energética Aplicada aos Processos Produtivos/EAD/Novo Hamburgo/RS,Especialização,Especialização,EAD
+1698,2732,CTISM - Automação Industrial/Distância/São Francisco de Paula/RS,Pós-Médio,Técnico,EAD
+1717,2712,CPOL - Curso Técnico em Cooperativismo/Distância/Cruz Alta/RS,Pós-Médio,Técnico,EAD
+1190,2732,Curso Superior de Tecnologia em Redes de Computadores,Graduação,Tecnológico,Presencial
+1389,117,PG-E Mídias na Educação/EAD/Santana do Livramento/RS,Especialização,Especialização,EAD
+1411,91,PG Espec. em Gestão em Arquivos/EAD/Restinga Sêca/RS,Especialização,Especialização,EAD
+1422,2712,PG-E Gestão de Tecnologia da Informação,Especialização,Especialização,Presencial
+1507,94,Espec. Gestão Educacional/EAD/Sarandi/RS,Especialização,Especialização,EAD
+1524,2712,Curso de Viverista de Plantas e Flores,FIC - Formação Inicial e Continuada,Formação Inicial e Continuada,Presencial
+1087,94,Pedagogia/Distância/Faxinal do Soturno/RS,Graduação,Licenciatura,EAD
+1518,82,Física - Licenciatura/Distância/Santo Antônio da Patrulha/RS,Graduação,Licenciatura,EAD
+1612,2712,Curso de Instalador e Reparador de Linhas de Telefonia,FIC - Formação Inicial e Continuada,Formação Inicial e Continuada,Presencial
+1201,94,Espec. Gestão Educacional/EAD/Sapucaia/RS,Especialização,Especialização,EAD
+1212,78,Licenc. Letras Espanhol - Literaturas/Distância/Tapejara/RS,Graduação,Licenciatura,EAD
+1227,88,Residência Médica - Ortopedia e Traumatologia,Residencia Médica,Especialização,Presencial
+1064,2732,Ensino Médio - Integrado à Mecânica,Ensino Médio,Técnico,Presencial
+1222,2732,CTISM - Automação Industrial/Distância/Alegrete/RS,Pós-Médio,Técnico,EAD
+994,78,Música - Bacharelado Trompete,Graduação,Bacharelado,Presencial
+1007,82,Química - Bacharelado,Graduação,Bacharelado,Presencial
+1061,94,Pedagogia - Licenciatura Plena Diurno,Graduação,Licenciatura,Presencial
+1074,91,PG Espec. em Gestão em Arquivos/EAD/São João do Polêsine,Especialização,Especialização,EAD
+1096,78,Letras - Português e Literaturas/Distância/Três Passos/RS,Graduação,Licenciatura,EAD
+1093,94,Pedagogia-Licenciatura/Distância/Três de Maio/RS,Graduação,Licenciatura,EAD
+688,82,Ciências Biológicas - Licenciatura Plena,Graduação,Licenciatura,Presencial
+711,85,Zootecnia,Graduação,Bacharelado,Presencial
+1241,2712,Técnico em Paisagismo,Pós-Médio,Técnico,Presencial
+1236,4634,Engenharia Ambiental e Sanitária/FW,Graduação,Bacharelado,Presencial
+2060,4634,Licenciatura em Educação Indígena/Distância/Constantina/RS,Graduação,Licenciatura,EAD
+1079,85,Tec. Agric. Familiar Sustentabilidade/Distância/Herval/RS,Graduação,Tecnológico,EAD
+2040,4634,Licenciatura em Educação Indígena/Distância/Três Passos/RS,Graduação,Licenciatura,EAD
+1394,2732,CTISM - Automação Industrial/Distância/Cruz Alta/RS,Pós-Médio,Técnico,EAD
+2384,91,PG-Lato Sensu Gestão Pública/Distância/Agudo/RS,Especialização,Especialização,EAD
+2191,94,Educação Especial - Licenciatura/Distância/Cruz Alta/RS,Graduação,Licenciatura,EAD
+2197,78,Licenc. Letras Espanhol - Literaturas/Distância/Jacuizinho/RS,Graduação,Licenciatura,EAD
+2200,78,Letras - Português e Literaturas/Distância/Constantina/RS,Graduação,Licenciatura,EAD
+1712,2712,CPOL - Curso Técnico em Manutenção e Suporte em Informática/Distância/São Sepé/RS,Pós-Médio,Técnico,EAD
+1819,94,Espec. Gestão Educacional/EAD/Santana do Livramento/RS,Especialização,Especialização,EAD
+1460,94,Educação Especial - Licenciatura/Distância/Novo Hamburgo/RS,Graduação,Licenciatura,EAD
+1814,91,PG-E em Ensino de Sociologia no Ensino Médio/EAD/Três Passos/RS,Especialização,Especialização,EAD
+1381,4564,Administração Pública Bacharelado/EAD/Sobradinho/RS,Graduação,Bacharelado,EAD
+701,117,Ciência da Computação - Bacharelado,Graduação,Bacharelado,Presencial
+1630,2712,Técnico Agrícola Habilitação Agropecuária -Turno Manhã-Pós-Médio,Pós-Médio,Técnico,Presencial
+1572,2712,Curso de Bombeiro Civil,FIC - Formação Inicial e Continuada,Formação Inicial e Continuada,Presencial
+1587,94,Pedagogia-Licenciatura/Distância/Cacequi/RS,Graduação,Licenciatura,EAD
+1598,97,PG-E Educ. Física Infantil e Anos Iniciais/EAD/Palmeira das Missões/RS,Especialização,Especialização,EAD
+1703,2732,CTISM - Informática para Internet/Distância/Agudo/RS,Pós-Médio,Técnico,EAD
+1706,2732,CTISM - Informática para Internet/Distância/Santana do Livramento/RS,Pós-Médio,Técnico,EAD
+925,2732,CTISM - Eletrotécnico - Diurno,Ensino Médio,Técnico,Presencial
+728,91,Comunicação Social - Jornalismo,Graduação,Bacharelado,Presencial
+1384,2732,Técnico Subsequente em Eletrotécnica - Noturno,Pós-Médio,Técnico,Presencial
+1414,82,Curso Superior de Tecnologia em Processos Químicos,Graduação,Tecnológico,Presencial
+1419,205,Aluno Especial II de Graduação,Especial de Graduação,Licenciatura,Apenas para vinculo dos alunos
+1532,4564,Administração Pública Bacharelado/EAD/Novo Hamburgo/RS,Graduação,Bacharelado,EAD
+1889,94,Espec. Gestão Educacional/EAD/Novo Hamburgo/RS,Especialização,Especialização,EAD
+1230,117,PG-E Educação Ambiental/Distância/Pólo Sapiranga,Especialização,Especialização,EAD
+1082,85,Tec. Agric. Familiar Sustentabilidade/Distância/Tapejara/RS,Graduação,Tecnológico,EAD
+1088,94,Pedagogia/Distância/Restinga Sêca/RS,Graduação,Licenciatura,EAD
+1101,94,Espec. Gestão Educacional/EAD/São João do Polêsine/RS,Especialização,Especialização,EAD
+1114,82,Física - Licenciatura/Distância/Três de Maio/RS,Graduação,Licenciatura,EAD
+1187,78,Licenciatura em Teatro,Graduação,Licenciatura,Presencial
+1219,117,Curso de Engenharia de Produção,Graduação,Bacharelado,Presencial
+1198,91,PG Espec. em Gestão em Arquivos/EAD/Cruz Alta,Especialização,Especialização,EAD
+1209,78,Letras - Português e Literaturas/Distância/Santana do Livramento/RS,Graduação,Licenciatura,EAD
+912,78,Desenho e Plástica - Bacharelado,Graduação,Bacharelado,Presencial
+1204,78,Espec. Tec. da Inf. e da Com. Aplicadas Educação/EAD/Três de Maio/RS,Especialização,Especialização,EAD
+687,82,Ciências Biológicas - Bacharelado,Graduação,Bacharelado,Presencial
+719,91,Administração - Diurno,Graduação,Bacharelado,Presencial
+725,91,Ciências Econômicas - Noturno,Graduação,Bacharelado,Presencial
+798,91,Psicologia,Graduação,Bacharelado,Presencial
+772,88,Residência Médica - Anatomia Patológica,Residencia Médica,Especialização,Presencial
+1543,4564,PG-E Gestão de Organização Pública em Saúde/EAD/Picada Café/RS,Especialização,Especialização,EAD
+1880,4634,Licenciatura em Computação/EAD/Seberi/RS,Graduação,Licenciatura,EAD
+1858,4564,PG-E Gestão de Organização Pública em Saúde/EAD/Cruz Alta/RS,Especialização,Especialização,EAD
+1871,85,Licenciatura em Educação do Campo/Distância/Seberi/RS,Graduação,Licenciatura,EAD
+848,82,Química - Licenciatura Plena,Graduação,Licenciatura,Presencial
+2209,91,PG-Lato Sensu Gestão Pública Municipal/Distância/Santana da Boa Vista,Especialização,Especialização,EAD
+1769,2732,Inglês/Sem Fronteiras/Faxinal do Soturno,FIC - Formação Inicial e Continuada,Formação Inicial e Continuada,EAD
+1779,82,Geografia Licenciatura -EaD-UAB/Três Passos/RS,Graduação,Licenciatura,EAD
+1790,88,Residência Médica - Coloproctologia,Residencia Médica,Especialização,Presencial
+674,2712,Técnico Agrícola Habilitação em Agropecuária - Pós Médio,Ensino Médio,Técnico,Presencial
+1049,4564,Curso de Enfermagem/PM,Graduação,Bacharelado,Presencial
+1340,4564,Curso de Ciências Econômicas/PM,Graduação,Bacharelado,Presencial
+1848,4634,Jornalismo Bacharelado/FW,Graduação,Bacharelado,Presencial
+1546,91,PG-Lato Sensu Gestão Pública/Distância/Santa Vitória do Palmar/RS,Especialização,Especialização,EAD
+1490,117,PG-E Educação Ambiental/Distância/Três Passos/RS,Especialização,Especialização,EAD
+1552,78,Espec. Tec. da Inf. e da Com. Aplicadas Educação/EAD/Novo Hamburgo/RS,Especialização,Especialização,EAD
+1648,94,Educação Especial - Licenciatura/Distância/Santa Vitória do Palmar/RS,Graduação,Licenciatura,EAD
+1642,82,Geografia Licenciatura -EaD-UAB/Palmeira das Missões/RS,Graduação,Licenciatura,EAD
+1764,2712,Curso de Manicure e Pedicure,FIC - Formação Inicial e Continuada,Formação Inicial e Continuada,Presencial
+1877,4634,Licenciatura em Computação/EAD/Palmeira das Missões/RS,Graduação,Licenciatura,EAD
+1350,82,Física - Licenciatura/Distância/Jales/SP,Graduação,Licenciatura,EAD
+1355,78,Letras - Português e Literaturas/Distância/Cachoeira do Sul/RS,Graduação,Licenciatura,EAD
+1639,117,PG-E Educação Ambiental/Distância/Polo Jacuizinho,Especialização,Especialização,EAD
+1839,94,Pedagogia-Licenciatura/Distância/Cerro Largo/RS,Graduação,Licenciatura,EAD
+1845,2732,Inglês/Sem Fronteiras/Cachoeira do Sul,FIC - Formação Inicial e Continuada,Formação Inicial e Continuada,EAD
+829,2712,PG-E Geomática,Especialização,Especialização,Presencial
+1471,94,Educação Especial - Licenciatura/PARFOR/Distância/Santa Vitória do Palmar/RS,Graduação,Licenciatura,EAD
+1477,85,PG-E Residência Profissional da Saúde-Medicina Veterinária: Diagnóstico por Imagem,Outras Residências,Especialização,Presencial
+1503,91,PG Espec. em Gestão em Arquivos/EAD/Sobradinho/RS,Especialização,Especialização,EAD
+1152,94,Esp. Educ. Esp. Déficit Cognitivo e Educ. Surdos/EAD/Boa Vista/RR,Especialização,Especialização,EAD
+1165,94,Esp. Educ. Esp. Déficit Cognitivo e Educ. Surdos/EAD/Rio de Janeiro,Especialização,Especialização,EAD
+1318,91,PG-Lato Sensu Gestão Pública/Distância/Sapucaia/RS,Especialização,Especialização,EAD
+1323,91,PG-Lato Sensu Gestão Pública Municipal/Distância/Sapucaia do Sul/RS,Especialização,Especialização,EAD
+1329,91,Serviço Social - Bacharelado (Noturno),Graduação,Bacharelado,Presencial
+932,2732,CTISM - Eletromecânica - Noturno,Pós-Médio,Técnico,Presencial
+1145,2712,Técnico em Informática - Pós-Médio,Pós-Médio,Técnico,Presencial
+969,78,Letras - Lic.- Hab. Inglês e Literaturas Língua Inglesa,Graduação,Licenciatura,Presencial
+964,205,Mobilidade Acadêmica,Graduação,Formação Especial,Apenas para vinculo dos alunos
+1361,94,Educação Especial - Licenciatura/Distância/Foz do Iguaçu/PR,Graduação,Licenciatura,EAD
+1448,88,Residência Médica - Neonatologia,Residencia Médica,Especialização,Presencial
+1458,78,Letras - Português e Literaturas/Distância/Três de Maio/RS,Graduação,Licenciatura,EAD
+839,78,Artes Cênicas - Interpretação Teatral,Graduação,Bacharelado,Presencial
+1242,85,Curso Superior de Tecnologia em Alimentos,Graduação,Tecnológico,Presencial
+1705,2732,CTISM - Informática para Internet/Distância/Restinga Sêca/RS,Pós-Médio,Técnico,EAD
+775,88,Residência Médica - Ginecologia e Obstetricia,Residencia Médica,Especialização,Presencial
+2188,4634,Licenciatura em Computação/EAD/Três de Maio/RS,Graduação,Licenciatura,EAD
+2198,78,Licenc. Letras Espanhol - Literaturas/Distância/Santo Antônio da Patrulha/RS,Graduação,Licenciatura,EAD
+1597,97,PG-E Educ.Física Infantil e Anos Iniciais/EAD/Serafina Correa/RS,Especialização,Especialização,EAD
+1715,2712,CPOL - Curso Técnico em Fruticultura/Distância/São João do Polêsine/RS,Pós-Médio,Técnico,EAD
+1807,117,PG-E Eficiência Energética Aplicada aos Processos Produtivos/EAD/Foz do Iguaçu/PR,Especialização,Especialização,EAD
+990,78,Música - Bacharelado Percussão,Graduação,Bacharelado,Presencial
+1372,88,Residência Médica - Dermatologia,Residencia Médica,Especialização,Presencial
+1903,78,PG-E Música: Músicas dos Séculos XX e XXI - Performance e Pedagogia,Especialização,Especialização,Presencial
+1076,78,Espec. Tec. da Inf. e da Com. Aplicadas Educação/EAD/Restinga Sêca/RS,Especialização,Especialização,EAD
+1229,117,PG-E Educação Ambiental/Distância/Pólo Cacequi,Especialização,Especialização,EAD
+1610,2712,Curso de Auxiliar de Contabilidade,FIC - Formação Inicial e Continuada,Formação Inicial e Continuada,Presencial
+1629,2712,Técnico em Secretariado,Pós-Médio,Técnico,Presencial
+1575,2712,Curso de Mestre de Obras,FIC - Formação Inicial e Continuada,Formação Inicial e Continuada,Presencial
+1584,78,Licenc. Letras Espanhol - Literaturas/Distância/Palmeira das Missões/RS,Graduação,Licenciatura,EAD
+1197,2712,Técnico em Geoprocessamento,Pós-Médio,Técnico,Presencial
+1387,117,PG-E Mídias na Educação/EAD/Restinga Seca/RS,Especialização,Especialização,EAD
+1393,2732,CTISM - Automação Industrial/Distância/Cachoeira do Sul/RS,Pós-Médio,Técnico,EAD
+1813,91,PG-E em Ensino de Sociologia no Ensino Médio/EAD/Novo Hamburgo/RS,Especialização,Especialização,EAD
+1816,91,PG-E em Ensino de Sociologia no Ensino Médio/EAD/Santana do Livramento/RS,Especialização,Especialização,EAD
+1382,4564,Administração Pública Bacharelado/EAD/Tapejara/RS,Graduação,Bacharelado,EAD
+1535,4564,Administração Pública Bacharelado/EAD/Três de Maio/RS,Graduação,Bacharelado,EAD
+1890,82,PG-E Ensino de Matemática no Ensino Médio/EAD/Cruz Alta/RS,Especialização,Especialização,EAD
+1081,85,Tec. Agric. Familiar Sustentabilidade/Distância/Sobradinho/RS,Graduação,Tecnológico,EAD
+1102,94,Espec. Gestão Educacional/EAD/Fortaleza/Ceará,Especialização,Especialização,EAD
+1113,82,Física - Licenciatura/Distância/Faxinal do Soturno/RS,Graduação,Licenciatura,EAD
+1216,117,Curso Engenharia de Controle e Automação,Graduação,Bacharelado,Presencial
+1207,78,Letras - Português e Literaturas/Distância/Cruz Alta/RS,Graduação,Licenciatura,EAD
+778,88,Residência Médica - Radiologia,Residencia Médica,Especialização,Presencial
+996,78,Música - Bacharelado Violão,Graduação,Bacharelado,Presencial
+1001,78,Música - Bacharelado,Graduação,Bacharelado,Presencial
+1416,91,Licenciatura Sociologia/Distância/Picada Café/RS,Graduação,Licenciatura,EAD
+1059,94,Pedagogia - Licenciatura Plena Noturno,Graduação,Licenciatura,Presencial
+1413,91,PG Espec. em Gestão em Arquivos/EAD/Santana do Livramento/RS,Especialização,Especialização,EAD
+699,117,Engenharia Química,Graduação,Bacharelado,Presencial
+726,91,Ciências Econômicas - Diurno,Graduação,Bacharelado,Presencial
+2210,91,PG-Lato Sensu Gestão Pública Municipal/Distância/São João do Polêsine,Especialização,Especialização,EAD
+1836,94,Pedagogia-Licenciatura/Distância/São Sepé/RS,Graduação,Licenciatura,EAD
+1047,4564,Curso de Administração - Diurno/PM,Graduação,Bacharelado,Presencial
+1050,4564,Curso de Zootecnia/PM,Graduação,Bacharelado,Presencial
+1540,4564,PG-E Gestão de Organização Pública em Saúde/EAD/Palmeira das Missões/RS,Especialização,Especialização,EAD
+1868,85,Licenciatura em Educação do Campo/Distância/Itaqui/RS,Graduação,Licenciatura,EAD
+1883,91,Licenciatura Sociologia/Distância/Jaquirana/RS,Graduação,Licenciatura,EAD
+2081,88,Residência Médica - Pneumologia Pediátrica,Residencia Médica,Especialização,Presencial
+1671,4051,Arquitetura e Urbanismo,Graduação,Bacharelado,Presencial
+1674,4051,Engenharia de Transportes e Logística,Graduação,Bacharelado,Presencial
+1680,91,PG-E em Ensino de Filosofia no Ensino Médio/EAD/Cruz Alta/RS,Especialização,Especialização,EAD
+694,88,Medicina,Graduação,Bacharelado,Presencial
+1767,2732,Inglês/Sem Fronteiras/Politécnico,FIC - Formação Inicial e Continuada,Formação Inicial e Continuada,EAD
+1545,91,PG-Lato Sensu Gestão Pública/Distância/Santa Maria/RS,Especialização,Especialização,EAD
+1489,117,PG-E Educação Ambiental/Distância/Sobradinho/RS,Especialização,Especialização,EAD
+1636,2732,CTISM - Técnico em Soldagem Subsequente,Pós-Médio,Técnico,Presencial
+1024,97,Educação Física - Bacharelado,Graduação,Bacharelado,Presencial
+1143,82,PG-E Educação Matemática,Especialização,Especialização,Presencial
+1641,94,Educação Especial - Licenciatura/Distância/Agudo/RS,Graduação,Licenciatura,EAD
+1566,117,PG-E Mídias na Educação/EAD/Faxinal do Soturno/RS,Especialização,Especialização,EAD
+1770,2732,Inglês/Sem Fronteiras/Restinga Seca,FIC - Formação Inicial e Continuada,Formação Inicial e Continuada,EAD
+1343,78,Música Bacharelado - Fagote,Graduação,Bacharelado,Presencial
+1146,2712,Técnico em Administração - Pós-Médio,Pós-Médio,Técnico,Presencial
+1349,82,Física - Licenciatura/Distância/Cacequi/RS,Graduação,Licenciatura,EAD
+1693,2712,Curso de Encanador Instalador Predial,FIC - Formação Inicial e Continuada,Formação Inicial e Continuada,Presencial
+1846,2732,Inglês/Sem Fronteiras/Cruz Alta,FIC - Formação Inicial e Continuada,Formação Inicial e Continuada,EAD
+1776,2712,Curso de Produtor de Derivados do Leite,FIC - Formação Inicial e Continuada,Formação Inicial e Continuada,Presencial
+1878,4634,Licenciatura em Computação/EAD/Sarandi/RS,Graduação,Licenciatura,EAD
+1825,78,Espec. Tec. da Inf. e da Com. Aplicadas Educação/EAD/Tapejara/RS,Especialização,Especialização,EAD
+1468,94,Educação Especial - Licenciatura/PARFOR/Distância/Sobradinho/RS,Graduação,Licenciatura,EAD
+1478,85,PG-E Residência Profissional da Saúde-Medicina Veterinária: Clínica de Grandes Animais,Residencia Médica,Especialização,Presencial
+1133,85,Tec. Agric. Familiar Sustentabilidade/Distância/Palmas/TO,Graduação,Tecnológico,EAD
+1155,94,Esp. Educ. Esp. Déficit Cognitivo e Educ. Surdos/EAD/Pombal/PB,Especialização,Especialização,EAD
+1166,94,Esp. Educ. Esp. Déficit Cognitivo e Educ. Surdos/EAD/Capão daCanoa,Especialização,Especialização,EAD
+1172,82,Física - Licenciatura/Distância/São Lourenço do Sul/RS,Graduação,Licenciatura,EAD
+1177,78,Música Bacharelado - Contrabaixo,Graduação,Bacharelado,Presencial
+1251,88,Terapia Ocupacional,Graduação,Bacharelado,Presencial
+1352,82,Física - Licenciatura/Distância/Três Passos/RS,Graduação,Licenciatura,EAD
+1317,91,PG-Lato Sensu Gestão Pública/Distância/Picada Café/RS,Especialização,Especialização,EAD
+1320,91,PG-Lato Sensu Gestão Pública/Distância/Faxinal Soturno/RS,Especialização,Especialização,EAD
+1362,91,PG-Lato Sensu Gestão Pública/Distância/Santana do Livramento/RS,Especialização,Especialização,EAD
+1451,88,Residência Médica - R3 - Clínica Médica - Ano Opcional I,Residencia Médica,Especialização,Presencial
+1457,78,Letras - Português e Literaturas/Distância/Agudo/RS,Graduação,Licenciatura,EAD
+1865,94,Licenciatura em Ciências da Religião/EAD/Constantina/RS,Graduação,Licenciatura,EAD
+1875,82,Física - Licenciatura/Distância/Pinto Bandeira/RS,Graduação,Licenciatura,EAD
+1886,91,Licenciatura Sociologia/Distância/Gramado/RS,Graduação,Licenciatura,EAD
+2000,85,Licenciatura em Educação do Campo/Distância/Novo Hamburgo/RS,Graduação,Licenciatura,EAD
+1762,94,Curso de Formação de Professores para Educação Profissional/Ead/Sapiranga/RS,Graduação,Licenciatura,EAD
+1775,2732,Espanhol/Sem Fronteiras/Restinga Seca,FIC - Formação Inicial e Continuada,Formação Inicial e Continuada,EAD
+1781,82,Geografia Licenciatura -EaD-UAB/Três de Maio/RS,Graduação,Licenciatura,EAD
+1784,82,Geografia Licenciatura -EaD-UAB/Constantiina/RS,Graduação,Licenciatura,EAD
+1828,117,PG-E Educação Ambiental/Distância/Santana da Boa Vista/RS,Especialização,Especialização,EAD
+970,78,Letras - Lic - Hab. Português e Literatura Língua Portuguesa,Graduação,Licenciatura,Presencial
+989,78,Música - Bacharelado Flauta Transversa,Graduação,Bacharelado,Presencial
+1483,2732,CTISM - Segurança do Trabalho/Distância/Santo Antônio da Patrulha/RS,Pós-Médio,Técnico,EAD
+1633,2712,Técnico em Informática-Turno Tarde-Pós-Médio,Pós-Médio,Técnico,Presencial
+1558,94,Curso de Formação de Professores para Educação Profissional/Ead/Quaraí/RS,Graduação,Licenciatura,EAD
+1644,82,Geografia Licenciatura -EaD-UAB/Santa Vitória do Palmar/RS,Graduação,Licenciatura,EAD
+1666,78,Licenc. Letras Espanhol - Literaturas/Distância/Tio Hugo/RS,Graduação,Licenciatura,EAD
+1685,91,PG-E em Ensino de Filosofia no Ensino Médio/EAD/São Lourenço do Sul/RS,Especialização,Especialização,EAD
+1688,91,PG-E em Ensino de Sociologia no Ensino Médio/EAD/Encantado/RS,Especialização,Especialização,EAD
+1325,91,PG-Lato Sensu Gestão Pública Municipal/Distância/Santa Maria/RS,Especialização,Especialização,EAD
+1344,2732,CTISM - Automação Industrial/Distância/São Lourenço do Sul/RS,Pós-Médio,Técnico,EAD
+1443,88,Residência Médica - R3 - Endoscopia Digestiva,Residencia Médica,Especialização,Presencial
+1452,88,Residência Médica - R3 - Infectologia - Ano Opcional I,Residencia Médica,Especialização,Presencial
+1833,94,Pedagogia-Licenciatura/Distância/Encantado/RS,Graduação,Licenciatura,EAD
+1843,94,Pedagogia-Licenciatura/Distância/Pinto Bandeira/RS,Graduação,Licenciatura,EAD
+1367,4564,PG-E Gestão de Organização Pública em Saúde/EAD/Tapejara/RS,Especialização,Especialização,EAD
+1860,2732,CTISM - Segurança do Trabalho/Distância/Santa Maria/RS,Pós-Médio,Técnico,EAD
+1180,117,PG-E Educação Ambiental/Distância/Pólo Panambi,Especialização,Especialização,EAD
+1486,117,PG-E Educação Ambiental/Distância/Pólo Cachoeira do Sul,Especialização,Especialização,EAD
+1254,91,Licenciatura Sociologia/Distância/Agudo/RS,Graduação,Licenciatura,EAD
+1259,91,Licenciatura Sociologia/Distância/Tio Hugo/RS,Graduação,Licenciatura,EAD
+975,88,Residência Médica - R3,Residencia Médica,Especialização,Presencial
+984,82,Matemática - Licenciatura Plena,Graduação,Licenciatura,Presencial
+1475,85,PG-E Residência Profissional da Saúde-Medicina Veterinária: Cirurgia e Anestesiologia Veterinária,Outras Residências,Especialização,Presencial
+1138,78,Licenc. Letras Espanhol - Literaturas/Distância/São Francisco de Paula/RS,Graduação,Licenciatura,EAD
+1151,94,Esp. Educ. Esp. Déficit Cognitivo e Educ. Surdos/EAD/Polo UFSM,Especialização,Especialização,EAD
+1158,94,Esp. Educ. Esp. Déficit Cognitivo e Educ. Surdos/EAD/Divinolândia,Especialização,Especialização,EAD
+1169,94,Esp. Educ. Esp. Déficit Cognitivo e Educ. Surdos/EAD/Passo Fundo/RS,Especialização,Especialização,EAD
+1821,4564,PG-E Gestão de Organização Pública em Saúde/EAD/Encantado/RS,Especialização,Especialização,EAD
+1898,2712,Técnico em Cuidados de Idosos,Pós-Médio,Técnico,Presencial
+1895,94,Curso de Formação de Professores para Educação Profissional/Ead/Gramado/RS,Graduação,Licenciatura,EAD
+2064,4634,Licenciatura em Educação Indígena/Distância/Novo Hamburgo/RS,Graduação,Licenciatura,EAD
+2185,4634,Licenciatura em Computação/EAD/Cachoeira do Sul/RS,Graduação,Licenciatura,EAD
+2206,4564,PG-E Gestão de Organização Pública em Saúde/EAD/Sarandi/RS,Especialização,Especialização,EAD
+1589,117,PG-E Eficiência Energética Aplicada aos Processos Produtivos/EAD/Camargo/RS,Especialização,Especialização,EAD
+1592,117,PG-E Eficiência Energética Aplicada aos Processos Produtivos/EAD/Quaraí/RS,Especialização,Especialização,EAD
+1697,2732,CTISM - Automação Industrial/Distância/Agudo/RS,Pós-Médio,Técnico,EAD
+1708,2732,CTISM - Mecânica/Distância/Cruz Alta/RS,Pós-Médio,Técnico,EAD
+1718,82,PG-E Ensino de Matemática no Ensino Médio/EAD/Palmeira das Missões/RS,Especialização,Especialização,EAD
+827,97,Educação Física,Graduação,Licenciatura,Presencial
+943,205,Aluno Intercâmbio de Graduação,Graduação,Formação Especial,Apenas para vinculo dos alunos
+1621,2712,Curso de Eletricista Instalador Predial de Baixa Tensão,FIC - Formação Inicial e Continuada,Formação Inicial e Continuada,Presencial
+2195,82,Física - Licenciatura/Distância/Cruz Alta/RS,Graduação,Licenciatura,EAD
+1583,78,Letras - Português e Literaturas/Distância/Palmeira da Missões/RS,Graduação,Licenciatura,EAD
+1221,2732,CTISM - Automação Industrial/Distância/Santa Maria/RS,Pós-Médio,Técnico,EAD
+1224,2732,CTISM - Automação Industrial/Distância/Canguçu/RS,Pós-Médio,Técnico,EAD
+1396,2712,Técnico em Contabilidade,Pós-Médio,Técnico,Presencial
+1723,82,PG-E Ensino de Matemática no Ensino Médio/EAD/São Lourenço do Sul/RS,Especialização,Especialização,EAD
+1802,91,PG Espec. em Gestão em Arquivos/EAD/Foz do Iguaçu /PR,Especialização,Especialização,EAD
+1808,117,PG-E Eficiência Energética Aplicada aos Processos Produtivos/EAD/Santana do Livramento/RS,Especialização,Especialização,EAD
+1517,82,Física - Licenciatura/Distância/Itaqui/RS,Graduação,Licenciatura,EAD
+1099,78,Espec. Tec. da Inf. e da Com. Aplicadas Educação/EAD/Agudo/RS,Especialização,Especialização,EAD
+1570,117,PG-E Educação Ambiental/Distância/Pólo Quaraí,Especialização,Especialização,EAD
+1729,2712,Curso de Piscicultor,FIC - Formação Inicial e Continuada,Formação Inicial e Continuada,Presencial
+1202,94,Espec. Gestão Educacional/EAD/Santa Maria/RS,Especialização,Especialização,EAD
+676,2712,Técnico em Administração - Pós-Médio,Pós-Médio,Técnico,Presencial
+1401,2732,Curso Técnico de Nível Médio Integrado em Eletromecânica na Modalidade Educação de Jovens e Adultos,Ensino Médio,Técnico,Presencial
+993,78,Música - Bacharelado Trompa,Graduação,Bacharelado,Presencial
+1434,88,Residência Médica R3 - Cirurgia do Trauma,Residencia Médica,Especialização,Presencial
+1504,91,PG Espec. em Gestão em Arquivos/EAD/Palmeira das Missões/RS,Especialização,Especialização,EAD
+1530,2712,Curso de Operador de Computador,FIC - Formação Inicial e Continuada,Formação Inicial e Continuada,Presencial
+1094,94,Pedagogia-Licenciatura/Distância/Três Passos/RS,Graduação,Licenciatura,EAD
+1215,117,Engenharia Sanitária e Ambiental/CT,Graduação,Bacharelado,Presencial
+1116,82,Física - Licenciatura/Distância/Herval/RS,Graduação,Licenciatura,EAD
+1189,78,Bacharelado em Letras-Português/Literaturas,Graduação,Bacharelado,Presencial
+1192,91,Bacharelado em Filosofia - Noturno,Graduação,Bacharelado,Presencial
+1380,4564,Administração Pública Bacharelado/EAD/São Lourenço/RS,Graduação,Bacharelado,EAD
+2144,2712,Técnico em Agricultura de Precisão,Pós-Médio,Técnico,Presencial
+2190,94,Educação Especial - Licenciatura/Distância/Cerro Largo/RS,Graduação,Licenciatura,EAD
+1237,4564,Curso de Ciências Biológicas/PM,Graduação,Licenciatura,Presencial
+1533,4564,Administração Pública Bacharelado/EAD/Sto. Antônio da Patrulha/RS,Graduação,Bacharelado,EAD
+1073,85,Tec. Agric. Familiar Sustentabilidade/Distância/Cerro Largo/RS,Graduação,Tecnológico,EAD
+1084,85,Tec. Agric. Familiar Sustentabilidade/Distância/Três de Maio/RS,Graduação,Tecnológico,EAD
+708,85,Agronomia,Graduação,Bacharelado,Presencial
+691,82,Geografia - Bacharelado,Graduação,Bacharelado,Presencial
+1324,91,PG-Lato Sensu Gestão Pública Municipal/Distância/FaxinalSoturno/RS,Especialização,Especialização,EAD
+2404,88,Nutrição,Graduação,Bacharelado,Presencial
+681,82,Física - Licenciatura Plena Noturno,Graduação,Licenciatura,Presencial
+723,91,Direito Diurno,Graduação,Bacharelado,Presencial
+1707,2732,CTISM - Mecânica/Distância/Cachoeira do Sul/RS,Pós-Médio,Técnico,EAD
+1713,2712,CPOL - Curso Técnico em Fruticultura/Distância/Agudo/RS,Pós-Médio,Técnico,EAD
+1724,82,PG-E Ensino de Matemática no Ensino Médio/EAD/Tapejara/RS,Especialização,Especialização,EAD
+1818,94,Espec. Gestão Educacional/EAD/São Francisco de Paula/RS,Especialização,Especialização,EAD
+1815,91,PG-E em Ensino de Sociologia no Ensino Médio/EAD/Agudo/RS,Especialização,Especialização,EAD
+1415,91,Licenciatura Sociologia/Distância/Cachoeira do Sul/RS,Graduação,Licenciatura,EAD
+1418,205,Aluno Intercâmbio de Pós-Graduação,Pós-Graduação,Formação Especial,Apenas para vinculo dos alunos
+1901,2712,Técnico em Enfermagem,Pós-Médio,Técnico,Presencial
+799,91,Ciências Sociais  - Bacharelado,Graduação,Bacharelado,Presencial
+1945,94,Pedagogia-Licenciatura/Distância/Cachoeira do Sul/RS,Graduação,Licenciatura,EAD
+1573,2712,Curso de Aplicador de Revestimento Cerâmico,FIC - Formação Inicial e Continuada,Formação Inicial e Continuada,Presencial
+1586,94,Pedagogia-Licenciatura/Distância/Palmeira das Missões/RS,Graduação,Licenciatura,EAD
+1608,91,Licenciatura em Ciências Sociais,Graduação,Licenciatura,Presencial
+1702,2732,CTISM - Segurança do Trabalho/Distância/São Francisco de Paula/RS,Pós-Médio,Técnico,EAD
+1205,94,Pedagogia/Distância/Panambi/RS,Graduação,Licenciatura,EAD
+1208,78,Letras - Português e Literaturas/Distância/Faxinal Soturno/,Graduação,Licenciatura,EAD
+1003,88,Residência Médica - Cancerologia Pediátrica,Residencia Médica,Especialização,Presencial
+1385,117,PG-E Mídias na Educação/EAD/Cruz Alta/RS,Especialização,Especialização,EAD
+1068,88,Residência Médica - Medicina Intensiva Pediátrica,Residencia Médica,Especialização,Presencial
+724,91,Direito - Noturno,Graduação,Bacharelado,Presencial
+1089,94,Pedagogia/Distância/Santana do Livramento/RS,Graduação,Licenciatura,EAD
+1100,94,Espec. Gestão Educacional/EAD/Tio Hugo/RS,Especialização,Especialização,EAD
+1115,82,Física - Licenciatura/Distância/Quaraí/RS,Graduação,Licenciatura,EAD
+1218,117,Curso de Engenharia de Computação,Graduação,Bacharelado,Presencial
+1199,91,PG Espec. em Gestão em Arquivos/EAD/Três de Maio,Especialização,Especialização,EAD
+2208,91,PG-Lato Sensu Gestão Pública Municipal/Distância/Encantado,Especialização,Especialização,EAD
+1048,4564,Curso de Administração - Noturno/PM,Graduação,Bacharelado,Presencial
+1045,4634,Engenharia Florestal/FW,Graduação,Bacharelado,Presencial
+1542,4564,PG-E Gestão de Organização Pública em Saúde/EAD/Cachoeira do Sul/RS,Especialização,Especialização,EAD
+1859,2732,Curso Superior de Tecnologia em Eletrônica Industrial,Graduação,Tecnológico,Presencial
+1876,94,Educação Especial - Licenciatura/Distância/Santo Antônio da Patrulha/RS,Graduação,Licenciatura,EAD
+1881,91,Curso Superior de Tecnologia em Gestão de Turismo,Graduação,Tecnológico,Presencial
+1978,85,Licenciatura em Educação do Campo/Distância/Santana do Livramento/RS,Graduação,Licenciatura,EAD
+1078,85,Tec. Agric. Familiar Sustentabilidade/Distância/Faxinal do Soturno/RS,Graduação,Tecnológico,EAD
+1083,85,Tec. Agric. Familiar Sustentabilidade/Distância/Tio Hugo/RS,Graduação,Tecnológico,EAD
+729,91,Comunicação Social - Publicidade e Propaganda,Graduação,Bacharelado,Presencial
+686,82,Ciências Biológicas - Núcleo Comum,Graduação,ABI,Presencial
+998,78,Música - Bacharelado Violoncelo,Graduação,Bacharelado,Presencial
+718,117,Arquitetura e Urbanismo,Graduação,Bacharelado,Presencial
+1827,91,PG-Lato Sensu Gestão Pública/Distância/Rosário do Sul/RS,Especialização,Especialização,EAD
+1838,94,Pedagogia-Licenciatura/Distância/Sapucaia do Sul/RS,Graduação,Licenciatura,EAD
+1844,2732,Espanhol/Sem Fronteiras/Cachoeira do Sul,FIC - Formação Inicial e Continuada,Formação Inicial e Continuada,EAD
+1870,85,Licenciatura em Educação do Campo/Distância/Cerro Largo/RS,Graduação,Licenciatura,EAD
+1849,2712,Técnico em Farmácia,Pós-Médio,Técnico,Presencial
+1502,91,PG Espec. em Gestão em Arquivos/EAD/São Lourenço do Sul/RS,Especialização,Especialização,EAD
+1547,91,PG-Lato Sensu Gestão Pública/Distância/Camargo/RS,Especialização,Especialização,EAD
+1179,117,PG-E Educação Ambiental/Distância/Pólo São Sepé,Especialização,Especialização,EAD
+1553,78,Espec. Tec. da Inf. e da Com. Aplicadas Educação/EAD/Santa Maria/RS,Especialização,Especialização,EAD
+1649,94,Educação Especial - Licenciatura/Distância/POA(Campus do Vale/UFRGS),Graduação,Licenciatura,EAD
+1643,82,Geografia Licenciatura -EaD-UAB/Quaraí/RS,Graduação,Licenciatura,EAD
+1984,85,Licenciatura em Educação do Campo/Distância/São Lourenço do Sul/RS,Graduação,Licenciatura,EAD
+762,88,Enfermagem,Graduação,Bacharelado,Presencial
+1768,2732,Inglês/Sem Fronteiras/Santa Maria,FIC - Formação Inicial e Continuada,Formação Inicial e Continuada,EAD
+1778,82,Geografia Licenciatura -EaD-UAB/Tapejara/RS,Graduação,Licenciatura,EAD
+1791,88,Residência Médica - Otorrinolaringologia,Residencia Médica,Especialização,Presencial
+849,82,Química Industrial,Graduação,Bacharelado,Presencial
+1638,117,PG-E Educação Ambiental/Distância/Cruz Alta/RS,Especialização,Especialização,EAD
+1459,94,Educação Especial - Licenciatura/Distância/Balneário Pinhal,Graduação,Licenciatura,EAD
+1470,94,Educação Especial - Licenciatura/PARFOR/Distância/Novo Hamburgo/RS,Graduação,Licenciatura,EAD
+1476,85,PG-E Residência Profissional da Saúde-Medicina Veterinária: Patologia Clínica,Outras Residências,Especialização,Presencial
+1491,91,PG Espec. em Gestão em Arquivos/EAD/Cachoeira do Sul /RS,Especialização,Especialização,EAD
+1141,78,Licenc. Letras Espanhol - Literaturas/Distância/São Lourenço/RS,Graduação,Licenciatura,EAD
+1164,94,Esp. Educ. Esp. Déficit Cognitivo e Educ. Surdos/EAD/Rio Bonito/RJ,Especialização,Especialização,EAD
+1249,91,Relações Internacionais,Graduação,Bacharelado,Presencial
+1319,91,PG-Lato Sensu Gestão Pública/Distância/Panambi/RS,Especialização,Especialização,EAD
+1322,91,PG-Lato Sensu Gestão Pública Municipal/Distância/Sobradinho/RS,Especialização,Especialização,EAD
+1328,91,Comunicação Social - Produção Editorial,Graduação,Bacharelado,Presencial
+1672,4051,Engenharia Mecânica,Graduação,Bacharelado,Presencial
+1351,82,Física - Licenciatura/Distância/Sapiranga/RS,Graduação,Licenciatura,EAD
+1354,78,Letras - Português e Literaturas/Distância/Tio Hugo/RS,Graduação,Licenciatura,EAD
+1360,94,Educação Especial - Licenciatura/Distância/Três Passos/RS,Graduação,Licenciatura,EAD
+1135,78,Licenc. Letras Espanhol - Literaturas/Distância/Itaqui/RS,Graduação,Licenciatura,EAD
+843,91,Filosofia - Licenciatura Plena,Graduação,Licenciatura,Presencial
+2386,91,PG-Lato Sensu Gestão Pública/Distância/Santiago/RS,Especialização,Especialização,EAD
+838,78,Artes Cênicas - Direção Teatral,Graduação,Bacharelado,Presencial
+1862,94,Licenciatura em Ciências da Religião/EAD/São João do Polêsine/RS,Graduação,Licenciatura,EAD
+1341,2712,Curso Superior de Tecnologia em Sistemas para Internet,Graduação,Tecnológico,Presencial
+965,91,Graduação em História - Licenciatura/Bacharelado,Graduação,Licenciatura,Presencial
+991,78,Música - Bacharelado Piano,Graduação,Bacharelado,Presencial
+1481,78,Dança - Bacharelado,Graduação,Bacharelado,Presencial
+1034,4634,Agronomia/FW,Graduação,Bacharelado,Presencial
+1365,4564,PG-E Gestão de Organização Pública em Saúde/EAD/São Francisco de Paula/RS,Especialização,Especialização,EAD
+1368,4564,PG-E Gestão de Organização Pública em Saúde/EAD/Três de Maio/RS,Especialização,Especialização,EAD
+1539,91,PG-Lato Sensu Gestão Pública Municipal/Distância/Palmeira das Missões/RS,Especialização,Especialização,EAD
+1635,2732,CTISM - Técnico em Informática para Internet Integrado ao Ensino Médio,Ensino Médio,Técnico,Presencial
+1657,85,PG-E Residência Profissional da Saúde-Medicina Veterinária: Cirurgia Veterinária,Outras Residências,Especialização,Presencial
+1561,94,Curso de Formação de Professores para Educação Profissional/Ead/Vila Flores/RS,Graduação,Licenciatura,EAD
+1873,78,Licenc. Letras Espanhol - Literaturas/Distância/Constantina/RS,Graduação,Licenciatura,EAD
+1884,78,Letras - Português e Literaturas/Distância/Jaquirana/RS,Graduação,Licenciatura,EAD
+951,88,Farmácia,Graduação,Bacharelado,Presencial
+1690,91,PG-E em Ensino de Sociologia no Ensino Médio/EAD/Santa Maria/RS,Especialização,Especialização,EAD
+1867,4634,Licenciatura em Computação/EAD/Cruz Alta/RS,Graduação,Licenciatura,EAD
+1773,2732,Espanhol/Sem Fronteiras/Santa Maria,FIC - Formação Inicial e Continuada,Formação Inicial e Continuada,EAD
+1786,2712,Técnico em Alimentos,Pós-Médio,Técnico,Presencial
+1835,94,Pedagogia-Licenciatura/Distância/São Francisco de Paula/RS,Graduação,Licenciatura,EAD
+1841,94,Pedagogia-Licenciatura/Distância/Seberi/RS,Graduação,Licenciatura,EAD
+1852,88,Residência Médica - Transplante de Medula Óssea,Residencia Médica,Especialização,Presencial
+1053,88,PG-E Transplante de Medula Óssea,Especialização,Especialização,Presencial
+1136,78,Licenc. Letras Espanhol - Literaturas/Distância/Jaquirana,Graduação,Licenciatura,EAD
+1156,94,Esp. Educ. Esp. Déficit Cognitivo e Educ. Surdos/EAD/Feira de Santana,Especialização,Especialização,EAD
+1161,94,Esp. Educ. Esp. Déficit Cognitivo e Educ. Surdos/EAD/Lagamar/MG,Especialização,Especialização,EAD
+1171,94,Esp. Educ. Esp. Déficit Cognitivo e Educ. Surdos/EAD/São Gabriel/RS,Especialização,Especialização,EAD
+1646,82,Geografia Licenciatura -EaD-UAB/Santo Antonio da Patrulha/RS,Graduação,Licenciatura,EAD
+1687,91,PG-E em Ensino de Sociologia no Ensino Médio/EAD/Cachoeira do Sul/RS,Especialização,Especialização,EAD
+928,2732,CTISM - Mecânica - Noturno,Pós-Médio,Técnico,Presencial
+1346,2732,Técnico Subsequente em Eletrônica,Pós-Médio,Técnico,Presencial
+1359,94,Educação Especial - Licenciatura/Distância/Santana do Livramento/RS,Graduação,Licenciatura,EAD
+1441,94,PG-E Docência na Educação Infantil,Especialização,Especialização,Presencial
+1719,82,PG-E Ensino de Matemática no Ensino Médio/EAD/Santa Maria/RS,Especialização,Especialização,EAD
+1462,78,Licenc. Letras Espanhol - Literaturas/Distância/Faxinal do Soturno,Graduação,Licenciatura,EAD
+1473,78,Licenc. Letras Espanhol - Literaturas/Distância/Três de Maio,Graduação,Licenciatura,EAD
+1257,91,Licenciatura Sociologia/Distância/Restinga Seca/RS,Graduação,Licenciatura,EAD
+973,78,Artes Visuais - Bacharelado em Desenho e Plástica,Graduação,Bacharelado,Presencial
+1484,2732,CTISM - Segurança do Trabalho/Distância/São João do Polêsine/RS,Pós-Médio,Técnico,EAD
+825,78,Música - Licenciatura Plena,Graduação,Licenciatura,Presencial
+1314,85,PG-E Agricultura Familiar Camponesa e Educação do Campo,Especialização,Especialização,Presencial
+767,88,Fisioterapia,Graduação,Bacharelado,Presencial
+1223,2732,CTISM - Automação Industrial/Distância/Bagé/RS,Pós-Médio,Técnico,EAD
+1893,82,PG-E Ensino de Matemática no Ensino Médio/EAD/Três de Maio/RS,Especialização,Especialização,EAD
+1377,4564,Administração Pública Bacharelado/EAD/Restinga Sêca/RS,Graduação,Bacharelado,EAD
+2187,4634,Licenciatura em Computação/EAD/Tio Hugo/RS,Graduação,Licenciatura,EAD
+2193,94,Educação Especial - Licenciatura/Distância/Tapejara/RS,Graduação,Licenciatura,EAD
+2204,4564,PG-E Gestão de Organização Pública em Saúde/EAD/Santana do Livramento/RS,Especialização,Especialização,EAD
+1710,2732,CTISM - Mecânica/Distância/Tapejara/RS,Pós-Médio,Técnico,EAD
+1823,91,PG-Lato Sensu Gestão Pública/Distância/Cerro Largo/RS,Especialização,Especialização,EAD
+1800,117,PG-E Educação Ambiental/Distância/Polo Serafina Corrêa/RS,Especialização,Especialização,EAD
+1810,117,PG-E Educação Ambiental/Distância/Encantado/RS,Especialização,Especialização,EAD
+1896,91,História Licenciatura,Graduação,Licenciatura,Presencial
+2044,4634,Licenciatura em Educação Indígena/Distância/Palmeira das Missões/RS,Graduação,Licenciatura,EAD
+1097,78,Espec. Tec. da Inf. e da Com. Aplicadas Educação/EAD/Santana do Livramento/RS,Especialização,Especialização,EAD
+1626,85,Tec. Agric. Familiar Sustentabilidade/Distância/Vila Flores/RS,Graduação,Tecnológico,EAD
+1731,117,Curso de Engenharia de Telecomunicações,Graduação,Bacharelado,Presencial
+1568,2712,Curso de Instalador e Reparador de Linhas de Telecomunicação,FIC - Formação Inicial e Continuada,Formação Inicial e Continuada,Presencial
+1600,2712,Curso de Operador de Máquinas e Implementos Agrícolas,FIC - Formação Inicial e Continuada,Formação Inicial e Continuada,Presencial
+1581,78,Letras - Português e Literaturas/Distância/Quaraí/RS,Graduação,Licenciatura,EAD
+1594,97,PG-E Educ.Física Infantil e Anos Iniciais/EAD/Santa Maria/RS,Especialização,Especialização,EAD
+1591,117,PG-E Eficiência Energética Aplicada aos Processos Produtivos/EAD/Panambi/RS,Especialização,Especialização,EAD
+1699,2732,CTISM - Automação Industrial/Distância/Tapejara/RS,Pós-Médio,Técnico,EAD
+1388,117,PG-E Mídias na Educação/EAD/Cachoeira do Sul/RS,Especialização,Especialização,EAD
+1410,94,Espec. Gestão Educacional/EAD/Três Passos/RS,Especialização,Especialização,EAD
+1245,91,Curso Superior de Tecnologia em Processos Gerenciais,Graduação,Tecnológico,Presencial
+1506,94,Espec. Gestão Educacional/EAD/Sobradinho/RS,Especialização,Especialização,EAD
+1525,2712,Curso de Fruticultor,FIC - Formação Inicial e Continuada,Formação Inicial e Continuada,Presencial
+1519,82,Física - Licenciatura/Distância/Santa Maria/RS,Graduação,Licenciatura,EAD
+1528,97,Dança - Licenciatura,Graduação,Licenciatura,Presencial
+1075,94,Espec. Gestão Educacional/EAD/Constantina/RS,Especialização,Especialização,EAD
+1086,78,Letras - Português e Literaturas/Distância/Restinga Seca/RS,Graduação,Licenciatura,EAD
+1092,94,Pedagogia-Licenciatura/Distância/Tapejara/RS,Graduação,Licenciatura,EAD
+1200,94,Espec. Gestão Educacional/EAD/Agudo/RS,Especialização,Especialização,EAD
+1232,82,Curso de Bacharelado em Estatística - Noturno,Graduação,Bacharelado,Presencial
+1213,2712,Curso Superior de Tecnologia em Gestão de Cooperativas,Graduação,Tecnológico,Presencial
+1194,2712,Curso Superior de Tecnologia de Geoprocessamento,Graduação,Tecnológico,Presencial
+713,85,PG Agronomia - Produção Vegetal - Mestrado,Pós-Graduação,Mestrado,Presencial
+716,85,PG Engenharia Agrícola - Mestrado,Pós-Graduação,Mestrado,Presencial
+717,85,PG Engenharia Agrícola - Doutorado,Pós-Graduação,Doutorado,Presencial
+1409,85,PG Medicina Veterinária - Mestrado,Pós-Graduação,Mestrado,Presencial
+758,85,PG Ciência e Tecnologia dos Alimentos - M,Pós-Graduação,Mestrado,Presencial
+1174,85,PG Ciência e Tecnologia dos Alimentos - D,Pós-Graduação,Doutorado,Presencial
+760,85,PG Engenharia Florestal - Mestrado,Pós-Graduação,Mestrado,Presencial
+1404,91,Programa PG Filosofia - Doutorado,Pós-Graduação,Doutorado,Presencial
+791,91,PG Filosofia - Mestrado,Pós-Graduação,Mestrado,Presencial
+801,117,PG Engenharia Elétrica - Mestrado,Pós-Graduação,Mestrado,Presencial
+1424,117,PG Engenharia de Produção - Mestrado,Pós-Graduação,Mestrado,Presencial
+830,94,PG Educação - Mestrado,Pós-Graduação,Mestrado,Presencial
+1142,94,PG Educação - Doutorado,Pós-Graduação,Doutorado,Presencial
+831,82,PG Química - Mestrado,Pós-Graduação,Mestrado,Presencial
+703,82,PG Física - Mestrado,Pós-Graduação,Mestrado,Presencial
+947,82,PG Bioquímica Toxicológica - Doutorado,Pós-Graduação,Doutorado,Presencial
+995,78,Música - Bacharelado Viola,Graduação,Bacharelado,Presencial
+710,85,Medicina Veterinária,Graduação,Bacharelado,Presencial
+721,91,Administração - Gestão de Cooperativas,Graduação,Bacharelado,Presencial
+732,91,Arquivologia,Graduação,Bacharelado,Presencial
+678,88,Odontologia,Graduação,Bacharelado,Presencial
+768,88,Fonoaudiologia,Graduação,Bacharelado,Presencial
+1456,78,Letras - Português e Literaturas/Distância/Novo Hamburgo/RS,Graduação,Licenciatura,EAD
+1210,78,Letras - Português e Literaturas/Distância/Sobradinho/RS,Graduação,Licenciatura,EAD
+1091,94,Pedagogia-Licenciatura/Distância/Sobradinho/RS,Graduação,Licenciatura,EAD
+1624,85,Tec. Agric. Familiar Sustentabilidade/Distância/Quaraí/RS,Graduação,Tecnológico,EAD
+1616,88,PG-D em Enfermagem,Pós-Graduação,Doutorado,Presencial
+1799,94,PG em Políticas Públicas e Gestão Educacional - Mestrado Profissional,Pós-Graduação,Mestrado,Presencial
+707,82,PG Bioquímica Toxicológica - Mestrado,Pós-Graduação,Mestrado,Presencial
+1679,117,PG Engenharia Civil - Doutorado,Pós-Graduação,Doutorado,Presencial
+962,88,PG em Ciências Farmacêuticas - Mestrado,Pós-Graduação,Mestrado,Presencial
+1423,78,PG Letras - Mestrado,Pós-Graduação,Mestrado,Presencial
+1399,88,PG Distúrbios da Comunicação Humana - Doutorado,Pós-Graduação,Doutorado,Presencial
+1056,88,PG-M em Enfermagem,Pós-Graduação,Mestrado,Presencial
+1919,78,PG em Artes Visuais - Doutorado Acadêmico,Pós-Graduação,Doutorado,Presencial
+1184,82,PG Biodiversidade Animal - Doutorado,Pós-Graduação,Doutorado,Presencial
+1106,85,PG Doutorado em Extensão Rural,Pós-Graduação,Doutorado,Presencial
+1550,82,PG em Meteorologia - Doutorado,Pós-Graduação,Doutorado,Presencial
+1129,91,PG em Ciências Sociais - Mestrado,Pós-Graduação,Mestrado,Presencial
+1131,82,PG-D Educação em Ciências: Química da Vida e Saúde,Pós-Graduação,Doutorado,Presencial
+1338,82,PG em Agrobiologia - Mestrado,Pós-Graduação,Mestrado,Presencial
+1403,2712,PG em Agricultura de Precisão - Mestrado Profissional,Pós-Graduação,Mestrado,Presencial
+1433,82,Mestrado Profissional em Matemática - PROFMAT,Pós-Graduação,Mestrado,Presencial
+1465,91,PG - Administração - Doutorado,Pós-Graduação,Doutorado,Presencial
+1466,91,PG - Comunicação - Doutorado,Pós-Graduação,Doutorado,Presencial
+1548,91,PG- Direito - Mestrado Acadêmico,Pós-Graduação,Mestrado,Presencial
+1551,94,PG - Mestrado Profissional em Tecnologias Educacionais em Rede,Pós-Graduação,Mestrado,Presencial
+1645,97,PG - Gerontologia - Mestrado Acadêmico,Pós-Graduação,Mestrado,Presencial
+1797,2732,Educação Profissional e Tecnológica - Mestrado Acadêmico,Pós-Graduação,Mestrado,Presencial
+1855,117,PG em Engenharia Química - Mestrado,Pós-Graduação,Mestrado,Presencial
+1857,91,PG - Psicologia - Mestrado Acadêmico,Pós-Graduação,Mestrado,Presencial
+1398,91,PG em Gestão de Organizações Públicas - Mestrado Profissional,Pós-Graduação,Mestrado,Presencial
+1549,82,PG em Geografia - Doutorado,Pós-Graduação,Doutorado,Presencial
+1911,4634,PG em Ciência e Tecnologia Ambiental - Mestrado/FW,Pós-Graduação,Mestrado,Presencial
+2128,117,Pós-Graduação em Engenharia Mecânica - Mestrado Acadêmico,Pós-Graduação,Mestrado,Presencial
+1658,85,PG-E Residência Profissional da Saúde-Medicina Veterinária: Anestesiologia Veterinária,Outras Residências,Especialização,Presencial
+1474,85,PG-E Residência Profissional da Saúde-Medicina Veterinária: Clínica Médica de Pequenos Animais,Outras Residências,Especialização,Presencial
+1181,88,Residência Médica - Cardiologia,Residencia Médica,Especialização,Presencial
+948,88,Residência Médica - Patologia,Residencia Médica,Especialização,Presencial
+1899,88,Residência Médica,Residencia Médica,Especialização,Presencial
+1531,2712,Curso de Auxiliar Administrativo,FIC - Formação Inicial e Continuada,Formação Inicial e Continuada,Presencial
+1435,88,Residência Médica R3 - Ecocardiografia,Residencia Médica,Especialização,Presencial
+771,88,Residência Médica - Pneumologia,Residencia Médica,Especialização,Presencial
+1611,2712,Curso de Programador de Sistemas,FIC - Formação Inicial e Continuada,Formação Inicial e Continuada,Presencial
+1579,2712,Curso de Instalador de Refrigeração de Climatização Doméstica,FIC - Formação Inicial e Continuada,Formação Inicial e Continuada,Presencial
+1523,2712,Curso de Padeiro e Confeiteiro,FIC - Formação Inicial e Continuada,Formação Inicial e Continuada,Presencial
+1000,97,PG-E Educação Física Escolar,Especialização,Especialização,Presencial
+1071,94,PG-Espec. Educação Especial: Altas Habilidades/Superdotação,Especialização,Especialização,Presencial
+1692,2712,Curso de Agente de Alimentação Escolar,FIC - Formação Inicial e Continuada,Formação Inicial e Continuada,Presencial
+774,88,Residência Médica - Gastroenterologia,Residencia Médica,Especialização,Presencial
+1447,88,Residência Médica - R4 - Medicina Fetal,Residencia Médica,Especialização,Presencial
+1554,88,Residência Médica - Urologia,Residencia Médica,Especialização,Presencial
+1348,94,PG-E Educação Profissional Integrada a Educação Básica na Modalidade Educação de Jovens e Adultos,Especialização,Especialização,Presencial
+2087,88,Residência Médica - Gastroenterologia Pediátrica,Residencia Médica,Especialização,Presencial
+2307,94,Licenciatura em Ciências da Religião,Graduação,Licenciatura,EAD
+1853,88,Residência Médica - Nutrição Parenteral e Enteral Pediátrica,Residencia Médica,Especialização,Presencial
+1440,88,Residência Médica - Mastologia,Residencia Médica,Especialização,Presencial
+1665,88,Residência Médica - Cirurgia Torácica,Residencia Médica,Especialização,Presencial
+1347,88,Residência Médica - Medicina Intensiva,Residencia Médica,Especialização,Presencial
+1580,2712,Curso de Carpinteiro de Obras,FIC - Formação Inicial e Continuada,Formação Inicial e Continuada,Presencial
+1529,2712,Curso de Auxiliar Técnico em Agropecuária,FIC - Formação Inicial e Continuada,Formação Inicial e Continuada,Presencial
+1627,2712,Curso de Carpinteiro de Telhados,FIC - Formação Inicial e Continuada,Formação Inicial e Continuada,Presencial
+780,88,Residência Médica - Clínica Médica,Residencia Médica,Especialização,Presencial
+1609,2712,Curso de Administrador de Banco de Dados,FIC - Formação Inicial e Continuada,Formação Inicial e Continuada,Presencial
+1604,2712,Curso de Pedreiro de Alvenaria,FIC - Formação Inicial e Continuada,Formação Inicial e Continuada,Presencial
+1111,2712,Ensino Médio,Ensino Médio,Ensino Médio,Presencial
+1900,85,Residência em Área Profissional da Saúde - Medicina Veterinária,Residencia Médica,Especialização,Presencial
+1069,85,PG-E Residência Médico-Veterinária,Residencia Médica,Especialização,Presencial
+999,97,"PG-E Atividade Física, Desempenho Motor e Saúde",Especialização,Especialização,Presencial
+777,88,Residência Médica - Pediatria,Residencia Médica,Especialização,Presencial
+1407,88,PG-E Reabilitação Físico-Motora,Outras Residências,Especialização,Presencial
+1694,2712,Curso de Instalador de Sistemas Eletrônicos de Segurança,FIC - Formação Inicial e Continuada,Formação Inicial e Continuada,Presencial
+1445,88,Residência Médica - R3 - Infectologia Pediátrica,Residencia Médica,Especialização,Presencial
+1732,2732,Técnico em Eletrotécnica Integrado,Ensino Médio,Técnico,Presencial
+2308,94,Licenciatura em Ciências da Religião,Graduação,Licenciatura,EAD
+926,2732,Técnico Subsequente em Eletrotécnica - Noturno,Pós-Médio,Técnico,Presencial
+1070,91,Curso Especial de Licenciatura em Sociologia,Graduação,Licenciatura,Presencial
+1851,88,Residência Médica - Hematologia e Hemoterapia,Residencia Médica,Especialização,Presencial
+1651,85,PG-E Residência Profissional da Saúde-Medicina Veterinária: Clínica de Grandes Animais: Clínica de Ruminantes,Outras Residências,Especialização,Presencial
+1789,88,Residência Médica - Cirurgia Vascular,Residencia Médica,Especialização,Presencial
+1446,88,Residência Médica - Medicina Intensiva Pediátrica,Residencia Médica,Especialização,Presencial
+836,78,PG-E Design para Estamparia,Especialização,Especialização,Presencial
+1654,85,PG-E Residência Profissional da Saúde-Medicina Veterinária: Medicina Veterinária Preventiva: Doenças Infecciosas e Parasitárias,Outras Residências,Especialização,Presencial
+1370,88,PG-E Programa de Residência Multiprofissional Integrada em Gestão e Atenção Hospitalar Sistema Público Saúde,Outras Residências,Especialização,Presencial
+949,88,Residência Médica - Cancerologia,Residencia Médica,Especialização,Presencial
+1615,2712,Curso de Vidraceiro,FIC - Formação Inicial e Continuada,Formação Inicial e Continuada,Presencial
+1004,205,Programa de Pós-Doutorado da UFSM,Pós-Graduação,Pós-Doutorado,Presencial
+770,88,Residência Médica - Nefrologia,Residencia Médica,Especialização,Presencial
+786,94,PG-E Gestão Educacional,Especialização,Especialização,Presencial
+1231,88,PG-E Residência Multiprofissional Integrada em Sistema Público de Saúde,Outras Residências,Especialização,Presencial
+1009,91,PG-E Administração e Gestão Pública,Especialização,Especialização,Presencial
+1110,2732,Curso Técnico de Nível Médio Integrado em Eletromecânica na Modalidade Educação de Jovens e Adultos,Ensino Médio,Técnico,Presencial
+921,205,Aluno Especial de Graduação,Especial de Graduação,Formação Especial,Apenas para vinculo dos alunos
+776,88,Residência Médica - Psiquiatria,Residencia Médica,Especialização,Presencial
+2309,82,GEOGRAFIA - Licenciatura,Graduação,Licenciatura,EAD
+773,88,Residência Médica - Anestesiologia,Residencia Médica,Especialização,Presencial
+2137,91,PG-E Estudos de Gênero,Especialização,Especialização,Presencial
+1449,88,Residência Médica - Neurologia Pediátrica,Residencia Médica,Especialização,Presencial
+1765,2712,Curso de Operador de Retroescavadeira,FIC - Formação Inicial e Continuada,Formação Inicial e Continuada,Presencial
+1444,88,Residência Médica - R3 - Endoscopia Respiratória,Residencia Médica,Especialização,Presencial
+1373,88,Residência Médica - Radiologia e Diagnóstico por Imagem,Residencia Médica,Especialização,Presencial
+1652,85,PG-E Residência Profissional da Saúde-Medicina Veterinária: Clínica de Grandes Animais: Clínica de Equinos,Outras Residências,Especialização,Presencial
+2108,88,Residência Médica - Medicina de Emergência,Residencia Médica,Especialização,Presencial
+1664,88,Residência Médica - Infectologia Hospitalar,Residencia Médica,Especialização,Presencial
+960,2732,CTISM - Automação Industrial - Noturno,Pós-Médio,Técnico,Presencial
+1467,88,PG-E Programa de Residência Multiprofissional Integrada em Saúde Mental no Sistema Público de Saúde/UFSM,Outras Residências,Especialização,Presencial
+1182,88,Residência Médica - Cirurgia do Aparelho Digestivo,Residencia Médica,Especialização,Presencial
+983,82,Matemática - Licenciatura e Bacharelado,Graduação,Licenciatura,Presencial
+671,2712,Técnico em Informática - Pós-médio,Pós-Médio,Técnico,Presencial
+1613,2712,Curso de Agente de Desenvolvimento Cooperativista,FIC - Formação Inicial e Continuada,Formação Inicial e Continuada,Presencial
+1226,88,Residência Médica - Medicina da Família e Comunidade,Residencia Médica,Especialização,Presencial
+714,85,PG Agronomia - Doutorado,Pós-Graduação,Doutorado,Presencial
+752,85,PG Medicina Veterinária - Doutorado,Pós-Graduação,Doutorado,Presencial
+756,85,PG Zootecnia - Produção Animal - Mestrado,Pós-Graduação,Mestrado,Presencial
+2310,82,GEOGRAFIA - Licenciatura,Graduação,Licenciatura,EAD
+759,85,PG Engenharia Florestal - Doutorado,Pós-Graduação,Doutorado,Presencial
+802,117,PG Engenharia Elétrica - Doutorado,Pós-Graduação,Doutorado,Presencial
+2004,117,PG Engenharia de Produção - Doutorado,Pós-Graduação,Doutorado,Presencial
+832,82,PG Química -Doutorado,Pós-Graduação,Doutorado,Presencial
+704,82,PG Física - Doutorado,Pós-Graduação,Doutorado,Presencial
+683,82,Matemática - Licenciatura Plena,Graduação,Licenciatura,Presencial
+974,94,Educação Especial - Licenciatura Plena,Graduação,Licenciatura,Presencial
+1577,2752,Curso de Espanhol Básico,FIC - Formação Inicial e Continuada,Formação Inicial e Continuada,Presencial
+1700,2732,CTISM - Segurança do Trabalho/Distância/Cruz Alta/RS,Pós-Médio,Técnico,EAD
+1716,2712,CPOL - Curso Técnico em Cooperativismo/Distância/São João do Polêsine/RS,Pós-Médio,Técnico,EAD
+1153,94,Esp. Educ. Esp. Déficit Cognitivo e Educ. Surdos/EAD/Ji-Paraná/RO,Especialização,Especialização,EAD
+2196,78,Licenc. Letras Espanhol - Literaturas/Distância/Cacequi/RS,Graduação,Licenciatura,EAD
+1090,94,Pedagogia/Distância/São Lourenço do Sul/RS,Graduação,Licenciatura,EAD
+757,85,PG Zootecnia - Doutorado,Pós-Graduação,Doutorado,Presencial
+1830,4634,Licenciatura Interdisciplinar Indígena/FW,Graduação,Licenciatura,Presencial
+1856,117,PG em Engenharia Química - Doutorado,Pós-Graduação,Doutorado,Presencial
+2199,78,Licenc. Letras Espanhol - Literaturas/Distância/Uruguaiana/RS,Graduação,Licenciatura,EAD
+679,82,Física - Licenciatura Plena,Graduação,Licenciatura,Presencial
+988,78,Música - Bacharelado Clarineta,Graduação,Bacharelado,Presencial
+2311,82,GEOGRAFIA - Licenciatura,Graduação,Licenciatura,EAD
+2312,82,GEOGRAFIA - Licenciatura,Graduação,Licenciatura,EAD
+2313,82,GEOGRAFIA - Licenciatura,Graduação,Licenciatura,EAD
+2314,85,EDUCAÇÃO DO CAMPO - Licenciatura,Graduação,Licenciatura,EAD
+2315,85,EDUCAÇÃO DO CAMPO - Licenciatura,Graduação,Licenciatura,EAD
+2316,85,EDUCAÇÃO DO CAMPO - Licenciatura,Graduação,Licenciatura,EAD
+2226,82,PG Profissional em Ensino de Geografia em Rede Nacional - Mestrado,Pós-Graduação,Mestrado,Presencial
+2264,97,PG - Ciências do Movimento e Reabilitação - Mestrado Acadêmico,Pós-Graduação,Mestrado,Presencial
+1601,205,Mobilidade Acadêmica Internacional,Pós-Graduação,Formação Especial,Apenas para vinculo dos alunos
+2284,2712,Assistente Administrativo (PROEJA-FIC-EJA-ENSINO-MÉDIO),FIC - Formação Inicial e Continuada,Formação Inicial e Continuada,Presencial
+2291,2712,Agente de Desenvolvimento Cooperativista (PROEJA-FIC-EJA-ENSINO-MÉDIO),FIC - Formação Inicial e Continuada,Formação Inicial e Continuada,Presencial
+2317,85,EDUCAÇÃO DO CAMPO - Licenciatura,Graduação,Licenciatura,EAD
+2318,85,EDUCAÇÃO DO CAMPO - Licenciatura,Graduação,Licenciatura,EAD
+748,85,PG Medicina Veterinária - Clínica Médica- Mestrado,Pós-Graduação,Mestrado,Presencial
+749,85,PG Medicina Veterinária - Fisiopatologia Reprodução-Mestrado,Pós-Graduação,Mestrado,Presencial
+2488,94,Curso de Formação de Professores para Educação Profissional/Ead/Balneário Pinhal/RS,Graduação,Licenciatura,EAD
+2489,94,Curso de Formação de Professores para Educação Profissional/Ead/Cerro Largo/RS,Graduação,Licenciatura,EAD
+750,85,PG Medicina Veterinária - Patologia Veterinária- Mestrado,Pós-Graduação,Mestrado,Presencial
+751,85,PG Medicina Veterinária - Preventiva - Mestrado,Pós-Graduação,Mestrado,Presencial
+2547,4564,PG em Agronegócios - Doutorado/PM,Pós-Graduação,Doutorado,Presencial
+2549,91,PG - Direito - Doutorado,Pós-Graduação,Doutorado,Presencial
+2548,117,Curso de Especialização em Microeletrônica - Lato Sensu,Especialização,Especialização,Presencial - Com bolsa
+807,117,PG Engenharia Produção - Tecnologia Informação- Mestrado,Pós-Graduação,Mestrado,Presencial
+804,117,PG Qualidade e Produtividade - Mestrado,Pós-Graduação,Mestrado,Presencial
+808,117,PG Engenharia Produção - Gerência Produção- Mestrado,Pós-Graduação,Mestrado,Presencial
+813,78,PG Letras - Estudos Literários - Mestrado,Pós-Graduação,Mestrado,Presencial
+816,78,PG Letras - Estudos Linguísticos - Mestrado,Pós-Graduação,Mestrado,Presencial
+796,91,PG Integração Latino Americana - Mestrado,Pós-Graduação,Mestrado,Presencial
+945,82,PG Ciências Biológicas - Biodiversidade Animal - Mestrado,Pós-Graduação,Mestrado,Presencial
+851,88,PG-E Fonoaudiologia,Especialização,Especialização,Presencial
+794,91,PG Pensamento Politico Brasileiro - Especialização,Especialização,Especialização,Presencial
+747,85,PG Medicina Veterinária - Cirurgia Veterinária- Mestrado,Pós-Graduação,Mestrado,Presencial
+2544,82,Curso de Estatística,Graduação,Bacharelado,Presencial
+956,85,PG Mestrado em Geomática,Pós-Graduação,Mestrado,Presencial
+2595,205,Mobilidade Acadêmica - Pós-graduação,Pós-Graduação,Formação Especial,Apenas para vinculo dos alunos
+2593,2712,Curso de Assistente Administrativo,FIC - Formação Inicial e Continuada,Formação Inicial e Continuada,Presencial
+2585,2732,Curso de Auxiliar de Manutenção Predial,FIC - Formação Inicial e Continuada,Formação Inicial e Continuada,Presencial - Com bolsa
+2571,2732,CTISM - Técnico em  Internet das Coisas Integrado ao Ensino Médio,Ensino Médio,Técnico,Presencial
+2572,91,PG em Gestão de Organizações Públicas - Doutorado Profissional,Pós-Graduação,Doutorado,Presencial
+2552,78,Mbya Guarani Educação Intercultural Indígena,Graduação,Licenciatura,Presencial
+2573,94,PG em História em Rede Nacional - Doutorado Profissional,Pós-Graduação,Doutorado,Presencial
+2604,4051,Ciência de Dados e Inteligência Artificial,Graduação,Bacharelado,Presencial
+2551,94,Educação Especial Inclusiva,Graduação,Licenciatura,Presencial
+2594,2712,Curso de Assistente em Informação e Gestão do Trabalho em Saúde,FIC - Formação Inicial e Continuada,Formação Inicial e Continuada,EAD - UFSM
+2554,4634,Licenciatura Intercultural Indígena,Graduação,Licenciatura,Presencial
+2599,78,PG Artes da Cena - Mestrado,Pós-Graduação,Mestrado,Presencial
+2600,88,PG em Saúde Coletiva - Mestrado,Pós-Graduação,Mestrado,Presencial
+2598,91,PG Serviço Social e Políticas Públicas - Mestrado,Pós-Graduação,Mestrado,Presencial
+2596,117,PG Engenharia Civil e Ambiental - Mestrado,Pós-Graduação,Mestrado,Presencial
+2597,117,PG Engenharia Civil e Ambiental - Doutorado,Pós-Graduação,Doutorado,Presencial
+2507,78,Letras - Português e Literaturas/Distância/Encruzilhada do Sul/RS,Graduação,Licenciatura,EAD
+2482,78,Letras - Português e Literaturas/Distância/Panambi/RS,Graduação,Licenciatura,EAD
+2484,78,Letras - Português e Literaturas/Distância/Sapucaia do Sul/RS,Graduação,Licenciatura,EAD
+2486,78,Letras - Português e Literaturas/Distância/São Gabriel/RS,Graduação,Licenciatura,EAD
+2485,78,Letras - Letras Espanhol - Literaturas/Distância/Balneário Pinhal/RS,Graduação,Licenciatura,EAD
+2474,78,Letras - Letras Espanhol - Literaturas/Distância/Camargo/RS,Graduação,Licenciatura,EAD
+2483,78,Letras - Letras Espanhol - Literaturas/Distância/Canguçu/RS,Graduação,Licenciatura,EAD
+2476,78,Letras - Letras Espanhol - Literaturas/Distância/Novo Hamburgo/RS,Graduação,Licenciatura,EAD
+2509,78,Licenc. Letras Espanhol - Literaturas/Distância/Piratini/RS,Graduação,Licenciatura,EAD
+944,81,Técnico em Geomática,Pós-Médio,Técnico,Presencial
+2468,82,Física - Licenciatura/Distância/Cerro Largo/RS,Graduação,Licenciatura,EAD
+2475,82,Física - Licenciatura/Distância/Imbé/RS,Graduação,Licenciatura,EAD
+2472,82,Física - Licenciatura/Distância/Picada Café/RS,Graduação,Licenciatura,EAD
+2479,82,Física - Licenciatura/Distância/Santana do Livramento/RS,Graduação,Licenciatura,EAD
+2467,82,Física - Licenciatura/Distância/São Francisco de Paula/RS,Graduação,Licenciatura,EAD
+1123,82,Licenciatura em Geografia/Distância/Santana do Livramento/RS,Graduação,Licenciatura,EAD
+1117,82,Licenciatura Matemática/Distância/Santa Maria/RS,Graduação,Licenciatura,EAD
+2490,85,Licenciatura em Educação do Campo/Distância/Camargo/RS,Graduação,Licenciatura,EAD
+2501,85,Licenciatura em Educação do Campo/Distância/Imbé/RS,Graduação,Licenciatura,EAD
+2497,85,Licenciatura em Educação do Campo/Distância/Panambi/RS,Graduação,Licenciatura,EAD
+2508,85,Licenciatura em Educação do Campo/Distância/Piratini/RS,Graduação,Licenciatura,EAD
+1565,3156,Ciências e Humanidades - Ênfase em Gestão Sustentável - Bacharelado Interdisciplinar,Graduação,Bacharelado,Presencial
+1390,91,História - Licenciatura PARFOR,Graduação,Licenciatura,Presencial
+2469,94,Educação Especial - Licenciatura/Distância/Canguçu/RS,Graduação,Licenciatura,EAD
+2481,94,Educação Especial - Licenciatura/Distância/Imbé/RS,Graduação,Licenciatura,EAD
+2470,94,Educação Especial - Licenciatura/Distância/Quaraí/RS,Graduação,Licenciatura,EAD
+2480,94,Educação Especial - Licenciatura/Distância/Rio Grande/RS,Graduação,Licenciatura,EAD
+2471,94,Educação Especial - Licenciatura/Distância/Rosário do Sul/RS,Graduação,Licenciatura,EAD - UFSM
+2473,94,Educação Especial - Licenciatura/Distância/Sapiranga/RS,Graduação,Licenciatura,EAD
+2502,94,Pedagogia/Distância/Gramado/RS,Graduação,Licenciatura,EAD
+1794,117,PG em Engenharia de Processos - Doutorado,Pós-Graduação,Doutorado,Presencial
+2464,2712,Técnico em Informática para Internet,Pós-Médio,Técnico,Presencial
+2465,2712,Técnico em Agrimensura,Pós-Médio,Técnico,Presencial
+675,2712,Técnico em Agroindústria - Pós-Médio,Pós-Médio,Técnico,Presencial
+1607,2732,Curso de Agricultor Familiar,FIC - Formação Inicial e Continuada,Formação Inicial e Continuada,Presencial
+1606,2732,Curso de Operador de Máquina de Usinagem com CNC,FIC - Formação Inicial e Continuada,Formação Inicial e Continuada,Presencial
+1395,2732,CTISM - Automação Industrial - Matutino,Pós-Médio,Técnico,Presencial
+1725,2732,Curso de Cuidador de Idoso,FIC - Formação Inicial e Continuada,Formação Inicial e Continuada,Presencial
+1028,2732,CTISM - Automação Industrial - Diurno,Ensino Médio,Técnico,Presencial
+927,2732,CTISM - Mecânica - Diurno,Ensino Médio,Técnico,Presencial
+1508,2732,Curso de Ajustador Mecânico,FIC - Formação Inicial e Continuada,Formação Inicial e Continuada,Presencial
+1510,2732,Curso de Desenhista Mecânico,FIC - Formação Inicial e Continuada,Formação Inicial e Continuada,Presencial
+1526,2732,Curso de Eletricista Instalador Predial de Baixa Tensão,FIC - Formação Inicial e Continuada,Formação Inicial e Continuada,Presencial
+1511,2732,Curso de Instalador e Reparador de Redes de Computadores,FIC - Formação Inicial e Continuada,Formação Inicial e Continuada,Presencial
+1599,2732,Curso de Montador de Painéis Elétricos,FIC - Formação Inicial e Continuada,Formação Inicial e Continuada,Presencial
+1522,2732,Curso de Programador WEB,FIC - Formação Inicial e Continuada,Formação Inicial e Continuada,Presencial
+1527,2732,Curso de Reparador de Circuitos Eletrônicos,FIC - Formação Inicial e Continuada,Formação Inicial e Continuada,Presencial
+1512,2732,Curso de Soldador no Processo MIG/MAG,FIC - Formação Inicial e Continuada,Formação Inicial e Continuada,Presencial
+1513,2732,Curso de Torneiro Mecânico,FIC - Formação Inicial e Continuada,Formação Inicial e Continuada,Presencial
+1602,2752,Curso Agente de Inspeção de Qualidade em Serviços de Alimentação,FIC - Formação Inicial e Continuada,Formação Inicial e Continuada,Presencial
+1669,2752,Curso de Agricultor Familiar,FIC - Formação Inicial e Continuada,Formação Inicial e Continuada,Presencial
+1668,2752,Curso de Agricultor Orgânico,FIC - Formação Inicial e Continuada,Formação Inicial e Continuada,Presencial
+1605,2752,Curso de Carpinteiro de Obras,FIC - Formação Inicial e Continuada,Formação Inicial e Continuada,Presencial
+1676,2752,Curso de Espanhol Intermediário,FIC - Formação Inicial e Continuada,Formação Inicial e Continuada,Presencial
+1564,2752,Curso de Monitor de Recreação,FIC - Formação Inicial e Continuada,Formação Inicial e Continuada,Presencial
+1488,2752,CAFW - Agroindústria/Distância/Constantina/RS,Pós-Médio,Técnico,EAD
+1618,2752,CAFW - Agroindústria/Distância/Palmeira das Missões/RS,Pós-Médio,Técnico,EAD
+1492,2752,CAFW - Agroindústria/Distância/Planalto/RS,Pós-Médio,Técnico,EAD
+1493,2752,CAFW - Agroindústria/Distância/Ronda Alta/RS,Pós-Médio,Técnico,EAD
+1494,2752,CAFW - Agroindústria/Distância/Sagrada Família/RS,Pós-Médio,Técnico,EAD
+1495,2752,CAFW - Agroindústria/Distância/Trindade do Sul/RS,Pós-Médio,Técnico,EAD
+1496,2752,CAFW - Informática para Internet/Distância/Constantina/RS,Pós-Médio,Técnico,EAD
+1619,2752,CAFW - Informática para Internet/Distância/Palmeira das Missões /RS,Pós-Médio,Técnico,EAD
+1497,2752,CAFW - Informática para Internet/Distância/Planalto/RS,Pós-Médio,Técnico,EAD
+1498,2752,CAFW - Informática para Internet/Distância/Ronda Alta/RS,Pós-Médio,Técnico,EAD
+1499,2752,CAFW - Informática para Internet/Distância/Sagrada Família/RS,Pós-Médio,Técnico,EAD
+1500,2752,CAFW - Informática para Internet/Distância/Trindade do Sul/RS,Pós-Médio,Técnico,EAD
+1013,2752,Curso Técnico em Agropecuária - Noturno,Pós-Médio,Técnico,Presencial
+1562,2752,Curso Técnico em Agropecuária concomitante ao Ensino Médio,Pós-Médio,Técnico,Presencial
+1247,2752,Curso Técnico em Alimentos - Noturno,Pós-Médio,Técnico,Presencial
+1563,2752,Curso Técnico em Aquicultura concomitante ao Ensino Médio,Pós-Médio,Técnico,Presencial
+1027,2752,Curso Técnico em Informática - Noturno,Pós-Médio,Técnico,Presencial
+1555,2752,Curso Técnico em Informática concomitante ao Ensino Médio,Pós-Médio,Técnico,Presencial
+1191,2752,Curso Superior de Tecnologia em Alimentos,Graduação,Tecnológico,Presencial
+1379,2010,Administração Pública Bacharelado/EAD/Três Passos/RS,Graduação,Bacharelado,EAD
+1238,2010,Comunic. Social -Hab. Relações Públicas-Ênfase:Multimídia/FW,Graduação,Bacharelado,Presencial
+2506,4634,Licenciatura em Computação/EAD/Balneário Pinhal/RS,Graduação,Licenciatura,EAD
+2505,4634,Licenciatura em Computação/EAD/Canguçu/RS,Graduação,Licenciatura,EAD
+2503,4634,Licenciatura em Computação/EAD/Hulha Negra/RS,Graduação,Licenciatura,EAD
+2487,4634,Licenciatura em Computação/EAD/Sapiranga/RS,Graduação,Licenciatura,EAD
+2504,4634,Licenciatura em Computação/EAD/São Gabriel/RS,Graduação,Licenciatura,EAD
+1516,2752,Curso Agente de Inspeção de Qualidade,FIC - Formação Inicial e Continuada,Formação Inicial e Continuada,Presencial
+1578,2752,Curso de Inglês Básico,FIC - Formação Inicial e Continuada,Formação Inicial e Continuada,Presencial
+1673,2752,Curso de Inglês Intermediário,FIC - Formação Inicial e Continuada,Formação Inicial e Continuada,Presencial
+1515,2752,Curso Operador de Computador,FIC - Formação Inicial e Continuada,Formação Inicial e Continuada,Presencial
+1514,2752,Curso Operador de Máquinas e Implementos Agrícolas,FIC - Formação Inicial e Continuada,Formação Inicial e Continuada,Presencial
+2524,205,Mobilidade Acadêmica Internacional,Especial de Graduação,Aperfeiçoamento,Presencial
