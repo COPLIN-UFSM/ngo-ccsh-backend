@@ -57,9 +57,11 @@ Crie o banco de dados com
 
 ```bash
 conda activate ngo
+python backend/manage.py create_dev_database --settings=ngo_ccsh.dev_settings
 python backend/manage.py makemigrations --settings=ngo_ccsh.dev_settings
 python backend/manage.py migrate --settings=ngo_ccsh.dev_settings
 python backend/manage.py createsuperuser --settings=ngo_ccsh.dev_settings
+python backend/manage.py seed_dev_database --settings=ngo_ccsh.dev_settings
 ```
 
 Rode a aplicação com 
@@ -105,8 +107,18 @@ FRONTEND_URL="http://localhost:5173"
 EMAIL_HOST_USER="henry.cagnini@ufsm.br"
 EMAIL_HOST_PASSWORD="aaaa bbbb cccc dddd"
 DEFAULT_FROM_EMAIL="Núcleo de Gestão Orçamentária <henry.cagnini@ufsm.br>"
+DJANGO_SECRET_KEY="alguma_string_com_pelo_menos_32_caracteres"
+JWT_SIGNING_KEY="alguma_OUTRA_string_com_pelo_menos_32_caracteres"
 ```
 
 O `EMAIL_HOST_PASSWORD` deve ser obtido a partir
 do [painel de controle de segurança do Google](https://myaccount.google.com/u/0/apppasswords), criando uma **senha de App** 
 para o email.
+
+## Gerar diagramas do banco de dados
+
+Para gerar diagramas do banco de dados, use o seguinte comando:
+
+```bash
+python .\backend\manage.py graph_models -a -g -o instance/models.png --settings=ngo_ccsh.dev_settings
+```

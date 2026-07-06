@@ -4,7 +4,7 @@ tqdm
 jinja2
 ibm_db
 ibm_db_django
-django==5.2.11
+django==5.2.15
 djangorestframework==3.17.1
 djangorestframework-simplejwt
 python-dotenv
@@ -14,3 +14,5 @@ gunicorn
 whitenoise
 drf-spectacular
 python-dotenv
+django-extensions
+pygraphviz

@@ -4,12 +4,14 @@ from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.forms import UserCreationForm
 from usuarios.models import Usuario
 
+
 class MyUserCreationForm(UserCreationForm):
     email = forms.EmailField(required=True)
-    full_name = forms.CharField(max_length=255, required=False)
-    class Meta(UserCreationForm.Meta):
+    full_name = forms.CharField(max_length=256, required=False)
+
+    class Meta:
         model = Usuario
-        fields = ("username", "email", "full_name")
+        fields = ("cpf", "email", "full_name")
 
 
 @admin.register(Usuario)
@@ -17,7 +19,7 @@ class CustomUserAdmin(UserAdmin):
     add_form = MyUserCreationForm
     model = Usuario
 
-    list_display = ["username", "email", "full_name"]
+    list_display = ["cpf", "email", "full_name"]
 
     add_fieldsets = (
         (
@@ -25,7 +27,7 @@ class CustomUserAdmin(UserAdmin):
             {
                 "classes": ("wide",),
                 "fields": (
-                    "username",
+                    "matricula",
                     "email",
                     "full_name",
                     "password1",
@@ -35,8 +37,33 @@ class CustomUserAdmin(UserAdmin):
         ),
     )
 
-    fieldsets = (
-        ("Auth", {"fields": ("username", "password")}),
-        ("Infos", {"fields": ("full_name", "email")}),
-        ("Permissions", {"fields": ("is_active", "is_staff", "is_superuser")}),
+    ordering = ("cpf",)
+
+    search_fields = (
+        "cpf",
+        "full_name",
+        "email",
     )
+
+    list_filter = (
+        "is_active",
+        "is_staff",
+        "is_superuser",
+    )
+
+    fieldsets = (
+        ("Auth", {"fields": ("cpf", "password")}),
+        ("Infos", {"fields": ("full_name", "email")}),
+        ("Permissions", {
+            "fields": (
+                "is_active",
+                "is_staff",
+                "is_superuser",
+                "groups",
+                "user_permissions",
+            )
+        }),
+        ("Metadata", {"fields": ("created_at",)})
+    )
+
+    readonly_fields = ("created_at",)

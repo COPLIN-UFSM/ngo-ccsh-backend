@@ -12,10 +12,6 @@ from datetime import timedelta
 
 from dotenv import load_dotenv
 
-import django
-from django.apps import apps
-from django.db import connection
-
 from django.core.exceptions import ImproperlyConfigured
 
 load_dotenv()  # carrega variáveis de ambiente do arquivo .env, se existir
@@ -65,7 +61,7 @@ SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 USE_X_FORWARDED_HOST = True
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "fallback-inseguro-apenas-dev")
+SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv("DEBUG", "False") == "True"
 
@@ -76,10 +72,13 @@ ALLOWED_HOSTS = ["proplan.ufsm.br", "localhost", "127.0.0.1"]
 # Application definition
 
 INSTALLED_APPS = [
-    "despesas",  # aplicação própria
-    "usuarios",  # aplicação própria
+    "ngo_ccsh",  # aplicação própria
     "autenticacao",  # aplicação própria
+    "entidades",  # aplicação própria
+    "usuarios",  # aplicação própria
+    "despesas",  # aplicação própria
     "drf_spectacular",  # para gerar documentação da API
+    "django_extensions",  # para gerar diagramas do banco de dados
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -123,6 +122,7 @@ SIMPLE_JWT = {
     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
     "ROTATE_REFRESH_TOKENS": True,
     "BLACKLIST_AFTER_ROTATION": True,
+    "SIGNING_KEY": os.getenv("JWT_SIGNING_KEY"),
 }
 
 CORS_ALLOW_ALL_ORIGINS = True
@@ -227,19 +227,3 @@ APP_SHORT_NAME = os.getenv("APP_SHORT_NAME")
 
 
 FRONTEND_URL = os.getenv("FRONTEND_URL")
-
-
-def force_create_unmanaged_models():
-    """
-    Cria tabelas para modelos com managed=False (útil em dev com SQLite).
-    """
-    django.setup()
-    for model in apps.get_models():
-        if not model._meta.managed:
-            model._meta.managed = True
-            with connection.schema_editor() as schema_editor:
-                try:
-                    schema_editor.create_model(model)
-                    print(f"  [OK] Modelo criado: {model.__name__}")
-                except Exception as e:
-                    print(f"[WARN] Não foi possível criar o modelo {model.__name__}: {e}")

@@ -8,5 +8,5 @@ app_name = "autenticacao"
 
 urlpatterns = [
     path("login/", LoginView.as_view(), name="login"),
-    path("recuperar-senha/", RecoverPasswordView.as_view(), name="recover_password"),
+    path("recuperar-senha/", RecoverPasswordView.as_view(), name="recuperar_senha"),
 ]

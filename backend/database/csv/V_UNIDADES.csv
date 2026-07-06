@@ -1,0 +1,2546 @@
+id_unidade,nome_unidade,cod_estruturado,centro_id,tipo_unidade_id,situacao_unidade_id
+5004,Unidade do Sistema Cardiovascular,93.01.07.02.3.0,163,14,2
+5005,Unidade Neuro-Músculo-Esquelética,93.01.07.02.4.0,163,14,2
+7204,Divisão Multiprofissional,30.04.00.00.0.0,7201,14,6
+7203,Núcleo de Administração,30.03.00.00.0.0,7201,14,6
+7202,Núcleo de Ensino,30.02.00.00.0.0,7201,14,6
+7205,Subdivisão de Projetos,30.05.00.00.0.0,7201,14,6
+7206,Subdivisão de Secretaria Escolar,30.03.01.00.0.0,7201,14,6
+78,Centro de Artes e Letras,08.00.00.00.0.0,78,26,1
+82,Centro de Ciências Naturais e Exatas,02.00.00.00.0.0,82,26,1
+85,Centro de Ciências Rurais,03.00.00.00.0.0,85,26,1
+91,Centro de Ciências Sociais e Humanas,06.00.00.00.0.0,91,26,1
+94,Centro de Educação,05.00.00.00.0.0,94,26,1
+97,Centro de Educação Física e Desportos,09.00.00.00.0.0,97,26,1
+117,Centro de Tecnologia,07.00.00.00.0.0,117,26,1
+2712,Colégio Politécnico,26.00.00.00.0.0,2712,26,1
+3202,Unidade de Educação Infantil Ipê Amarelo,29.00.00.00.0.0,3202,26,1
+4051,Campus da Universidade Federal de Santa Maria em Cachoeira do Sul,31.00.00.00.0.0,4051,26,1
+4634,Campus da Universidade Federal de Santa Maria em Frederico Westphalen,33.00.00.00.0.0,4634,26,1
+7201,Unidade de Educação Ipê Amarelo,30.00.00.00.0.0,7201,26,6
+3201,"Coordenadoria de Educação Básica, Técnica e Tecnológica",01.17.00.00.0.0,205,18,1
+287,Secretaria de Apoio Internacional,01.16.00.00.0.0,205,16,99
+1202,Assistente - CPD,01.31.00.01.0.0,205,24,1
+4240,Assistente do Restaurante Universitário,01.35.00.02.0.0,205,24,1
+3243,Programa de Pós-Graduação em Residência em Área Profissional da Saúde-Medicina Veterinária,03.10.18.00.0.0,85,6,1
+37,Curso de Odontologia,04.09.06.00.0.0,88,6,1
+2343,Programa de Pós-Graduação em Ciências Odontológicas,04.10.20.00.0.0,88,6,1
+2004,Programa de Pós-Graduação em Distúrbios Comunicação Humana,04.10.17.00.0.0,88,6,1
+5453,Programa de Residência Multiprofissional,04.10.28.00.0.0,88,6,1
+2737,Depto de Ensino,25.04.00.00.0.0,2732,4,99
+101,Departamento de Ciências Florestais,03.30.00.00.0.0,85,4,1
+133,Departamento de Defesa Fitossanitária,03.35.00.00.0.0,85,4,1
+145,Departamento de Engenharia Rural,03.34.00.00.0.0,85,4,1
+66,Departamento de Análises Clínicas e Toxicológicas,04.30.00.00.0.0,88,4,1
+153,Departamento de Fisioterapia e Reabilitação,04.37.00.00.0.0,88,4,1
+3851,Departamento de Serviço Social,06.90.00.00.0.0,91,4,1
+3100,Auditoria Interna,40.03.00.00.0.0,205,21,1
+3928,Comissão Permanente de Cadastro de Fornecedores - SICAF,01.18.04.02.0.0,205,3,1
+193,Pró-Reitoria de Administração,01.05.00.00.0.0,205,15,1
+3521,Pró-Reitoria de Gestão de Pessoas,01.26.00.00.0.0,205,15,1
+2552,Pró-Reitoria de Infraestrutura,01.11.00.00.0.0,205,15,1
+204,Coordenadoria de Comunicação Social,01.75.00.00.0.0,205,16,1
+6676,Corregedoria Setorial,01.03.00.00.0.0,205,16,1
+131,Departamento de Material e Patrimônio,01.18.00.00.0.0,205,16,1
+159,Gabinete do Reitor,01.01.00.00.0.0,205,16,1
+198,Procuradoria Federal Junto à Universidade Federal de Santa Maria,01.24.00.00.0.0,205,16,1
+113,Centro de Processamento de Dados,01.31.00.00.0.0,205,17,1
+2223,Departamento de Arquivo Geral,01.84.00.00.0.0,205,17,1
+286,Editora,01.15.00.00.0.0,205,17,1
+6612,"Parque de Inovação, Ciência e Tecnologia",01.28.03.00.0.0,205,17,1
+4277,Núcleo de Informática - CS,31.22.00.00.0.0,4051,11,99
+4278,Restaurante Universitário - CS,31.23.00.00.0.0,4051,11,99
+4602,Gabinete de Projetos - PM,32.13.00.00.0.0,4564,11,99
+508,Gabinete de Projetos - CCS,04.25.00.00.0.0,88,10,99
+4561,Unidade de Apoio Pedagógico - CCS,04.29.00.00.0.0,88,10,99
+552,Gabinete de Projetos - CE,05.27.00.00.0.0,94,10,99
+554,Laboratório Pesquisa Documentação Educação Brasileira,05.30.00.00.0.0,94,10,99
+3258,Gabinete de Projetos - CTISM,25.09.00.00.0.0,2732,10,99
+4272,Gabinete de Projetos - CS,31.20.00.00.0.0,4051,10,99
+1304,Secretaria Depto Análises Clínicas e Toxicológicas,04.30.00.01.0.0,88,13,99
+519,Secretaria Depto Fisioterapia e Reabilitação,04.37.00.01.0.0,88,13,99
+1776,Secretaria do Programa Pg Ciências Farmacêuticas,04.10.14.00.1.0,88,13,99
+3617,Secretaria do Programa Pg em Farmacologia,04.10.16.00.1.0,88,13,99
+4245,Secretaria Programa Pg Ciências Saúde - Mestrado Profissional,04.10.23.00.1.0,88,13,99
+1252,Secretaria Depto Fundamentos da Educação,05.22.00.01.0.0,94,13,99
+3607,Secretaria do Curso de Licenciatura Educação Especial - Noturno,05.09.09.00.1.0,94,13,99
+4577,Secretaria dos Departamentos-PM,32.16.00.00.0.0,4564,13,99
+5875,Secretaria dos Programas de Pós-Graduação - PM,32.23.00.00.0.0,4564,13,99
+5365,Núcleo de Execução e Controle Orçamentário - CCS,04.04.07.00.0.0,88,14,99
+4522,Núcleo de Patrimônio - CCS,04.04.06.00.0.0,88,14,99
+1230,Secretaria de Apoio Administrativo - CCS,04.04.00.00.0.0,88,14,99
+4528,Núcleo de Execução e Controle Orçamentário - CE,05.04.05.00.0.0,94,14,99
+5956,Coordenadoria de Desenvolvimento Regional e Cidadania,01.07.05.00.0.0,205,14,99
+1115,Seção Administrativa - PROJUR,01.24.00.01.0.0,205,14,99
+2576,Setor de Planejamento Ambiental,01.11.03.04.0.0,205,14,99
+5960,Subdivisão de Ações Comunitárias,01.07.05.02.0.0,205,14,99
+5958,Subdivisão de Apoio a Projetos de Extensão,01.07.04.01.0.0,205,14,99
+5954,Subdivisão de Divulgação de Eventos,01.07.00.05.0.0,205,14,99
+2787,Assistente de Direção - CTISM,25.08.00.00.0.0,2732,14,99
+2745,Coordenação de Registros Escolares,25.04.00.02.0.0,2732,14,99
+2736,Departamento Administrativo,25.03.00.00.0.0,2732,14,99
+2747,Laboratório de Manutenção em Informática,25.05.02.00.0.0,2732,14,99
+2740,Secretaria Administrativa - CTISM,25.03.01.00.0.0,2732,14,99
+2743,Setor de Compras - CTISM,25.03.04.00.0.0,2732,14,99
+2742,Setor de Patrimônio - CTISM,25.03.03.00.0.0,2732,14,99
+4081,Coordenação Administrativa - CS,31.05.00.00.0.0,4051,14,99
+4274,Secretaria de Pesquisa e Extensão - CS,31.17.00.01.0.0,4051,14,99
+4080,Secretaria do Campus em Cachoeira do Sul,31.04.00.00.0.0,4051,14,99
+5870,Núcleo de Controle Orçamentário - PM,32.06.00.00.0.0,4564,14,99
+5873,Secretaria da Direção - PM,32.14.00.00.0.0,4564,14,99
+6788,Núcleo de Gestão Orçamentária do CAL,08.08.00.00.0.0,78,14,1
+6779,Secretaria Administrativa do CAL,08.06.00.00.0.0,78,14,1
+6780,Secretaria Integrada de Cursos de Graduação I do CAL,08.06.01.00.0.0,78,14,1
+6781,Secretaria Integrada de Cursos de Graduação II do CAL,08.06.02.00.0.0,78,14,1
+6783,Secretaria Integrada de Departamentos do CAL,08.06.04.00.0.0,78,14,1
+6784,Subdivisão de Comunicação do CAL,08.06.05.00.0.0,78,14,1
+6790,Subdivisão de Projetos do CAL,08.16.00.00.0.0,78,14,1
+6271,Subdivisão de Comunicação do CCNE,02.06.05.00.0.0,82,14,1
+6543,Núcleo de Gestão Orçamentária do CCR,03.07.00.00.0.0,85,14,1
+6540,Núcleo de Infraestrutura do CCR,03.06.00.00.0.0,85,14,1
+6534,Secretaria Administrativa do CCR,03.05.00.00.0.0,85,14,1
+6535,Secretaria Integrada dos Cursos de Graduação Sig-Vaz/CCR,03.05.01.00.0.0,85,14,1
+6541,Subdivisão de Patrimônio do CCR,03.06.01.00.0.0,85,14,1
+6545,Subdivisão de Projetos do CCR,03.11.00.00.0.0,85,14,1
+6542,Subdivisão de Tecnologia da Informação do CCR,03.06.02.00.0.0,85,14,1
+6234,Divisão de Apoio Administrativo Às Ciências da Comunicação,06.14.07.00.0.0,91,14,1
+6240,Núcleo de Gestão Orçamentária do CCSH,06.16.00.00.0.0,91,14,1
+6221,Secretaria Administrativa do CCSH,06.14.00.00.0.0,91,14,1
+6231,Secretaria Integrada de Departamentos do CCSH,06.14.05.00.0.0,91,14,1
+6226,Secretaria Integrada dos Cursos de Graduação do CCSH III,06.14.03.00.0.0,91,14,1
+6232,Subdivisão de Concursos e Promoções do CCSH,06.14.05.01.0.0,91,14,1
+6233,Subdivisão de Comunicação do CCSH,06.14.06.00.0.0,91,14,1
+6230,Subdivisão de Controle Financeiro das Pós-Graduações do CCSH,06.14.04.02.0.0,91,14,1
+6227,Subdivisão de Estágios do CCSH III,06.14.03.01.0.0,91,14,1
+6235,Subdivisão de Estágios do CCSH Iv,06.14.07.01.0.0,91,14,1
+6242,Subdivisão de Projetos do CCSH,06.18.00.00.0.0,91,14,1
+6257,Núcleo de Gestão Orçamentária do CEFD,09.08.00.00.0.0,97,14,1
+6254,Núcleo de Infraestrutura do CEFD,09.07.00.00.0.0,97,14,1
+6249,Secretaria Administrativa do CEFD,09.06.00.00.0.0,97,14,1
+6252,Secretaria Integrada de Departamentos do CEFD,09.06.03.00.0.0,97,14,1
+6251,Secretaria Integrada dos Cursos de Pós-Graduação do CEFD,09.06.02.00.0.0,97,14,1
+6260,Setor de Apoio Pedagógico do CEFD,09.23.00.00.0.0,97,14,1
+6259,Subdivisão de Apoio Às Atividades Acadêmico-Científicas,09.22.00.00.0.0,97,14,1
+6311,Núcleo de Gestão Orçamentária do CT,07.08.00.00.0.0,117,14,1
+6308,Núcleo de Infraestrutura do CT,07.07.00.00.0.0,117,14,1
+6294,Secretaria Administrativa do CT,07.06.00.00.0.0,117,14,1
+6299,Secretaria Integrada dos Cursos de Graduação do CT II,07.06.02.00.0.0,117,14,1
+6312,Setor de Apoio Pedagógico do CT,07.13.00.00.0.0,117,14,1
+6318,Subdivisão de Gestão de Qualidade,07.16.00.00.0.0,117,14,1
+2686,Coordenação de Licitações,01.18.04.00.0.0,205,14,1
+6059,Coordenadoria de Ações Educacionais,01.08.14.00.0.0,205,14,1
+5955,Coordenadoria de Articulação e Fomento à Extensão,01.07.04.00.0.0,205,14,1
+3529,Coordenadoria de Concursos,01.26.03.00.0.0,205,14,1
+6622,Coordenadoria de Empreendedorismo,01.28.05.00.0.0,205,14,1
+3530,"Coordenadoria de Ingresso, Mobilidade e Desenvolvimento",01.26.04.00.0.0,205,14,1
+2557,Coordenadoria de Obras e Planejamento Ambiental e Urbano,01.11.03.00.0.0,205,14,1
+6056,Coordenadoria de Oferta e Relacionamento,01.08.13.00.0.0,205,14,1
+281,Coordenadoria de Planejamento Administrativo,01.10.01.00.0.0,205,14,1
+1175,Coordenadoria de Planejamento Econômico,01.10.02.00.0.0,205,14,1
+285,Coordenadoria de Planejamento Informacional,01.10.04.00.0.0,205,14,1
+1091,Coordenadoria de Projetos e Convênios,01.10.05.00.0.0,205,14,1
+6053,Coordenadoria de Registro e Matrículas,01.08.12.00.0.0,205,14,1
+3531,Coordenadoria de Saúde e Qualidade Vida do Servidor,01.26.05.00.0.0,205,14,1
+6618,Coordenadoria de Transferência de Tecnologia e Propriedade Intelectual,01.28.04.00.0.0,205,14,1
+3528,Coordenadoria do Sistema de Pagamentos,01.26.02.00.0.0,205,14,1
+2598,Coordenadoria Planejamento e Avaliação Institucional,01.10.06.00.0.0,205,14,1
+123,Divisão Análise e Desenvolvimento de Sistemas,01.31.02.00.0.0,205,14,1
+6302,Subdivisão de Pós-Graduação do CT I,07.06.04.01.0.0,117,14,1
+6313,Subdivisão de Projetos do CT,07.14.00.00.0.0,117,14,1
+361,Almoxarifado dos Rus,01.35.01.01.0.0,205,14,1
+2700,Coordenação de Análise Contábil,01.12.01.00.0.0,205,14,1
+2701,Divisão de Administração Financeira,01.12.01.01.0.0,205,14,1
+294,Divisão de Almoxarifado Central,01.18.03.00.0.0,205,14,1
+9,Divisão de Apoio ao Usuário,01.31.03.00.0.0,205,14,1
+2702,Divisão de Contabilidade,01.12.01.02.0.0,205,14,1
+1147,Divisão de Patrimônio,01.18.02.00.0.0,205,14,1
+2224,Divisão de Protocolo,01.84.01.00.0.0,205,14,1
+137,Divisão de Suporte,01.31.01.00.0.0,205,14,1
+290,"Divisão Material, Editais, Contratos e Importações",01.18.01.00.0.0,205,14,1
+5961,Incubadora Social,01.07.08.02.0.0,205,14,1
+6564,Núcleo Administrativo de Apoio à Regulamentação em Pesquisa,01.09.22.00.0.0,205,14,1
+1128,Núcleo Agência Notícias,01.75.00.05.0.0,205,14,1
+1405,Núcleo de Administração Financeira,01.05.01.01.0.0,205,14,1
+6619,Núcleo de Apoio a Projetos,01.28.04.01.0.0,205,14,1
+6677,Núcleo de Apoio Administrativo-Orçamentário da Correg,01.03.01.00.0.0,205,14,1
+6617,Núcleo de Apoio Administrativo-Orçamentário da PROINOVA,01.28.06.00.0.0,205,14,1
+6563,Núcleo de Apoio Administrativo-Orçamentário da PRPGP,01.09.21.00.0.0,205,14,1
+6569,Núcleo de Apoio à Pesquisa e Estruturas Multiusuárias,01.09.25.03.0.0,205,14,1
+5953,Núcleo de Apoio Orçamentário,01.07.00.04.0.0,205,14,1
+3540,Núcleo de Atendimento e Controle Orçamentário,01.26.02.01.0.0,205,14,1
+3537,Núcleo de Avaliação e Movimentação Funcional,01.26.04.03.0.0,205,14,1
+3543,Núcleo de Cadastro,01.26.01.01.0.0,205,14,1
+3546,Núcleo de Concessões,01.26.01.04.0.0,205,14,1
+3545,Núcleo de Pensão e Aposentadoria,01.26.01.03.0.0,205,14,1
+2687,Núcleo de Pregões,01.18.04.01.0.0,205,14,1
+3850,Núcleo de Prevenção de Incêndios,01.11.03.06.0.0,205,14,1
+3542,Núcleo de Processos Judiciais,01.26.02.03.0.0,205,14,1
+3532,Núcleo de Promoção de Saúde do Trabalho,01.26.05.01.0.0,205,14,1
+6621,Núcleo de Propriedade Intelectual,01.28.04.03.0.0,205,14,1
+6620,Núcleo de Prospecção e Valoração,01.28.04.02.0.0,205,14,1
+6058,Núcleo de Relacionamento Acadêmico,01.08.13.02.0.0,205,14,1
+3533,Núcleo de Segurança no Trabalho,01.26.05.02.0.0,205,14,1
+1120,Núcleo Tv Universitária,01.75.00.02.0.0,205,14,1
+3538,Núcleo de Concursos de Docentes,01.26.03.01.0.0,205,14,1
+3539,Núcleo de Concursos de Técnico-Administrativos,01.26.03.02.0.0,205,14,1
+6555,Núcleo de Controle Acadêmico da Pós-Graduação,01.09.01.04.0.0,205,14,1
+3541,Núcleo de Controle e Manutenção do Sistema de Pagamentos,01.26.02.02.0.0,205,14,1
+6556,Núcleo de Criação e Acompanhamento de Cursos de Pós-Graduação,01.09.01.05.0.0,205,14,1
+3536,Núcleo de Educação e Desenvolvimento,01.26.04.02.0.0,205,14,1
+4492,Núcleo de Fiscalização de Contratos,01.11.01.05.0.0,205,14,1
+6568,Núcleo de Gerência de Iniciação Científica,01.09.25.02.0.0,205,14,1
+6616,Núcleo de Gestão de Incubadoras Tecnológicas,01.28.03.04.0.0,205,14,1
+6615,Núcleo de Gestão de Infraestrutura e Patrimônio,01.28.03.03.0.0,205,14,1
+6571,Núcleo de Gestão de Programas Estratégicos,01.09.26.01.0.0,205,14,1
+6057,Núcleo de Oferta de Disciplinas,01.08.13.01.0.0,205,14,1
+5962,Observatório de Direitos Humanos,01.07.08.03.0.0,205,14,1
+5969,Orquestra,01.07.06.03.0.0,205,14,1
+2657,Ouvidoria,01.01.15.00.0.0,205,14,1
+3523,Secretaria Administrativa - PROGEP,01.26.00.02.0.0,205,14,1
+1174,Secretaria Apoio Administrativo - PROPLAN,01.10.00.02.0.0,205,14,1
+210,Secretaria dos Conselhos,01.40.00.00.0.0,205,14,1
+2554,Secretaria Geral - PROINFRA,01.11.00.02.0.0,205,14,1
+4301,Secretaria Técnica de Pessoal Docente,01.26.00.06.0.0,205,14,1
+295,"Seção Administrativa, Processamento e Arquivo-DEMAPA",01.18.03.01.0.0,205,14,1
+296,"Seção Controle Estoque, Recepção e Expedição-DEMAPA",01.18.03.02.0.0,205,14,1
+354,Seção de Análise,01.31.02.01.0.0,205,14,1
+2703,Seção de Análise e Execução Orçamentária,01.12.01.02.1.0,205,14,1
+265,Seção de Bolsas,01.06.00.03.0.0,205,14,1
+2905,Seção de Contabilidade - RU,01.35.04.00.0.0,205,14,1
+2705,Seção de Convênios,01.12.01.02.3.0,205,14,1
+2230,Seção de Movimentação,01.84.01.02.0.0,205,14,1
+2231,Seção de Processamento Técnico e Pesquisas,01.84.03.01.0.0,205,14,1
+355,Seção de Programação,01.31.02.02.0.0,205,14,1
+2707,Seção de Recebimentos e Pagamentos,01.12.01.01.3.0,205,14,1
+353,Seção de Rede,01.31.01.01.0.0,205,14,1
+2229,Seção de Registro e Controle,01.84.01.01.0.0,205,14,1
+293,"Seção de Registro, Tombamento e Baixa",01.18.02.01.0.0,205,14,1
+6593,Secretaria Integrada de Cursos de Pós-Graduação/FW,33.06.02.00.0.0,4634,14,1
+6591,Secretaria Unificada de Departamentos/FW,33.05.05.00.0.0,4634,14,1
+6581,Setor de Tecnologia da Informação/FW,33.05.03.00.0.0,4634,14,1
+291,Seção Elaboração Atos Convocatórios e Contratos-DEMAPA,01.18.01.01.0.0,205,14,1
+2708,Seção Financeira,01.12.01.01.2.0,205,14,1
+2558,Setor Administrativo - COPA,01.11.03.01.0.0,205,14,1
+3324,Setor de Apoio Administrativo - PROPLAN,01.10.00.04.0.0,205,14,1
+2569,Setor de Hidráulica e Saneamento,01.11.02.03.0.0,205,14,1
+2685,Setor de Importações,01.18.00.04.0.0,205,14,1
+2577,Setor de Planejamento Urbano,01.11.03.05.0.0,205,14,1
+6062,"Subdivisão de Ações Afirmativas, Sociais, Étnico-Raciais e Indígenas",01.08.14.03.0.0,205,14,1
+6061,Subdivisão de Apoio à Aprendizagem,01.08.14.02.0.0,205,14,1
+5959,Subdivisão de Geoparque,01.07.07.01.0.0,205,14,1
+6696,Subdivisão de Perícia Oficial em Saúde,01.26.05.03.0.0,205,14,1
+4640,Departamento de Administração - UEIIA,29.03.00.00.0.0,3202,14,1
+6583,Coordenadoria Acadêmica/FW,33.06.00.00.0.0,4634,14,1
+6578,Coordenadoria Administrativa/FW,33.05.00.00.0.0,4634,14,1
+6587,Divisão de Divulgação Institucional/FW,33.34.00.00.0.0,4634,14,1
+6588,Divisão de Projetos/FW,33.35.00.00.0.0,4634,14,1
+6579,Núcleo de Gestão Orçamentária/FW,33.05.01.00.0.0,4634,14,1
+6580,Núcleo de Infraestrutura e Patrimônio/FW,33.05.02.00.0.0,4634,14,1
+6594,Secretaria Administrativa/FW,33.37.00.00.0.0,4634,14,1
+6582,Subdivisão de Assistência à Saúde/FW,33.05.04.00.0.0,4634,14,1
+4564,Campus da Universidade Federal de Santa Maria em Palmeira das Missões,32.00.00.00.0.0,4564,26,1
+143,Departamento de Enfermagem,04.33.00.00.0.0,88,4,1
+215,Departamento de Estomatologia,04.34.00.00.0.0,88,4,1
+1320,Secretaria Depto Clínica Médica,04.32.00.01.0.0,88,13,99
+1315,Secretaria Depto Ginecologia e Obstetrícia,04.38.00.01.0.0,88,13,99
+5874,Secretaria dos Cursos de Graduação - PM,32.22.00.00.0.0,4564,13,99
+3830,Secretaria Esp. Grad.Formação Profes. Educ. Profissional,05.10.13.00.1.0,94,13,1
+5273,Setor de Transporte,26.03.09.00.0.0,2712,14,99
+2748,Secretaria do Depto de Relações Empresariais,25.06.00.01.0.0,2732,14,99
+5869,Núcleo de Tecnologia de Informação - PM,32.05.00.00.0.0,4564,14,99
+6782,Secretaria Integrada de Cursos de Pós-Graduação do CAL,08.06.03.00.0.0,78,14,1
+6791,Subdivisão de Apoio As Atividades Acadêmico-Científicas do CAL,08.17.00.00.0.0,78,14,1
+6284,Setor de Apoio Pedagógico do CCNE,02.11.00.00.0.0,82,14,1
+6536,Secretaria Integrada dos Cursos de Graduação Sig-Afa/CCR,03.05.02.00.0.0,85,14,1
+6538,Secretaria Integrada dos Departamentos do CCR,03.05.04.00.0.0,85,14,1
+6544,Setor de Apoio Pedagógico do CCR,03.08.00.00.0.0,85,14,1
+6539,Subdivisão de Comunicação do CCR,03.05.05.00.0.0,85,14,1
+6261,Subdivisão de Projetos do CEFD,09.24.00.00.0.0,97,14,1
+6256,Subdivisão de Tecnologia da Informação do CEFD,09.07.02.00.0.0,97,14,1
+6320,Laboratório de Engenharia e Processos Químicos,07.81.00.00.0.0,117,14,1
+1167,Coordenadoria de Apoio Organizações Comunitárias,01.06.01.00.0.0,205,14,1
+3527,Coordenadoria de Concessões e Registros,01.26.01.00.0.0,205,14,1
+2226,Divisão de Apoio Técnico Aos Arquivos Setoriais,01.84.02.00.0.0,205,14,1
+5965,Divisão de Museus,01.07.06.02.0.0,205,14,1
+6054,Núcleo de Matrículas e Fiscalização de Documentos,01.08.12.01.0.0,205,14,1
+1123,Núcleo Rádio Universidade,01.75.00.03.0.0,205,14,1
+5966,Planetário,01.07.06.02.1.0,205,14,1
+2706,Protocolo e Arquivo - DCF,01.12.01.01.1.0,205,14,1
+2704,Seção de Contabilidade,01.12.01.02.2.0,205,14,1
+6060,Subdivisão de Acessibilidade,01.08.14.01.0.0,205,14,1
+6678,Subdivisão de Análise Preliminar e de Medidas Alternativas,01.03.02.00.0.0,205,14,1
+6055,Subdivisão de Registro de Documentos,01.08.12.02.0.0,205,14,1
+6592,Secretaria Unificada de Cursos de Graduação/FW,33.06.01.00.0.0,4634,14,1
+88,Centro de Ciências da Saúde,04.00.00.00.0.0,88,26,1
+4836,Departamento de Saúde Coletiva,04.75.00.00.0.0,88,4,1
+4600,Biblioteca Setorial - PM,32.31.00.00.0.0,4564,11,99
+2739,Departamento de Relações Empresariais,25.06.00.00.0.0,2732,14,99
+6537,Secretaria Integrada dos Cursos de Pós-Graduação do CCR,03.05.03.00.0.0,85,14,1
+4642,Setor de Nutrição - UEIIA,29.03.02.00.0.0,3202,14,1
+190,Departamento de Odontologia Restauradora,04.42.00.00.0.0,88,4,1
+1327,Secretaria do Curso de Medicina,04.09.05.00.1.0,88,13,99
+6321,Instituto de Redes Inteligentes,07.82.00.00.0.0,117,14,99
+5872,Núcleo de Patrimônio - PM,32.08.00.00.0.0,4564,14,99
+4271,Biblioteca - CS,31.19.00.00.0.0,4051,10,99
+6683,Núcleo de Assistência Aos Estudantes e Servidores,31.25.00.00.0.0,4051,10,99
+2360,Secretaria do Programa Pg em Enfermagem,04.10.19.00.1.0,88,13,99
+560,Secretaria Curso-Programa Pg em Educação,05.10.03.00.1.0,94,13,99
+2396,Secretaria do Curso de Pedagogia Licenciatura Plena Diurno,05.09.07.00.1.0,94,13,99
+2415,Secretaria do Curso de Pedagogia Licenciatura Plena Noturno,05.09.06.00.1.0,94,13,99
+3829,Secretaria Pg Mestrado Prof. Tecnologias Educacionais em Rede,05.10.16.00.1.0,94,13,99
+4660,Secretaria Pg Políticas Públicas e Gestão Educacional,05.10.20.00.1.0,94,13,99
+4527,Núcleo de Comunicação Institucional - CE,05.04.04.00.0.0,94,14,99
+4526,Núcleo de Infraestrutura - CE,05.04.03.00.0.0,94,14,99
+3945,Núcleo de Patrimônio - CE,05.04.02.00.0.0,94,14,99
+1232,Secretaria do Centro - CE,05.04.00.00.0.0,94,14,99
+2717,Departamento de Administração,26.03.00.00.0.0,2712,14,99
+5871,Núcleo de Infraestrutura Física - PM,32.07.00.00.0.0,4564,14,99
+6283,Núcleo de Gestão Orçamentária do CCNE,02.08.00.00.0.0,82,14,1
+6266,Secretaria Integrada dos Cursos de Graduação das Ciências Naturais,02.06.01.00.0.0,82,14,1
+6238,Subdivisão de Patrimônio do CCSH,06.15.01.00.0.0,91,14,1
+6565,Biotério Central,01.09.23.00.0.0,205,14,1
+71,Departamento de Biologia,02.30.00.00.0.0,82,4,1
+4567,Vice-Direção do Campus de Palmeira das Missões,32.03.00.00.0.0,4564,27,1
+207,Restaurante Universitario,01.35.00.00.0.0,205,17,1
+556,Biblioteca Setorial - CE,05.32.00.00.0.0,94,11,99
+6268,Secretaria Integrada dos Cursos de Pós-Graduação do CCNE,02.06.03.00.0.0,82,14,1
+6269,Subdivisão de Gestão de Relatórios Institucionais,02.06.03.01.0.0,82,14,1
+6286,Subdivisão de Projetos do CCNE,02.12.00.00.0.0,82,14,1
+6222,Secretaria Integrada dos Cursos de Graduação do CCSH I,06.14.01.00.0.0,91,14,1
+6241,Setor de Apoio Pedagógico do CCSH,06.17.00.00.0.0,91,14,1
+6301,Secretaria Integrada dos Cursos de Pós-Graduação do CT,07.06.04.00.0.0,117,14,1
+6307,Subdivisão de Comunicação do CT,07.93.00.00.0.0,117,14,1
+5968,Museu Gama D'Eça,01.07.06.02.2.0,205,14,1
+3207,Núcleo de Atenção ao Estudante,01.06.00.04.0.0,205,14,1
+5963,Núcleo de Gestão Artística e Cultural,01.07.06.01.0.0,205,14,1
+3620,Seção de Gestão dos Arquivos Setoriais,01.84.02.01.0.0,205,14,1
+6052,Subdivisão de Educação a Distância,01.08.11.02.0.0,205,14,1
+6051,Subdivisão de Tecnologias Educacionais em Rede,01.08.11.01.0.0,205,14,1
+5062,Unidade de Comunicação Integrada,01.10.04.01.0.0,205,14,1
+149,Departamento de Farmácia Industrial,04.35.00.00.0.0,88,4,1
+5439,Farmácia Escola,04.21.00.00.0.0,88,11,1
+6063,Biblioteca Central,01.08.15.00.0.0,205,10,1
+4837,Secretaria Depto de Saúde Coletiva,04.75.00.01.0.0,88,13,99
+5387,Secretaria do Curso de Farmácia,04.09.08.00.1.0,88,13,99
+1254,Secretaria Depto Educação Especial,05.24.00.01.0.0,94,13,99
+557,Secretaria Biblioteca - CE,05.32.00.01.0.0,94,13,99
+4611,Secretaria Curso-Programa Pg Mestrado Profissional Profhistória,05.10.18.00.1.0,94,13,99
+6050,Coordenadoria de Tecnologia Educacional,01.08.11.00.0.0,205,14,1
+6043,Núcleo de Apoio Administrativo-Orçamentário,01.08.00.03.0.0,205,14,1
+6044,Núcleo de Avaliação Externa e Regulação,01.08.00.04.0.0,205,14,1
+6045,"Núcleo de Estratégia, Controle e Projetos Acadêmicos",01.08.01.01.0.0,205,14,1
+6048,Núcleo de Formação Inicial e Continuada,01.08.10.01.0.0,205,14,1
+6049,Núcleo de Projetos Pedagógicos,01.08.10.02.0.0,205,14,1
+6554,Núcleo de Seleção e Bolsas da Pós-Graduação,01.09.01.03.0.0,205,14,1
+2562,Setor Administrativo - CSG,01.11.01.01.0.0,205,14,1
+4907,Secretaria Executiva - Silveira Martins,01.79.03.01.0.0,205,14,99
+5286,Núcleo de Acompanhamento de Egressos,26.04.00.10.0.0,2712,14,99
+6291,Jardim Botânico,02.15.00.00.0.0,82,14,1
+6285,Subdivisão de Gestão de Estágios do CCNE,02.11.01.00.0.0,82,14,1
+6549,Biblioteca Setorial do CCR,03.12.00.00.0.0,85,14,1
+6236,Núcleo de Infraestrutura do CCSH,06.15.00.00.0.0,91,14,1
+6255,Subdivisão de Patrimônio do CEFD,09.07.01.00.0.0,97,14,1
+6319,Laboratório de Ciências da Computação,07.80.00.00.0.0,117,14,1
+6306,Secretaria Integrada de Departamentos do CT,07.06.05.00.0.0,117,14,1
+6304,Subdivisão de Pós-Graduação do CT III,07.06.04.03.0.0,117,14,1
+6305,Subdivisão de Pós-Graduação do CT Iv,07.06.04.04.0.0,117,14,1
+6310,Subdivisão de Tecnologia da Informação do CT,07.94.00.00.0.0,117,14,1
+2560,Coordenadoria de Manutenção,01.11.02.00.0.0,205,14,1
+2561,Coordenadoria de Serviços Gerais,01.11.01.00.0.0,205,14,1
+6066,Setor de Referência,01.08.15.02.0.0,205,14,1
+6068,Subdivisão de Serviços à Pesquisa e Produção Institucional Científica,01.08.15.02.2.0,205,14,1
+2718,Departamento de Ensino,26.04.00.00.0.0,2712,4,99
+182,Departamento de Medicina Veterinária Preventiva,03.37.00.00.0.0,85,4,1
+1719,"Núcleo Integrado de Ensino, Pesquisa e Extensão",05.36.00.00.0.0,94,11,99
+6785,Núcleo de Infraestrutura do CAL,08.07.00.00.0.0,78,14,1
+6550,Hospital Veterinário Universitário,03.68.00.00.0.0,85,14,1
+6245,Biblioteca Setorial do CCSH,06.20.00.00.0.0,91,14,1
+6322,Laboratório de Tecnologia Mecânica e Aeroespacial,07.83.00.00.0.0,117,14,1
+6298,Secretaria Integrada dos Cursos de Graduação do CT I,07.06.01.00.0.0,117,14,1
+6570,Coordenadoria de Ações e Programas Estratégicos,01.09.26.00.0.0,205,14,1
+2227,Divisão de Arquivo Permanente,01.84.03.00.0.0,205,14,1
+6064,Núcleo de Aquisição,01.08.15.01.0.0,205,14,1
+6065,Subdivisão de Processos Técnicos,01.08.15.01.1.0,205,14,1
+154,Departamento de Fitotecnia,03.36.00.00.0.0,85,4,1
+216,Departamento de Tecnologia e Ciência Alimentos,03.39.00.00.0.0,85,4,1
+2002,Departamento de Fonoaudiologia,04.61.00.00.0.0,88,4,1
+1329,Secretaria Programa de Residência Médica,04.10.02.00.1.0,88,13,99
+6270,Secretaria Integrada de Departamentos do CCNE,02.06.04.00.0.0,82,14,1
+6067,Subdivisão de Periódicos,01.08.15.02.1.0,205,14,1
+4083,Coordenação Acadêmica - CS,31.06.00.00.0.0,4051,4,99
+4649,Unidade de Tecnologia de Informação - Lince - CE,05.14.00.00.0.0,94,10,99
+6323,Laboratório de Elétrica e Eletrônica,07.84.00.00.0.0,117,14,1
+6915,Núcleo de Apoio Jurídico,01.24.01.00.0.0,205,14,1
+6919,Subdivisão de Divulgação e Editoração,01.07.04.03.0.0,205,14,1
+1166,Assistente - PRAE,01.06.00.01.0.0,205,24,1
+1253,Secretaria Depto Metodologia do Ensino,05.23.00.01.0.0,94,13,99
+4046,Departamento de Bioquímica e Biologia Molecular,02.71.00.00.0.0,82,4,1
+156,Departamento de Geociências,02.33.00.00.0.0,82,4,1
+2738,Departamento Técnico,25.05.00.00.0.0,2732,14,99
+6786,Subdivisão de Patrimônio do CAL,08.07.01.00.0.0,78,14,1
+6263,Secretaria Administrativa do CCNE,02.06.00.00.0.0,82,14,1
+2732,Colégio Técnico Industrial de Santa Maria,25.00.00.00.0.0,2732,26,1
+194,Pró-Reitoria de Assuntos Estudantis,01.06.00.00.0.0,205,15,1
+4833,Unidade de Apoio Pedagógico - Rede Integrare-CE,05.28.00.00.0.0,94,10,99
+6303,Subdivisão de Pós-Graduação do CT II,07.06.04.02.0.0,117,14,1
+1155,Assessor - GR,01.01.06.00.0.0,205,24,1
+220,Departamento de Zootecnia,03.40.00.00.0.0,85,4,1
+177,Departamento de Morfologia,04.40.00.00.0.0,88,4,1
+3970,Departamento de Terapia Ocupacional,04.72.00.00.0.0,88,4,1
+4605,Núcleo de Apoio Pedagógico - PM,32.12.00.00.0.0,4564,10,99
+6250,Secretaria Integrada dos Cursos de Graduação do CEFD,09.06.01.00.0.0,97,14,1
+6290,Centro de Apoio à Pesquisa Paleontológica,02.14.00.00.0.0,82,14,1
+6272,Subdivisão de Acompanhamento e Apoio à Gestão de Pessoas,02.06.06.00.0.0,82,14,1
+6787,Subdivisão de Tecnologia da Informação do CAL,08.07.02.00.0.0,78,14,1
+6228,Secretaria Integrada dos Cursos de Pós-Graduação do CCSH,06.14.04.00.0.0,91,14,1
+6324,Laboratório de Materiais e Construção Civil,07.85.00.00.0.0,117,14,1
+6046,Núcleo de Ingresso e Seleção Acadêmicos,01.08.01.02.0.0,205,14,1
+6923,Coordenadoria de Cidadania,01.07.08.00.0.0,205,14,1
+6920,Coordenadoria de Desenvolvimento Regional,01.07.07.00.0.0,205,14,1
+6922,Secretaria Executiva do Espaço Multidisciplinar Silveira Martins,01.07.07.02.1.0,205,14,1
+6918,Subdivisão de Inserção da Extensão Nos Cursos,01.07.04.02.0.0,205,14,1
+6229,Subdivisão de Avaliação e Divulgação das Pós-Graduações do CCSH,06.14.04.01.0.0,91,14,1
+6913,Instituto de Energia e Mobilidade,07.91.00.00.0.0,117,14,1
+6916,Subdivisão de Protocolo,01.24.02.00.0.0,205,14,1
+3051,Departamento de Desenho Industrial,08.58.00.00.0.0,78,4,1
+178,Departamento de Microbiologia e Parasitologia,04.39.00.00.0.0,88,4,1
+201,Departamento de Psicologia,06.41.00.00.0.0,91,4,1
+4519,Núcleo de Infraestrutura - CCS,04.04.03.00.0.0,88,14,99
+6925,Casa Verônica,01.07.08.03.1.0,205,14,1
+6926,Complexo Multicultural Antiga REITORIA,01.07.08.01.0.0,205,14,1
+151,Departamento de Física,02.32.00.00.0.0,82,4,1
+6945,Clínica de Odontologia,04.17.00.00.0.0,88,14,1
+6937,Núcleo de Gestão Orçamentária do CCS,04.08.00.00.0.0,88,14,1
+6938,Núcleo de Infraestrutura do CCS,04.11.00.00.0.0,88,14,1
+6931,Secretaria Administrativa do CCS,04.06.00.00.0.0,88,14,1
+7020,Setor de Comunicação do Campus/CS,31.16.00.00.0.0,4051,14,1
+7025,Subdivisão de Assistência à Saúde e Qualidade de Vida do Campus/CS,31.08.04.00.0.0,4051,14,1
+6932,Secretaria Integrada de Cursos de Graduação I do CCS,04.06.01.00.0.0,88,14,1
+6933,Secretaria Integrada de Cursos de Graduação II do CCS,04.06.02.00.0.0,88,14,1
+6934,Secretaria Integrada de Cursos de Pós-Graduação do CCS,04.06.03.00.0.0,88,14,1
+6935,Secretaria Integrada de Departamentos do CCS,04.06.04.00.0.0,88,14,1
+6941,Setor de Apoio Pedagógico do CCS,04.12.00.00.0.0,88,14,1
+6936,Subdivisão de Comunicação do CCS,04.07.00.00.0.0,88,14,1
+6939,Subdivisão de Patrimônio do CCS,04.11.01.00.0.0,88,14,1
+6942,Subdivisão de Projetos do CCS,04.14.00.00.0.0,88,14,1
+6996,Núcleo Integrado de Mobilidade e Internacionalização,01.04.02.10.0.0,205,14,1
+6994,Setor de Acompanhamento Administrativo e Orçamentário,01.04.01.00.0.0,205,14,1
+6947,Subdivisão de Residências do CCS,04.19.00.00.0.0,88,14,1
+6317,Biblioteca Setorial do CT,07.15.00.00.0.0,117,14,1
+7016,Biblioteca Fora de Sede do Campus/CS,31.14.00.00.0.0,4051,14,1
+7010,Coordenadoria Acadêmica do Campus/CS,31.11.00.00.0.0,4051,14,1
+7023,Divisão de Gestão de Laboratórios do Campus/CS,31.11.04.00.0.0,4051,14,1
+7024,Divisão de Projetos do Campus/CS,31.11.02.01.0.0,4051,14,1
+7017,Núcleo de Assistência Estudantil do Campus/CS,31.15.00.00.0.0,4051,14,1
+7012,Núcleo de Gestão Orçamentária do Campus/CS,31.08.02.00.0.0,4051,14,1
+7013,Núcleo de Tecnologia da Informação do Campus/CS,31.08.03.00.0.0,4051,14,1
+7015,Secretaria Administrativa do Campus/CS,31.13.00.00.0.0,4051,14,1
+7045,Biblioteca Fora de Sede/PM,32.38.00.00.0.0,4564,14,1
+7031,Coordenadoria Administrativa/PM,32.33.00.00.0.0,4564,14,1
+7040,Divisão de Apoio Pedagógico/PM,32.34.03.00.0.0,4564,14,1
+7046,Divisão de Projetos/PM,32.39.00.00.0.0,4564,14,1
+7044,Núcleo de Assistência Estudantil/PM,32.37.00.00.0.0,4564,14,1
+7032,Núcleo de Gestão Orçamentária/PM,32.33.01.00.0.0,4564,14,1
+7033,Núcleo de Infraestrutura e Patrimônio/PM,32.33.02.00.0.0,4564,14,1
+7042,Secretaria Administrativa/PM,32.35.00.00.0.0,4564,14,1
+7039,Secretaria Integrada dos Cursos de Pós-Graduação/PM,32.34.02.00.0.0,4564,14,1
+7038,Secretaria Unificada dos Cursos de Graduação/PM,32.34.01.00.0.0,4564,14,1
+7036,Secretaria Unificada dos Departamentos/PM,32.33.05.00.0.0,4564,14,1
+7034,Setor de Tecnologia de Informação/PM,32.33.03.00.0.0,4564,14,1
+7035,Subdivisão de Assistência à Saúde/PM,32.33.04.00.0.0,4564,14,1
+7041,Subdivisão de Gestão de Laboratórios/PM,32.34.04.00.0.0,4564,14,1
+7011,"Núcleo de Infraestrutura, Materiais e Patrimônio do Campus/CS",31.08.01.00.0.0,4051,1,1
+7043,Divisão de Divulgação Institucional/PM,32.36.00.00.0.0,4564,14,1
+2725,Coordenação da Cooperativa-Escola,26.04.00.03.0.0,2712,14,99
+7079,Biblioteca Setorial do CE,05.25.00.00.0.0,94,14,1
+7068,Divisão de Suporte de Sistemas Educacionais e Redes Digitais,05.16.00.00.0.0,94,14,1
+7077,Laboratório de Pesquisa e Documentação do CE,05.20.00.00.0.0,94,14,1
+7064,Núcleo de Execução e Controle Orçamentário do CE,05.08.00.00.0.0,94,14,1
+7065,Núcleo de Infraestrutura do CE,05.11.00.00.0.0,94,14,1
+7091,Secretaria Integrada dos Cursos de Educação Superior do CTISM,25.18.01.01.0.0,2732,14,1
+7055,Secretaria Administrativa do CE,05.07.00.00.0.0,94,14,1
+7062,Secretaria Integrada de Departamentos do CE,05.07.03.00.0.0,94,14,1
+7060,Secretaria Integrada de Graduação do CE,05.07.01.00.0.0,94,14,1
+7061,Secretaria Integrada de Pós-Graduação do CE,05.07.02.00.0.0,94,14,1
+7067,Setor de Apoio Pedagógico do CE,05.15.00.00.0.0,94,14,1
+7069,Subdivisão de Avaliação Setorial do CE,05.17.00.00.0.0,94,14,1
+7073,Subdivisão de Laboratórios e Núcleos do CE,05.19.00.00.0.0,94,14,1
+7066,Subdivisão de Patrimônio do CE,05.11.01.00.0.0,94,14,1
+7071,Subdivisão de Projetos do CE,05.18.00.00.0.0,94,14,1
+7063,Subdivisão de Comunicação do CE,05.07.04.00.0.0,94,14,1
+1117,Setor de Almoxarifado - IU,01.63.00.05.0.0,205,14,1
+165,Imprensa Universitária,01.63.00.00.0.0,205,17,1
+7088,Coordenadoria de Ensino do CTISM,25.18.00.00.0.0,2732,14,1
+7087,Divisão de Comunicação e Produção Audiovisual do CTISM,25.17.02.00.0.0,2732,14,1
+7096,Divisão de Manutenção e Suporte Técnico do CTISM,25.19.02.00.0.0,2732,14,1
+7097,Núcleo de Administração do CTISM,25.20.00.00.0.0,2732,14,1
+7094,Núcleo de Infraestrutura do CTISM,25.19.00.00.0.0,2732,14,1
+7101,"Núcleo de Projetos, Inovação e Estágios do CTISM",25.21.00.00.0.0,2732,14,1
+7089,Núcleo de Registros Educacionais do CTISM,25.18.01.00.0.0,2732,14,1
+7085,Secretaria Administrativa do CTISM,25.17.00.00.0.0,2732,14,1
+7092,Secretaria Integrada dos Cursos de Educação Básica do CTISM,25.18.01.02.0.0,2732,14,1
+7099,Setor de Compras do CTISM,25.20.02.00.0.0,2732,14,1
+7095,Setor de Tecnologia da Informação do CTISM,25.19.01.00.0.0,2732,14,1
+7086,Subdivisão de Biblioteca Setorial do CTISM,25.17.01.00.0.0,2732,14,1
+7100,Subdivisão Setorial de Patrimônio do CTISM,25.20.03.00.0.0,2732,14,1
+7102,Divisão de Estágios e Relações Empresariais e Comunitárias do CTISM,25.21.01.00.0.0,2732,1,1
+7098,Subdivisão de Logística do CTISM,25.20.01.00.0.0,2732,1,1
+6309,Subdivisão de Patrimônio do CT,07.07.01.00.0.0,117,14,1
+7142,Subdivisão de Educação Saúde,01.08.14.04.0.0,205,14,1
+6943,Subdivisão de Acompanhamento de Concursos e Apoio à Gestão de Pessoas do CCS,04.15.00.00.0.0,88,14,1
+6589,Biblioteca Fora de Sede/FW,33.36.00.00.0.0,4634,14,1
+203,Departamento de Química,02.35.00.00.0.0,82,4,1
+6940,Subdivisão de Tecnologia da Informação do CCS,04.11.02.00.0.0,88,14,1
+6223,Subdivisão de Estágios do CCSH I,06.14.01.01.0.0,91,14,1
+7178,Núcleo de Licenciamento Ambiental e Saneamento,01.29.01.00.0.0,205,14,1
+7180,Setor de Acompanhamento Administrativo e Orçamentário,01.29.03.00.0.0,205,14,1
+7179,Setor de Resíduos e Produtos Químicos,01.29.02.00.0.0,205,14,1
+2553,Assistente - PROINFRA,01.11.00.01.0.0,205,24,1
+7161,Divisão de Estágios e Relações Empresariais e Comunitárias do POLI,26.27.01.00.0.0,2712,14,1
+7166,Núcleo de Administração do POLI,26.29.00.00.0.0,2712,14,1
+7151,Secretaria Administrativa do POLI,26.22.00.00.0.0,2712,14,1
+7158,Secretaria Integrada dos Cursos de Educação Superior do POLI,26.26.01.01.0.0,2712,14,1
+7164,Setor de Apoio Aos Laboratórios do POLI Selab/POLI,26.28.01.00.0.0,2712,14,1
+7175,Setor de Compras do POLI,26.29.03.00.0.0,2712,14,1
+7152,Setor de Cooperativa-Escola dos Estudantes do POLI,26.23.00.00.0.0,2712,14,1
+7168,Subdivisão de Logística do POLI,26.29.02.00.0.0,2712,14,1
+7162,Subdivisão de Projetos do POLI,26.27.02.00.0.0,2712,14,1
+212,Departamento de Solos,03.38.00.00.0.0,85,4,1
+6047,Coordenadoria de Desenvolvimento de Ensino,01.08.10.00.0.0,205,14,1
+7157,Núcleo Pedagógico do POLI,26.26.02.00.0.0,2712,14,1
+6643,Assessor - GR,01.01.42.00.0.0,205,24,99
+6489,Assistente,01.01.39.00.0.0,205,24,99
+1152,Assessor - GR,01.01.01.00.0.0,205,24,1
+1153,Assessor - GR,01.01.03.00.0.0,205,24,1
+2654,Assessor - GR,01.01.12.00.0.0,205,24,1
+2658,Assessor - GR,01.01.16.00.0.0,205,24,1
+2659,Assessor - GR,01.01.17.00.0.0,205,24,1
+6602,Assessor - GR,01.01.18.00.0.0,205,24,1
+2661,Assessor - GR,01.01.19.00.0.0,205,24,1
+2662,Assessor - GR,01.01.20.00.0.0,205,24,1
+6719,Assessor - GR,01.01.45.00.0.0,205,24,1
+7143,Assessor - GR,01.01.49.00.0.0,205,24,1
+7150,Assessor - GR,01.01.50.00.0.0,205,24,1
+7191,Assessor 0 Gr,01.01.52.00.0.0,205,24,1
+1176,Assistente - DEMAPA,01.18.00.01.0.0,205,24,1
+1157,Assistente - GR,01.01.02.00.0.0,205,24,1
+6812,Assistente - GR,01.01.47.00.0.0,205,24,1
+7081,Assistente - GR,01.01.48.00.0.0,205,24,1
+7176,Assistente - GR,01.01.51.00.0.0,205,24,1
+6917,Assistente - GR,01.01.71.00.0.0,205,24,1
+1093,Unidades Solicitantes,12.30.00.00.0.0,81,19,99
+790,Administração Geral,10.31.02.00.0.0,163,19,99
+826,Almoxarifado,10.32.04.00.0.0,163,19,99
+821,Arquivo Permanente/Geral,10.31.02.04.6.0,163,19,99
+771,Centros de Custos do HUSM,10.30.00.00.0.0,163,19,99
+2478,Assessor - GR,01.01.11.00.0.0,205,24,1
+845,Clínica Médica Geral,10.34.01.00.0.0,163,19,99
+796,Coordenação de Recursos Humanos,10.31.02.01.2.0,163,19,99
+1018,Coordenação Financeira - Serviço de Contabilidade e Orçamento,10.31.02.01.1.4,163,19,99
+783,Direção Administrativa,10.31.01.02.0.0,163,19,99
+787,Direção Clínica,10.31.01.03.0.0,163,19,99
+779,Direção Geral,10.31.01.01.0.0,163,19,99
+781,Direção Geral - Sala do Diretor,10.31.01.01.1.0,163,19,99
+3049,Residência Multiprofissional Integrada Nos Serviços de Saúde,10.33.32.00.0.0,163,19,99
+3061,Serviço de Atendimento Fonoaudiológico - Centro,10.34.08.43.0.0,163,19,99
+1025,Serviço de Compras e Recebimento,10.31.02.01.3.2,163,19,99
+1085,Serviço de Quimioterapia,10.34.07.01.2.0,163,19,99
+989,Unidade Onco Hemato,10.34.07.01.0.0,163,19,99
+3667,Animais Selvagens Ambulatório C.Custos,03.68.30.29.0.0,85,19,2
+3708,Animais Selvagens Ambulatório Graduação C.Custos,03.68.30.29.2.0,85,19,2
+3707,Animais Selvagens Ambulatório Particular C.Custos,03.68.30.29.1.0,85,19,2
+3709,Animais Selvagens Ambulatório Pós-Graduação C.Custos,03.68.30.29.3.0,85,19,2
+3668,Animais Selvagens Internação C.Custos,03.68.30.30.0.0,85,19,2
+3705,Animais Selvagens Internação Graduação C.Custos,03.68.30.30.2.0,85,19,2
+3704,Animais Selvagens Internação Particular C.Custos,03.68.30.30.1.0,85,19,2
+3706,Animais Selvagens Internação Pós-Graduação C.Custos,03.68.30.30.3.0,85,19,2
+3679,Banco de Sangue Particular C.Custos,03.68.30.41.0.0,85,19,2
+3644,Biungulados Ambulatórios C.Custos,03.68.30.11.0.0,85,19,2
+3638,Central de Esterelização Graduação C.Custos,03.68.30.06.2.0,85,19,2
+3637,Central de Esterelização Particular C.Custos,03.68.30.06.1.0,85,19,2
+3639,Central de Esterelização Pós-Graduação C.Custos,03.68.30.06.3.0,85,19,2
+3626,Centro de Custos - Hvu,03.68.30.00.0.0,85,19,2
+3678,Células Tronco Particular C.Custos,03.68.30.40.0.0,85,19,2
+3693,Biungulados Ambulatórios Graduação C.Custos,03.68.30.11.2.0,85,19,2
+3692,Biungulados Ambulatórios Particular C.Custos,03.68.30.11.1.0,85,19,2
+3694,Biungulados Ambulatórios Pós-Graduação C.Custos,03.68.30.11.3.0,85,19,2
+3752,Biungulados Ambulatórios Pós-Graduação C.Custos,03.68.30.14.3.0,85,19,2
+3651,Biungulados C.Cirúrgico C.Custos,03.68.30.17.0.0,85,19,2
+3742,Biungulados C.Cirúrgico Graduação C.Custos,03.68.30.17.2.0,85,19,2
+3741,Biungulados C.Cirúrgico Particular C.Custos,03.68.30.17.1.0,85,19,2
+3743,Biungulados C.Cirúrgico Pós-Graduação C.Custos,03.68.30.17.3.0,85,19,2
+3648,Biungulados Internação C.Custos,03.68.30.14.0.0,85,19,2
+3751,Biungulados Internação Graduação C.Custos,03.68.30.14.2.0,85,19,2
+3750,Biungulados Internação Particular C.Custos,03.68.30.14.1.0,85,19,2
+3654,Biungulados Isolamento C.Custos,03.68.30.20.0.0,85,19,2
+3733,Biungulados Isolamento Graduação C.Custos,03.68.30.20.2.0,85,19,2
+3731,Biungulados Isolamento Particular C.Custos,03.68.30.20.1.0,85,19,2
+3734,Biungulados Isolamento Pós-Graduação C.Custos,03.68.30.20.3.0,85,19,2
+3677,Bloco V Graduação C.Custos,03.68.30.39.0.0,85,19,2
+3676,Bloco Vi Graduação C.Custos,03.68.30.38.0.0,85,19,2
+3636,Central de Esterelização C.Custos,03.68.30.06.0.0,85,19,2
+4023,Cirurgia Biungulados C.Custos,03.68.30.44.0.0,85,19,2
+4025,Cirurgia Biungulados Graduação C.Custos,03.68.30.44.2.0,85,19,2
+4024,Cirurgia Biungulados Particular C.Custos,03.68.30.44.1.0,85,19,2
+4026,Cirurgia Biungulados Pós-Graduação C.Custos,03.68.30.44.3.0,85,19,2
+4027,Cirurgia Equinos C.Custos,03.68.30.45.0.0,85,19,2
+4029,Cirurgia Equinos Graduação C.Custos,03.68.30.45.2.0,85,19,2
+4030,Cirurgia Equinos Particular C.Custos,03.68.30.45.1.0,85,19,2
+4028,Cirurgia Equinos Pós-Graduação C.Custos,03.68.30.45.3.0,85,19,2
+3656,Cirurgia Experimental C.Custos,03.68.30.22.0.0,85,19,2
+3726,Cirurgia Experimental Graduação C.Custos,03.68.30.22.2.0,85,19,2
+3725,Cirurgia Experimental Particular C.Custos,03.68.30.22.1.0,85,19,2
+3727,Cirurgia Experimental Pós-Graduação C.Custos,03.68.30.22.3.0,85,19,2
+4031,Cirurgia Peq. Animais C.Custos,03.68.30.46.0.0,85,19,2
+4033,Cirurgia Peq. Animais Graduação C.Custos,03.68.30.46.2.0,85,19,2
+4032,Cirurgia Peq. Animais Particular C.Custos,03.68.30.46.1.0,85,19,2
+4034,Cirurgia Peq. Animais Pós-Graduação C.Custos,03.68.30.46.3.0,85,19,2
+3671,Clínica Cirúrgica C.Custos,03.68.30.33.0.0,85,19,2
+4019,Clínica Cirúrgica Peq. Animais C.Custos,03.68.30.43.0.0,85,19,2
+4021,Clínica Cirúrgica Peq. Animais Graduação C.Custos,03.68.30.43.2.0,85,19,2
+4020,Clínica Cirúrgica Peq. Animais Particular C.Custos,03.68.30.43.1.0,85,19,2
+4022,Clínica Cirúrgica Peq. Animais Pós-Graduação C.Custos,03.68.30.43.3.0,85,19,2
+4014,Clínica Médica Peq. Animais C.Custos,03.68.30.42.0.0,85,19,2
+4016,Clínica Médica Peq. Animais Graduação C.Custos,03.68.30.42.2.0,85,19,2
+3652,Equinos C.Cirúrgico C.Custos,03.68.30.18.0.0,85,19,2
+3739,Equinos C.Cirúrgico Graduação C.Custos,03.68.30.18.2.0,85,19,2
+3738,Equinos C.Cirúrgico Particular C.Custos,03.68.30.18.1.0,85,19,2
+3740,Equinos C.Cirúrgico Pós-Graduação C.Custos,03.68.30.18.3.0,85,19,2
+3649,Equinos Internação C.Custos,03.68.30.15.0.0,85,19,2
+4015,Clínica Médica Peq. Animais Particular C.Custos,03.68.30.42.1.0,85,19,2
+4017,Clínica Médica Peq. Animais Pós-Graduação C.Custos,03.68.30.42.3.0,85,19,2
+3669,Clínica Neuro - Oftalmo C.Custos,03.68.30.31.0.0,85,19,2
+3702,Clínica Neuro - Oftalmo Graduação C.Custos,03.68.30.31.2.0,85,19,2
+3701,Clínica Neuro - Oftalmo Particular C.Custos,03.68.30.31.1.0,85,19,2
+3703,Clínica Neuro - Oftalmo Pós-Graduação C.Custos,03.68.30.31.3.0,85,19,2
+3674,Dcg-Anestesiologia C.Custos,03.68.30.36.0.0,85,19,2
+3673,Dcg-Prática Cirúrgica em Cães e Gatos C.Custos,03.68.30.35.0.0,85,19,2
+3675,Dcg-Prática Hospitalar em Clínica Cirúrgica C.Custos,03.68.30.37.0.0,85,19,2
+3630,Doação C.Custos,03.68.30.04.0.0,85,19,2
+3664,Embriolab C.Custos,03.68.30.26.0.0,85,19,2
+3715,Embriolab Graduação C.Custos,03.68.30.26.2.0,85,19,2
+3714,Embriolab Particular C.Custos,03.68.30.26.1.0,85,19,2
+3716,Embriolab Pós-Graduação C.Custos,03.68.30.26.3.0,85,19,2
+3647,Equinos Ambulatório C.Custos,03.68.30.12.0.0,85,19,2
+3696,Equinos Ambulatório Graduação C.Custos,03.68.30.12.2.0,85,19,2
+3695,Equinos Ambulatório Particular C.Custos,03.68.30.12.1.0,85,19,2
+3697,Equinos Ambulatório Pós-Graduação C.Custos,03.68.30.12.3.0,85,19,2
+3748,Equinos Internação Graduação C.Custos,03.68.30.15.2.0,85,19,2
+3747,Equinos Internação Particular C.Custos,03.68.30.15.1.0,85,19,2
+3749,Equinos Internação Pós-Graduação C.Custos,03.68.30.15.3.0,85,19,2
+3655,Equinos Isolamento C.Custos,03.68.30.21.0.0,85,19,2
+3729,Equinos Isolamento Graduação C.Custos,03.68.30.21.2.0,85,19,2
+3728,Equinos Isolamento Particular C.Custos,03.68.30.21.1.0,85,19,2
+3730,Equinos Isolamento Pós-Graduação C.Custos,03.68.30.21.3.0,85,19,2
+3631,Farmácia C.Custos,03.68.30.05.0.0,85,19,2
+3632,Farmácia Graduação C.Custos,03.68.30.05.2.0,85,19,2
+3633,Farmácia Particular C.Custos,03.68.30.05.1.0,85,19,2
+3635,Farmácia Pós-Graduação C.Custos,03.68.30.05.3.0,85,19,2
+3658,Fisioterapia C.Custos,03.68.30.24.0.0,85,19,2
+3720,Fisioterapia Graduação C.Custos,03.68.30.24.2.0,85,19,2
+3719,Fisioterapia Particular C.Custos,03.68.30.24.1.0,85,19,2
+3721,Fisioterapia Pós-Graduação C.Custos,03.68.30.24.3.0,85,19,2
+3666,Lab. Biotec. Reprodução Animal C.Custos,03.68.30.28.0.0,85,19,2
+3712,Lab. Biotec. Reprodução Animal Graduação C.Custos,03.68.30.28.2.0,85,19,2
+3711,Lab. Biotec. Reprodução Animal Particular C.Custos,03.68.30.28.1.0,85,19,2
+3713,Lab. Biotec. Reprodução Animal Pós-Graduação C.Custos,03.68.30.28.3.0,85,19,2
+3641,Laboratório de Análises Clínicas C.Custos,03.68.30.08.0.0,85,19,2
+3684,Laboratório de Análises Clínicas Graduação C.Custos,03.68.30.08.2.0,85,19,2
+3683,Laboratório de Análises Clínicas Particular C.Custos,03.68.30.08.1.0,85,19,2
+3685,Laboratório de Análises Clínicas Pós-Graduação C.Custos,03.68.30.08.3.0,85,19,2
+3691,Pequenos Animais Ambulatório Pós-Graduação C.Custos,03.68.30.10.3.0,85,19,2
+3650,Pequenos Animais C.Cirúrgico C.Custos,03.68.30.16.0.0,85,19,2
+3745,Pequenos Animais C.Cirúrgico Graduação C.Custos,03.68.30.16.2.0,85,19,2
+3744,Pequenos Animais C.Cirúrgico Particular C.Custos,03.68.30.16.1.0,85,19,2
+3746,Pequenos Animais C.Cirúrgico Pós-Graduação C.Custos,03.68.30.16.3.0,85,19,2
+3698,Pequenos Animais Internação Particular C.Custos,03.68.30.13.1.0,85,19,2
+3642,Laboratório Fisiopatologia da Reprodução C.Custos,03.68.30.09.0.0,85,19,2
+3687,Laboratório Fisiopatologia da Reprodução Graduação C.Custos,03.68.30.09.2.0,85,19,2
+3686,Laboratório Fisiopatologia da Reprodução Particular C.Custos,03.68.30.09.1.0,85,19,2
+3688,Laboratório Fisiopatologia da Reprodução Pós-Graduação C.Custos,03.68.30.09.3.0,85,19,2
+3629,Lavanderia C.Custos,03.68.30.03.0.0,85,19,2
+3672,Ortopedia e Traumatologia C.Custos,03.68.30.34.0.0,85,19,2
+3657,Patologia Cirúrgica C.Custos,03.68.30.23.0.0,85,19,2
+3723,Patologia Cirúrgica Graduação C.Custos,03.68.30.23.2.0,85,19,2
+3722,Patologia Cirúrgica Particular C.Custos,03.68.30.23.1.0,85,19,2
+3724,Patologia Cirúrgica Pós-Graduação C.Custos,03.68.30.23.3.0,85,19,2
+3659,Patologia Veterinária C.Custos,03.68.30.25.0.0,85,19,2
+3662,Patologia Veterinária Graduação C.Custos,03.68.30.25.2.0,85,19,2
+3660,Patologia Veterinária Particular C.Custos,03.68.30.25.1.0,85,19,2
+3663,Patologia Veterinária Pós-Graduação C.Custos,03.68.30.25.3.0,85,19,2
+3643,Pequenos Animais Ambulatório C.Custos,03.68.30.10.0.0,85,19,2
+3690,Pequenos Animais Ambulatório Graduação C.Custos,03.68.30.10.2.0,85,19,2
+3689,Pequenos Animais Ambulatório Particular C.Custos,03.68.30.10.1.0,85,19,2
+3646,Pequenos Animais Internação C.Custos,03.68.30.13.0.0,85,19,2
+3699,Pequenos Animais Internação Graduação C.Custos,03.68.30.13.2.0,85,19,2
+3700,Pequenos Animais Internação Pós-Graduação C.Custos,03.68.30.13.3.0,85,19,2
+3653,Pequenos Animais Isolamento C.Custos,03.68.30.19.0.0,85,19,2
+3736,Pequenos Animais Isolamento Graduação C.Custos,03.68.30.19.2.0,85,19,2
+3735,Pequenos Animais Isolamento Particular C.Custos,03.68.30.19.1.0,85,19,2
+3737,Pequenos Animais Isolamento Pós-Graduação C.Custos,03.68.30.19.3.0,85,19,2
+3682,Radiologia Pós-Graduação C.Custos,03.68.30.07.3.0,85,19,2
+3640,Radiologia C.Custos,03.68.30.07.0.0,85,19,2
+3681,Radiologia Graduação C.Custos,03.68.30.07.2.0,85,19,2
+3680,Radiologia Particular C.Custos,03.68.30.07.1.0,85,19,2
+3627,Serviços Administrativos C.Custos,03.68.30.01.0.0,85,19,2
+3670,Técnica Cirúrgica C.Custos,03.68.30.32.0.0,85,19,2
+3665,Vencidos/Perdas C.Custos,03.68.30.27.0.0,85,19,2
+3628,Zeladoria C.Custos,03.68.30.02.0.0,85,19,2
+5735,Cariologia,04.09.06.50.2.8,88,19,2
+3978,Centro de Custos Curso de Odontologia,04.09.06.50.0.0,88,19,2
+3989,Centro de Custos Depto Odontologia Restauradora,04.42.50.00.0.0,88,19,2
+5925,Centros de Custos Dpto. de Estomatologia,04.34.50.00.0.0,88,19,2
+5729,Cirurgia,04.09.06.50.2.2,88,19,2
+3999,Clínica de Oclusão,04.42.50.11.0.0,88,19,2
+3980,Clínica Integrada I,04.34.50.10.0.0,88,19,2
+3981,Clínica Integrada II,04.42.50.12.0.0,88,19,2
+3992,Disciplina de Prótese Dentária Parcial Removível,04.42.50.03.0.0,88,19,2
+3991,Disciplina de Prótese Dentária Total,04.42.50.02.0.0,88,19,2
+5933,Disciplina de Radiologia Odontológica,04.34.50.07.0.0,88,19,2
+5935,Disciplina de Saúde Coletiva,04.34.50.09.0.0,88,19,2
+5733,Endodontia,04.09.06.50.2.6,88,19,2
+3982,Clínica Integrada III,04.34.50.11.0.0,88,19,2
+3983,Clínica Integrada Iv,04.09.06.50.3.4,88,19,2
+3984,Clínica Integrada V,04.09.06.50.3.5,88,19,2
+5769,Clínicas Integradas,04.09.06.50.3.0,88,19,2
+5934,Disciplina de Cariologia,04.34.50.08.0.0,88,19,2
+5927,Disciplina de Cirurgia,04.34.50.02.0.0,88,19,2
+3997,Disciplina de Dentística I,04.42.50.08.0.0,88,19,2
+3998,Disciplina de Dentística II,04.42.50.09.0.0,88,19,2
+4000,Disciplina de Dentística III,04.42.50.10.0.0,88,19,2
+5932,Disciplina de Endodontia,04.34.50.06.0.0,88,19,2
+5929,Disciplina de Estomatologia,04.34.50.03.0.0,88,19,2
+3994,Disciplina de Materiais Dentários I,04.42.50.05.0.0,88,19,2
+3995,Disciplina de Materiais Dentários II,04.42.50.06.0.0,88,19,2
+3996,Disciplina de Materiais Dentários III,04.42.50.07.0.0,88,19,2
+5926,Disciplina de Odontopediatria,04.34.50.01.0.0,88,19,2
+5930,Disciplina de Ortodontia,04.34.50.04.0.0,88,19,2
+5931,Disciplina de Periodontia,04.34.50.05.0.0,88,19,2
+3993,Disciplina de Prótese Dentária Parcial Fixa,04.42.50.04.0.0,88,19,2
+5727,Estomatologia,04.09.06.50.2.0,88,19,2
+5730,Estomatologia,04.09.06.50.2.3,88,19,2
+5728,Odontopediatria,04.09.06.50.2.1,88,19,2
+5731,Ortodontia,04.09.06.50.2.4,88,19,2
+5732,Periodontia,04.09.06.50.2.5,88,19,2
+5734,Radiologa Odontológica,04.09.06.50.2.7,88,19,2
+5736,Saúde Coletiva,04.09.06.50.2.9,88,19,2
+3979,Secretaria Coordenação Curso Odontologia,04.09.06.50.1.0,88,19,2
+3990,Secretaria Depto Odontologia Restauradora,04.42.50.01.0.0,88,19,2
+3987,Setor de Cadastro,04.09.06.50.6.0,88,19,2
+3986,Setor de Esterilização,04.09.06.50.5.0,88,19,2
+3985,Setor de Manutenção,04.09.06.50.4.0,88,19,2
+3988,Setor de Triagem,04.09.06.50.7.0,88,19,2
+6174,Chefia Hemocentro/HUSM,93.01.07.05.5.1,163,19,2
+2500,Curso de Bacharelado em Estatística - Noturno,02.09.14.00.0.0,82,6,99
+2652,C Pg-E Agricultura Familiar Camponesa Educação Camp,03.10.17.00.0.0,85,6,99
+1756,Curso Pg-E Clínica Médica e Cirúrgica de Pequenos Animais,03.10.13.00.0.0,85,6,99
+2241,Curso Pg-E Residência Médico-Veterinária,03.10.14.00.0.0,85,6,99
+2261,Grad. Tecnol. Agricultura Familiar Sustentab. a Distância,03.09.05.00.0.0,85,6,99
+2398,"Pg-E em Educação Ambiental, Modalidade EAD",03.10.16.00.0.0,85,6,99
+1750,Curso Pg-E Análise Planej Produtos Proces Fisioterapêuticos,04.10.13.00.0.0,88,6,99
+1696,Curso Pg-E em Laboratório Clínico,04.10.12.00.0.0,88,6,99
+3229,Curso Pg-E Programa Residência Multiprofissional Integrada em Saúde Mental no Sistema Público de Saúde,04.10.25.00.0.0,88,6,99
+3011,Curso Pg-E Programa Residência Multiprofissional Integrada Gestão e Atenção Hospitalar no Sistema Público de Saúde,04.10.22.00.0.0,88,6,99
+2496,Curso-Programa Residência Multiprofissional Integrada em Sistema Público Saúde,04.10.21.00.0.0,88,6,99
+1939,Programa de Pós-Graduação em Farmacologia,04.10.16.00.0.0,88,6,99
+6891,Programa de Pós-Graduação em Saúde Coletiva,04.00.01.00.0.0,88,6,99
+3221,Programa de Pós-Graduação em Administração,06.10.34.00.0.0,91,6,99
+5973,Programa de Pós-Graduação em Ciências Contábeis,06.10.41.00.0.0,91,6,99
+2207,Curso Licenciatura em Pedagogia - Noturno,05.09.04.00.0.0,94,6,99
+558,Curso Pg-E Educação Especial,05.10.02.00.0.0,94,6,99
+2196,Curso Pg-E Educação Esp. Déficit Cognitivo e Educação Surdos,05.10.09.00.0.0,94,6,99
+2965,Curso Pg-E Educação Profissional Integrada a Educação Básica na Modalidade Educação de Jovens e Adultos,05.10.14.00.0.0,94,6,99
+3138,Curso Pg-E em Docência na Educação Infantil,05.10.15.00.0.0,94,6,99
+4086,Pg a Distância Lato Sensu - Especialização em Gestão da Educação Municipal,05.10.17.00.0.0,94,6,99
+3251,Programa de Pós-Graduação em Engenharia Ambiental,07.10.13.00.0.0,117,6,99
+624,Programa de Pós-Graduação em Engenharia Civil,07.10.03.00.0.0,117,6,99
+3312,Coord-Geral da Bolsa-Formação - Pronatec,26.04.30.00.0.0,2712,6,99
+655,Curso de Artes Cênicas,08.09.06.00.0.0,78,6,1
+1767,Curso de Artes Visuais,08.09.08.00.0.0,78,6,1
+3256,Curso de Dança - Bacharelado,08.09.14.00.0.0,78,6,1
+3326,Curso de Dança - Licenciatura,08.09.18.00.0.0,78,6,1
+246,Curso de Desenho Industrial,08.09.03.00.0.0,78,6,1
+6810,Curso de Estatística,02.09.20.00.0.0,82,6,1
+222,Curso de Física,02.09.05.00.0.0,82,6,1
+229,Curso de Geografia,02.09.02.00.0.0,82,6,1
+4060,Curso de Geografia - Licenciatura a Distância - Uab,02.09.17.00.0.0,82,6,1
+225,Curso de Matemática,02.09.06.00.0.0,82,6,1
+3136,Curso de Mestrado Profissional em Matemática,02.10.20.00.0.0,82,6,1
+1856,Curso de Meteorologia,02.09.08.00.0.0,82,6,1
+6880,Curso de Letras Línguas Estrangeiras - Licenciaturas,08.09.16.00.0.0,78,6,1
+6881,Curso de Letras Português - Licenciatura e Bacharelado,08.09.17.00.0.0,78,6,1
+243,Curso de Música,08.09.04.00.0.0,78,6,1
+3053,Curso de Música e Tecnologia-Bacharelado,08.09.13.00.0.0,78,6,1
+7194,"Curso de Pós-Graduação em 
+Literatura, Linguagens e Tecnologias",08.10.12.00.0.0,78,6,1
+2333,Curso Grad. Licenciatura Letras Espanhol/Literat.- EAD,08.09.10.00.0.0,78,6,1
+2419,Curso Licenciatura em Teatro,08.09.11.00.0.0,78,6,1
+6833,Curso Mbya Guarani Educação Intercultural Indígena,08.09.15.00.0.0,78,6,1
+5011,Curso Pg-E em Música: Músicas dos Séculos XX e XXI - Performance e Pedagogia,08.10.09.00.0.0,78,6,1
+2273,Letras - Português e Literaturas a Distância,08.09.09.00.0.0,78,6,1
+3337,Pg-E Distância Tecnolog. Inform. Comunicação Aplic. Educação,08.10.07.00.0.0,78,6,1
+6890,Programa de Pós-Graduação em Artes da Cena,08.10.11.00.0.0,78,6,1
+2220,Programa de Pós-Graduação em Artes Visuais,08.10.05.00.0.0,78,6,1
+1863,Programa de Pós-Graduação em Letras,08.10.03.00.0.0,78,6,1
+228,Curso de Ciências Biológicas,02.09.04.00.0.0,82,6,1
+7131,Curso de Nanotecnologia e Inovação Computacional,02.09.21.00.0.0,82,6,1
+6669,Curso de Química - Licenciatura,02.09.18.00.0.0,82,6,1
+2328,Curso Graduação de Física - Licenciatura a Distância,02.09.13.00.0.0,82,6,1
+3120,Curso Superior de Tecnologia em Processos Químicos,02.09.16.00.0.0,82,6,1
+2347,Curso-Programa Pg Educação em Ciências: Química da Vida e Saúde,02.10.18.00.0.0,82,6,1
+2892,Curso-Programa Pg em Agrobiologia,02.10.19.00.0.0,82,6,1
+2256,Curso-Programa Pg em Biodiversidade Animal,02.10.16.00.0.0,82,6,1
+452,Curso-Programa Pg em Ciências Biológicas: Bioquímica Toxicológica,02.10.09.00.0.0,82,6,1
+3871,Curso-Programa Pg em Educação Matemática e Ensino de Física,02.10.22.00.0.0,82,6,1
+445,Curso-Programa Pg em Física,02.10.07.00.0.0,82,6,1
+4852,Curso-Programa Pg em Geografia,02.10.24.00.0.0,82,6,1
+2210,Curso-Programa Pg em Matemática,02.10.15.00.0.0,82,6,1
+2337,Curso-Programa Pg em Meteorologia,02.10.17.00.0.0,82,6,1
+444,Curso-Programa Pg em Química,02.10.06.00.0.0,82,6,1
+6119,Curso-Programa Pg Profissional em Ensino de Geografia em Rede Nacional,02.10.25.00.0.0,82,6,1
+6670,Cursos de Química Industrial e Bacharelado,02.09.19.00.0.0,82,6,1
+19,Curso de Agronomia,03.09.01.00.0.0,85,6,1
+4797,Curso de Licenciatura em Educação do Campo - EAD,03.09.07.00.0.0,85,6,1
+7104,Curso de Licenciatura em Educação do Campo - Semipresencial,03.09.09.00.0.0,85,6,1
+22,Curso de Zootecnia,03.09.04.00.0.0,85,6,1
+20,Curso Engenharia Florestal,03.09.02.00.0.0,85,6,1
+21,Curso Medicina Veterinária,03.09.03.00.0.0,85,6,1
+36,Curso de Medicina,04.09.05.00.0.0,88,6,1
+6873,Curso de Nutrição,04.09.10.00.0.0,88,6,1
+6950,Curso de Pós-Graduação em Práticas Integrativas e Complementares no Cuidado em Sáude,04.10.30.00.0.0,88,6,1
+2545,Curso de Terapia Ocupacional,04.09.09.00.0.0,88,6,1
+3104,Curso Pg-E em Reabilitação Físico-Motora,04.10.24.00.0.0,88,6,1
+6978,Programa de Pós-Graduação em Ciências Biológicas: Farmacologia,04.10.31.00.0.0,88,6,1
+6695,"Curso Pg-E Agroecologia, Educação do Campo e Inovações Sociais - EAD",03.10.20.00.0.0,85,6,1
+4875,Curso Superior de Tecnologia em Agronegócio,03.09.08.00.0.0,85,6,1
+2502,Curso Superior de Tecnologia em Alimentos,03.09.06.00.0.0,85,6,1
+23,Programa de Pós-Graduação em Agronomia,03.10.01.00.0.0,85,6,1
+1688,Programa de Pós-Graduação em Ciência do Solo,03.10.11.00.0.0,85,6,1
+28,Programa de Pós-Graduação em Ciência e Tecnologia de Alimentos,03.10.07.00.0.0,85,6,1
+25,Programa de Pós-Graduação em Engenharia Agrícola,03.10.03.00.0.0,85,6,1
+29,Programa de Pós-Graduação em Engenharia Florestal,03.10.08.00.0.0,85,6,1
+2310,Programa de Pós-Graduação em Extensão Rural,03.10.15.00.0.0,85,6,1
+26,Programa de Pós-Graduação em Medicina Veterinária,03.10.04.00.0.0,85,6,1
+27,Programa de Pós-Graduação em Zootecnia,03.10.05.00.0.0,85,6,1
+7134,Programa de Residência Uniprofissional em Medicina Veterinária,03.10.18.19.0.0,85,6,1
+5379,Curso de Enfermagem,04.09.07.00.0.0,88,6,1
+5381,Curso de Farmácia,04.09.08.00.0.0,88,6,1
+34,Curso de Fisioterapia,04.09.03.00.0.0,88,6,1
+35,Curso de Fonoaudiologia,04.09.04.00.0.0,88,6,1
+3102,Programa de Pós-Graduação em Ciências da Saúde - Mestrado Profissional,04.10.23.00.0.0,88,6,1
+1773,Programa de Pós-Graduação em Ciências Farmacêuticas,04.10.14.00.0.0,88,6,1
+2205,Programa de Pós-Graduação em Enfermagem,04.10.19.00.0.0,88,6,1
+6912,Programa de Pós-Graduação em Saúde Coletiva,04.10.29.00.0.0,88,6,1
+39,Programa de Residência Médica,04.10.02.00.0.0,88,6,1
+235,Curso de Administração,06.09.01.00.0.0,91,6,1
+3605,Curso de Administração Noturno,06.09.25.00.0.0,91,6,1
+240,Curso de Arquivologia,06.09.02.00.0.0,91,6,1
+4809,Curso de Bacharelado em Administração,06.09.29.00.0.0,91,6,1
+236,Curso de Ciências Contábeis,06.09.03.00.0.0,91,6,1
+238,Curso de Ciências Econômicas,06.09.06.00.0.0,91,6,1
+605,Curso de Ciências Sociais,06.09.13.00.0.0,91,6,1
+3017,Curso de Comunicação Social - Jornalismo,06.09.22.00.0.0,91,6,1
+2681,Curso de Comunicação Social - Produção Editorial,06.09.19.00.0.0,91,6,1
+3015,Curso de Comunicação Social - Publicidade e Propaganda,06.09.21.00.0.0,91,6,1
+3020,Curso de Comunicação Social - Relações Públicas,06.09.23.00.0.0,91,6,1
+237,Curso de Direito,06.09.05.00.0.0,91,6,1
+3779,Curso de Direito Noturno,06.09.26.00.0.0,91,6,1
+221,Curso de Filosofia,06.09.07.00.0.0,91,6,1
+7187,Curso de Filosofia - Prilei,06.09.31.00.0.0,91,6,1
+4871,Curso de História Bacharelado,06.09.10.00.0.0,91,6,1
+4873,Curso de História Licenciatura,06.09.11.00.0.0,91,6,1
+6909,Programa de Pós-Graduação em Administração e Ciências Contábeis,06.10.43.00.0.0,91,6,1
+5589,Programa de Pós-Graduação em Administração Pública,06.00.01.00.0.0,91,6,1
+2345,Programa de Pós-Graduação em Ciências Sociais,06.10.26.00.0.0,91,6,1
+3226,Programa de Pós-Graduação em Comunicação,06.10.35.00.0.0,91,6,1
+3344,Programa de Pós-Graduação em Direito,06.10.36.00.0.0,91,6,1
+7185,Curso de História Licenciatura - Prilei,06.09.30.00.0.0,91,6,1
+3923,Curso de Licenciatura em Ciências Sociais,06.09.27.00.0.0,91,6,1
+2592,Curso de Licenciatura em Sociologia a Distância,06.09.18.00.0.0,91,6,1
+595,Curso de Psicologia,06.09.12.00.0.0,91,6,1
+2544,Curso de Relações Internacionais,06.09.16.00.0.0,91,6,1
+2683,Curso de Serviço Social - Bacharelado (Noturno),06.09.20.00.0.0,91,6,1
+2425,Curso Noturno de Bacharelado em Filosofia,06.09.15.00.0.0,91,6,1
+2663,Curso Pg Lato Sensu em Gestão Pública - EAD,06.10.28.00.0.0,91,6,1
+2670,Curso Pg Lato Sensu Gestão Pública Municipal - EAD,06.10.29.00.0.0,91,6,1
+6694,Curso Pg-E Ciência de Dados na Administração Pública - EAD,06.00.01.50.0.0,91,6,1
+4151,Curso Pg-E em Ensino de Filosofia no Ensino Médio - EAD,06.10.37.00.0.0,91,6,1
+4157,Curso Pg-E em Ensino de Sociologia no Ensino Médio - EAD,06.10.38.00.0.0,91,6,1
+5517,Curso Pg-E em Estudos de Gênero,06.10.01.00.0.0,91,6,1
+5057,Curso Pg-E Gestão de Pessoas,06.10.13.00.0.0,91,6,1
+4807,Curso Superior de Tecnologia em Gestão de Turismo,06.09.28.00.0.0,91,6,1
+3096,Curso-Programa Pg-M em Economia e Desenvolvimento,06.10.33.00.0.0,91,6,1
+2266,Pg-E a Distância - Gestão em Arquivos,06.10.25.00.0.0,91,6,1
+42,Programa de Pós-Graduação em Filosofia,06.10.02.00.0.0,91,6,1
+4821,Programa de Pós-Graduação em Gestão de Organizações Públicas,06.10.40.00.0.0,91,6,1
+3041,Programa de Pós-Graduação em História,06.10.31.00.0.0,91,6,1
+2243,Programa de Pós-Graduação em Patrimônio Cultural,06.10.22.00.0.0,91,6,1
+4645,Programa de Pós-Graduação em Psicologia,06.10.39.00.0.0,91,6,1
+5151,Programa de Pós-Graduação em Relações Internacionais,06.10.06.00.0.0,91,6,1
+6889,Programa de Pós-Graduação em Serviço Social e Políticas Públicas,06.10.44.00.0.0,91,6,1
+242,Curso de Educação Especial,05.09.01.00.0.0,94,6,1
+7110,Curso de Educação Especial - Semipresencial,05.09.15.00.0.0,94,6,1
+1861,Curso de Educação Especial a Distância,05.09.05.00.0.0,94,6,1
+6837,Curso de Educação Especial Inclusiva,05.09.14.00.0.0,94,6,1
+7189,Curso de Educação Especial Inclusiva - Prilei,05.09.17.00.0.0,94,6,1
+7116,Curso de Formação de Professores para Educação Profissional - Semipresencial,05.09.16.00.0.0,94,6,1
+3250,Curso de Formação de Professores para Educação Profissional EAD,05.09.11.00.0.0,94,6,1
+4788,Curso de Licenciatura em Ciências da Religião - Modalidade a Distância,05.09.12.00.0.0,94,6,1
+2272,Curso Graduação em Pedagogia a Distância,05.09.08.00.0.0,94,6,1
+2427,Curso Licenciatura Educação Especial - Noturno,05.09.09.00.0.0,94,6,1
+2218,Curso Pedagogia Licenciatura Plena Diurno,05.09.07.00.0.0,94,6,1
+2216,Curso Pedagogia Licenciatura Plena Noturno,05.09.06.00.0.0,94,6,1
+6697,Curso Pg-E de Gestão Pública na Educação Infantil e Docência - EAD,05.10.21.00.0.0,94,6,1
+550,Curso Pg-E Gestão Educacional,05.10.01.00.0.0,94,6,1
+6179,Curso-Programa Especial de Formação Professores Educação Profissional,05.09.13.00.0.0,94,6,1
+4042,Curso de Engenharia Aeroespacial,07.09.13.00.0.0,117,6,1
+600,Curso de Engenharia Civil,07.09.01.00.0.0,117,6,1
+2445,Curso de Engenharia de Computação,07.09.09.00.0.0,117,6,1
+2441,Curso de Engenharia de Controle e Automação,07.09.07.00.0.0,117,6,1
+2443,Curso de Engenharia de Produção,07.09.08.00.0.0,117,6,1
+2590,Curso-Programa Especial de Formação Professores Educação Profissional,05.10.13.00.0.0,94,6,1
+2268,Pg-Distância - Especialização Lato Sensu Gestão Educacional,05.10.11.00.0.0,94,6,1
+192,Programa de Pós-Graduação em Educação,05.10.03.00.0.0,94,6,1
+4657,Programa de Pós-Graduação em Políticas Públicas e Gestão Educacional,05.10.20.00.0.0,94,6,1
+4148,Programa de Pós-Graduação Mestrado Profissional em História em Rede Nacional,05.10.18.00.0.0,94,6,1
+3560,Programa de Pós-Graduação Mestrado Profissional em Tecnologias Educacionais em Rede,05.10.16.00.0.0,94,6,1
+247,Curso de Educação Física,09.09.01.00.0.0,97,6,1
+3497,Curso de Educação Física - Bacharelado,09.09.03.00.0.0,97,6,1
+3962,Pg-E em Educação Física Escolar,09.10.05.00.0.0,97,6,1
+50,Programa de Pós-Graduação em Ciência Movimento Humano,09.10.01.00.0.0,97,6,1
+6149,Programa de Pós-Graduação em Ciências do Movimento e Reabilitação,09.10.07.00.0.0,97,6,1
+4074,Programa de Pós-Graduação em Gerontologia,09.10.06.00.0.0,97,6,1
+234,Curso Arquitetura e Urbanismo,07.09.06.00.0.0,117,6,1
+2543,Curso de Bacharelado em Sistemas de Informação,07.09.12.00.0.0,117,6,1
+233,Curso de Ciência da Computação,07.09.05.00.0.0,117,6,1
+6738,Curso de Engenharia Ambiental e Sanitária,07.09.15.00.0.0,117,6,1
+2447,Curso de Engenharia Acústica,07.09.10.00.0.0,117,6,1
+230,Curso de Engenharia Elétrica,07.09.02.00.0.0,117,6,1
+4043,Curso de Engenharia em Telecomunicações,07.09.14.00.0.0,117,6,1
+231,Curso de Engenharia Mecânica,07.09.03.00.0.0,117,6,1
+232,Curso de Engenharia Química,07.09.04.00.0.0,117,6,1
+3907,Curso de Especialização em Eficiência Energética Aplicada Aos Processos Produtivos - EAD,07.10.14.00.0.0,117,6,1
+2466,"Curso Pg-E Mídias na Educação, Modalidade a Distância",07.10.11.00.0.0,117,6,1
+3932,"Pg-E em Educação Ambiental, Modalidade EAD",07.10.15.00.0.0,117,6,1
+4856,"Programa de Pós-Graduação em Arquitetura, Urbanismo e Paisagismo",07.10.17.00.0.0,117,6,1
+5017,Programa de Pós-Graduação em Ciência da Computação,07.10.18.00.0.0,117,6,1
+6870,Programa de Pós-Graduação em Engenharia Civil e Ambiental,07.10.21.00.0.0,117,6,1
+47,Programa de Pós-Graduação em Engenharia de Produção,07.10.02.00.0.0,117,6,1
+46,Programa de Pós-Graduação em Engenharia Elétrica,07.10.01.00.0.0,117,6,1
+5565,Programa de Pós-Graduação em Engenharia Mecânica,07.10.19.00.0.0,117,6,1
+4570,Programa de Pós-Graduação em Engenharia Química,07.10.16.00.0.0,117,6,1
+4838,Coordenação do Curso Técnico em Enfermagem,26.26.20.00.0.0,2712,6,1
+2819,Coordenação do Curso Técnico em Administração,26.26.09.00.0.0,2712,6,1
+4910,Coordenação do Curso Técnico em Agricultura,26.26.21.00.0.0,2712,6,1
+6595,Coordenação do Curso Técnico em Agricultura de Precisão,26.26.22.00.0.0,2712,6,1
+6730,Coordenação do Curso Técnico em Agrimensura,26.26.26.00.0.0,2712,6,1
+2728,Coordenação do Curso Técnico em Agropecuária,26.26.10.00.0.0,2712,6,1
+4315,Coordenação do Curso Técnico em Alimentos,26.26.16.00.0.0,2712,6,1
+6638,Coordenação do Curso Técnico em Comércio,26.26.23.00.0.0,2712,6,1
+2781,Coordenação do Curso de Eletrônica,25.18.09.00.0.0,2732,6,1
+2775,Coordenação do Curso de Mecânica,25.18.04.00.0.0,2732,6,1
+3131,Coordenação do Curso Técnico em Contabilidade,26.26.14.00.0.0,2712,6,1
+4811,Coordenação do Curso Técnico em Cuidados de Idosos,26.26.19.00.0.0,2712,6,1
+7132,Coordenação do Curso Técnico em Enfermagem Noturno,26.26.27.00.0.0,2712,6,1
+4498,Coordenação do Curso Técnico em Farmácia,26.26.17.00.0.0,2712,6,1
+6640,Coordenação do Curso Técnico em Fruticultura,26.26.24.00.0.0,2712,6,1
+2729,Coordenação do Curso Técnico em Informática,26.26.11.00.0.0,2712,6,1
+2821,Coordenação do Curso Técnico em Meio Ambiente,26.26.13.00.0.0,2712,6,1
+2730,Coordenação do Curso Técnico em Paisagismo,26.26.12.00.0.0,2712,6,1
+4001,Coordenação do Curso Técnico em Secretariado,26.26.15.00.0.0,2712,6,1
+4500,Coordenação do Curso Técnico em Zootecnia,26.26.18.00.0.0,2712,6,1
+3082,Curso Pg-Mestrado Profissional em Agricultura de Precisão,26.04.15.00.0.0,2712,6,1
+2723,Curso Superior de Tecnologia de Geoprocessamento,26.26.05.00.0.0,2712,6,1
+4777,Curso Superior de Tecnologia em Gestão Ambiental,26.26.07.00.0.0,2712,6,1
+2722,Curso Superior de Tecnologia em Gestão de Cooperativas,26.26.04.00.0.0,2712,6,1
+2894,Curso Superior de Tecnologia em Sistemas para Internet,26.26.06.00.0.0,2712,6,1
+4009,Coordenação Curso Técnico em Informática para Internet Integrado ao Ensino Médio,25.18.12.00.0.0,2732,6,1
+4011,Coordenação Curso Técnico em Soldagem Subsequente,25.18.13.00.0.0,2732,6,1
+2777,Coordenação do Curso de Automação Industrial,25.18.06.00.0.0,2732,6,1
+2776,Coordenação do Curso de Eletromecânica,25.18.05.00.0.0,2732,6,1
+2774,Coordenação do Curso de Eletrotécnica,25.18.03.00.0.0,2732,6,1
+2778,Coordenação do Curso de Segurança do Trabalho,25.18.07.00.0.0,2732,6,1
+3758,Coordenação do Curso Técnico em Eletrotécnica Integrado,25.18.10.00.0.0,2732,6,1
+7129,Coordenação do Curso Técnico em Internet das Coisas Integrado ao Ensino Médio,25.18.64.00.0.0,2732,6,1
+3760,Coordenação do Curso Técnico em Mecânica Integrado,25.18.11.00.0.0,2732,6,1
+2779,Coordenação Geral do Curso Proeja,25.18.08.00.0.0,2732,6,1
+6983,Curso de Pós-Graduação em Formação de Professores para O Ensino de Robótica,25.18.15.00.0.0,2732,6,1
+4380,Curso Mestrado Acadêmico em Educação Profissional e Tecnológica,25.18.14.00.0.0,2732,6,1
+4784,Curso Superior de Tecnologia em Eletrônica Industrial,25.18.18.00.0.0,2732,6,1
+2750,Curso Superior de Tecnologia em Fabricação Mecânica,25.18.16.00.0.0,2732,6,1
+2751,Curso Superior de Tecnologia em Redes de Computadores,25.18.17.00.0.0,2732,6,1
+4131,Curso de Arquitetura e Urbanismo - CS,31.09.01.00.0.0,4051,6,1
+7130,Curso de Ciências de Dados e Inteligência Artificial - CS,31.09.06.00.0.0,4051,6,1
+4132,Curso de Engenharia Agrícola - CS,31.09.02.00.0.0,4051,6,1
+4135,Curso de Engenharia de Transportes e Logística - CS,31.09.05.00.0.0,4051,6,1
+4133,Curso de Engenharia Elétrica - CS,31.09.03.00.0.0,4051,6,1
+4134,Curso de Engenharia Mecânica - CS,31.09.04.00.0.0,4051,6,1
+4584,Curso de Administração - Noturno - PM,32.09.01.00.0.0,4564,6,1
+4590,Curso de Administração Diurno - PM,32.09.07.00.0.0,4564,6,1
+4588,Curso de Ciências Biológicas - PM,32.09.05.00.0.0,4564,6,1
+4589,Curso de Ciências Econômicas - PM,32.09.06.00.0.0,4564,6,1
+4585,Curso de Enfermagem - PM,32.09.02.00.0.0,4564,6,1
+4587,Curso de Nutrição - PM,32.09.04.00.0.0,4564,6,1
+6948,Curso de Pós-Graduação em Gestão e Gerenciamento das Redes de Atenção à Saúde,32.10.04.00.0.0,4564,6,1
+4586,Curso de Zootecnia - PM,32.09.03.00.0.0,4564,6,1
+4750,Pg-E em Gestão de Organização Pública em Saúde - Modalidade a Distância,32.10.02.00.0.0,4564,6,1
+4628,Programa de Pós-Graduação em Agronegócios - PM,32.10.01.00.0.0,4564,6,1
+6124,Programa de Pós-Graduação em Saúde e Ruralidade - PM,32.10.03.00.0.0,4564,6,1
+4667,Curso de Agronomia - Campus FW,33.09.01.00.0.0,4634,6,1
+7141,Curso de Direito - Campus FW,33.09.11.00.0.0,4634,6,1
+4680,Curso de Engenharia Ambiental e Sanitária - Campus FW,33.09.05.00.0.0,4634,6,1
+4668,Curso de Engenharia Florestal - Campus FW,33.09.02.00.0.0,4634,6,1
+4669,Curso de Jornalismo Bacharelado - Campus FW,33.09.03.00.0.0,4634,6,1
+4744,Curso de Licenciatura em Computação - Modalidade a Distância,33.09.08.00.0.0,4634,6,1
+5506,Curso de Licenciatura em Educação Indígena - Modalidade EAD,33.09.09.00.0.0,4634,6,1
+6835,Curso de Licenciatura Intercultural Indígena,33.09.10.00.0.0,4634,6,1
+4679,Curso de Relações Públicas Bacharelado - Campus FW,33.09.04.00.0.0,4634,6,1
+4681,Curso de Sistemas de Informação - Campus FW,33.09.06.00.0.0,4634,6,1
+4672,Programa de Pós-Graduação em Agronomia - Agricultura e Ambiente - Campus FW,33.10.01.00.0.0,4634,6,1
+5127,Programa de Pós-Graduação em Ciência e Tecnologia Ambiental- Campus FW,33.10.02.00.0.0,4634,6,1
+2323,Curso Graduação de Licenciatura em Matemática a Distância,02.09.12.00.0.0,82,6,2
+1944,Curso a Distância Pg-E em Educação Especial,05.10.08.00.0.0,94,6,2
+3231,Curso de Educação Especial - Licenciatura EAD- Parfor,05.09.10.00.0.0,94,6,2
+2822,Coordenação do Proeja,26.26.29.00.0.0,2712,6,2
+3297,Coord-Geral da Bolsa Formação-Pronatec,25.04.10.00.0.0,2732,6,2
+2513,Pg-E Educação Ambiental/Distância/Pólo Cacequi,03.10.16.04.0.0,85,5,99
+2400,Pg-E Educação Ambiental/Distância/Pólo Panambi,03.10.16.02.0.0,85,5,99
+2514,Pg-E Educação Ambiental/Distância/Pólo Sapiranga,03.10.16.05.0.0,85,5,99
+2399,Pg-E Educação Ambiental/Distância/Pólo São Sepé,03.10.16.01.0.0,85,5,99
+4096,Programa de Residência em Área Profissional da Saúde-Medicina Veterinária: Medicina Veterinária Preventiva: Ênfase em Análises Micotoxicológicas e Patologia Aviária,03.10.18.12.0.0,85,5,99
+4097,Programa de Residência em Área Profissional da Saúde-Medicina Veterinária: Medicina Veterinária Preventiva: Ênfase em Doenças Infecciosas e Parasitárias,03.10.18.13.0.0,85,5,99
+3245,Programa Residência em Área Profissional da Saúde-Medicina Veterinária: Cirurgia e Anestesiologia Veterinária,03.10.18.02.0.0,85,5,99
+3248,Programa Residência em Área Profissional da Saúde-Medicina Veterinária: Clínica de Grandes Animais,03.10.18.05.0.0,85,5,99
+4099,Programa Residência em Área Profissional da Saúde-Medicina Veterinária: Ênfase em Cirurgia Veterinária,03.10.18.08.0.0,85,5,99
+3244,Programa Residência em Área Profissional da Saúde-Medicina Veterinária: Ênfase em Clínica Médica de Pequenos Animais,03.10.18.01.0.0,85,5,99
+3247,Programa Residência em Área Profissional da Saúde-Medicina Veterinária: Ênfase em Diagnóstico por Imagem,03.10.18.04.0.0,85,5,99
+3246,Programa Residência em Área Profissional da Saúde-Medicina Veterinária: Ênfase em Patologia Clínica,03.10.18.03.0.0,85,5,99
+5479,Atenção Básica/Estratégia de Saúde da Família,04.10.28.02.0.0,88,5,99
+2386,Pg em Farmacologia - Doutorado,04.10.16.02.0.0,88,5,99
+1940,Pg em Farmacologia - Mestrado,04.10.16.01.0.0,88,5,99
+3012,Pg-E Programa de Residência Multiprofissional Integrada em Gestão e Atenção Hospitalar Sistema Público Saúde,04.10.22.01.0.0,88,5,99
+3230,Pg-E Programa de Residência Multiprofissional Integrada em Saúde Mental no Sistema Público de Saúde,04.10.25.01.0.0,88,5,99
+4878,"Curso Pg-E Ensino de Ciências C/Ênfase em Física, Química Ou Matemática - EAD-UAB",31.10.01.00.0.0,4051,6,2
+1860,Desenho Industrial - Projeto de Produto,08.09.03.03.0.0,78,5,99
+2501,Curso de Bacharelado em Estatística - Noturno,02.09.14.01.0.0,82,5,99
+1655,Pg Clínica Cirurgica - Pequenos Animais,03.32.01.00.0.0,85,5,99
+2512,Pg-E Educação Ambiental/Distância/Pólo Agudo,03.10.16.03.0.0,85,5,99
+2497,Pg-E Residência Multiprofissional Integrada em Sistema Público de Saúde,04.10.21.01.0.0,88,5,99
+5473,Programa de Residência Multiprofissional Integrada em Sistema Público de Saúde - Especialização,04.10.28.01.0.0,88,5,99
+5482,Vigilância em Saúde,04.10.28.03.0.0,88,5,99
+2371,Esp. Educ. Esp. Déficit Cognitivo e Educ. Surdos/EAD/Conselheiro,05.10.12.07.0.0,94,5,99
+2373,Esp. Educ. Esp. Déficit Cognitivo e Educ. Surdos/EAD/Governador,05.10.12.09.0.0,94,5,99
+2375,Esp. Educ. Esp. Déficit Cognitivo e Educ. Surdos/EAD/Lagamar/MG,05.10.12.11.0.0,94,5,99
+2368,Esp. Educ. Esp. Déficit Cognitivo e Educ. Surdos/EAD/Palmas/TO,05.10.12.04.0.0,94,5,99
+2378,Esp. Educ. Esp. Déficit Cognitivo e Educ. Surdos/EAD/Rio de Janeiro,05.10.12.14.0.0,94,5,99
+2384,Esp. Educ. Esp. Déficit Cognitivo e Educ. Surdos/EAD/São Gabriel/RS,05.10.12.20.0.0,94,5,99
+2298,Espec. Gestão Educacional/EAD/Fortaleza/Ceará,05.10.11.04.0.0,94,5,99
+2300,Espec. Gestão Educacional/EAD/Palmas/TO,05.10.11.06.0.0,94,5,99
+3288,Espec. Gestão Educacional/EAD/Sarandi/RS,05.10.11.13.0.0,94,5,99
+2297,Espec. Gestão Educacional/EAD/São João do Polêsine/RS,05.10.11.03.0.0,94,5,99
+2296,Espec. Gestão Educacional/EAD/Tio Hugo/RS,05.10.11.02.0.0,94,5,99
+4412,Pg em Políticas Públicas e Gestão Educacional - Mestrado Profissional,05.10.19.01.0.0,94,5,99
+1570,Pg Gestão Educacional,05.10.01.01.0.0,94,5,99
+2157,Comunicação Social -Hab. Jornalismo-Unipampa/São Borja,20.03.01.00.0.0,205,5,99
+2612,Programa Pg em Administração,88.02.09.00.0.0,205,5,99
+2604,Programa Pg em Agronomia,88.02.01.00.0.0,205,5,99
+2605,Programa Pg em Biodiversidade Animal,88.02.02.00.0.0,205,5,99
+2638,Programa Pg em Comunicação,88.02.35.00.0.0,205,5,99
+2611,Programa Pg em Educação,88.02.08.00.0.0,205,5,99
+2631,Programa Pg em Medicina Veterinária,88.02.28.00.0.0,205,5,99
+2635,Programa Pg em Patrimônio Cultural,88.02.32.00.0.0,205,5,99
+3035,Administração Pública Bacharelado/EAD/Santana do Livramento/RS,16.48.03.00.0.0,2010,5,99
+3300,Curso de Cabista de Sistemas de Telecomunicações,25.04.10.03.0.0,2732,5,99
+5043,Pg-E Ensino de Ciências com Ênfase em Matemática -EAD-UAB/Panambi,31.10.01.03.0.7,4051,5,99
+4591,Curso de Administração - Diurno/Campus/PM,32.09.01.01.0.0,4564,5,99
+4760,Pg-E Gestão de Organização Pública em Saúde/EAD/Palmeira das Missões/RS,32.10.02.07.0.0,4564,5,99
+2639,Programa Pg em Enfermagem,88.02.36.00.0.0,205,5,99
+2622,Programa Pg em Engenharia Civil,88.02.19.00.0.0,205,5,99
+2625,Programa Pg em Engenharia de Produção,88.02.22.00.0.0,205,5,99
+2623,Programa Pg em Engenharia Elétrica,88.02.20.00.0.0,205,5,99
+2624,Programa Pg em Engenharia Florestal,88.02.21.00.0.0,205,5,99
+2628,Programa Pg em Física,88.02.25.00.0.0,205,5,99
+2619,Programa Pg em Geografia,88.02.16.00.0.0,205,5,99
+2634,Programa Pg em Geomática,88.02.31.00.0.0,205,5,99
+2630,Programa Pg em Matemática,88.02.27.00.0.0,205,5,99
+6811,Curso de Estatística,02.09.20.01.0.0,82,5,1
+6972,Curso de Pós-Graduação em Mudanças Climáticas,02.10.17.03.0.0,82,5,1
+1409,Coord. Aperf. Pessoal de Nivel Superior - Capes,99.02.00.00.0.0,205,5,2
+1407,Unidades Orcamentarias,99.00.00.00.0.0,205,5,2
+1408,Universidade Federal de Santa Maria,99.01.01.00.0.0,205,5,2
+1610,Artes Cênicas - Bacharelado,08.09.06.01.0.0,78,5,5
+1611,Artes Cênicas - Direção Teatral,08.09.06.02.0.0,78,5,5
+1612,Artes Cênicas - Interpretação Teatral,08.09.06.03.0.0,78,5,5
+1768,Artes Visuais - Bacharelado em Desenho e Plástica,08.09.08.01.0.0,78,5,5
+1769,Artes Visuais - Licenciatura Plena em Desenho e Plástica,08.09.08.02.0.0,78,5,5
+2424,Bacharelado em Letras-Português/Literaturas,08.09.17.02.0.0,78,5,5
+3257,Dança - Bacharelado,08.09.14.01.0.0,78,5,5
+7199,"Especialização em Literatura, Linguagens e Tecnologias - EAD-UAB/Tio Hugo/RS",08.10.12.05.0.0,78,5,5
+7198,"Especialização em Literatura, Linguagens e Tecnologias - EAD-UAB/Três Passos/RS",08.10.12.04.0.0,78,5,5
+6755,Letras - Letras Espanhol - Literaturas/Distância/Balneário Pinhal/RS,08.09.10.29.0.0,78,5,5
+6751,Letras - Letras Espanhol - Literaturas/Distância/Camargo/RS,08.09.10.26.0.0,78,5,5
+6753,Letras - Letras Espanhol - Literaturas/Distância/Canguçu/RS,08.09.10.27.0.0,78,5,5
+6752,Letras - Letras Espanhol - Literaturas/Distância/Herval/RS,08.09.10.24.0.0,78,5,5
+6754,Letras - Letras Espanhol - Literaturas/Distância/Novo Hamburgo/RS,08.09.10.28.0.0,78,5,5
+1764,Letras - Lic - Hab. Português e Literatura Língua Portuguesa,08.09.17.01.0.0,78,5,5
+1766,Letras - Lic.- Hab. Espanhol e Literaturas Língua Espanhola,08.09.16.02.0.0,78,5,5
+3327,Dança - Licenciatura,08.09.18.01.0.0,78,5,5
+4191,Desenho Industrial - Bacharelado,08.09.03.04.0.0,78,5,5
+1599,Desenho Industrial - Habilitação Programação Visual,08.09.03.01.0.0,78,5,5
+6671,Espec. Tec. da Inf. e da Com. Aplicadas Educação/EAD/Balneário Pinhal/RS,08.10.07.12.0.0,78,5,5
+6672,Espec. Tec. da Inf. e da Com. Aplicadas Educação/EAD/Candelária/RS,08.10.07.13.0.0,78,5,5
+6673,Espec. Tec. da Inf. e da Com. Aplicadas Educação/EAD/Cruz Alta/RS,08.10.07.14.0.0,78,5,5
+6674,Espec. Tec. da Inf. e da Com. Aplicadas Educação/EAD/Encantado/RS,08.10.07.15.0.0,78,5,5
+6689,Espec. Tec. da Inf. e da Com. Aplicadas Educação/EAD/Picada Café/RS,08.10.07.17.0.0,78,5,5
+3339,Espec. Tec. da Inf. e da Com. Aplicadas Educação/EAD/Santana do Livramento/RS,08.10.07.02.0.0,78,5,5
+6675,Espec. Tec. da Inf. e da Com. Aplicadas Educação/EAD/Sapucaia do Sul/RS,08.10.07.16.0.0,78,5,5
+7195,"Especialização em Literatura, Linguagens e Tecnologias - EAD-UAB/Constantina/RS",08.10.12.01.0.0,78,5,5
+7196,"Especialização em Literatura, Linguagens e Tecnologias - EAD-UAB/Restinga Seca/RS",08.10.12.02.0.0,78,5,5
+7197,"Especialização em Literatura, Linguagens e Tecnologias - EAD-UAB/Santana do Livramento/RS",08.10.12.03.0.0,78,5,5
+1765,Letras - Lic.- Hab. Inglês e Literaturas Língua Inglesa,08.09.16.01.0.0,78,5,5
+2974,Letras - Português e Literaturas/Distância/Cachoeira do Sul/RS,08.09.09.11.0.0,78,5,5
+6008,Letras - Português e Literaturas/Distância/Constantina/RS,08.09.09.24.0.0,78,5,5
+4455,Letras - Português e Literaturas/Distância/Encantado/RS,08.09.09.20.0.0,78,5,5
+6770,Letras - Português e Literaturas/Distância/Encruzilhada do Sul/RS,08.09.09.28.0.0,78,5,5
+4846,Letras - Português e Literaturas/Distância/Gramado/RS,08.09.09.22.0.0,78,5,5
+4847,Letras - Português e Literaturas/Distância/Jaquirana/RS,08.09.09.23.0.0,78,5,5
+6756,Letras - Português e Literaturas/Distância/Panambi/RS,08.09.09.25.0.0,78,5,5
+2274,Letras - Português e Literaturas/Distância/Restinga Seca/RS,08.09.09.01.0.0,78,5,5
+4456,Letras - Português e Literaturas/Distância/Santana da Boa Vista/RS,08.09.09.21.0.0,78,5,5
+2463,Letras - Português e Literaturas/Distância/Santana do Livramento/RS,08.09.09.07.0.0,78,5,5
+6757,Letras - Português e Literaturas/Distância/Sapucaia do Sul/RS,08.09.09.26.0.0,78,5,5
+6758,Letras - Português e Literaturas/Distância/São Gabriel/RS,08.09.09.27.0.0,78,5,5
+2464,Letras - Português e Literaturas/Distância/Sobradinho/RS,08.09.09.08.0.0,78,5,5
+2973,Letras - Português e Literaturas/Distância/Tio Hugo/RS,08.09.09.10.0.0,78,5,5
+2276,Letras - Português e Literaturas/Distância/Três Passos/RS,08.09.09.03.0.0,78,5,5
+6004,Licenc. Letras Espanhol - Literaturas/Distância/Cacequi/RS,08.09.10.20.0.0,78,5,5
+4794,Licenc. Letras Espanhol - Literaturas/Distância/Constantina/RS,08.09.10.19.0.0,78,5,5
+4119,Licenc. Letras Espanhol - Literaturas/Distância/Encantado/RS,08.09.10.18.0.0,78,5,5
+2352,Licenc. Letras Espanhol - Literaturas/Distância/Itaqui/RS,08.09.10.04.0.0,78,5,5
+6005,Licenc. Letras Espanhol - Literaturas/Distância/Jacuizinho/RS,08.09.10.21.0.0,78,5,5
+6772,Licenc. Letras Espanhol - Literaturas/Distância/Piratini/RS,08.09.10.30.0.0,78,5,5
+1883,Música - Bacharelado Percussão,08.09.04.09.0.0,78,5,5
+1884,Música - Bacharelado Piano,08.09.04.10.0.0,78,5,5
+1885,Música - Bacharelado Trombone,08.09.04.11.0.0,78,5,5
+1886,Música - Bacharelado Trompa,08.09.04.12.0.0,78,5,5
+1887,Música - Bacharelado Trompete,08.09.04.13.0.0,78,5,5
+1888,Música - Bacharelado Viola,08.09.04.14.0.0,78,5,5
+2354,Licenc. Letras Espanhol - Literaturas/Distância/Quaraí/RS,08.09.10.06.0.0,78,5,5
+3897,Licenc. Letras Espanhol - Literaturas/Distância/Santa Maria/RS,08.09.10.16.0.0,78,5,5
+6006,Licenc. Letras Espanhol - Literaturas/Distância/Santo Antônio da Patrulha/RS,08.09.10.22.0.0,78,5,5
+2355,Licenc. Letras Espanhol - Literaturas/Distância/São Francisco de Paula/RS,08.09.10.07.0.0,78,5,5
+3237,Licenc. Letras Espanhol - Literaturas/Distância/Sobradinho/RS,08.09.10.13.0.0,78,5,5
+4118,Licenc. Letras Espanhol - Literaturas/Distância/Tio Hugo/RS,08.09.10.17.0.0,78,5,5
+3238,Licenc. Letras Espanhol - Literaturas/Distância/Três de Maio,08.09.10.14.0.0,78,5,5
+6007,Licenc. Letras Espanhol - Literaturas/Distância/Uruguaiana/RS,08.09.10.23.0.0,78,5,5
+3217,Licenc. Letras Espanhol - Literaturas/Distância/Vila Flores,08.09.10.12.0.0,78,5,5
+2420,Licenciatura em Teatro,08.09.11.01.0.0,78,5,5
+6834,Mbya Guarani Educação Intercultural Indígena,08.09.15.01.0.0,78,5,5
+1895,Música - Bacharelado,08.09.04.18.0.0,78,5,5
+2394,Música - Bacharelado - Composição,08.09.04.19.0.0,78,5,5
+1878,Música - Bacharelado Canto,08.09.04.06.0.0,78,5,5
+1879,Música - Bacharelado Clarineta,08.09.04.07.0.0,78,5,5
+1880,Música - Bacharelado Flauta Transversa,08.09.04.08.0.0,78,5,5
+1889,Música - Bacharelado Violão,08.09.04.15.0.0,78,5,5
+1890,Música - Bacharelado Violino,08.09.04.16.0.0,78,5,5
+1891,Música - Bacharelado Violoncelo,08.09.04.17.0.0,78,5,5
+1510,Música - Licenciatura Plena,08.09.04.05.0.0,78,5,5
+1506,Música - Opção Canto,08.09.04.01.0.0,78,5,5
+1508,Música - Opção Instrumento,08.09.04.03.0.0,78,5,5
+1509,Música - Opção Piano,08.09.04.04.0.0,78,5,5
+2395,Música Bacharelado - Contrabaixo,08.09.04.20.0.0,78,5,5
+2906,Música Bacharelado - Fagote,08.09.04.21.0.0,78,5,5
+2907,Música Bacharelado - Oboé,08.09.04.22.0.0,78,5,5
+3972,Música Bacharelado - Tuba,08.09.04.23.0.0,78,5,5
+3054,Música e Tecnologia - Bacharelado,08.09.13.01.0.0,78,5,5
+6884,Pg Artes da Cena - Mestrado,08.10.11.01.0.0,78,5,5
+5178,Pg em Artes Visuais - Doutorado Acadêmico,08.10.05.02.0.0,78,5,5
+2221,Pg em Artes Visuais - Mestrado,08.10.05.01.0.0,78,5,5
+5012,Pg Especialização em Música: Músicas dos Séculos XX e XXI - Performance e Pedagogia,08.10.09.01.0.0,78,5,5
+1864,Pg Letras - Doutorado,08.10.03.01.0.0,78,5,5
+3145,Pg Letras - Mestrado,08.10.03.02.0.0,78,5,5
+1431,Ciências Biológicas - Bacharelado,02.09.04.02.0.0,82,5,5
+1513,Ciências Biológicas - Licenciatura Plena,02.09.04.03.0.0,82,5,5
+1430,Ciências Biológicas - Núcleo Comum,02.09.04.01.0.0,82,5,5
+3121,Curso Superior de Tecnologia em Processos Químicos,02.09.16.01.0.0,82,5,5
+6744,Física - Licenciatura/Distância/Santana do Livramento/RS,02.09.13.23.0.0,82,5,5
+3320,Física - Licenciatura/Distância/Santo Antônio da Patrulha/RS,02.09.13.11.0.0,82,5,5
+6740,Física - Licenciatura/Distância/São Francisco de Paula/RS,02.09.13.19.0.0,82,5,5
+2330,Física - Licenciatura/Distância/Três de Maio/RS,02.09.13.02.0.0,82,5,5
+6998,Especialização em Mudanças Climáticas - EAD-UAB/Agudo-Rs,02.10.17.03.6.0,82,5,5
+6976,Especialização em Mudanças Climáticas - EAD-UAB/Novo Hamburgo-Rs,02.10.17.03.4.0,82,5,5
+6975,Especialização em Mudanças Climáticas - EAD-UAB/Restinga Seca-Rs,02.10.17.03.3.0,82,5,5
+6974,Especialização em Mudanças Climáticas - EAD-UAB/São João do Polesine-Rs,02.10.17.03.2.0,82,5,5
+6977,Especialização em Mudanças Climáticas - EAD-UAB/Sobradinho-Rs,02.10.17.03.5.0,82,5,5
+1460,Física - Bacharelado,02.09.05.02.0.0,82,5,5
+1429,Física - Licenciatura Plena,02.09.05.01.0.0,82,5,5
+1461,Física - Licenciatura Plena Noturno,02.09.05.03.0.0,82,5,5
+4058,Física - Licenciatura/Distância/Cachoeira do Sul/RS,02.09.13.15.0.0,82,5,5
+6741,Física - Licenciatura/Distância/Cerro Largo/RS,02.09.13.20.0.0,82,5,5
+4056,Física - Licenciatura/Distância/Cruz Alta/RS,02.09.13.13.0.0,82,5,5
+2329,Física - Licenciatura/Distância/Faxinal do Soturno/RS,02.09.13.01.0.0,82,5,5
+6003,Física - Licenciatura/Distância/Gramado/RS,02.09.13.18.0.0,82,5,5
+6743,Física - Licenciatura/Distância/Imbé/RS,02.09.13.22.0.0,82,5,5
+3319,Física - Licenciatura/Distância/Itaqui/RS,02.09.13.10.0.0,82,5,5
+6742,Física - Licenciatura/Distância/Picada Café/RS,02.09.13.21.0.0,82,5,5
+2331,Física - Licenciatura/Distância/Quaraí/RS,02.09.13.03.0.0,82,5,5
+3321,Física - Licenciatura/Distância/Santa Maria/RS,02.09.13.12.0.0,82,5,5
+1456,Geografia - Bacharelado,02.09.02.03.0.0,82,5,5
+1455,Geografia - Licenciatura Plena,02.09.02.02.0.0,82,5,5
+6462,Geografia Licenciatura -EAD-UAB/Cruz Alta/RS,02.09.17.14.0.0,82,5,5
+6463,Geografia Licenciatura -EAD-UAB/Herval/RS,02.09.17.15.0.0,82,5,5
+6464,Geografia Licenciatura -EAD-UAB/Jacuizinho/RS,02.09.17.16.0.0,82,5,5
+6465,Geografia Licenciatura -EAD-UAB/Rosário do Sul/RS,02.09.17.17.0.0,82,5,5
+4065,Geografia Licenciatura -EAD-UAB/Santo Antonio da Patrulha/RS,02.09.17.05.0.0,82,5,5
+4308,Geografia Licenciatura -EAD-UAB/Sapiranga/RS,02.09.17.10.0.0,82,5,5
+6466,Geografia Licenciatura -EAD-UAB/Sarandi/RS,02.09.17.18.0.0,82,5,5
+4305,Geografia Licenciatura -EAD-UAB/Serefina Corrêa/RS,02.09.17.07.0.0,82,5,5
+4306,Geografia Licenciatura -EAD-UAB/Tapejara/RS,02.09.17.08.0.0,82,5,5
+1866,Matemática - Bacharelado,02.09.06.07.0.0,82,5,5
+1865,Matemática - Licenciatura Plena,02.09.06.06.0.0,82,5,5
+1450,Matemática - Licenciatura Plena - Noturno,02.09.06.04.0.0,82,5,5
+3137,Mestrado Profissional em Matemática - Profmat,02.10.20.01.0.0,82,5,5
+1857,Meteorologia - Bacharelado,02.09.08.01.0.0,82,5,5
+7047,Nanotecnologia e Inovação Computacional,02.09.21.01.0.0,82,5,5
+2416,Pg Biodiversidade Animal - Doutorado,02.10.16.02.0.0,82,5,5
+2309,Pg Biodiversidade Animal - Mestrado,02.10.16.01.0.0,82,5,5
+1724,Pg Bioquímica Toxicológica - Doutorado,02.10.09.03.0.0,82,5,5
+1519,Pg Bioquímica Toxicológica - Mestrado,02.10.09.02.0.0,82,5,5
+1518,Pg Ciências Biológicas - Bioquímica Toxicológica,02.10.09.01.0.0,82,5,5
+2893,Pg em Agrobiologia - Mestrado,02.10.19.01.0.0,82,5,5
+3872,Pg em Educação Matemática e Ensino de Física - Mestrado,02.10.22.01.0.0,82,5,5
+4855,Pg em Geografia - Doutorado,02.10.24.02.0.0,82,5,5
+4854,Pg em Geografia - Mestrado,02.10.24.01.0.0,82,5,5
+2211,Pg em Matemática - Mestrado,02.10.15.01.0.0,82,5,5
+3559,Pg em Meteorologia - Doutorado,02.10.17.02.0.0,82,5,5
+2338,Pg em Meteorologia - Mestrado,02.10.17.01.0.0,82,5,5
+1607,Pg Estatística e Modelagem Quantitativa-Especialização,02.09.20.02.0.0,82,5,5
+1516,Pg Física - Doutorado,02.10.07.02.0.0,82,5,5
+1515,Pg Física - Mestrado,02.10.07.01.0.0,82,5,5
+6120,Pg Profissional em Ensino de Geografia em Rede Nacional - Mestrado,02.10.25.01.0.0,82,5,5
+1604,Pg Química - Mestrado,02.10.06.01.0.0,82,5,5
+1605,Pg Química -Doutorado,02.10.06.02.0.0,82,5,5
+2349,Pg-D Educação em Ciências: Química da Vida e Saúde,02.10.18.02.0.0,82,5,5
+2348,Pg-M Educação em Ciências: Química da Vida e Saúde,02.10.18.01.0.0,82,5,5
+1936,Química - Bacharelado,02.09.19.02.0.0,82,5,5
+1452,Química - Licenciatura,02.09.18.01.0.0,82,5,5
+1453,Química Industrial,02.09.19.01.0.0,82,5,5
+1520,Agronomia,03.09.01.01.0.0,85,5,5
+4876,Curso Superior de Tecnologia em Agronegócio,03.09.08.01.0.0,85,5,5
+2503,Curso Superior de Tecnologia em Alimentos,03.09.06.01.0.0,85,5,5
+1521,Engenharia Florestal,03.09.02.01.0.0,85,5,5
+4802,Licenciatura em Educação do Campo/Distância/Agudo/RS,03.09.07.05.0.0,85,5,5
+6990,Licenciatura em Educação do Campo/Distância/Arroio dos Ratos/RS,03.09.07.25.0.0,85,5,5
+5074,Licenciatura em Educação do Campo/Distância/Balneário Pinhal/RS,03.09.07.06.0.0,85,5,5
+6766,Licenciatura em Educação do Campo/Distância/Camargo/RS,03.09.07.19.0.0,85,5,5
+6450,Licenciatura em Educação do Campo/Distância/Canguçu/RS,03.09.07.12.0.0,85,5,5
+4800,Licenciatura em Educação do Campo/Distância/Cerro Largo/RS,03.09.07.03.0.0,85,5,5
+6971,Licenciatura em Educação do Campo/Distância/Cruz Alta/RS,03.09.07.24.0.0,85,5,5
+5085,Licenciatura em Educação do Campo/Distância/Encantado/RS,03.09.07.10.0.0,85,5,5
+6991,Licenciatura em Educação do Campo/Distância/Encruzilhada do Sul/RS,03.09.07.26.0.0,85,5,5
+6768,Licenciatura em Educação do Campo/Distância/Imbé/RS,03.09.07.21.0.0,85,5,5
+4798,Licenciatura em Educação do Campo/Distância/Itaqui/RS,03.09.07.01.0.0,85,5,5
+5091,Licenciatura em Educação do Campo/Distância/Novo Hamburgo/RS,03.09.07.11.0.0,85,5,5
+6451,Licenciatura em Educação do Campo/Distância/Palmeira das Missões/RS,03.09.07.13.0.0,85,5,5
+6767,Licenciatura em Educação do Campo/Distância/Panambi/RS,03.09.07.20.0.0,85,5,5
+6970,Licenciatura em Educação do Campo/Distância/Passo Fundo/RS,03.09.07.23.0.0,85,5,5
+6771,Licenciatura em Educação do Campo/Distância/Piratini/RS,03.09.07.22.0.0,85,5,5
+6992,Licenciatura em Educação do Campo/Distância/Santana da Boa Vista/RS,03.09.07.27.0.0,85,5,5
+5077,Licenciatura em Educação do Campo/Distância/Santana do Livramento/RS,03.09.07.07.0.0,85,5,5
+6467,Licenciatura em Educação do Campo/Distância/Santiago/RS,03.09.07.18.0.0,85,5,5
+6452,Licenciatura em Educação do Campo/Distância/São Gabriel/RS,03.09.07.14.0.0,85,5,5
+6453,Licenciatura em Educação do Campo/Distância/São João do Polêsine/RS,03.09.07.15.0.0,85,5,5
+5080,Licenciatura em Educação do Campo/Distância/São Lourenço do Sul/RS,03.09.07.08.0.0,85,5,5
+4799,Licenciatura em Educação do Campo/Distância/São Sepé/RS,03.09.07.02.0.0,85,5,5
+4801,Licenciatura em Educação do Campo/Distância/Seberi/RS,03.09.07.04.0.0,85,5,5
+6454,Licenciatura em Educação do Campo/Distância/Serafina Corrêa/RS,03.09.07.16.0.0,85,5,5
+5083,Licenciatura em Educação do Campo/Distância/Sobradinho/RS,03.09.07.09.0.0,85,5,5
+6455,Licenciatura em Educação do Campo/Distância/Três de Maio/RS,03.09.07.17.0.0,85,5,5
+7107,Licenciatura em Educação do Campo/Semipresencial/Arroio dos Ratos/RS,03.09.09.03.0.0,85,5,5
+7108,Licenciatura em Educação do Campo/Semipresencial/Encruzilhada do Sul/RS,03.09.09.04.0.0,85,5,5
+7106,Licenciatura em Educação do Campo/Semipresencial/Piratini/RS,03.09.09.02.0.0,85,5,5
+7109,Licenciatura em Educação do Campo/Semipresencial/Santana da Boa Vista/RS,03.09.09.05.0.0,85,5,5
+7105,Licenciatura em Educação do Campo/Semipresencial/São Gabriel/RS,03.09.09.01.0.0,85,5,5
+1522,Medicina Veterinária,03.09.03.01.0.0,85,5,5
+1526,Pg Agronomia - Doutorado,03.10.01.03.0.0,85,5,5
+1525,Pg Agronomia - Produção Vegetal - Mestrado,03.10.01.02.0.0,85,5,5
+2385,Pg Ciência e Tecnologia dos Alimentos - D,03.10.07.02.0.0,85,5,5
+1541,Pg Ciência e Tecnologia dos Alimentos - M,03.10.07.01.0.0,85,5,5
+1690,Pg Doutorado em Ciência do Solo,03.10.11.02.0.0,85,5,5
+2311,Pg Doutorado em Extensão Rural,03.10.15.01.0.0,85,5,5
+1529,Pg Engenharia Agrícola - Doutorado,03.10.03.02.0.0,85,5,5
+1528,Pg Engenharia Agrícola - Mestrado,03.10.03.01.0.0,85,5,5
+1542,Pg Engenharia Florestal - Doutorado,03.10.08.01.0.0,85,5,5
+1543,Pg Engenharia Florestal - Mestrado,03.10.08.02.0.0,85,5,5
+1535,Pg Medicina Veterinária - Doutorado,03.10.04.06.0.0,85,5,5
+3112,Pg Medicina Veterinária - Mestrado,03.10.04.07.0.0,85,5,5
+1689,Pg Mestrado em Ciência do Solo,03.10.11.01.0.0,85,5,5
+2312,Pg Mestrado em Extensão Rural,03.10.15.02.0.0,85,5,5
+1540,Pg Zootecnia - Doutorado,03.10.05.05.0.0,85,5,5
+1539,Pg Zootecnia - Produção Animal - Mestrado,03.10.05.04.0.0,85,5,5
+6699,"Pg-E em Agroecologia, Educação do Campo e Inovações Sociais/EAD/Agudo/RS",03.10.20.01.0.0,85,5,5
+6700,"Pg-E em Agroecologia, Educação do Campo e Inovações Sociais/EAD/Balneário Pinhal/RS",03.10.20.02.0.0,85,5,5
+6703,"Pg-E em Agroecologia, Educação do Campo e Inovações Sociais/EAD/Picada Café/RS",03.10.20.03.0.0,85,5,5
+6704,"Pg-E em Agroecologia, Educação do Campo e Inovações Sociais/EAD/Santana do Livramento/RS",03.10.20.04.0.0,85,5,5
+6705,"Pg-E em Agroecologia, Educação do Campo e Inovações Sociais/EAD/Seberi/RS",03.10.20.05.0.0,85,5,5
+6706,"Pg-E em Agroecologia, Educação do Campo e Inovações Sociais/EAD/Três Passos/RS",03.10.20.06.0.0,85,5,5
+3249,Programa de Residência em Área Profissional da Saúde-Medicina Veterinária: Medicina Veterinária Preventiva,03.10.18.06.0.0,85,5,5
+7140,Programa de Residência Uniprofissional em Medicina Veterinária - Cirurgia e Anestesiologia,03.10.18.19.0.6,85,5,5
+7136,Programa de Residência Uniprofissional em Medicina Veterinária - Clínica Médica de Pequenos Animais,03.10.18.19.0.2,85,5,5
+7139,Programa de Residência Uniprofissional em Medicina Veterinária - Clínica Médica e Cirúrgica de Grandes Animais,03.10.18.19.0.5,85,5,5
+7135,Programa de Residência Uniprofissional em Medicina Veterinária - Diagnóstico por Imagem em Medicina Veterinária,03.10.18.19.0.1,85,5,5
+7137,Programa de Residência Uniprofissional em Medicina Veterinária - Medicina Veterinária Preventiva,03.10.18.19.0.3,85,5,5
+7138,Programa de Residência Uniprofissional em Medicina Veterinária - Patologia Clínica Veterinária,03.10.18.19.0.4,85,5,5
+4095,Programa Residência em Área Profissional da Saúde-Medicina Veterinária: Clínica de Grandes Animais: Ênfase em Clínica de Equinos,03.10.18.11.0.0,85,5,5
+4094,Programa Residência em Área Profissional da Saúde-Medicina Veterinária: Clínica de Grandes Animais: Ênfase em Clínica de Ruminantes,03.10.18.10.0.0,85,5,5
+4100,Programa Residência em Área Profissional da Saúde-Medicina Veterinária: Ênfase em Anestesiologia Veterinária,03.10.18.09.0.0,85,5,5
+4900,Residência em Área Profissional da Saúde - Medicina Veterinária,03.10.18.07.0.0,85,5,5
+1523,Zootecnia,03.09.04.01.0.0,85,5,5
+5399,Enfermagem,04.09.07.01.0.0,88,5,5
+6999,Especialização em Práticas Integrativas e Complementares no Cuidado em Saúde - EAD/Uab/Cruz Alta/RS,04.10.30.06.0.0,88,5,5
+7002,Especialização em Práticas Integrativas e Complementares no Cuidado em Saúde - EAD/Uab/Panambi/RS,04.10.30.08.0.0,88,5,5
+7000,Especialização em Práticas Integrativas e Complementares no Cuidado em Saúde - EAD/Uab/São João do Polêsine/RS,04.10.30.07.0.0,88,5,5
+6953,Especialização em Práticas Integrativas e Complementares no Cuidado em Saúde - EAD/Uab/Serafina Corrêa/RS,04.10.30.03.0.0,88,5,5
+6956,Especialização em Práticas Integrativas e Complementares no Cuidado em Saúde - EAD/Uab/Uruguaiana/RS,04.10.30.05.0.0,88,5,5
+5433,Farmácia,04.09.08.05.0.0,88,5,5
+1550,Fisioterapia,04.09.03.01.0.0,88,5,5
+1551,Fonoaudiologia,04.09.04.01.0.0,88,5,5
+1462,Medicina,04.09.05.01.0.0,88,5,5
+6654,Nutrição,04.09.10.01.0.0,88,5,5
+1512,Odontologia,04.09.06.01.0.0,88,5,5
+3050,Pg Distúrbios da Comunicação Humana - Doutorado,04.10.17.01.0.0,88,5,5
+3929,Pg Distúrbios da Comunicação Humana - Mestrado,04.10.17.02.0.0,88,5,5
+6981,Pg em Ciências Biológicas: Farmacologia - Doutorado,04.10.31.02.0.0,88,5,5
+6980,Pg em Ciências Biológicas: Farmacologia - Mestrado,04.10.31.01.0.0,88,5,5
+3199,Pg em Ciências Farmacêuticas - Doutorado,04.10.14.02.0.0,88,5,5
+1774,Pg em Ciências Farmacêuticas - Mestrado,04.10.14.01.0.0,88,5,5
+3618,Pg em Ciências Odontológicas - Doutorado,04.10.20.02.0.0,88,5,5
+2344,Pg em Ciências Odontológicas - Mestrado,04.10.20.01.0.0,88,5,5
+6887,Pg em Saúde Coletiva - Mestrado,04.10.29.01.0.0,88,5,5
+3964,Pg-D em Enfermagem,04.10.19.02.0.0,88,5,5
+3105,Pg-E em Reabilitação Físico-Motora,04.10.24.01.0.0,88,5,5
+2206,Pg-M em Enfermagem,04.10.19.01.0.0,88,5,5
+3103,Pg-Mestrado Profissional em Ciências da Saúde,04.10.23.01.0.0,88,5,5
+7052,Programa de Residência Multiprofissional em Atenção à Saúde da Mulher e da Criança,04.10.28.09.0.0,88,5,5
+7054,Programa de Residência Multiprofissional em Atenção à Saúde Mental,04.10.28.11.0.0,88,5,5
+7050,Programa de Residência Multiprofissional em Onco-Hematologia,04.10.28.08.0.0,88,5,5
+7048,Programa de Residência Multiprofissional em Saúde da Família,04.10.28.06.0.0,88,5,5
+7053,Programa de Residência Multiprofissional em Saúde do Adulto com Ênfase em Doenças Crônico Degenerativas,04.10.28.10.0.0,88,5,5
+7049,Programa de Residência Multiprofissional em Vigilância em Saúde,04.10.28.07.0.0,88,5,5
+5486,Programa de Residência Multiprofissional Integrada em Gestão e Atenção Hospitalar no Sistema Público Saúde - Especialização,04.10.28.04.0.0,88,5,5
+5489,Programa de Residência Multiprofissional Integrada em Saúde Mental no Sistema Público de Saúde - Especialização,04.10.28.05.0.0,88,5,5
+4899,Residência Médica,04.10.02.54.0.0,88,5,5
+1552,Residência Médica - Oncologia,04.10.02.01.0.0,88,5,5
+5660,Residência Médica - Administração em Saúde,04.10.02.57.0.0,88,5,5
+1555,Residência Médica - Anatomia Patológica,04.10.02.04.0.0,88,5,5
+1556,Residência Médica - Anestesiologia,04.10.02.05.0.0,88,5,5
+1728,Residência Médica - Cancerologia,04.10.02.15.0.0,88,5,5
+1896,Residência Médica - Cancerologia Pediátrica,04.10.02.17.0.0,88,5,5
+2409,Residência Médica - Cardiologia,04.10.02.19.0.0,88,5,5
+1562,Residência Médica - Cirurgia,04.10.02.11.0.0,88,5,5
+4125,Residência Médica - Cirurgia de Cabeça e Pescoço,04.10.02.45.0.0,88,5,5
+2410,Residência Médica - Cirurgia do Aparelho Digestivo,04.10.02.20.0.0,88,5,5
+4124,Residência Médica - Cirurgia Torácica,04.10.02.44.0.0,88,5,5
+4318,Residência Médica - Cirurgia Vascular,04.10.02.47.0.0,88,5,5
+5683,Residência Médica - Cirúrgica Básica,04.10.02.59.0.0,88,5,5
+1563,Residência Médica - Clínica Médica,04.10.02.12.0.0,88,5,5
+4319,Residência Médica - Coloproctologia,04.10.02.48.0.0,88,5,5
+2913,Residência Médica - Dermatologia,04.10.02.23.0.0,88,5,5
+1557,Residência Médica - Gastroenterologia,04.10.02.06.0.0,88,5,5
+5656,Residência Médica - Gastroenterologia Pediátrica,04.10.02.56.0.0,88,5,5
+6069,Residência Médica - Geriatria,04.10.02.60.0.0,88,5,5
+1558,Residência Médica - Ginecologia e Obstetricia,04.10.02.07.0.0,88,5,5
+4505,Residência Médica - Hematologia e Hemoterapia,04.10.02.53.0.0,88,5,5
+1616,Residência Médica - Infectologia,04.10.02.13.0.0,88,5,5
+4121,Residência Médica - Infectologia Hospitalar,04.10.02.43.0.0,88,5,5
+3151,Residência Médica - Mastologia,04.10.02.28.0.0,88,5,5
+5665,Residência Médica - Medicina de Emergência,04.10.02.58.0.0,88,5,5
+2494,Residência Médica - Medicina de Família e Comunidade,04.10.02.21.0.0,88,5,5
+4317,Residência Médica - Medicina de Urgência,04.10.02.46.0.0,88,5,5
+3022,Residência Médica - Medicina Intensiva,04.10.02.26.0.0,88,5,5
+2240,Residência Médica - Medicina Intensiva Pediátrica,04.10.02.18.0.0,88,5,5
+3191,Residência Médica - Medicina Intensiva Pediátrica,04.10.02.34.0.0,88,5,5
+1553,Residência Médica - Nefrologia,04.10.02.02.0.0,88,5,5
+3193,Residência Médica - Neonatologia,04.10.02.36.0.0,88,5,5
+3194,Residência Médica - Neurologia Pediátrica,04.10.02.37.0.0,88,5,5
+4504,Residência Médica - Nutrição Parenteral e Enteral Pediátrica,04.10.02.52.0.0,88,5,5
+6682,Residência Médica - Oncologia Clínica,04.10.02.62.0.0,88,5,5
+6681,Residência Médica - Oncologia Pediátrica,04.10.02.61.0.0,88,5,5
+2495,Residência Médica - Ortopedia e Traumatologia,04.10.02.22.0.0,88,5,5
+4320,Residência Médica - Otorrinolaringologia,04.10.02.49.0.0,88,5,5
+1727,Residência Médica - Patologia,04.10.02.14.0.0,88,5,5
+1560,Residência Médica - Pediatria,04.10.02.09.0.0,88,5,5
+1554,Residência Médica - Pneumologia,04.10.02.03.0.0,88,5,5
+5649,Residência Médica - Pneumologia Pediátrica,04.10.02.55.0.0,88,5,5
+1559,Residência Médica - Psiquiatria,04.10.02.08.0.0,88,5,5
+1777,Residência Médica - R3,04.10.02.16.0.0,88,5,5
+3196,Residência Médica - R3 - Clínica Médica - Ano Opcional I,04.10.02.39.0.0,88,5,5
+3188,Residência Médica - R3 - Endoscopia Digestiva,04.10.02.31.0.0,88,5,5
+3189,Residência Médica - R3 - Endoscopia Respiratória,04.10.02.32.0.0,88,5,5
+3197,Residência Médica - R3 - Infectologia - Ano Opcional I,04.10.02.40.0.0,88,5,5
+3190,Residência Médica - R3 - Infectologia Pediátrica,04.10.02.33.0.0,88,5,5
+6869,Residência Médica - R3 - Medicina de Família e Comunidade - Ano Opcional,04.10.02.63.0.0,88,5,5
+3198,Residência Médica - R3 - Nefrologia - Ano Opcional I,04.10.02.41.0.0,88,5,5
+3192,Residência Médica - R4 - Medicina Fetal,04.10.02.35.0.0,88,5,5
+3195,Residência Médica - R4 - Psicoterapia,04.10.02.38.0.0,88,5,5
+1561,Residência Médica - Radiologia,04.10.02.10.0.0,88,5,5
+2915,Residência Médica - Radiologia e Diagnóstico por Imagem,04.10.02.25.0.0,88,5,5
+3130,Residência Médica - Radioterapia,04.10.02.27.0.0,88,5,5
+4503,Residência Médica - Transplante de Medula Óssea,04.10.02.51.0.0,88,5,5
+4355,Residência Médica - Ultrassonografia em Ginecologia e Obstetrícia,04.10.02.50.0.0,88,5,5
+3585,Residência Médica - Urologia,04.10.02.42.0.0,88,5,5
+3153,Residência Médica R3 - Cirurgia do Trauma,04.10.02.29.0.0,88,5,5
+3154,Residência Médica R3 - Ecocardiografia,04.10.02.30.0.0,88,5,5
+2548,Terapia Ocupacional,04.09.09.01.0.0,88,5,5
+1471,Administração - Diurno,06.09.01.01.0.0,91,5,5
+3606,Administração - Noturno,06.09.25.01.0.0,91,5,5
+1485,Arquivologia,06.09.02.01.0.0,91,5,5
+2426,Bacharelado em Filosofia - Noturno,06.09.15.01.0.0,91,5,5
+1771,Ciências Contábeis - Diurno,06.09.03.03.0.0,91,5,5
+1474,Ciências Contábeis - Noturno,06.09.03.01.0.0,91,5,5
+1479,Ciências Econômicas - Diurno,06.09.06.02.0.0,91,5,5
+1478,Ciências Econômicas - Noturno,06.09.06.01.0.0,91,5,5
+1493,Ciências Sociais - Bacharelado,06.09.13.01.0.0,91,5,5
+3018,Comunicação Social - Jornalismo,06.09.22.01.0.0,91,5,5
+2682,Comunicação Social - Produção Editorial,06.09.19.01.0.0,91,5,5
+3016,Comunicação Social - Publicidade e Propaganda,06.09.21.01.0.0,91,5,5
+3021,Comunicação Social - Relações Públicas,06.09.23.01.0.0,91,5,5
+4810,Curso de Bacharelado em Administração,06.09.29.01.0.0,91,5,5
+4808,Curso Superior de Tecnologia em Gestão de Turismo,06.09.28.01.0.0,91,5,5
+3780,Direito - Noturno,06.09.26.01.0.0,91,5,5
+1476,Direito Diurno,06.09.05.01.0.0,91,5,5
+1428,Filosofia - Licenciatura Plena,06.09.07.01.0.0,91,5,5
+7188,Filosofia - Licenciatura Plena - Prilei,06.09.31.01.0.0,91,5,5
+4872,História Bacharelado,06.09.10.01.0.0,91,5,5
+4874,História Licenciatura,06.09.11.01.0.0,91,5,5
+7186,História Licenciatura - Prilei,06.09.30.01.0.0,91,5,5
+3925,Licenciatura em Ciências Sociais,06.09.27.01.0.0,91,5,5
+4842,Licenciatura Sociologia/Distância/Faxinal do Soturno/RS,06.09.18.09.0.0,91,5,5
+4843,Licenciatura Sociologia/Distância/Gramado/RS,06.09.18.10.0.0,91,5,5
+4844,Licenciatura Sociologia/Distância/Jaquirana/RS,06.09.18.11.0.0,91,5,5
+4845,Licenciatura Sociologia/Distância/Mostardas/RS,06.09.18.12.0.0,91,5,5
+3223,Pg - Administração - Doutorado,06.10.43.04.0.0,91,5,5
+3222,Pg - Administração - Mestrado Acadêmico,06.10.43.03.0.0,91,5,5
+3228,Pg - Comunicação - Doutorado,06.10.35.02.0.0,91,5,5
+3227,Pg - Comunicação - Mestrado Acadêmico,06.10.35.01.0.0,91,5,5
+6814,Pg - Direito - Doutorado,06.10.36.02.0.0,91,5,5
+5173,Pg - Psicologia - Doutorado Acadêmico,06.10.39.02.0.0,91,5,5
+4647,Pg - Psicologia - Mestrado Acadêmico,06.10.39.01.0.0,91,5,5
+5166,Pg - Relações Internacionais - Mestrado Acadêmico,06.10.06.01.0.0,91,5,5
+6911,Pg Administração e Ciências Contábeis - Doutorado,06.10.43.02.0.0,91,5,5
+6910,Pg Administração e Ciências Contábeis - Mestrado,06.10.43.01.0.0,91,5,5
+5605,Pg em Administração Pública - Mestrado Acadêmico,06.00.01.01.0.0,91,5,5
+5974,Pg em Ciências Contábeis - Mestrado Acadêmico,06.10.43.05.0.0,91,5,5
+5126,Pg em Ciências Sociais - Doutorado,06.10.26.02.0.0,91,5,5
+2346,Pg em Ciências Sociais - Mestrado,06.10.26.01.0.0,91,5,5
+7004,Pg em Economia e Desenvolvimento - Doutorado Acadêmico,06.10.33.02.0.0,91,5,5
+3097,Pg em Economia e Desenvolvimento - Mestrado Acadêmico,06.10.33.01.0.0,91,5,5
+5524,Pg em Estudos de Gênero - Especialização,06.10.01.01.0.0,91,5,5
+6849,Pg em Gestão de Organizações Públicas - Doutorado Profissional,06.10.40.02.0.0,91,5,5
+4823,Pg em Gestão de Organizações Públicas - Mestrado Profissional,06.10.40.01.0.0,91,5,5
+4331,Pg em História - Doutorado,06.10.31.02.0.0,91,5,5
+3044,Pg em História - Mestrado Acadêmico,06.10.31.01.0.0,91,5,5
+2244,Pg em Patrimônio Cultural - Mestrado Profissional,06.10.22.01.0.0,91,5,5
+5060,Pg Especialização em Gestão de Pessoas,06.10.13.01.0.0,91,5,5
+1575,Pg Filosofia - Mestrado,06.10.02.04.0.0,91,5,5
+6886,Pg Serviço Social e Políticas Públicas - Mestrado,06.10.44.01.0.0,91,5,5
+3345,Pg- Direito - Mestrado Acadêmico,06.10.36.01.0.0,91,5,5
+6707,Pg-E em Ciência de Dados na Administração Pública/EAD/Esteio/RS,06.00.01.50.1.0,91,5,5
+6708,Pg-E em Ciência de Dados na Administração Pública/EAD/Foz do Iguaçu/PR,06.00.01.50.2.0,91,5,5
+6709,Pg-E em Ciência de Dados na Administração Pública/EAD/Rosário do Sul/RS,06.00.01.50.3.0,91,5,5
+6710,Pg-E em Ciência de Dados na Administração Pública/EAD/Santana da Boa Vista/RS,06.00.01.50.4.0,91,5,5
+6711,Pg-E em Ciência de Dados na Administração Pública/EAD/São João do Polêsine/RS,06.00.01.50.5.0,91,5,5
+6690,Pg-E em Ensino de Filosofia no Ensino Médio/EAD/Cerro Largo/RS,06.10.37.10.0.0,91,5,5
+4152,Pg-E em Ensino de Filosofia no Ensino Médio/EAD/Cruz Alta/RS,06.10.37.01.0.0,91,5,5
+6691,Pg-E em Ensino de Filosofia no Ensino Médio/EAD/Esteio/RS,06.10.37.11.0.0,91,5,5
+4403,Pg-E em Ensino de Filosofia no Ensino Médio/EAD/Novo Hamburgo/RS,06.10.37.09.0.0,91,5,5
+4402,Pg-E em Ensino de Filosofia no Ensino Médio/EAD/Santana do Livramento/RS,06.10.37.08.0.0,91,5,5
+6693,Pg-E em Ensino de Filosofia no Ensino Médio/EAD/Sapiranga/RS,06.10.37.13.0.0,91,5,5
+6692,Pg-E em Ensino de Filosofia no Ensino Médio/EAD/Sarandi/RS,06.10.37.12.0.0,91,5,5
+6039,Pg-Lato Sensu Gestão Pública Municipal/Distância/Encantado,06.10.29.09.0.0,91,5,5
+6040,Pg-Lato Sensu Gestão Pública Municipal/Distância/Santana da Boa Vista,06.10.29.10.0.0,91,5,5
+2674,Pg-Lato Sensu Gestão Pública Municipal/Distância/Sapucaia do Sul/RS,06.10.29.04.0.0,91,5,5
+6041,Pg-Lato Sensu Gestão Pública Municipal/Distância/São João do Polêsine,06.10.29.11.0.0,91,5,5
+6042,Pg-Lato Sensu Gestão Pública Municipal/Distância/Serafina Corrêa,06.10.29.12.0.0,91,5,5
+6629,Pg-Lato Sensu Gestão Pública/Distância/Agudo/RS,06.10.28.14.0.0,91,5,5
+6630,Pg-Lato Sensu Gestão Pública/Distância/Candelária/RS,06.10.28.15.0.0,91,5,5
+2668,Pg-Lato Sensu Gestão Pública/Distância/Panambi/RS,06.10.28.05.0.0,91,5,5
+2666,Pg-Lato Sensu Gestão Pública/Distância/Picada Café/RS,06.10.28.03.0.0,91,5,5
+6631,Pg-Lato Sensu Gestão Pública/Distância/Santiago/RS,06.10.28.16.0.0,91,5,5
+3087,Programa Pg Filosofia - Doutorado,06.10.02.06.0.0,91,5,5
+3086,Programa Pg Filosofia - Mestrado,06.10.02.05.0.0,91,5,5
+1492,Psicologia,06.09.12.01.0.0,91,5,5
+2547,Relações Internacionais,06.09.16.01.0.0,91,5,5
+2684,Serviço Social - Bacharelado (Noturno),06.09.20.01.0.0,91,5,5
+4859,Curso de Formação de Professores para Educação Profissional/EAD/Agudo/RS,05.09.11.08.0.0,94,5,5
+6759,Curso de Formação de Professores para Educação Profissional/EAD/Balneário Pinhal/RS,05.09.11.10.0.0,94,5,5
+6966,Curso de Formação de Professores para Educação Profissional/EAD/Cachoeira do Sul/RS,05.09.11.12.0.0,94,5,5
+6760,Curso de Formação de Professores para Educação Profissional/EAD/Cerro Largo/RS,05.09.11.11.0.0,94,5,5
+6967,Curso de Formação de Professores para Educação Profissional/EAD/Esteio/RS,05.09.11.13.0.0,94,5,5
+4860,Curso de Formação de Professores para Educação Profissional/EAD/Gramado/RS,05.09.11.09.0.0,94,5,5
+3753,Curso de Formação de Professores para Educação Profissional/EAD/Novo Hamburgo/RS,05.09.11.01.0.0,94,5,5
+6968,Curso de Formação de Professores para Educação Profissional/EAD/Santiago/RS,05.09.11.14.0.0,94,5,5
+6969,Curso de Formação de Professores para Educação Profissional/EAD/Santo Antônio da Patrulha/RS,05.09.11.15.0.0,94,5,5
+4256,Curso de Formação de Professores para Educação Profissional/EAD/Sapiranga/RS,05.09.11.06.0.0,94,5,5
+7118,Curso de Formação de Professores para Educação Profissional/Semipresencial/Cachoeira do Sul/RS,05.09.16.02.0.0,94,5,5
+7119,Curso de Formação de Professores para Educação Profissional/Semipresencial/Esteio/RS,05.09.16.03.0.0,94,5,5
+7117,Curso de Formação de Professores para Educação Profissional/Semipresencial/Novo Hamburgo/RS,05.09.16.01.0.0,94,5,5
+7120,Curso de Formação de Professores para Educação Profissional/Semipresencial/Santiago/RS,05.09.16.04.0.0,94,5,5
+7121,Curso de Formação de Professores para Educação Profissional/Semipresencial/Santo Antônio da Patrulha/RS,05.09.16.05.0.0,94,5,5
+1761,Educação Especial - Licenciatura Plena,05.09.01.04.0.0,94,5,5
+1862,Educação Especial - Licenciatura/Distância,05.09.05.01.0.0,94,5,5
+4052,Educação Especial - Licenciatura/Distância/Agudo/RS,05.09.05.09.0.0,94,5,5
+6962,Educação Especial - Licenciatura/Distância/Cacequi/RS,05.09.05.25.0.0,94,5,5
+5998,Educação Especial - Licenciatura/Distância/Cachoeira do Sul /RS,05.09.05.14.0.0,94,5,5
+6745,Educação Especial - Licenciatura/Distância/Canguçu/RS,05.09.05.19.0.0,94,5,5
+5999,Educação Especial - Licenciatura/Distância/Cerro Largo/RS,05.09.05.15.0.0,94,5,5
+6000,Educação Especial - Licenciatura/Distância/Cruz Alta/RS,05.09.05.16.0.0,94,5,5
+2977,Educação Especial - Licenciatura/Distância/Foz do Iguaçu/PR,05.09.05.04.0.0,94,5,5
+6001,Educação Especial - Licenciatura/Distância/Gramado/RS,05.09.05.17.0.0,94,5,5
+6749,Educação Especial - Licenciatura/Distância/Imbé/RS,05.09.05.23.0.0,94,5,5
+3213,Educação Especial - Licenciatura/Distância/Novo Hamburgo/RS,05.09.05.07.0.0,94,5,5
+6965,Educação Especial - Licenciatura/Distância/Passo Fundo/RS,05.09.05.28.0.0,94,5,5
+6746,Educação Especial - Licenciatura/Distância/Quaraí/RS,05.09.05.20.0.0,94,5,5
+6747,Educação Especial - Licenciatura/Distância/Rio Grande/RS,05.09.05.21.0.0,94,5,5
+6748,Educação Especial - Licenciatura/Distância/Rosário do Sul/RS,05.09.05.22.0.0,94,5,5
+2975,Educação Especial - Licenciatura/Distância/Santana do Livramento/RS,05.09.05.02.0.0,94,5,5
+6963,Educação Especial - Licenciatura/Distância/Santiago/RS,05.09.05.26.0.0,94,5,5
+4796,Educação Especial - Licenciatura/Distância/Santo Antônio da Patrulha/RS,05.09.05.13.0.0,94,5,5
+6750,Educação Especial - Licenciatura/Distância/Sapiranga/RS,05.09.05.24.0.0,94,5,5
+6964,Educação Especial - Licenciatura/Distância/São Gabriel/RS,05.09.05.27.0.0,94,5,5
+6002,Educação Especial - Licenciatura/Distância/Tapejara/RS,05.09.05.18.0.0,94,5,5
+6838,Educação Especial Inclusiva,05.09.14.01.0.0,94,5,5
+7190,Educação Especial Inclusiva - Prilei,05.09.17.01.0.0,94,5,5
+2455,Espec. Gestão Educacional/EAD/Agudo/RS,05.10.11.07.0.0,94,5,5
+6632,Espec. Gestão Educacional/EAD/Cachoeira do Sul/RS,05.10.11.19.0.0,94,5,5
+4861,Espec. Gestão Educacional/EAD/Novo Hamburgo/RS,05.10.11.18.0.0,94,5,5
+4388,Espec. Gestão Educacional/EAD/Santana do Livramento/RS,05.10.11.16.0.0,94,5,5
+6633,Espec. Gestão Educacional/EAD/São Sepé/RS,05.10.11.20.0.0,94,5,5
+3113,Espec. Gestão Educacional/EAD/Três Passos/RS,05.10.11.10.0.0,94,5,5
+3139,Especialização em Docência na Educação Infantil,05.10.15.01.0.0,94,5,5
+6456,Licenciatura em Ciências da Religião/EAD/Bagé/RS,05.09.12.06.0.0,94,5,5
+6457,Licenciatura em Ciências da Religião/EAD/Balneário Pinhal/RS,05.09.12.07.0.0,94,5,5
+4791,Licenciatura em Ciências da Religião/EAD/Cacequi/RS,05.09.12.03.0.0,94,5,5
+4793,Licenciatura em Ciências da Religião/EAD/Constantina/RS,05.09.12.05.0.0,94,5,5
+6458,Licenciatura em Ciências da Religião/EAD/Cruz Alta/RS,05.09.12.08.0.0,94,5,5
+4789,Licenciatura em Ciências da Religião/EAD/Quaraí/RS,05.09.12.01.0.0,94,5,5
+4792,Licenciatura em Ciências da Religião/EAD/São Francisco de Paula/RS,05.09.12.04.0.0,94,5,5
+4790,Licenciatura em Ciências da Religião/EAD/São João do Polêsine/RS,05.09.12.02.0.0,94,5,5
+6459,Licenciatura em Ciências da Religião/EAD/Serafina Corrêa/RS,05.09.12.09.0.0,94,5,5
+6460,Licenciatura em Ciências da Religião/EAD/Tio Hugo/RS,05.09.12.10.0.0,94,5,5
+6461,Licenciatura em Ciências da Religião/EAD/Vila Flores/RS,05.09.12.11.0.0,94,5,5
+2428,Licenciatura em Educação Especial - Noturno,05.09.09.01.0.0,94,5,5
+7111,Licenciatura em Educação Especial/Semipresencial/Agudo/RS,05.09.15.01.0.0,94,5,5
+7113,Licenciatura em Educação Especial/Semipresencial/Cacequi/RS,05.09.15.03.0.0,94,5,5
+7114,Licenciatura em Educação Especial/Semipresencial/Santiago/RS,05.09.15.04.0.0,94,5,5
+7112,Licenciatura em Educação Especial/Semipresencial/Santo Antônio da Patrulha/RS,05.09.15.02.0.0,94,5,5
+7115,Licenciatura em Educação Especial/Semipresencial/São Gabriel/RS,05.09.15.05.0.0,94,5,5
+2219,Pedagogia - Licenciatura Plena Diurno,05.09.07.01.0.0,94,5,5
+2217,Pedagogia - Licenciatura Plena Noturno,05.09.06.01.0.0,94,5,5
+5098,Pedagogia-Licenciatura/Distância/Cachoeira do Sul/RS,05.09.08.24.0.0,94,5,5
+4462,Pedagogia-Licenciatura/Distância/Cerro Largo/RS,05.09.08.19.0.0,94,5,5
+4457,Pedagogia-Licenciatura/Distância/Encantado/RS,05.09.08.14.0.0,94,5,5
+4458,Pedagogia-Licenciatura/Distância/Jacuizinho/RS,05.09.08.15.0.0,94,5,5
+4463,Pedagogia-Licenciatura/Distância/Novo Hamburgo/RS,05.09.08.20.0.0,94,5,5
+3891,Pedagogia-Licenciatura/Distância/Palmeira das Missões/RS,05.09.08.12.0.0,94,5,5
+5101,Pedagogia-Licenciatura/Distância/Santana da Boa Vista/RS,05.09.08.25.0.0,94,5,5
+6449,Pedagogia-Licenciatura/Distância/Santana do Livramento/RS,05.09.08.27.0.0,94,5,5
+4461,Pedagogia-Licenciatura/Distância/Sapucaia do Sul/RS,05.09.08.18.0.0,94,5,5
+5144,Pedagogia-Licenciatura/Distância/Sarandi/RS,05.09.08.26.0.0,94,5,5
+4459,Pedagogia-Licenciatura/Distância/São Francisco de Paula/RS,05.09.08.16.0.0,94,5,5
+4460,Pedagogia-Licenciatura/Distância/São Sepé/RS,05.09.08.17.0.0,94,5,5
+4465,Pedagogia-Licenciatura/Distância/Seberi/RS,05.09.08.22.0.0,94,5,5
+2291,Pedagogia-Licenciatura/Distância/Sobradinho/RS,05.09.08.06.0.0,94,5,5
+2293,Pedagogia-Licenciatura/Distância/Tapejara/RS,05.09.08.07.0.0,94,5,5
+4466,Pedagogia-Licenciatura/Distância/Tio Hugo/RS,05.09.08.23.0.0,94,5,5
+2294,Pedagogia-Licenciatura/Distância/Três de Maio/RS,05.09.08.08.0.0,94,5,5
+2295,Pedagogia-Licenciatura/Distância/Três Passos/RS,05.09.08.09.0.0,94,5,5
+2971,Pedagogia/Distância/Agudo/RS,05.09.08.11.0.0,94,5,5
+2285,Pedagogia/Distância/Cruz Alta/RS,05.09.08.01.0.0,94,5,5
+2287,Pedagogia/Distância/Faxinal do Soturno/RS,05.09.08.02.0.0,94,5,5
+6769,Pedagogia/Distância/Gramado/RS,05.09.08.28.0.0,94,5,5
+2458,Pedagogia/Distância/Panambi/RS,05.09.08.10.0.0,94,5,5
+2288,Pedagogia/Distância/Restinga Sêca/RS,05.09.08.03.0.0,94,5,5
+2289,Pedagogia/Distância/Santana do Livramento/RS,05.09.08.04.0.0,94,5,5
+3561,Pg - Mestrado Profissional em Tecnologias Educacionais em Rede,05.10.16.01.0.0,94,5,5
+2358,Pg Educação - Doutorado,05.10.03.08.0.0,94,5,5
+1603,Pg Educação - Mestrado,05.10.03.01.0.0,94,5,5
+1544,Pg Educação Ambiental,05.10.20.03.0.0,94,5,5
+4659,Pg em Gestão Educacional - Especialização,05.10.20.01.0.0,94,5,5
+6850,Pg em História em Rede Nacional - Doutorado Profissional,05.10.18.02.0.0,94,5,5
+4149,Pg em História em Rede Nacional - Mestrado Profissional,05.10.18.01.0.0,94,5,5
+4658,Pg em Políticas Públicas e Gestão Educacional - Mestrado Profissional,05.10.20.02.0.0,94,5,5
+6716,Pg-E de Gestão Pública na Educação Infantil e Docência/EAD/Santana do Livramento/RS,05.10.21.04.0.0,94,5,5
+6714,Pg-E de Gestão Pública na Educação Infantil e Docência/EAD/Sobradinho/RS,05.10.21.02.0.0,94,5,5
+6713,Pg-E de Gestão Pública na Educação Infantil e Docência/EAD/Tapejara/RS,05.10.21.01.0.0,94,5,5
+6715,Pg-E de Gestão Pública na Educação Infantil e Docência/EAD/Três de Maio/RS,05.10.21.03.0.0,94,5,5
+6717,Pg-E de Gestão Pública na Educação Infantil e Docência/EAD/Três Passos/RS,05.10.21.05.0.0,94,5,5
+6181,Programa Especial de Graduação de Formação de Professores para a Educação Profissional,05.09.13.01.0.0,94,5,5
+2591,Programa Especial de Graduação de Formação de Professores para a Educação Profissional,05.10.13.01.0.0,94,5,5
+1600,Educação Física,09.09.01.01.0.0,97,5,5
+3498,Educação Física - Bacharelado,09.09.03.01.0.0,97,5,5
+7003,Pg - Ciências do Movimento e Reabilitação - Doutorado Acadêmico,09.10.07.02.0.0,97,5,5
+6150,Pg - Ciências do Movimento e Reabilitação - Mestrado Acadêmico,09.10.07.01.0.0,97,5,5
+4075,Pg - Gerontologia - Mestrado Acadêmico,09.10.06.01.0.0,97,5,5
+1894,Pg-E em Educação Física Escolar,09.10.01.10.0.0,97,5,5
+3098,"Pg-E Pesquisa em Movimento Humano, Sociedade e Cultura",09.10.01.11.0.0,97,5,5
+1470,Arquitetura e Urbanismo,07.09.06.01.0.0,117,5,5
+2546,Bacharelado em Sistemas de Informação,07.09.12.01.0.0,117,5,5
+1469,Ciência da Computação - Bacharelado,07.09.05.02.0.0,117,5,5
+2448,Curso de Engenharia Acústica,07.09.10.01.0.0,117,5,5
+4044,Curso de Engenharia Aeroespacial,07.09.13.01.0.0,117,5,5
+6739,Curso de Engenharia Ambiental e Sanitária,07.09.15.01.0.0,117,5,5
+2446,Curso de Engenharia de Computação,07.09.09.01.0.0,117,5,5
+2444,Curso de Engenharia de Produção,07.09.08.01.0.0,117,5,5
+4045,Curso de Engenharia de Telecomunicações,07.09.14.01.0.0,117,5,5
+6831,Curso de Especialização em Microeletrônica - Lato Sensu,07.10.18.02.0.0,117,5,5
+2442,Curso Engenharia de Controle e Automação,07.09.07.01.0.0,117,5,5
+1658,Engenharia,07.09.01.02.0.0,117,5,5
+1494,Engenharia Civil,07.09.01.01.0.0,117,5,5
+1463,Engenharia Elétrica,07.09.02.01.0.0,117,5,5
+1464,Engenharia Elétrica - Ênfase Eletrotécnica,07.09.02.01.0.1,117,5,5
+1465,Engenharia Elétrica - Ênfase Eletrônica,07.09.02.01.0.2,117,5,5
+1466,Engenharia Mecânica,07.09.03.01.0.0,117,5,5
+1467,Engenharia Química,07.09.04.01.0.0,117,5,5
+4857,"Pg em Arquitetura, Urbanismo e Paisagismo - Mestrado",07.10.17.01.0.0,117,5,5
+5184,Pg em Engenharia Ambiental - Doutorado Acadêmico,07.10.21.06.0.0,117,5,5
+3252,Pg em Engenharia Ambiental - Mestrado Acadêmico,07.10.21.05.0.0,117,5,5
+4573,Pg em Engenharia Química - Doutorado,07.10.16.02.0.0,117,5,5
+4572,Pg em Engenharia Química - Mestrado,07.10.16.01.0.0,117,5,5
+2504,Pg Engenharia Civil - Doutorado,07.10.21.04.0.0,117,5,5
+1592,Pg Engenharia Civil - Mestrado,07.10.21.03.0.0,117,5,5
+6872,Pg Engenharia Civil e Ambiental - Doutorado,07.10.21.02.0.0,117,5,5
+6871,Pg Engenharia Civil e Ambiental - Mestrado,07.10.21.01.0.0,117,5,5
+5550,Pg Engenharia de Produção - Doutorado,07.10.02.10.0.0,117,5,5
+3143,Pg Engenharia de Produção - Mestrado,07.10.02.09.0.0,117,5,5
+1583,Pg Engenharia Elétrica - Doutorado,07.10.01.02.0.0,117,5,5
+1582,Pg Engenharia Elétrica - Mestrado,07.10.01.01.0.0,117,5,5
+4392,Pg-E Educação Ambiental/Distância/Polo São Francisco de Paula /RS,07.10.15.16.0.0,117,5,5
+4391,Pg-E Educação Ambiental/Distância/Polo Serafina Corrêa/RS,07.10.15.15.0.0,117,5,5
+3944,Pg-E Educação Ambiental/Distância/Pólo Constantina,07.10.15.11.0.0,117,5,5
+3934,Pg-E Educação Ambiental/Distância/Pólo Panambi,07.10.15.02.0.0,117,5,5
+3941,Pg-E Educação Ambiental/Distância/Sobradinho/RS,07.10.15.08.0.0,117,5,5
+3942,Pg-E Educação Ambiental/Distância/Três Passos/RS,07.10.15.09.0.0,117,5,5
+5019,Pós-Graduação em Ciência da Computação - Mestrado Acadêmico,07.10.18.01.0.0,117,5,5
+5575,Pós-Graduação em Engenharia Mecânica - Mestrado Acadêmico,07.10.19.01.0.0,117,5,5
+6178,Curso de Educação - Habilitação em Pedagogia,95.01.01.00.0.0,205,5,5
+6647,Curso de Especialização em Sistemas de Computação,95.02.01.00.0.0,205,5,5
+6839,Curso de Especialização em Sistemas de Gestão Aplicados à Construção Civil,95.02.02.00.0.0,205,5,5
+6698,Curso de Formação de Professores de Disciplinas Especializadas do Ensino de 2º Grau,95.01.02.00.0.0,205,5,5
+6470,Curso Técnico em Agropecuária Integrado ao 2º Grau,95.10.01.00.0.0,205,5,5
+1675,Estudante Especial de Graduação,01.08.05.00.0.0,205,5,5
+1676,Estudante Especial de Pós-Graduação,01.09.05.00.0.0,205,5,5
+7149,Estudante Especial de Pós-Graduação,01.09.14.00.0.0,205,5,5
+3133,Estudante Especial II de Graduação,01.08.09.00.0.0,205,5,5
+1706,Estudante Intercâmbio de Graduação,01.08.06.00.0.0,205,5,5
+3129,Estudante Intercâmbio de Pós-Graduação,01.09.12.00.0.0,205,5,5
+1775,Mobilidade Acadêmica,01.08.07.00.0.0,205,5,5
+6882,Mobilidade Acadêmica - Pós-Graduação,01.09.27.00.0.0,205,5,5
+6809,Mobilidade Acadêmica Internacional,01.08.12.03.0.0,205,5,5
+6126,Mobilidade Virtual Internacional,01.08.08.00.0.0,205,5,5
+1922,Programa de Pós-Doutorado,01.09.04.01.0.0,205,5,5
+6123,Promover - Mobilidade Virtual em Rede,01.08.04.00.0.0,205,5,5
+6209,Agente de Desenvolvimento Cooperativista (Proeja-Fic-Eja-Ensino-Médio),26.26.09.02.0.0,2712,5,5
+6210,Assistente Administrativo (Proeja-Fic-Eja-Ensino-Médio),26.26.09.03.0.0,2712,5,5
+4222,CPOL - Curso Técnico em Cooperativismo/Distância/Cruz Alta/RS,26.26.25.02.0.0,2712,5,5
+4221,CPOL - Curso Técnico em Cooperativismo/Distância/São João do Polêsine/RS,26.26.25.01.0.0,2712,5,5
+6130,CPOL - Curso Técnico em Cooperativismo/Distância/Silveira Martins/RS,26.26.25.03.0.0,2712,5,5
+4218,CPOL - Curso Técnico em Fruticultura/Distância/Agudo/RS,26.26.24.01.0.0,2712,5,5
+4219,CPOL - Curso Técnico em Fruticultura/Distância/Santa Maria/RS,26.26.24.02.0.0,2712,5,5
+4220,CPOL - Curso Técnico em Fruticultura/Distância/São João do Polêsine/RS,26.26.24.03.0.0,2712,5,5
+4223,CPOL - Curso Técnico em Manutenção e Suporte em Informática/Distância/Faxinal do Soturno/RS,26.04.32.21.0.0,2712,5,5
+4224,CPOL - Curso Técnico em Manutenção e Suporte em Informática/Distância/São Sepé/RS,26.04.32.22.0.0,2712,5,5
+7212,Curso de Agricultor Familiar,26.04.30.46.0.0,2712,5,5
+6875,Curso de Assistente Administrativo,26.04.30.42.0.0,2712,5,5
+6876,Curso de Assistente em Informação e Gestão do Trabalho em Saúde,26.04.30.43.0.0,2712,5,5
+7184,Curso de Cuidador de Idoso,26.04.30.45.0.0,2712,5,5
+7183,Curso de Padeiro,26.04.30.44.0.0,2712,5,5
+2898,Curso Superior de Tecnologia de Geoprocessamento,26.26.05.01.0.0,2712,5,5
+4778,Curso Superior de Tecnologia em Gestão Ambiental,26.26.07.01.0.0,2712,5,5
+2896,Curso Superior de Tecnologia em Gestão de Cooperativas,26.26.04.01.0.0,2712,5,5
+2895,Curso Superior de Tecnologia em Sistemas para Internet,26.26.06.01.0.0,2712,5,5
+7133,Curso Técnico em Enfermagem Noturno,26.26.27.01.0.0,2712,5,5
+2947,Ensino Médio,26.26.28.01.0.0,2712,5,5
+2948,Ensino Médio,26.26.29.01.0.0,2712,5,5
+4291,Espanhol/Sem Fronteiras/Politécnico,26.04.32.32.0.0,2712,5,5
+4290,Inglês/Sem Fronteiras/Politécnico,26.04.32.31.0.0,2712,5,5
+3083,Pg em Agricultura de Precisão - Mestrado Profissional,26.04.15.01.0.0,2712,5,5
+4815,Pg em Geomática - Especialização,26.26.05.02.0.0,2712,5,5
+5045,Pg-E em Desenvolvimento de Aplicativos para Dispositivos Móveis-EAD-UAB/Cachoeira do Sul,26.04.32.41.2.0,2712,5,5
+5046,Pg-E em Desenvolvimento de Aplicativos para Dispositivos Móveis-EAD-UAB/Esteio,26.04.32.41.3.0,2712,5,5
+5048,Pg-E em Desenvolvimento de Aplicativos para Dispositivos Móveis-EAD-UAB/Panambi,26.04.32.41.5.0,2712,5,5
+5022,Pg-E em Desenvolvimento de Aplicativos para Dispositivos Móveis-EAD-UAB/Santa Maria,26.04.32.41.1.0,2712,5,5
+5047,Pg-E em Desenvolvimento de Aplicativos para Dispositivos Móveis-EAD-UAB/Três de Maio,26.04.32.41.4.0,2712,5,5
+4003,Técnico Agrícola Habilitação Agropecuária -Turno Manhã-Pós-Médio,26.26.10.01.1.0,2712,5,5
+4004,Técnico Agrícola Habilitação Agropecuária-Turno Tarde-Pós-Médio,26.26.10.01.2.0,2712,5,5
+2941,Técnico Agrícola Habilitação em Agropecuária - Pós-Médio,26.26.10.01.0.0,2712,5,5
+2909,Técnico em Administração - Pós-Médio,26.26.09.01.0.0,2712,5,5
+4911,Técnico em Agricultura,26.26.21.01.0.0,2712,5,5
+5802,Técnico em Agricultura de Precisão,26.26.22.01.0.0,2712,5,5
+6731,Técnico em Agrimensura,26.26.26.01.0.0,2712,5,5
+4316,Técnico em Alimentos,26.26.16.01.0.0,2712,5,5
+6509,Técnico em Comércio,26.26.23.01.0.0,2712,5,5
+3132,Técnico em Contabilidade,26.26.14.01.0.0,2712,5,5
+4812,Técnico em Cuidados de Idosos,26.26.19.01.0.0,2712,5,5
+4839,Técnico em Enfermagem,26.26.20.01.0.0,2712,5,5
+4499,Técnico em Farmácia,26.26.17.01.0.0,2712,5,5
+6732,Técnico em Geoprocessamento,26.26.26.02.0.0,2712,5,5
+2944,Técnico em Informática - Pós-Médio,26.26.11.01.0.0,2712,5,5
+6729,Técnico em Informática para Internet,26.26.11.01.3.0,2712,5,5
+4006,Técnico em Informática-Turno Noite-Pós-Médio,26.26.11.01.2.0,2712,5,5
+4005,Técnico em Informática-Turno Tarde-Pós-Médio,26.26.11.01.1.0,2712,5,5
+2945,Técnico em Jardinagem,26.26.12.01.0.0,2712,5,5
+5721,Técnico em Meio Ambiente,26.26.13.01.0.0,2712,5,5
+2946,Técnico em Paisagismo,26.26.12.02.0.0,2712,5,5
+4002,Técnico em Secretariado,26.26.15.01.0.0,2712,5,5
+4501,Técnico em Zootecnia,26.26.18.01.0.0,2712,5,5
+4013,CTISM - Automação Industrial Subsequente - Noturno,25.18.06.04.0.0,2732,5,5
+4203,CTISM - Automação Industrial/Distância/Agudo/RS,25.18.31.00.0.0,2732,5,5
+2932,CTISM - Automação Industrial/Distância/Alegrete/RS,25.18.21.00.0.0,2732,5,5
+2933,CTISM - Automação Industrial/Distância/Bagé/RS,25.18.22.00.0.0,2732,5,5
+3079,CTISM - Automação Industrial/Distância/Cachoeira do Sul/RS,25.18.28.00.0.0,2732,5,5
+2934,CTISM - Automação Industrial/Distância/Canguçu/RS,25.18.23.00.0.0,2732,5,5
+3080,CTISM - Automação Industrial/Distância/Cruz Alta/RS,25.18.29.00.0.0,2732,5,5
+2931,CTISM - Automação Industrial/Distância/Santa Maria/RS,25.18.20.00.0.0,2732,5,5
+3078,CTISM - Automação Industrial/Distância/Santana do Livramento/RS,25.18.27.00.0.0,2732,5,5
+2937,CTISM - Automação Industrial/Distância/Santo Antônio da Patrulha/RS,25.18.26.00.0.0,2732,5,5
+2935,CTISM - Automação Industrial/Distância/São Borja/RS,25.18.24.00.0.0,2732,5,5
+4204,CTISM - Automação Industrial/Distância/São Francisco de Paula/RS,25.18.32.00.0.0,2732,5,5
+3142,CTISM - Automação Industrial/Distância/São João do Polêsine/RS,25.18.30.00.0.0,2732,5,5
+2936,CTISM - Automação Industrial/Distância/São Lourenço do Sul/RS,25.18.25.00.0.0,2732,5,5
+4205,CTISM - Automação Industrial/Distância/Tapejara/RS,25.18.33.00.0.0,2732,5,5
+2925,CTISM - Eletromecânica - Noturno,25.18.05.02.0.0,2732,5,5
+4209,CTISM - Informática para Internet/Distância/Agudo/RS,25.18.42.00.0.0,2732,5,5
+4211,CTISM - Informática para Internet/Distância/Restinga Sêca/RS,25.18.44.00.0.0,2732,5,5
+4210,CTISM - Informática para Internet/Distância/Santa Maria/RS,25.18.43.00.0.0,2732,5,5
+4212,CTISM - Informática para Internet/Distância/Santana do Livramento/RS,25.18.45.00.0.0,2732,5,5
+2922,CTISM - Mecânica - Noturno,25.18.04.02.0.0,2732,5,5
+4213,CTISM - Mecânica/Distância/Cachoeira do Sul/RS,25.18.46.00.0.0,2732,5,5
+4214,CTISM - Mecânica/Distância/Cruz Alta/RS,25.18.47.00.0.0,2732,5,5
+4215,CTISM - Mecânica/Distância/São Francisco de Paula/RS,25.18.48.00.0.0,2732,5,5
+4216,CTISM - Mecânica/Distância/Tapejara/RS,25.18.49.00.0.0,2732,5,5
+2928,CTISM - Segurança do Trabalho - Noturno,25.18.07.01.0.0,2732,5,5
+3262,CTISM - Segurança do Trabalho/Distância/Cachoeira do Sul/RS,25.18.37.00.0.0,2732,5,5
+4206,CTISM - Segurança do Trabalho/Distância/Cruz Alta/RS,25.18.38.00.0.0,2732,5,5
+4207,CTISM - Segurança do Trabalho/Distância/Restinga Sêca/RS,25.18.39.00.0.0,2732,5,5
+4787,CTISM - Segurança do Trabalho/Distância/Santa Maria/RS,25.18.41.00.0.0,2732,5,5
+3259,CTISM - Segurança do Trabalho/Distância/Santana do Livramento/RS,25.18.34.00.0.0,2732,5,5
+3260,CTISM - Segurança do Trabalho/Distância/Santo Antônio da Patrulha/RS,25.18.35.00.0.0,2732,5,5
+4208,CTISM - Segurança do Trabalho/Distância/São Francisco de Paula/RS,25.18.40.00.0.0,2732,5,5
+3261,CTISM - Segurança do Trabalho/Distância/São João do Polêsine/RS,25.18.36.00.0.0,2732,5,5
+4010,CTISM - Técnico em Informática para Internet Integrado ao Ensino Médio,25.18.12.01.0.0,2732,5,5
+4012,CTISM - Técnico em Soldagem Subsequente,25.18.13.01.0.0,2732,5,5
+7210,Curso de App Clicks - Construção Rápida de Apps para Mídias Digitais,25.04.10.24.0.0,2732,5,5
+6874,Curso de Auxiliar de Manutenção Predial,25.04.10.20.0.0,2732,5,5
+7209,Curso de Drones e Impressoras 3d: Operação e Manutenção,25.04.10.23.0.0,2732,5,5
+7181,Curso de Operador de Computador,25.04.10.21.0.0,2732,5,5
+7211,Curso de Recreador,25.04.10.25.0.0,2732,5,5
+7182,Curso de Reparador de Eletrodomésticos,25.04.10.22.0.0,2732,5,5
+4785,Curso Superior de Tecnologia em Eletrônica Industrial,25.18.18.01.0.0,2732,5,5
+2938,Curso Superior de Tecnologia em Fabricação Mecânica,25.18.16.01.0.0,2732,5,5
+2939,Curso Superior de Tecnologia em Redes de Computadores,25.18.17.01.0.0,2732,5,5
+2929,Curso Técnico de Nível Médio Integrado em Eletromecânica na Modalidade Educação de Jovens e Adultos,25.18.08.01.0.0,2732,5,5
+4381,Educação Profissional e Tecnológica - Mestrado Acadêmico,25.18.14.01.0.0,2732,5,5
+2920,Ensino Médio - Integrado à Eletrotécnica,25.18.10.02.0.0,2732,5,5
+2923,Ensino Médio - Integrado à Mecânica,25.18.11.02.0.0,2732,5,5
+4486,Espanhol/Sem Fronteiras/Cachoeira do Sul,25.18.61.00.0.0,2732,5,5
+4488,Espanhol/Sem Fronteiras/Cruz Alta,25.18.63.00.0.0,2732,5,5
+4294,Espanhol/Sem Fronteiras/CTISM,25.18.51.00.0.0,2732,5,5
+4298,Espanhol/Sem Fronteiras/Faxinal do Soturno,25.18.55.00.0.0,2732,5,5
+4450,Espanhol/Sem Fronteiras/Politécnico,25.18.59.00.0.0,2732,5,5
+4300,Espanhol/Sem Fronteiras/Restinga Seca,25.18.57.00.0.0,2732,5,5
+4296,Espanhol/Sem Fronteiras/Santa Maria,25.18.53.00.0.0,2732,5,5
+6830,Especialização em Educação Superior Tecnológica e Profissional,25.18.14.02.0.0,2732,5,5
+7001,Especialização em Formação de Professores para O Ensino de Robótica - EAD-UAB/Agudo/RS,25.18.15.06.0.0,2732,5,5
+6987,Especialização em Formação de Professores para O Ensino de Robótica - EAD-UAB/Panambi/RS,25.18.15.04.0.0,2732,5,5
+6985,Especialização em Formação de Professores para O Ensino de Robótica - EAD-UAB/Passo Fundo/RS,25.18.15.02.0.0,2732,5,5
+6986,Especialização em Formação de Professores para O Ensino de Robótica - EAD-UAB/Porto Alegre/RS,25.18.15.03.0.0,2732,5,5
+6988,Especialização em Formação de Professores para O Ensino de Robótica - EAD-UAB/Três Passos/RS,25.18.15.05.0.0,2732,5,5
+4485,Inglês/Sem Fronteiras/Cachoeira do Sul,25.18.60.00.0.0,2732,5,5
+4487,Inglês/Sem Fronteiras/Cruz Alta,25.18.62.00.0.0,2732,5,5
+4293,Inglês/Sem Fronteiras/CTISM,25.18.50.00.0.0,2732,5,5
+4297,Inglês/Sem Fronteiras/Faxinal do Soturno,25.18.54.00.0.0,2732,5,5
+4449,Inglês/Sem Fronteiras/Politécnico,25.18.58.00.0.0,2732,5,5
+4299,Inglês/Sem Fronteiras/Restinga Seca,25.18.56.00.0.0,2732,5,5
+4295,Inglês/Sem Fronteiras/Santa Maria,25.18.52.00.0.0,2732,5,5
+6851,Técnico em Internet das Coisas Integrado ao Ensino Médio,25.18.64.01.0.0,2732,5,5
+3761,Técnico em Mecânica Integrado,25.18.11.01.0.0,2732,5,5
+3075,Técnico Subsequente em Eletrotécnica - Noturno,25.18.03.04.0.0,2732,5,5
+2930,Técnico Subsequente em Eletrônica,25.18.09.01.0.0,2732,5,5
+6122,Controle de Inscrição e Matrícula da Educação,29.06.00.00.0.0,3202,5,5
+4136,Arquitetura e Urbanismo,31.09.01.01.0.0,4051,5,5
+6878,Ciência de Dados e Inteligência Artificial,31.09.06.01.0.0,4051,5,5
+4137,Engenharia Agrícola,31.09.02.01.0.0,4051,5,5
+4140,Engenharia de Transportes e Logística,31.09.05.01.0.0,4051,5,5
+4139,Engenharia Elétrica,31.09.03.01.0.0,4051,5,5
+4141,Engenharia Mecânica,31.09.04.01.0.0,4051,5,5
+4594,Curso de Administração - Diurno/Campus/PM,32.09.07.01.0.0,4564,5,5
+4592,Curso de Administração - Noturno/Campus/PM,32.09.01.02.0.0,4564,5,5
+4609,Curso de Ciências Biológicas/Campus/PM,32.09.05.01.0.0,4564,5,5
+4610,Curso de Ciências Econômicas/Campus/PM,32.09.06.01.0.0,4564,5,5
+4593,Curso de Enfermagem/Campus/PM,32.09.02.01.0.0,4564,5,5
+4607,Curso de Nutrição/Campus/PM,32.09.04.01.0.0,4564,5,5
+4606,Curso de Zootecnia/Campus/PM,32.09.03.01.0.0,4564,5,5
+6957,Especialização em Gestão e Gerenciamento das Redes de Atenção à Saúde - EAD-UAB/Cruz Alta/RS,32.10.04.02.0.0,4564,5,5
+6997,Especialização em Gestão e Gerenciamento das Redes de Atenção à Saúde - EAD-UAB/Passo Fundo/RS,32.10.04.06.0.0,4564,5,5
+6959,Especialização em Gestão e Gerenciamento das Redes de Atenção à Saúde - EAD-UAB/Seberi/RS,32.10.04.04.0.0,4564,5,5
+6949,Especialização em Gestão e Gerenciamento das Redes de Atenção à Saúde - EAD-UAB/Três de Maio/RS,32.10.04.01.0.0,4564,5,5
+6960,Especialização em Gestão e Gerenciamento das Redes de Atenção à Saúde - EAD-UAB/Três Passos/RS,32.10.04.05.0.0,4564,5,5
+6813,Pg em Agronegócios - Doutorado/Campus/PM,32.10.01.02.0.0,4564,5,5
+4629,Pg em Agronegócios - Mestrado Acadêmico/Campus/PM,32.10.01.01.0.0,4564,5,5
+6125,Pg em Saúde e Ruralidade - Mestrado Acadêmico/Campus/PM,32.10.03.01.0.0,4564,5,5
+6029,Pg-E Gestão de Organização Pública em Saúde/EAD/Santana do Livramento/RS,32.10.02.14.0.0,4564,5,5
+6030,Pg-E Gestão de Organização Pública em Saúde/EAD/Sapucaia do Sul/RS,32.10.02.15.0.0,4564,5,5
+6031,Pg-E Gestão de Organização Pública em Saúde/EAD/Sarandi/RS,32.10.02.16.0.0,4564,5,5
+4759,Pg-E Gestão de Organização Pública em Saúde/EAD/Tio Hugo/RS,32.10.02.06.0.0,4564,5,5
+4758,Pg-E Gestão de Organização Pública em Saúde/EAD/Três de Maio/RS,32.10.02.05.0.0,4564,5,5
+4688,Agronomia - Campus FW,33.09.01.01.0.0,4634,5,5
+6832,Direito - CampusFW,33.09.11.01.0.0,4634,5,5
+4684,Engenharia Ambiental e Sanitária - Campus FW,33.09.05.01.0.0,4634,5,5
+4687,Engenharia Florestal - Campus FW,33.09.02.01.0.0,4634,5,5
+6189,Gestão de Tecnologia da Informação - Latu Sensu - Campus FW,33.09.06.02.0.0,4634,5,5
+4686,Jornalismo Bacharelado - Campus FW,33.09.03.01.0.0,4634,5,5
+6765,Licenciatura em Computação/EAD/Balneário Pinhal/RS,33.09.08.16.0.0,4634,5,5
+5994,Licenciatura em Computação/EAD/Cachoeira do Sul/RS,33.09.08.08.0.0,4634,5,5
+6764,Licenciatura em Computação/EAD/Canguçu/RS,33.09.08.15.0.0,4634,5,5
+5993,Licenciatura em Computação/EAD/Constantina/RS,33.09.08.07.0.0,4634,5,5
+4746,Licenciatura em Computação/EAD/Cruz Alta/RS,33.09.08.02.0.0,4634,5,5
+6762,Licenciatura em Computação/EAD/Hulha Negra/RS,33.09.08.13.0.0,4634,5,5
+5995,Licenciatura em Computação/EAD/Jacuizinho/RS,33.09.08.09.0.0,4634,5,5
+4747,Licenciatura em Computação/EAD/Palmeira das Missões/RS,33.09.08.03.0.0,4634,5,5
+6761,Licenciatura em Computação/EAD/Sapiranga/RS,33.09.08.12.0.0,4634,5,5
+4748,Licenciatura em Computação/EAD/Sarandi/RS,33.09.08.04.0.0,4634,5,5
+6763,Licenciatura em Computação/EAD/São Gabriel/RS,33.09.08.14.0.0,4634,5,5
+4781,Licenciatura em Computação/EAD/Seberi/RS,33.09.08.06.0.0,4634,5,5
+5996,Licenciatura em Computação/EAD/Tio Hugo/RS,33.09.08.10.0.0,4634,5,5
+5997,Licenciatura em Computação/EAD/Três de Maio/RS,33.09.08.11.0.0,4634,5,5
+4749,Licenciatura em Computação/EAD/Três Passos/RS,33.09.08.05.0.0,4634,5,5
+5641,Licenciatura em Educação Indígena/Distância/Constantina/RS,33.09.09.04.0.0,4634,5,5
+5630,Licenciatura em Educação Indígena/Distância/Palmeira das Missões/RS,33.09.09.03.0.0,4634,5,5
+5611,Licenciatura em Educação Indígena/Distância/Tapejara/RS,33.09.09.01.0.0,4634,5,5
+5615,Licenciatura em Educação Indígena/Distância/Três Passos/RS,33.09.09.02.0.0,4634,5,5
+6836,Licenciatura Intercultural Indígena,33.09.10.01.0.0,4634,5,5
+6982,Pg Agronomia - Agricultura e Ambiente - Doutorado - Campus FW,33.10.01.02.0.0,4634,5,5
+4682,Pg Agronomia - Agricultura e Ambiente - Mestrado - Campus FW,33.10.01.01.0.0,4634,5,5
+5134,Pg em Ciência e Tecnologia Ambiental - Mestrado - Campus FW,33.10.02.01.0.0,4634,5,5
+4685,Relações Públicas Bacharelado - Campus FW,33.09.04.01.0.0,4634,5,5
+4683,Sistemas de Informação - Campus FW,33.09.06.01.0.0,4634,5,5
+67,Departamento de Administração Escolar,05.21.00.00.0.0,94,4,99
+3101,Depto Ciências da Saúde-PM-CESNORS,16.49.00.00.0.0,2010,4,99
+2097,Depto de Administração - PM-CESNORS,16.34.00.00.0.0,2010,4,99
+3117,Depto de Zootecnia e Ciências Biológicas-PM-CESNORS,16.50.00.00.0.0,2010,4,99
+765,Depto Pedagogia e Apoio Didático,13.04.00.00.0.0,2752,4,99
+122,Departamento de Artes Cênicas,08.40.00.00.0.0,78,4,1
+68,Departamento de Artes Visuais,08.35.00.00.0.0,78,4,1
+1849,Departamento de Letras Clássicas e Lingüística,08.49.00.00.0.0,78,4,1
+173,Departamento de Letras Estrangeiras e Modernas,08.37.00.00.0.0,78,4,1
+174,Departamento de Letras Vernáculas,08.38.00.00.0.0,78,4,1
+213,Departamento de Estatística,02.31.00.00.0.0,82,4,1
+181,Departamento de Matemática,02.34.00.00.0.0,82,4,1
+102,Depto da Clínica de Grandes Animais,03.31.00.00.0.0,85,4,1
+112,Depto da Clínica de Pequenos Animais,03.32.00.00.0.0,85,4,1
+141,Departamento de Educação Agrícola e Extensão Rural,03.33.00.00.0.0,85,4,1
+116,Departamento de Cirurgia,04.31.00.00.0.0,88,4,1
+105,Departamento de Clínica Médica,04.32.00.00.0.0,88,4,1
+2000,Departamento de Fisiologia e Farmacologia,04.60.00.00.0.0,88,4,1
+158,Departamento de Ginecologia e Obstetrícia,04.38.00.00.0.0,88,4,1
+185,Departamento de Neuropsiquiatria,04.41.00.00.0.0,88,4,1
+202,Departamento de Patologia,04.44.00.00.0.0,88,4,1
+191,Departamento de Pediatria e Puericultura,04.45.00.00.0.0,88,4,1
+5786,Departamento de Arquivologia,06.35.00.00.0.0,91,4,1
+76,Departamento de Ciências Administrativas,06.30.00.00.0.0,91,4,1
+120,Departamento de Ciências Contábeis,06.33.00.00.0.0,91,4,1
+104,Departamento de Ciências da Comunicação,06.31.00.00.0.0,91,4,1
+1875,Departamento de Ciências Sociais,06.55.00.00.0.0,91,4,1
+583,Departamento de Direito,06.34.00.00.0.0,91,4,1
+4655,Departamento de Economia e Relações Internacionais,06.95.00.00.0.0,91,4,1
+148,Departamento de Filosofia,06.38.00.00.0.0,91,4,1
+162,Departamento de História,06.40.00.00.0.0,91,4,1
+179,Departamento de Música,08.39.00.00.0.0,78,4,1
+4413,Departamento de Ecologia e Evolução,02.75.00.00.0.0,82,4,1
+155,Departamento de Fundamentos da Educação,05.22.00.00.0.0,94,4,1
+176,Departamento de Metodologia do Ensino,05.23.00.00.0.0,94,4,1
+7080,Departamento de Políticas e Gestão Educacional,05.26.00.00.0.0,94,4,1
+129,Departamento de Desportos Coletivos,09.15.00.00.0.0,97,4,1
+130,Departamento de Desportos Individuais,09.16.00.00.0.0,97,4,1
+180,Departamento de Métodos e Técnicas Desportivas,09.17.00.00.0.0,97,4,1
+126,Departamento de Arquitetura e Urbanismo,07.46.00.00.0.0,117,4,1
+3609,Departamento de Computação Aplicada,07.67.00.00.0.0,117,4,1
+147,Departamento de Eletromecânica e Sistemas de Potência,07.37.00.00.0.0,117,4,1
+619,Departamento de Eletrônica e Computação,07.38.00.00.0.0,117,4,1
+144,Departamento de Engenharia de Produção e Sistemas,07.36.00.00.0.0,117,4,1
+150,Departamento de Engenharia Mecânica,07.35.00.00.0.0,117,4,1
+217,Departamento de Engenharia Química,07.34.00.00.0.0,117,4,1
+2710,Departamento de Engenharia Sanitária e Ambiental,07.63.00.00.0.0,117,4,1
+140,Departamento de Estruturas e Construção Civil,07.31.00.00.0.0,117,4,1
+146,Departamento de Expressão Gráfica,07.30.00.00.0.0,117,4,1
+3608,Departamento de Linguagens e Sistemas de Computação,07.66.00.00.0.0,117,4,1
+2270,Departamento de Processamento de Energia Elétrica,07.54.00.00.0.0,117,4,1
+218,Departamento de Transportes,07.33.00.00.0.0,117,4,1
+4578,Departamento de Administração - PM,32.17.00.00.0.0,4564,4,1
+4582,Departamento de Alimentos e Nutrição - PM,32.20.00.00.0.0,4564,4,1
+4806,Departamento de Turismo,06.96.00.00.0.0,91,4,1
+142,Departamento de Educacao Especial,05.24.00.00.0.0,94,4,1
+4580,Departamento de Zootecnia e Ciências Biológicas - PM,32.19.00.00.0.0,4564,4,1
+4671,Departamento de Ciências Agronômicas e Ambientais - FW,33.21.00.00.0.0,4634,4,1
+4674,Departamento de Ciências da Comunicação - FW,33.23.00.00.0.0,4634,4,1
+4678,Departamento de Engenharia e Tecnologia Ambiental - FW,33.25.00.00.0.0,4634,4,1
+4673,Departamento de Engenharia Florestal - FW,33.22.00.00.0.0,4634,4,1
+4677,Departamento de Tecnologia da Informação - FW,33.24.00.00.0.0,4634,4,1
+7200,Departamento de Educação Física,09.25.00.00.0.0,97,4,6
+2122,Direção Centro Ciências da Saúde de Uruguaiana-Unipampa,22.02.00.00.0.0,205,2,99
+2112,Direção do Centro de Ciências Sociais de São Borja-Unipampa,20.02.00.00.0.0,205,2,99
+2754,Direção do Colégio Agrícola de Frederico Westphalen - CAFW,27.02.00.00.0.0,2752,2,99
+2470,Direção da Udessm,24.03.00.00.0.0,3156,2,99
+4579,Departamento de Ciências da Saúde - PM,32.18.00.00.0.0,4564,4,1
+4581,Departamento de Ciências Econômicas - PM,32.21.00.00.0.0,4564,4,1
+2073,Direção do CESNORS - FW,16.02.00.00.0.0,2010,2,1
+1226,Vice-Direção do CAL,08.03.00.00.0.0,78,27,1
+1218,Vice-Direção do CCNE,02.03.00.00.0.0,82,27,1
+1221,Vice-Direção do CCR,03.03.00.00.0.0,85,27,1
+1222,Vice-Direção do CCS,04.03.00.00.0.0,88,27,1
+1237,Vice-Direção do CCSH,06.03.00.00.0.0,91,27,1
+1238,Vice-Direção do CE,05.03.00.00.0.0,94,27,1
+1227,Vice-Direção do CEFD,09.03.00.00.0.0,97,27,1
+1225,Vice-Direção do CT,07.03.00.00.0.0,117,27,1
+2715,Vice-Direção do Colégio Politécnico,26.07.00.00.0.0,2712,27,1
+2735,Vice-Direção Colégio Técnico Industrial - CTISM,25.07.00.00.0.0,2732,27,1
+4328,Vice-Direção Unidade de Educação Infantil Ipê Amarelo,29.07.00.00.0.0,3202,27,1
+4079,Vice-Direção do Campus em Cachoeira do Sul,31.03.00.00.0.0,4051,27,1
+4639,Vice-Direção do Campus- FW,33.03.00.00.0.0,4634,27,1
+7208,Vice-Direção Unidade de Educação Ipê Amarelo,30.01.00.00.0.0,7201,27,6
+2801,Laboratório de Acionamentos,25.05.13.00.0.0,2732,12,99
+2791,Laboratório de Ajustagem,25.05.03.00.0.0,2732,12,99
+2798,Laboratório de Análise e Proteção de Circuitos Elétricos,25.05.10.00.0.0,2732,12,99
+2793,Laboratório de Automação Industrial,25.05.05.00.0.0,2732,12,99
+4340,Laboratório de Automação Industrial/Hidráulica,25.05.26.00.0.0,2732,12,99
+2804,Laboratório de Biologia,25.05.16.00.0.0,2732,12,99
+2806,Laboratório de Cnc,25.05.18.00.0.0,2732,12,99
+2807,Laboratório de Controle e Ensaio de Máquinas Elétricas,25.05.19.00.0.0,2732,12,99
+2792,Laboratório de Eletrônica,25.05.04.00.0.0,2732,12,99
+4341,Laboratório de Eletrônica Básica,25.05.27.00.0.0,2732,12,99
+2812,Laboratório de Eletrônica Digital,25.05.24.00.0.0,2732,12,99
+2811,Laboratório de Ensino a Distância - EAD,25.05.23.00.0.0,2732,12,99
+2803,Laboratório de Hidráulica,25.05.15.00.0.0,2732,12,99
+2794,Laboratório de Informática I,25.05.06.00.0.0,2732,12,99
+2808,Laboratório de Informática II,25.05.20.00.0.0,2732,12,99
+2809,Laboratório de Informática III,25.05.21.00.0.0,2732,12,99
+4343,Laboratório de Informática Iv,25.05.29.00.0.0,2732,12,99
+4344,Laboratório de Informática V,25.05.30.00.0.0,2732,12,99
+4345,Laboratório de Informática Vi,25.05.31.00.0.0,2732,12,99
+2800,Laboratório de Instalações de Motores,25.05.12.00.0.0,2732,12,99
+2802,Laboratório de Instalações Elétricas,25.05.14.00.0.0,2732,12,99
+2797,Laboratório de Máquinas e Ferramentas,25.05.09.00.0.0,2732,12,99
+4346,Laboratório de Metalografia,25.05.32.00.0.0,2732,12,99
+4347,Laboratório de Metrologia,25.05.33.00.0.0,2732,12,99
+2813,Laboratório de Microcontroladores,25.05.25.00.0.0,2732,12,99
+4348,Laboratório de Motores,25.05.34.00.0.0,2732,12,99
+4349,Laboratório de Pesquisa e Desenvolvimento em Eletrônica,25.05.35.00.0.0,2732,12,99
+4350,Laboratório de Polímeros,25.05.36.00.0.0,2732,12,99
+4342,Laboratório de Protótipos e Eletrônica de Potência,25.05.28.00.0.0,2732,12,99
+2795,Laboratório de Química,25.05.07.00.0.0,2732,12,99
+4351,Laboratório de Redes,25.05.37.00.0.0,2732,12,99
+2805,Laboratório de Refrigeração e Motores Endotérmicos,25.05.17.00.0.0,2732,12,99
+2810,Laboratório de Segurança do Trabalho,25.05.22.00.0.0,2732,12,99
+2799,Laboratório de Sistemas Pneumáticos,25.05.11.00.0.0,2732,12,99
+2796,Laboratório de Soldagem,25.05.08.00.0.0,2732,12,99
+4352,Laboratório de Tecom/Redes,25.05.38.00.0.0,2732,12,99
+4353,Laboratório de Usinagem,25.05.39.00.0.0,2732,12,99
+51,Direção Hospital Universitário-HUSM,10.01.00.00.0.0,163,21,1
+6176,Cursos Anteriores ao Sie,95.00.00.00.0.0,205,21,2
+6177,Cursos de Graduação,95.01.00.00.0.0,205,21,2
+6646,Cursos de Pós-Graduação,95.02.00.00.0.0,205,21,2
+6469,Cursos Técnicos,95.10.00.00.0.0,205,21,2
+2357,Sem Unidade Administrativa,99.99.00.00.0.0,205,21,2
+5342,Comissão de Ensino - CCS,04.01.07.00.0.0,88,3,99
+3589,Comissão de Extensão,04.01.05.00.0.0,88,3,99
+5849,Comissão de Legislação e Normas,04.76.00.00.0.0,88,3,99
+3590,Comissão de Pesquisa - CCS,04.01.06.00.0.0,88,3,99
+5347,Comissão Examinadora de Desempenho de Professor Associado - CCS,04.01.09.00.0.0,88,3,99
+31,Conselho do Centro de Ciências da Saúde,04.01.00.00.0.0,88,3,99
+5850,"Comissão de Ensino, Pesquisa e Extensão",05.27.01.00.0.0,94,3,99
+1907,"Comissão Permanente de Ensino, Pesquisa e Extensão",05.01.01.00.0.0,94,3,99
+5848,Comissão Permanente de Legislação e Normas,05.01.02.00.0.0,94,3,99
+107,Conselho do Centro - CE,05.01.00.00.0.0,94,3,99
+1897,Comissão de Enquadramento Lei N.11091/2005,01.01.08.00.0.0,205,3,99
+115,Comissão Permanente de Pessoal Técnico- Administrativo,01.36.00.00.0.0,205,3,99
+2713,Colegiado da Unidade,26.01.00.00.0.0,2712,3,99
+5829,Comissão Permanente de Ensino,26.10.00.00.0.0,2712,3,99
+5831,Comissão Permanente de Extensão,26.12.00.00.0.0,2712,3,99
+5851,"Comissão Permanente de Legislação, Normas, Ensino, Pesquisa e Extensão",26.13.00.00.0.0,2712,3,99
+5830,Comissão Permanente de Pesquisa,26.11.00.00.0.0,2712,3,99
+5971,Comissão Permanente de Seleção,26.14.00.00.0.0,2712,3,99
+4236,"Comissão de Ensino, Pesquisa e Extensão - CTISM",25.13.00.00.0.0,2732,3,99
+5833,"Comissão Permanente de Ensino, Pesquisa e Extensão",25.11.00.00.0.0,2732,3,99
+5832,Comissão Permanente de Exame de Seleção,25.10.00.00.0.0,2732,3,99
+2786,Comissão Permanente de Exame de Seleção - CTISM,25.12.00.00.0.0,2732,3,99
+2733,Conselho do Colégio Técnico Industrial - CTISM,25.01.00.00.0.0,2732,3,99
+4483,"Comissão de Ensino, Pesquisa e Extensão-CS",31.01.02.00.0.0,4051,3,99
+4482,Comissão de Legislação e Normas-CS,31.01.01.00.0.0,4051,3,99
+4077,Conselho Campus Cachoeira do Sul,31.01.00.00.0.0,4051,3,99
+4569,"Comissão de Ensino, Pesquisa e Extensão - PM",32.01.02.00.0.0,4564,3,99
+5783,Comissão de Gestão Ambiental - PM,32.01.04.00.0.0,4564,3,99
+5782,Comissão de Infraestrutura e Patrimônio - PM,32.01.03.00.0.0,4564,3,99
+4568,Comissão de Legislação e Normas - PM,32.01.01.00.0.0,4564,3,99
+4565,Conselho do Campus de Palmeira das Missões,32.01.00.00.0.0,4564,3,99
+6778,Comissão Permanente da Sala de Exposições Cláudio Carriconde,08.05.05.00.0.0,78,3,1
+6774,"Comissão Permanente de Ensino, Pesquisa e Extensão do CAL",08.05.01.00.0.0,78,3,1
+6776,Comissão Permanente de Espaço Físico do CAL,08.05.03.00.0.0,78,3,1
+6775,Comissão Permanente de Legislação e Normas do CAL,08.05.02.00.0.0,78,3,1
+6777,Comissão Permanente do Teatro Caixa Preta,08.05.04.00.0.0,78,3,1
+6773,Conselho do Centro de Artes e Letras,08.05.00.00.0.0,78,3,1
+6265,"Comissão de Ensino, Pesquisa e Extensão do CCNE",02.05.02.00.0.0,82,3,1
+6288,Comissão de Extensão do CCNE,02.12.02.00.0.0,82,3,1
+6264,Comissão de Legislação e Normas do CCNE,02.05.01.00.0.0,82,3,1
+6287,Comissão de Pesquisa do CCNE,02.12.01.00.0.0,82,3,1
+6262,Conselho do Centro de Ciências Naturais e Exatas,02.05.00.00.0.0,82,3,1
+6546,Comissão de Ensino do CCR,03.11.01.00.0.0,85,3,1
+6533,Comissão de Espaço Físico do CCR,03.01.04.00.0.0,85,3,1
+6548,Comissão de Extensão do CCR,03.11.03.00.0.0,85,3,1
+6532,Comissão de Legislação e Normas do CCR,03.01.03.00.0.0,85,3,1
+6547,Comissão de Pesquisa do CCR,03.11.02.00.0.0,85,3,1
+18,Conselho do Centro de Ciências Rurais,03.01.00.00.0.0,85,3,1
+6930,Comissão de Ensino e Pesquisa do CCS,04.05.03.00.0.0,88,3,1
+6929,Comissão de Extensão do CCS,04.05.02.00.0.0,88,3,1
+6928,Comissão de Legislação e Normas do CCS,04.05.01.00.0.0,88,3,1
+6927,Conselho do Centro de Ciências da Saúde,04.05.00.00.0.0,88,3,1
+6216,Comissão Permanente de Ensino do CCSH,06.13.01.00.0.0,91,3,1
+6218,Comissão Permanente de Extensão do CCSH,06.13.03.00.0.0,91,3,1
+6219,Comissão Permanente de Legislação e Normas do CCSH,06.13.04.00.0.0,91,3,1
+6220,Comissão Permanente de Orçamento do CCSH,06.13.05.00.0.0,91,3,1
+6217,Comissão Permanente de Pesquisa do CCSH,06.13.02.00.0.0,91,3,1
+6211,Conselho do Centro de Ciências Sociais e Humanas,06.13.00.00.0.0,91,3,1
+7072,"Comissão de Ensino, Pesquisa e Extensão",05.18.01.00.0.0,94,3,1
+7076,Comissão do Núcleo de Estudos e Pesquisa em Educação e Infância,05.19.03.00.0.0,94,3,1
+7075,Comissão dos Laboratórios de Educação Especial,05.19.02.00.0.0,94,3,1
+7074,Comissão dos Laboratórios de Metodologia de Ensino,05.19.01.00.0.0,94,3,1
+7058,"Comissão Permanente de Ensino, Pesquisa e Extensão do CE",05.06.01.00.0.0,94,3,1
+7059,Comissão Permanente de Legislação e Normas do CE,05.06.02.00.0.0,94,3,1
+7070,Comissão Setorial de Avaliação,05.17.01.00.0.0,94,3,1
+7056,Comitê Descentralizado de Internacionalização,05.05.00.00.0.0,94,3,1
+7057,Conselho do Centro de Educação,05.06.00.00.0.0,94,3,1
+6247,"Comissão de Ensino, Pesquisa e Extensão do CEFD",09.05.02.00.0.0,97,3,1
+6248,Comissão de Espaço Físico do CEFD,09.05.03.00.0.0,97,3,1
+6246,Comissão de Legislação e Normas do CEFD,09.05.01.00.0.0,97,3,1
+6237,Conselho do Centro de Educação Física e Desportos,09.05.00.00.0.0,97,3,1
+6914,Centro de Cooperação Brasil-Alemanha,07.92.00.00.0.0,117,3,1
+6315,Comissão Permanente de Ensino do CT,07.14.02.00.0.0,117,3,1
+6295,"Comissão Permanente de Ensino, Pesquisa e Extensão do CT",07.05.01.00.0.0,117,3,1
+6314,Comissão Permanente de Extensão do CT,07.14.01.00.0.0,117,3,1
+6297,Comissão Permanente de Inovação no Ensino de Graduação,07.00.01.00.0.0,117,3,1
+6296,Comissão Permanente de Legislação e Normas do CT,07.05.02.00.0.0,117,3,1
+6316,Comissão Permanente de Pesquisa e Inovação do CT,07.14.03.00.0.0,117,3,1
+6293,Conselho do Centro de Tecnologia,07.05.00.00.0.0,117,3,1
+5790,Câmara de Extensão,01.07.00.03.0.0,205,3,1
+6650,Câmara de Licenciaturas,01.08.00.05.0.0,205,3,1
+5762,Comissão de Acompanhamento e Análise de Processos,42.01.00.00.0.0,205,3,1
+5758,"Comissão de Ensino, Pesquisa e Extensão",41.01.00.00.0.0,205,3,1
+6129,Comissão de Ética,44.00.00.00.0.0,205,3,1
+6562,Comissão de Ética de Uso de Animais,01.09.20.00.0.0,205,3,1
+5759,Comissão de Legislação e Normas,41.02.00.00.0.0,205,3,1
+5760,Comissão de Legislação e Regimentos,40.01.00.00.0.0,205,3,1
+5761,Comissão de Orçamento e Regência Patrimonial,40.02.00.00.0.0,205,3,1
+6553,Comissão de Residência Multiprofissional,01.09.01.02.0.0,205,3,1
+5807,Comissão Especial de Avaliação para Concessão do Rsc - PROGEP,01.26.00.06.2.0,205,3,1
+5806,Comissão Examinadora para Avaliação de Desempenho de Prof Associado - PROGEP,01.26.00.06.1.0,205,3,1
+6722,Comissão Gestora do Plano de Logística,01.01.99.00.0.0,205,3,1
+6560,Comissão Interna de Biossegurança,01.09.18.00.0.0,205,3,1
+6652,Comissão Interna de Conservação de Energia,45.00.00.00.0.0,205,3,1
+2018,Comissão Interna de Supervisão da Carreira,01.83.00.00.0.0,205,3,1
+357,Comissão Permanente de Acumulação Cargos,01.33.00.00.0.0,205,3,1
+3888,Comissão Permanente de Avaliação de Documentos,01.84.00.02.0.0,205,3,1
+5941,Comissão Permanente de Avaliação e Baixa Patrimonial de Bens Móveis,01.05.10.00.0.0,205,3,1
+6557,Comitê Assessor da Pró-Reitoria de Pós-Graduação e Pesquisa,01.09.15.00.0.0,205,3,1
+6644,Comitê Consultivo do Siarq,01.84.00.03.0.0,205,3,1
+6561,Comitê de Ética em Pesquisa com Seres Humanos,01.09.19.00.0.0,205,3,1
+5970,"Comitê de Governança, Riscos e Controles",01.01.40.00.0.0,205,3,1
+6645,Comitê de Igualdade de Gênero,01.07.08.03.2.0,205,3,1
+6567,Comitê de Iniciação Científica,01.09.25.01.0.0,205,3,1
+6558,Comitê de Pesquisa da Pró-Reitoria de Pós-Graduação e Pesquisa,01.09.16.00.0.0,205,3,1
+6634,Comitê de Saúde Mental,01.01.41.00.0.0,205,3,1
+6653,Comitê de Segurança da Informação,46.00.00.00.0.0,205,3,1
+6648,Comitê Gestor de Implantação da Agenda 2030 e Seus Objetivos de Desenvolvimento Sustentável,01.01.43.00.0.0,205,3,1
+6559,Comitê Gestor de Infraestruturas Multiusuárias,01.09.17.00.0.0,205,3,1
+6737,Comitê Gestor de Proteção de Dados Pessoais,48.00.00.00.0.0,205,3,1
+5942,Comitê Gestor de Tecnologias de Informação e Comunicação,43.00.00.00.0.0,205,3,1
+6679,Comitê Gestor do Acervo Acadêmico,47.00.00.00.0.0,205,3,1
+6649,Comitê Gestor do Centro de Convenções,01.07.06.01.2.0,205,3,1
+6611,Comitê Institucional de Iniciação à Inovação Tecnológica e Desenvolvimento,01.28.02.00.0.0,205,3,1
+5788,"Conselho de Área de Educação Básica, Técnica e Tecnológica",01.17.01.00.0.0,205,3,1
+5757,Conselho de Curadores,42.00.00.00.0.0,205,3,1
+5756,"Conselho de Ensino, Pesquisa e Extensão",41.00.00.00.0.0,205,3,1
+6651,Conselho Editorial da Editora,01.15.01.00.0.0,205,3,1
+6613,Conselho Estratégico do Pict,01.28.03.01.0.0,205,3,1
+6614,Conselho Fiscal do Pict,01.28.03.02.0.0,205,3,1
+6610,Conselho Superior da PROINOVA,01.28.01.00.0.0,205,3,1
+5755,Conselho Universitário,40.00.00.00.0.0,205,3,1
+7172,Comissão Permanente de Ensino,26.27.03.00.0.0,2712,3,1
+7170,"Comissão Permanente de Legislação, Normas, Ensino, Pesquisa e Extensão",26.31.00.00.0.0,2712,3,1
+7173,Comissão Permanente de Pesquisa e Inovação,26.27.04.00.0.0,2712,3,1
+7171,Comissão Permanente de Seleção e Ingresso,26.26.03.00.0.0,2712,3,1
+7174,Comissão Permanentede Extensão,26.27.05.00.0.0,2712,3,1
+7169,Conselho Diretor do Colégio Politécnico,26.30.00.00.0.0,2712,3,1
+7083,"Comissão Permanente de Ensino, Pesquisa e Extensão do CTISM",25.15.00.00.0.0,2732,3,1
+7084,Comissão Permanente de Exames de Seleção do CTISM,25.16.00.00.0.0,2732,3,1
+7082,Conselho Diretor do Colégio Técnico Industrial de Santa Maria,25.14.00.00.0.0,2732,3,1
+4329,Conselho Diretor UEIIA,29.01.00.00.0.0,3202,3,1
+7006,"Comissão de Ensino, Pesquisa e Extensão do Campus/CS",31.07.01.00.0.0,4051,3,1
+7008,Comissão de Legislação e Normas do Campus/CS,31.07.02.00.0.0,4051,3,1
+7005,Conselho do Campus da Universidade Federal de Santa Maria em Cachoeira do Sul,31.07.00.00.0.0,4051,3,1
+7027,"Comissão de Ensino, Pesquisa e Extensão/PM",32.32.01.00.0.0,4564,3,1
+7028,Comissão de Legislação e Normas/PM,32.32.02.00.0.0,4564,3,1
+7026,Conselho do Campus da Universidade Federal de Santa Maria em Palmeira das Missões,32.32.00.00.0.0,4564,3,1
+6575,Comissão de Ensino/FW,33.04.03.00.0.0,4634,3,1
+6577,Comissão de Extensão/FW,33.04.05.00.0.0,4634,3,1
+6574,Comissão de Gestão de Riscos/FW,33.04.02.00.0.0,4634,3,1
+6573,Comissão de Legislação e Normas/FW,33.04.01.00.0.0,4634,3,1
+6576,Comissão de Pesquisa/FW,33.04.04.00.0.0,4634,3,1
+6572,Conselho do Campus da Universidade Federal de Santa Maria em Frederico Westphalen,33.04.00.00.0.0,4634,3,1
+3109,Conselho de Administração - Conad-HUSM,10.00.01.00.0.0,163,3,2
+7207,Conselho Diretor da Unidade de Educação Ipê Amarelo,30.06.00.00.0.0,7201,3,6
+160,Gabinete do Vice-Reitor,01.02.00.00.0.0,205,15,1
+195,Pró-Reitoria de Extensão,01.07.00.00.0.0,205,15,1
+197,Pró-Reitoria de Graduação,01.08.00.00.0.0,205,15,1
+6609,Pró-Reitoria de Inovação e Empreendedorismo,01.28.00.00.0.0,205,15,1
+199,Pró-Reitoria de Planejamento,01.10.00.00.0.0,205,15,1
+200,Pró-Reitoria de Pós-Graduação e Pesquisa,01.09.00.00.0.0,205,15,1
+4933,Superintendente,93.01.00.00.0.0,163,15,2
+2699,Departamento de Contabilidade e Finanças,01.12.00.00.0.0,205,16,1
+6435,Em Estudo Fg5.007,01.26.30.06.9.0,205,20,99
+4835,Em Estudo Fg7.187,01.26.30.48.1.0,205,20,99
+205,REITORIA,01.00.00.00.0.0,205,20,1
+5778,Cursos de Graduação,08.09.00.00.0.0,78,20,2
+5779,Cursos de Pós-Graduação,08.10.00.00.0.0,78,20,2
+5763,Cursos de Graduação,02.09.00.00.0.0,82,20,2
+5764,Cursos de Pós-Graduação,02.10.00.00.0.0,82,20,2
+5765,Cursos de Graduação,03.09.00.00.0.0,85,20,2
+5766,Cursos de Pós-Graduação,03.10.00.00.0.0,85,20,2
+5767,Cursos de Graduação,04.09.00.00.0.0,88,20,2
+5768,Cursos de Pós-Graduação,04.10.00.00.0.0,88,20,2
+5772,Cursos de Graduação,06.09.00.00.0.0,91,20,2
+5775,Cursos de Pós-Graduação,06.10.00.00.0.0,91,20,2
+5770,Cursos de Graduação,05.09.00.00.0.0,94,20,2
+5771,Cursos de Pós-Graduação,05.10.00.00.0.0,94,20,2
+5773,Cursos de Graduação,09.09.00.00.0.0,97,20,2
+5774,Cursos de Pós-Graduação,09.10.00.00.0.0,97,20,2
+5776,Cursos de Graduação,07.09.00.00.0.0,117,20,2
+5777,Cursos de Pós-Graduação,07.10.00.00.0.0,117,20,2
+4928,"Comissão de Ensino, Extensão e Desenvolvimento Institucional - HUSM",10.04.01.02.0.0,163,20,2
+4927,Comissão de Pesquisa - HUSM,10.04.01.01.0.0,163,20,2
+1416,Agencia Nacional de Enegia Eletrica - Aneel,99.10.00.00.0.0,205,20,2
+1411,Agencia Nacional de Vigilancia Sanitaria,99.04.00.00.0.0,205,20,2
+5940,Arquivo Intermediário DAG,01.84.02.00.1.0,205,20,2
+6721,Chefias em Estudo,00.00.00.09.0.0,205,20,2
+6680,Chefias em Estudo,00.00.00.09.1.0,205,20,2
+6989,Coordenação Uab,01.08.16.00.0.0,205,20,2
+1946,Fundo Nacional de Desenv. da Educação - Fnde,99.18.00.00.0.0,205,20,2
+3515,Fundo Nacional de Desenvolvimento da Educ. Fnde,99.31.00.00.0.0,205,20,2
+1410,Fundo Nacional de Saude,99.03.00.00.0.0,205,20,2
+1858,Fundo Nacional Desenvolvimento Científico e Tecnológico,99.16.00.00.0.0,205,20,2
+1413,Inst. Nac. de Estudos e Pesquisas Educ.,99.06.00.00.0.0,205,20,2
+1412,Instituto Nacional de Desenvolvimento do Desporto,99.05.00.00.0.0,205,20,2
+1415,Ministerio da Cultura,99.09.00.00.0.0,205,20,2
+1703,Ministério da Agricultura e do Abastecimento,99.12.00.00.0.0,205,20,2
+3520,Ministério do Esporte,99.35.00.00.0.0,205,20,2
+1418,Ministério do Esporte e Turismo,99.11.00.00.0.0,205,20,2
+1710,Secretaria de Desenvolvimento Rural,99.13.00.00.0.0,205,20,2
+1414,Secretaria de Educacao Superior,99.08.00.00.0.0,205,20,2
+1718,Secretaria de Educação Profissional e Tecnológica,99.14.00.00.0.0,205,20,2
+6829,Sos-Comunidade,01.01.88.00.0.0,205,20,2
+3511,Universidade Federal do Rio Grande - Furg,99.27.00.00.0.0,205,20,2
+5794,Cursos de Graduação,31.09.00.00.0.0,4051,20,2
+5795,Cursos de Pós-Graduação,31.10.00.00.0.0,4051,20,2
+1783,Cefet de São Vicente,99.15.00.00.0.0,205,20,2
+5798,Cursos de Graduação,33.09.00.00.0.0,4634,20,2
+5799,Cursos de Pós-Graduação,33.10.00.00.0.0,4634,20,2
+4932,Colegiado Executivo EBSERH,93.00.00.00.0.0,163,20,2
+187,Núcleo de Treinamento Agrícola de Jaguari,01.69.00.00.0.0,205,17,99
+163,Hospital Universitário de Santa Maria - HUSM,10.00.00.00.0.0,163,17,1
+7177,Diretoria de Gestão Ambiental,01.29.00.00.0.0,205,17,1
+6993,Diretoria de Relações Internacionais,01.04.00.00.0.0,205,17,1
+653,Biblioteca Setorial - CAL,08.44.00.00.0.0,78,11,99
+511,Serviço Atendimento Fonoaudiológico,04.27.00.00.0.0,88,11,99
+5377,Serviço de Atendimento Odontológico - CCS,04.22.00.00.0.0,88,11,99
+5685,Arquivo Setorial,26.17.00.00.0.0,2712,11,99
+5287,Biblioteca Setorial,26.16.00.00.0.0,2712,11,99
+3857,Gabinete de Projetos - Politécnico,26.15.00.00.0.0,2712,11,99
+5796,Cursos de Graduação,32.09.00.00.0.0,4564,20,2
+5797,Cursos de Pós-Graduação,32.10.00.00.0.0,4564,20,2
+4601,Restaurante Universitário - PM,32.04.00.00.0.0,4564,11,99
+5879,Setor de Restaurante Universitário - PM,32.27.00.00.0.0,4564,11,99
+2393,Núcleo Atividades Especiais de Extensão e Serviços - Naees,05.36.00.06.0.0,94,11,2
+2391,Núcleo de Desenvolvimento Infantil - Ndi,05.36.00.05.0.0,94,11,2
+5881,Setor de Arquivo e Protocolo - PM,32.29.00.00.0.0,4564,10,99
+5880,Setor de Divulgação Institucional - PM,32.28.00.00.0.0,4564,10,99
+2392,Núcleo Ens. Pesq. Ext. Educ. Especial - Nepes,05.36.00.04.0.0,94,11,2
+509,Núcleo Ensino Pesquisa Informática Saúde,04.26.00.00.0.0,88,10,99
+4560,Unidade de Tecnologia de Informação - CCS,04.28.00.00.0.0,88,10,99
+4903,Espaço Multidisciplinar de Pesquisa e Extensão - Silveira Martins,01.79.00.00.0.0,205,10,99
+3206,Gabinete de Projetos do HUSM,10.04.00.02.0.0,163,10,1
+5793,Comissão Permanente de Pessoal Docente,01.34.00.00.0.0,205,10,1
+553,Laboratório Metodologia Ensino,05.29.00.00.0.0,94,10,2
+559,Núcleo de Desenvolvimento Infantil,05.34.00.00.0.0,94,10,2
+555,Núcleo Ens. Pesq. Ext. Educ. Especial,05.31.00.00.0.0,94,10,2
+4947,Comissões,93.01.08.02.0.0,163,10,2
+4940,Comunicacao,93.01.04.00.0.0,163,10,2
+4941,Ouvidoria,93.01.05.00.0.0,163,10,2
+4946,Secretaria,93.01.08.01.0.0,163,10,2
+4936,Setor de Gestão de Processos e Tecnologia da Informação,93.01.02.00.0.0,163,10,2
+5000,Setor de Urgência e Emergência,93.01.07.02.1.0,163,10,2
+4935,Setor Jurídico,93.01.03.00.0.0,163,10,2
+4944,Unidade de Almoxarifado e Produtos de Saúde,93.01.09.02.1.0,163,10,2
+4974,Unidade de Apoio Assistêncial,93.01.07.01.0.0,163,10,2
+4939,Unidade de Apoio Corporativo,93.01.08.00.0.0,163,10,2
+4948,Unidade de E-Saúde,93.01.01.01.0.0,163,10,2
+4942,Unidade de Planejamento,93.01.06.00.0.0,163,10,2
+1319,Secretaria Depto Cirurgia,04.31.00.01.0.0,88,13,99
+1317,Secretaria Depto Farmácia Industrial,04.35.00.01.0.0,88,13,99
+2001,Secretaria Depto Fisiologia e Farmacologia,04.60.00.01.0.0,88,13,99
+1313,Secretaria Depto Microbiologia Parasitologia,04.39.00.01.0.0,88,13,99
+1314,Secretaria Depto Morfologia,04.40.00.01.0.0,88,13,99
+1310,Secretaria Depto Neuropsiquiatria,04.41.00.01.0.0,88,13,99
+1307,Secretaria Depto Patologia,04.44.00.01.0.0,88,13,99
+1306,Secretaria Depto Pediatria e Puericultura,04.45.00.01.0.0,88,13,99
+5383,Secretaria do Curso de Enfermagem,04.09.07.00.1.0,88,13,99
+503,Secretaria do Curso de Odontologia,04.09.06.00.1.0,88,13,99
+5468,Secretaria do Programa Pg de Residência Multiprofissional,04.10.28.00.1.0,88,13,99
+3619,Secretaria Pg-E Residência Multiprofissional Saúde - Coremu,04.10.21.00.1.0,88,13,99
+1251,Secretaria Depto Administração Escolar,05.21.00.01.0.0,94,13,99
+1257,Secretaria Pg-E Gestão Educacional,05.10.01.00.1.0,94,13,99
+1255,Secretaria do Curso de Educação Especial,05.09.01.00.1.0,94,13,99
+1256,Secretaria do Curso de Pedagogia,05.09.02.00.1.0,94,13,99
+6180,Secretaria Esp. Grad.Formação Profes. Educ. Profissional,05.09.13.00.1.0,94,13,99
+2165,Curso de Agronomia-Unipampa/Itaqui,21.03.00.00.0.0,205,13,99
+2126,Curso de Ciência da Computação-Unipampa/Alegrete,18.03.00.00.0.0,205,13,99
+2142,Curso de Ciências Biológicas-Unipampa/São Gabriel,19.03.00.00.0.0,205,13,99
+2155,Curso de Comunicação Social-Unipampa/São Borja,20.03.00.00.0.0,205,13,99
+2132,Curso de Engenharia Civil-Unipampa/Alegrete,18.04.00.00.0.0,205,13,99
+2133,Curso de Engenharia Elétrica-Unipampa/Alegrete,18.05.00.00.0.0,205,13,99
+2177,Curso de Fisioterapia-Unipampa/Uruguaiana,22.05.00.00.0.0,205,13,99
+2149,Curso de Gestão Ambiental-Unipampa/São Gabriel,19.05.00.00.0.0,205,13,99
+2159,Curso de Serviço Social-Unipampa/São Borja,20.04.00.00.0.0,205,13,99
+2171,Curso Enfermagem-Unipampa/Uruguaiana,22.03.00.00.0.0,205,13,99
+2174,Curso Farmácia-Unipampa/Uruguaiana,22.04.00.00.0.0,205,13,99
+2168,Departamento Didático-Unipampa/Itaqui,21.04.00.00.0.0,205,13,99
+2162,Departamento Didático-Unipampa/São Borja,20.05.00.00.0.0,205,13,99
+2180,Departamento Didático-Unipampa/Uruguaiana,22.06.00.00.0.0,205,13,99
+3032,Curso Graduação Administração Pública - Bacharelado - Modalidade a Distância,16.48.00.00.0.0,2010,13,99
+2980,Pg-E em Gestão de Organização Pública em Saúde - Modalidade a Distância,16.46.00.00.0.0,2010,13,99
+5021,Curso Pg e em Desenvolvimento de Aplicativos para Dispositivos Móveis-EAD-UAB,26.04.32.41.0.0,2712,13,99
+4217,Núcleo de Educação a Distância - Politécnico,26.04.32.00.0.0,2712,13,99
+4292,Continuação Coordenação Pedagógica Ensino Técnico - CTISM,25.04.21.00.0.0,2732,13,99
+2780,Coordenação dos Cursos EAD,25.04.20.50.0.0,2732,13,99
+2773,Coordenação Pedagógica do Ensino Técnico,25.04.20.00.0.0,2732,13,99
+4732,Secretaria Curso Ma Educação Profissional e Tecnológica,25.18.14.00.1.0,2732,13,99
+2429,Curso Superior de Tecnologia em Alimentos,13.04.13.00.0.0,2752,13,99
+2851,Curso Superior de Tecnologia em Alimentos,27.06.01.00.0.0,2752,13,99
+2431,Curso Superior de Tecnologia em Sistemas de Internet,13.04.14.00.0.0,2752,13,99
+2852,Curso Superior de Tecnologia em Sistemas de Internet,27.06.02.00.0.0,2752,13,99
+2474,C. Superior Tec. Gestão Ambiental/Udessm,24.12.00.00.0.0,3156,13,99
+2469,C. Superior Tec. Gestão Turismo/Udessm,24.10.00.00.0.0,3156,13,99
+3175,Curso Superior de Tecnologia em Agronegócio/Udessm,28.04.01.03.0.0,3156,13,99
+3177,Curso Superior de Tecnologia em Gestão Ambiental/Udessm,28.04.01.04.0.0,3156,13,99
+2472,Curso Superior Tecnol. Agronegócio/Udessm,24.11.00.00.0.0,3156,13,99
+4085,Coordenação de Pesquisa e Extensão - CS,31.17.00.00.0.0,4051,13,99
+4084,Coordenação dos Cursos de Pós-Graduação - CS,31.18.00.00.0.0,4051,13,99
+4142,Secretaria dos Cursos de Graduação - CS,31.06.01.00.0.0,4051,13,99
+4583,Secretaria dos Cursos - PM,32.30.00.00.0.0,4564,13,99
+3967,Secretaria dos Cursos-Udessm,28.04.01.08.0.0,3156,13,99
+6789,Setor de Apoio Pedagógico do CAL,08.15.00.00.0.0,78,13,1
+2731,Coordenação do Ensino Médio - Politécnico,26.26.28.00.0.0,2712,13,1
+6979,Secretaria do Programa Pg em Ciências Biológicas: Farmacologia,04.10.31.00.1.0,88,14,99
+1720,Secretaria do NIEPE,05.36.00.01.0.0,94,14,99
+310,Coordenadoria de Pagamentos,01.21.01.00.0.0,205,14,99
+12,Coordenadoria Planejamento Comunitário - Coplacom,01.72.00.00.0.0,205,14,99
+306,Depto de Divulgação,01.20.00.00.0.0,205,14,99
+4918,Em Estudo Cd3.10 Ex-PROGEP,01.26.30.08.1.0,205,14,99
+4304,Em Estudo Fg3.037,01.26.30.09.7.0,205,14,99
+1135,Recursos para Projetos de Extensao,15.00.00.00.0.0,205,14,99
+1134,Recursos para Projetos de Pesquisa,14.00.00.00.0.0,205,14,99
+1203,Seção Administrativa - IU,01.63.00.01.0.0,205,14,99
+3000,Seção de Recebimento de Documentação,01.25.03.01.1.0,205,14,99
+2838,Apicultura,26.05.01.01.0.0,2712,14,99
+2839,Avicultura,26.05.01.02.0.0,2712,14,99
+2840,Bovinocultura,26.05.01.03.0.0,2712,14,99
+3859,Compostagem,26.05.01.13.0.0,2712,14,99
+2841,Culturas Regionais,26.05.01.04.0.0,2712,14,99
+5688,Cunicultura,26.05.01.05.0.0,2712,14,99
+2719,Departamento de Infraestrutura,26.05.00.00.0.0,2712,14,99
+3860,Departamento de Pesquisa e Extensão - Politécnico,26.06.00.00.0.0,2712,14,99
+3858,Energias Alternativas,26.05.01.12.0.0,2712,14,99
+2842,Floricultura e Paisagismo,26.05.01.06.0.0,2712,14,99
+2843,Fruticultura,26.05.01.07.0.0,2712,14,99
+5694,Horticultura,26.05.01.14.0.0,2712,14,99
+2844,Jardinagem,26.05.01.08.0.0,2712,14,99
+5293,Laboratório de Carnes,26.05.02.04.0.0,2712,14,99
+5299,Laboratório de Frutas,26.05.02.05.0.0,2712,14,99
+5312,Laboratório de Leite e Derivados,26.05.02.06.0.0,2712,14,99
+5313,Laboratório de Panificação,26.05.02.07.0.0,2712,14,99
+2845,Mecanização Agrícola,26.05.01.09.0.0,2712,14,99
+2846,Ovinocultura,26.05.01.10.0.0,2712,14,99
+2716,Secretaria Administrativa - Politécnico,26.08.00.00.0.0,2712,14,99
+4269,Secretaria dos Cursos Pg,26.26.08.00.0.0,2712,14,99
+3856,Secretaria Executiva,26.09.00.00.0.0,2712,14,99
+2829,Setor Agroindustrial,26.05.02.00.0.0,2712,14,99
+2720,Setor Agropecuário,26.05.01.00.0.0,2712,14,99
+5244,Setor de Estágios e Relações Empresariais,26.04.00.08.0.0,2712,14,99
+3862,Setor de Manutenção,26.05.07.00.0.0,2712,14,99
+5277,Setor de Registro e Controle Acadêmico,26.04.00.09.0.0,2712,14,99
+2724,Supervisão Escolar,26.04.00.01.0.0,2712,14,99
+2741,Almoxarifado - CTISM,25.03.02.00.0.0,2732,14,99
+2789,Biblioteca e Audiovisual,25.05.01.00.0.0,2732,14,99
+2749,Coordenação de Integração Escola/Empresa - CTISM,25.06.01.00.0.0,2732,14,99
+2746,Coordenação de Supervisão Escolar,25.04.00.03.0.0,2732,14,99
+4644,Coordenação de Tecnologias de Ensino,25.04.00.05.0.0,2732,14,99
+2772,Orientação Educacional e Psicológica,25.04.00.04.0.0,2732,14,99
+2744,Secretaria do Departamento de Ensino - CTISM,25.04.00.01.0.0,2732,14,99
+2788,Secretaria do Departamento Técnico,25.05.00.01.0.0,2732,14,99
+761,Direção Colégio Agrícola Frederico Westphalen,13.01.00.00.0.0,2752,14,99
+3496,Gabinete de Projetos - CAFW,27.06.07.00.0.0,2752,14,99
+4280,Casa do Estudante - CS,31.24.00.00.0.0,4051,14,99
+4082,Secretaria Administrativa e Infraestrutura - CS,31.05.01.00.0.0,4051,14,99
+4275,Secretaria Cursos Pós-Graduação - CS,31.18.00.01.0.0,4051,14,99
+4603,Casa do Estudante - PM,32.15.00.00.0.0,4564,14,99
+5877,Núcleo de Assistência Estudantil - PM,32.25.00.00.0.0,4564,14,99
+5876,Núcleo de Laboratorista,32.24.00.00.0.0,4564,14,99
+4596,Secretaria Administrativa - Campus Palmeira das Missões,32.40.00.00.0.0,4564,14,99
+4803,Secretaria da Direção - Campus Palmeira das Missões,32.41.00.00.0.0,4564,14,99
+5878,Setor de Assistência à Saúde - PM,32.26.00.00.0.0,4564,14,99
+6289,Biblioteca Setorial do CCNE,02.13.00.00.0.0,82,14,1
+6292,Ciência Viva,02.16.00.00.0.0,82,14,1
+6278,Núcleo de Infraestrutura do CCNE,02.07.00.00.0.0,82,14,1
+6267,Secretaria Integrada dos Cursos de Graduação das Ciências Exatas,02.06.02.00.0.0,82,14,1
+6282,Subdivisão de Gestão de Laboratórios do CCNE,02.07.03.00.0.0,82,14,1
+6280,Subdivisão de Patrimônio do CCNE,02.07.01.00.0.0,82,14,1
+6281,Subdivisão de Tecnologia da Informação do CCNE,02.07.02.00.0.0,82,14,1
+6944,Clínica de Fonoaudiologia,04.16.00.00.0.0,88,14,1
+6946,Clínica de Terapia Ocupacional,04.18.00.00.0.0,88,14,1
+6243,Assistência Judiciária,06.19.00.00.0.0,91,14,1
+6224,Secretaria Integrada dos Cursos de Graduação do CCSH II,06.14.02.00.0.0,91,14,1
+6225,Subdivisão de Estágios do CCSH II,06.14.02.01.0.0,91,14,1
+6239,Subdivisão de Tecnologia da Informação do CCSH,06.15.02.00.0.0,91,14,1
+6258,Biblioteca Setorial do CEFD,09.21.00.00.0.0,97,14,1
+6253,Subdivisão de Comunicação do CEFD,09.06.04.00.0.0,97,14,1
+6326,Laboratório de Ciências Espaciais,07.87.00.00.0.0,117,14,1
+6325,Laboratório de Engenharia e Meio Ambiente,07.86.00.00.0.0,117,14,1
+6300,Secretaria Integrada dos Cursos de Graduação do CT III,07.06.03.00.0.0,117,14,1
+670,Assessoria Planejamento e Relações Públicas-HUSM,10.01.02.00.0.0,163,14,1
+4818,"Comissão de Ensino, Pesquisa e Extensão-HUSM",10.04.01.00.0.0,163,14,1
+2222,Comissão Interna de Prevenção de Acidentes - Cipa,10.01.03.00.0.0,163,14,1
+63,Coordenação Enfermagem Cirúrgica-HUSM,10.05.04.00.0.0,163,14,1
+1386,Coordenação Administrativa Área Psiquiátrica-HUSM,10.03.07.00.0.0,163,14,1
+685,Coordenação Clínica Médica-HUSM,10.02.01.00.0.0,163,14,1
+686,Coordenação Clínica Neuro-Psiquiátrica-HUSM,10.02.02.00.0.0,163,14,1
+687,Coordenação Clínica Pediátrica-HUSM,10.02.03.00.0.0,163,14,1
+1385,Coordenação de Apoio Operacional-HUSM,10.03.06.00.0.0,163,14,1
+1381,Coordenação de Manutenção-HUSM,10.03.04.00.0.0,163,14,1
+1384,Coordenação de Material-HUSM,10.03.02.00.0.0,163,14,1
+1383,Coordenação de Recursos Humanos-HUSM,10.03.01.00.0.0,163,14,1
+1382,Coordenação de Serviços Gerais-HUSM,10.03.05.00.0.0,163,14,1
+62,Coordenação Enfermagem Clínica Médica-HUSM,10.05.03.00.0.0,163,14,1
+1389,Coordenação Enfermagem em Ambulatório-HUSM,10.05.05.00.0.0,163,14,1
+1390,Coordenação Enfermagem em Psiquiatria-HUSM,10.05.06.00.0.0,163,14,1
+1388,Coordenação Enfermagem Materno-Infantil-HUSM,10.05.02.00.0.0,163,14,1
+1380,Coordenação Financeira-HUSM,10.03.03.00.0.0,163,14,1
+54,Diretoria Administrativa - HUSM,10.03.00.00.0.0,163,14,1
+53,Diretoria Clínica - HUSM,10.02.00.00.0.0,163,14,1
+60,Diretoria de Enfermagem-HUSM,10.05.00.00.0.0,163,14,1
+59,"Diretoria de Ensino, Pesquisa e Extensão-HUSM",10.04.00.00.0.0,163,14,1
+682,Laboratório de Análises Clínicas - LAC-HUSM,10.02.00.12.0.0,163,14,1
+671,Secretaria Adm. Diretoria Clínica-HUSM,10.02.00.01.0.0,163,14,1
+688,Secretaria da Diretoria Administrativa-HUSM,10.03.00.01.0.0,163,14,1
+716,"Secretaria Direção Ensino, Pesq. e Extensão-HUSM",10.04.00.01.0.0,163,14,1
+719,Secretaria Diretoria de Enfermagem-HUSM,10.05.00.02.0.0,163,14,1
+683,Secretaria do LAC-HUSM,10.02.00.13.0.0,163,14,1
+729,Serviço de Nefrologia-HUSM,10.05.03.04.0.0,163,14,1
+690,Serviço Administrativo em Educ. Continuada-HUSM,10.03.00.03.0.0,163,14,1
+740,Serviço Ambulatorial Coord. Enf. Psiquiatria-HUSM,10.05.06.03.0.0,163,14,1
+710,Serviço Arquivo Médico e Estatística - Same/HUSM,10.03.06.01.0.0,163,14,1
+733,Serviço Centro de Material e Esterilização-HUSM,10.05.04.03.0.0,163,14,1
+705,"Serviço Comunicação, Transporte e Vigilância-HUSM",10.03.05.01.0.0,163,14,1
+693,Serviço de Almoxarifado-HUSM,10.03.02.01.0.0,163,14,1
+674,Serviço de Anestesia-HUSM,10.02.00.04.0.0,163,14,1
+734,Serviço de Clínica Cirúrgica-HUSM,10.05.04.04.0.0,163,14,1
+696,Serviço de Compras e Recebimento-HUSM,10.03.02.04.0.0,163,14,1
+698,Serviço de Contabilidade e Orçamento-HUSM,10.03.03.01.0.0,163,14,1
+700,Serviço de Contas-HUSM,10.03.03.03.0.0,163,14,1
+675,Serviço de CTI-HUSM,10.02.00.05.0.0,163,14,1
+694,Serviço de Farmácia-HUSM,10.03.02.02.0.0,163,14,1
+676,Serviço de Fisioterapia-HUSM,10.02.00.06.0.0,163,14,1
+730,Serviço de Hemato-Oncologia-HUSM,10.05.03.05.0.0,163,14,1
+677,Serviço de Hemoterapia-HUSM,10.02.00.07.0.0,163,14,1
+52,Serviço de Informática-HUSM,10.01.01.00.0.0,163,14,1
+689,Serviço de Limpeza-HUSM,10.03.00.02.0.0,163,14,1
+673,Serviço de Obstetrícia-HUSM,10.02.00.03.0.0,163,14,1
+672,Serviço de Patologia-HUSM,10.02.00.02.0.0,163,14,1
+697,Serviço de Patrimônio-HUSM,10.03.02.05.0.0,163,14,1
+724,Serviço de Pediatria-HUSM,10.05.02.04.0.0,163,14,1
+680,Serviço de Radiologia-HUSM,10.02.00.10.0.0,163,14,1
+678,Serviço de Radioterapia-HUSM,10.02.00.08.0.0,163,14,1
+691,Serviço de Relações no Trabalho-HUSM,10.03.01.01.0.0,163,14,1
+706,Serviço de Rouparia-HUSM,10.03.05.02.0.0,163,14,1
+681,Serviço de Traçados Gráficos-HUSM,10.02.00.11.0.0,163,14,1
+732,Serviço do Centro Cirúrgico-HUSM,10.05.04.02.0.0,163,14,1
+722,Serviço do Centro Obstétrico-HUSM,10.05.02.02.0.0,163,14,1
+736,Serviço Enfermagem Ambulatorial Ala I-HUSM,10.05.05.02.0.0,163,14,1
+737,Serviço Enfermagem Ambulatorial Ala II-HUSM,10.05.05.03.0.0,163,14,1
+735,Serviço Enfermagem Pronto Atendimento-HUSM,10.05.05.01.0.0,163,14,1
+721,Serviço Enfermagem Tocoginecológica-HUSM,10.05.02.01.0.0,163,14,1
+726,Serviço Internação Clínica Médica I-HUSM,10.05.03.01.0.0,163,14,1
+727,Serviço Internação Clínica Médica II-HUSM,10.05.03.02.0.0,163,14,1
+739,Serviço Internação Unidade Paulo Guedes-HUSM,10.05.06.02.0.0,163,14,1
+703,Serviço Manutenção Equipamentos Instalações-HUSM,10.03.04.01.0.0,163,14,1
+708,Serviço Nutrição e Dietética-HUSM,10.03.05.04.0.0,163,14,1
+738,Serviço Recuperação Dependentes Químicos-HUSM,10.05.06.01.0.0,163,14,1
+731,Serviço Recuperação Pós-Anestésica-HUSM,10.05.04.01.0.0,163,14,1
+723,Serviço Trat. Intensivo Recém-Nascido-HUSM,10.05.02.03.0.0,163,14,1
+728,Serviço Tratamento Intensivo Adultos-HUSM,10.05.03.03.0.0,163,14,1
+725,Serviço Tratamento Intensivo Pediátrico-HUSM,10.05.02.05.0.0,163,14,1
+679,Serviços Médicos do Pronto Atendimento-HUSM,10.02.00.09.0.0,163,14,1
+712,Setor Administrativo Área Ambulatorial-HUSM,10.03.06.03.0.0,163,14,1
+695,Setor Almoxarifado da Farmácia-HUSM,10.03.02.03.0.0,163,14,1
+717,Setor de Análise de Prontuários-HUSM,10.03.06.05.0.0,163,14,1
+707,Setor de Costura-HUSM,10.03.05.03.0.0,163,14,1
+711,Setor de Documentação Técnica-HUSM,10.03.06.02.0.0,163,14,1
+692,Setor de Expediente-HUSM,10.03.01.02.0.0,163,14,1
+713,Setor de Secretarias de Unidade-HUSM,10.03.06.04.0.0,163,14,1
+699,Setor de Tesouraria-HUSM,10.03.03.02.0.0,163,14,1
+704,Setor Manutenção Área Física-HUSM,10.03.04.02.0.0,163,14,1
+1387,Vice-Diretoria de Enfermagem-HUSM,10.05.00.01.0.0,163,14,1
+1158,Assistente - GR (Secretaria),01.01.33.00.0.0,205,14,1
+1165,Coordenadoria Administrativa - PRA,01.05.01.00.0.0,205,14,1
+5957,Coordenadoria de Cultura e Arte,01.07.06.00.0.0,205,14,1
+6995,Coordenadoria de Diplomacia Universitária,01.04.02.00.0.0,205,14,1
+6566,Coordenadoria de Pesquisa,01.09.25.00.0.0,205,14,1
+1173,Coordenadoria de Pós-Graduação,01.09.01.00.0.0,205,14,1
+1170,Coordenadoria Planejamento Acadêmico,01.08.01.00.0.0,205,14,1
+6921,Espaço Multidisciplinar Silveira Martins,01.07.07.02.0.0,205,14,1
+2564,Núcleo de Transporte,01.11.01.03.0.0,205,14,1
+1207,Secretaria Apoio Administrativo - CCOMSOC,01.75.00.01.0.0,205,14,1
+1511,Secretaria de Apoio Administrativo - CPAC,01.33.00.01.0.0,205,14,1
+362,Seção de Nutrição-Centro - RU,01.35.02.00.0.0,205,14,1
+2566,Setor de Construção Civil,01.11.02.01.0.0,205,14,1
+2571,Setor de Urbanismo e Paisagismo,01.11.02.05.0.0,205,14,1
+1206,Setor Tipografia e Acabamento,01.63.00.04.0.0,205,14,1
+7154,Biblioteca Setorial do POLI,26.25.00.00.0.0,2712,14,1
+7155,Coordenadoria de Ensino do POLI,26.26.00.00.0.0,2712,14,1
+7153,Divisão de Comunicação do POLI,26.24.00.00.0.0,2712,14,1
+7165,Divisão de Tecnologia da Informação do POLI,26.28.02.00.0.0,2712,14,1
+7163,Núcleo de Infraestrutura do POLI,26.28.00.00.0.0,2712,14,1
+7160,"Núcleo de Projetos, Inovação e Estágios do POLI",26.27.00.00.0.0,2712,14,1
+7156,Núcleo de Registros Educacionais do POLI,26.26.01.00.0.0,2712,14,1
+7167,Subdivisão Setorial de Patrimônio do POLI,26.29.01.00.0.0,2712,14,1
+7090,Núcleo Pedagógico do CTISM,25.18.02.00.0.0,2732,14,1
+7093,Setor de Acompanhamento dos Processos Educacionais do CTISM,25.18.02.01.0.0,2732,14,1
+7103,Subdivisão de Projetos do CTISM,25.21.02.00.0.0,2732,14,1
+4643,"Departamento de Ensino, Pesquisa e Extensão - UEIIA",29.04.00.00.0.0,3202,14,1
+4641,Secretaria Escolar - UEIIA,29.03.01.00.0.0,3202,14,1
+7009,Coordenadoria Administrativa do Campus/CS,31.08.00.00.0.0,4051,14,1
+7021,Divisão de Apoio Pedagógico do Campus/CS,31.11.03.00.0.0,4051,14,1
+7019,"Núcleo de Ensino, Pesquisa e Extensão do Campus/CS",31.11.02.00.0.0,4051,14,1
+7014,Núcleo de Inovação e Empreendedorismo do Campus/CS,31.12.00.00.0.0,4051,14,1
+7018,Secretaria Unificada dos Cursos de Graduação do Campus/CS,31.11.01.00.0.0,4051,14,1
+7029,Comissão de Gestão Ambiental/PM,32.32.03.00.0.0,4564,14,1
+7030,Comissão de Infraestrutura e Patrimônio/PM,32.32.04.00.0.0,4564,14,1
+7037,Coordenadoria Acadêmica/PM,32.34.00.00.0.0,4564,14,1
+6584,Divisão de Apoio Pedagógico/FW,33.06.03.00.0.0,4634,14,1
+6590,Núcleo de Assistência Estudantil/FW,33.38.00.00.0.0,4634,14,1
+6585,Subdivisão de Gestão de Laboratórios/FW,33.06.04.00.0.0,4634,14,1
+1743,Núcleo Apoio Estudante - Ânima,05.36.00.03.0.0,94,14,2
+1742,Núcleo de Ensino de Ciências - Nec,05.36.00.02.0.0,94,14,2
+1391,Coordenação Clínica Cirúrgica-HUSM,10.02.04.00.0.0,163,14,2
+1392,Coordenação Clínica Tocoginecológica-HUSM,10.02.05.00.0.0,163,14,2
+411,Aposentados e Pensionistas,01.90.00.00.0.0,205,14,2
+6736,Assessoria em Processos Administrativos Disciplinares,01.06.00.09.0.0,205,14,2
+414,Baixa,01.98.00.00.0.0,205,14,2
+415,Bens em Disponibilidade,01.99.00.00.0.0,205,14,2
+374,Casa do Estudante Campus,01.52.00.00.0.0,205,14,2
+375,Casa do Estudante Cidade,01.53.00.00.0.0,205,14,2
+2363,Casa do Estudante Pós-Graduação - PRAE,01.06.00.06.0.0,205,14,2
+4375,Central,01.18.01.02.0.0,205,14,2
+1740,Central de Aquisições,01.18.00.00.0.1,205,14,2
+4376,Central de Contratação de Objetos Especiais,01.18.01.02.1.0,205,14,2
+4906,Coordenação Geral - Silveira Martins,01.79.03.00.0.0,205,14,2
+6733,Coordenadoria de Moradia Estudantil,01.06.00.05.0.0,205,14,2
+2542,Labinfo Ceu I,01.53.00.01.0.0,205,14,2
+2541,Labinfo União,01.37.00.01.0.0,205,14,2
+4374,Material Licitado Não Estocado,01.18.03.03.0.0,205,14,2
+6735,Patrimônio e Manutenção da Moradia Estudantil,01.06.00.05.0.2,205,14,2
+4165,PROGEP Estudo,01.26.30.00.0.0,205,14,2
+3203,Restaurante Universitário 2,01.35.05.00.0.0,205,14,2
+369,União Universitária,01.37.00.00.0.0,205,14,2
+6734,Vagas e Acompanhamento da Moradia Estudantil,01.06.00.05.0.1,205,14,2
+4953,Divisão Administrativa Financeira,93.01.09.03.0.0,163,14,2
+4978,Divisão de Apoio Diagnóstico e Terapêutica,93.01.07.05.0.0,163,14,2
+4977,Divisão de Enfermagem,93.01.07.04.0.0,163,14,2
+4955,Divisão de Gestão de Pessoas,93.01.09.01.0.0,163,14,2
+4975,Divisão de Gestão do Cuidado,93.01.07.02.0.0,163,14,2
+4954,Divisão de Logística e Infraestrutura Hospitalar,93.01.09.02.0.0,163,14,2
+4976,Divisão Médica,93.01.07.03.0.0,163,14,2
+4945,Gerência Administrativa,93.01.09.00.0.0,163,14,2
+4943,Gerência de Atenção à Saúde,93.01.07.00.0.0,163,14,2
+4934,Gerência de Ensino e Pesquisa,93.01.01.00.0.0,163,14,2
+4963,Setor de Administração,93.01.09.03.3.0,163,14,2
+4988,Setor de Apoio e Diagnóstico,93.01.07.05.1.0,163,14,2
+4962,Setor de Avaliação e Controladoria,93.01.09.03.2.0,163,14,2
+4957,Setor de Engenharia Clínica,93.01.09.02.2.0,163,14,2
+4979,Setor de Farmácia Hospitalar,93.01.07.06.0.0,163,14,2
+4949,Setor de Gestão da Pesquisa e Inovação Tecnológica,93.01.01.02.0.0,163,14,2
+4950,Setor de Gestão do Ensino,93.01.01.03.0.0,163,14,2
+4960,Setor de Higienização e Gestão de Resíduos,93.01.09.02.5.0,163,14,2
+4959,Setor de Hotelaria Hospitalar,93.01.09.02.4.0,163,14,2
+4958,Setor de Infraestrutura Física,93.01.09.02.3.0,163,14,2
+4961,Setor de Orçamento e Finanças,93.01.09.03.1.0,163,14,2
+4981,Setor de Regulação e Avaliação em Saúde,93.01.07.08.0.0,163,14,2
+4980,Setor de Vigilância em Saúde e Segurança do Paciente,93.01.07.07.0.0,163,14,2
+4987,Unidade de Abastecimento Farmacêutico,93.01.07.06.2.0,163,14,2
+4956,Unidade de Administração de Pessoal,93.01.09.01.1.0,163,14,2
+4971,Unidade de Apoio Operacional,93.01.09.03.3.3,163,14,2
+5008,Unidade de Atenção à Saúde da Criança e do Adolescente,93.01.07.02.7.0,163,14,2
+5003,Unidade de Atenção à Saúde da Mulher,93.01.07.02.2.0,163,14,2
+5010,Unidade de Atenção Psicossocial,93.01.07.02.9.0,163,14,2
+4992,Unidade de Centro Cirúrgico e Rpa,93.01.07.05.2.0,163,14,2
+5009,Unidade de Cirurgia Geral,93.01.07.02.8.0,163,14,2
+5007,Unidade de Clínica Médica,93.01.07.02.6.0,163,14,2
+4969,Unidade de Compras,93.01.09.03.3.1,163,14,2
+4968,Unidade de Contabilidade de Custos,93.01.09.03.2.2,163,14,2
+4967,Unidade de Contabilidade Fiscal,93.01.09.03.2.1,163,14,2
+4970,Unidade de Contratos,93.01.09.03.3.2,163,14,2
+4997,Unidade de Cuidados Intensivos e Semi-Intensivos Adulto,93.01.07.05.7.0,163,14,2
+4999,Unidade de Cuidados Intensivos e Semi-Intensivos Pediátricos e Neonatais,93.01.07.05.9.0,163,14,2
+4986,Unidade de Farmácia Clínica e Dispensação Farmacêutica,93.01.07.06.1.0,163,14,2
+4951,Unidade de Gerenciamento de Ativ de Graduação e Ens Técnico,93.01.01.03.2.0,163,14,2
+4952,Unidade de Gerenciamento de Ativ de Pós-Graduação,93.01.01.03.1.0,163,14,2
+4985,Unidade de Gestão de Riscos Assistênciais,93.01.07.07.2.0,163,14,2
+5006,Unidade de Hematologia e Oncologia,93.01.07.02.5.0,163,14,2
+4995,Unidade de Hemoterapia,93.01.07.05.5.0,163,14,2
+4990,Unidade de Laboratório de Anatomia Patológica,93.01.07.05.1.2,163,14,2
+4989,Unidade de Laboratório de Análises Clínicas,93.01.07.05.1.1,163,14,2
+4972,Unidade de Licitações,93.01.09.03.3.4,163,14,2
+4966,Unidade de Liquidação de Despesa,93.01.09.03.1.3,163,14,2
+4993,Unidade de Nutrição Clínica,93.01.07.05.3.0,163,14,2
+4965,Unidade de Pagamento e Despesa,93.01.09.03.1.2,163,14,2
+4973,Unidade de Patrimônio,93.01.09.03.3.5,163,14,2
+4983,"Unidade de Proc da Informação Assist, Monit e Avaliação",93.01.07.08.2.0,163,14,2
+4994,Unidade de Processamento de Materiais Esterilizados,93.01.07.05.4.0,163,14,2
+4964,Unidade de Programação Orçamentária e Financeira,93.01.09.03.1.1,163,14,2
+5001,Unidade de Pronto Socorro,93.01.07.02.1.1,163,14,2
+4996,Unidade de Radioterapia e Quimioterapia,93.01.07.05.6.0,163,14,2
+4998,Unidade de Reabilitação,93.01.07.05.8.0,163,14,2
+4982,Unidade de Regulação Assistencial,93.01.07.08.1.0,163,14,2
+4984,Unidade de Vigilância em Saúde,93.01.07.07.1.0,163,14,2
+4991,Unidade de Diagnóstico por Imagem,93.01.07.05.1.3,163,14,2
+1872,Minist Relac Ext - Fundação Alexandre de Gusmão,99.17.00.00.0.0,205,104,2
+1419,Subsecretaria de Planejamento Orçamento e Administração,99.11.11.00.0.0,205,104,2
+2070,Centro de Ciências Agrárias de Itaqui - Unipampa,21.00.00.00.0.0,205,1,99
+2071,Centro de Ciências da Saúde de Uruguaiana - Unipampa,22.00.00.00.0.0,205,1,99
+2068,Centro de Ciências Rurais de São Gabriel - Unipampa,19.00.00.00.0.0,205,1,99
+2069,Centro de Ciências Sociais de São Borja - Unipampa,20.00.00.00.0.0,205,1,99
+2067,Centro de Tecnologia de Alegrete - Unipampa,18.00.00.00.0.0,205,1,99
+2010,Centro de Educação Superior Norte-Rs -CESNORS,16.00.00.00.0.0,2010,1,99
+2752,Colégio Agrícola de Frederico Westphalen - CAFW,27.00.00.00.0.0,2752,1,99
+2468,Unidade Descentralizada Educ SuperiorSilveira Martins,24.00.00.00.0.0,3156,1,99
+3156,Unidade Descentralizada Educ SuperiorSilveira Martins,28.00.00.00.0.0,3156,1,99
+6038,Universidade Federal de Santa Maria,00.00.00.00.0.0,205,1,1
+6641,Coordenação do Curso Técnico em Cooperativismo,26.26.25.00.0.0,2712,1,1
+7159,Secretaria Integrada dos Cursos de Educação Básica do POLI,26.26.01.02.0.0,2712,1,1

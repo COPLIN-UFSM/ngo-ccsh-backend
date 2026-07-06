@@ -3,12 +3,12 @@ from rest_framework import serializers
 
 from despesas.models import *
 
-
-class BeneficiarioSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Beneficiario
-        fields = ["id_beneficiario", "beneficiario", "cpf", "matricula"]
-        read_only_fields = ["id_beneficiario"]
+# TODO here!
+# class BeneficiarioSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Beneficiario
+#         fields = ["id_beneficiario", "beneficiario_interno", "cpf", "matricula"]
+#         read_only_fields = ["id_beneficiario"]
 
 
 class TipoDocumentoSerializer(serializers.ModelSerializer):
@@ -28,16 +28,16 @@ class DocumentoSerializer(serializers.ModelSerializer):
         write_only=True
     )
     class Meta:
-        model = Documento
-        fields = ["id_documento", "id_tipo_documento", "tipo_documento", "documento", "transacao", "descricao"]
-        read_only_fields = ["id_documento"]
+        model = ValorDocumento
+        fields = ["id_valor_documento", "id_tipo_documento", "tipo_documento", "valor_documento", "transacao", "descricao"]
+        read_only_fields = ["id_valor_documento"]
 
 
 class TipoFinalidadeSerializer(serializers.ModelSerializer):
     class Meta:
-        model = TipoFinalidade
-        fields = ["id_tipo_finalidade", "tipo_finalidade"]
-        read_only_fields = ["id_tipo_finalidade"]
+        model = GrupoFinalidade
+        fields = ["id_grupo_finalidade", "grupo_finalidade"]
+        read_only_fields = ["id_grupo_finalidade"]
 
 
 class NaturezaFinalidadeSerializer(serializers.ModelSerializer):
@@ -58,7 +58,7 @@ class FinalidadeSerializer(serializers.ModelSerializer):
     )
 
     tipo_finalidade = serializers.PrimaryKeyRelatedField(
-        queryset=TipoFinalidade.objects.all(),
+        queryset=GrupoFinalidade.objects.all(),
         write_only=True,
         error_messages={
             "does_not_exist": "Código da categoria da finalidade inexistente.",
@@ -67,7 +67,7 @@ class FinalidadeSerializer(serializers.ModelSerializer):
     )
 
     natureza_finalidade_detail = NaturezaFinalidadeSerializer(source="natureza_finalidade", read_only=True)
-    tipo_finalidade_detail = TipoFinalidadeSerializer(source="tipo_finalidade", read_only=True)
+    tipo_finalidade_detail = TipoFinalidadeSerializer(source="grupo_finalidade", read_only=True)
 
     class Meta:
         model = Finalidade
@@ -85,9 +85,9 @@ class FinalidadeSerializer(serializers.ModelSerializer):
 
 class SubunidadeSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Subunidade
-        fields = ["id_subunidade", "subunidade", "grupo"]
-        read_only_fields = ["id_subunidade"]
+        model = Unidade
+        fields = ["id_unidade", "nome_unidade", "grupo"]
+        read_only_fields = ["id_unidade"]
 
 
 class DocumentoNestedSerializer(serializers.ModelSerializer):
@@ -99,7 +99,7 @@ class DocumentoNestedSerializer(serializers.ModelSerializer):
     )
     
     class Meta:
-        model = Documento
+        model = ValorDocumento
         exclude = ["transacao"]
 
 
@@ -111,7 +111,7 @@ class TransacaoSerializer(serializers.ModelSerializer):
         transacao = Transacao.objects.create(**validated_data)
 
         for doc_data in documentos_data:
-            Documento.objects.create(transacao=transacao, **doc_data)
+            ValorDocumento.objects.create(transacao=transacao, **doc_data)
         return transacao
 
     def update(self, instance, validated_data):
@@ -124,7 +124,7 @@ class TransacaoSerializer(serializers.ModelSerializer):
         if documentos_data is not None:
             instance.documentos.all().delete()
             for doc_data in documentos_data:
-                Documento.objects.create(transacao=instance, **doc_data)
+                ValorDocumento.objects.create(transacao=instance, **doc_data)
 
         return instance
 
@@ -139,8 +139,8 @@ class TransacaoSerializer(serializers.ModelSerializer):
             "subunidade_executora",
             "usuario",
             "status",
-            "beneficiario",
-            "eh_credito",
+            "beneficiario_interno",
+            "credito",
             "descricao",
             "montante",
             "quantidade",
@@ -191,7 +191,7 @@ class EmpenhoSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Empenho
-        fields = ["id_empenho", "empenho", "pen", "descricao", "finalidade", "montante", "transacoes"]
+        fields = ["id_empenho", "numero_empenho", "numero_pen", "descricao", "finalidade", "montante", "transacoes"]
         read_only_fields = ["id_empenho"]
 
     def get_montante(self, obj):

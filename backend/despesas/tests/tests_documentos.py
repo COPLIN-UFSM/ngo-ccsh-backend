@@ -2,7 +2,7 @@ from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
 
-from despesas.models import Documento, TipoDocumento, Transacao
+from despesas.models import ValorDocumento, TipoDocumento, Transacao
 from despesas.tests import DespesasTestAPI
 
 
@@ -43,7 +43,7 @@ class DocumentoViewSetTestCase(APITestCase, DespesasTestAPI):
         self.url_list = reverse("despesas:documentos-list")
         self.id_tipo_doc = TipoDocumento.objects.create(tipo_documento="Recibo")
         self.transacao = Transacao.objects.create(empenho=self.empenho, usuario=self.user_normal, montante=100.00, subunidade_executora=self.subunidade)
-        self.documento = Documento.objects.create(tipo_documento=self.tipo_doc, transacao=self.transacao, descricao="Recibo 1")
+        self.documento = ValorDocumento.objects.create(tipo_documento=self.tipo_doc, transacao=self.transacao, descricao="Recibo 1")
 
 
     def test_get_documentos_authenticated(self):

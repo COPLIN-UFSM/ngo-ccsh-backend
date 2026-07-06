@@ -1,52 +1,101 @@
 from django.db import models
-
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser, PermissionsMixin
+
+from entidades.models import Pessoa, Servidor
 
 
 class UserManager(BaseUserManager):
+    def create_user(self, cpf, email, password=None, **extra_fields):
+        if not cpf:
+            raise ValueError("O usuário deve estar associado a uma CPF.")
 
-    def create_user(self, username, email, password, **extra_fields):
-        fields = {"username": username, "email": email}
-        for key, value in fields.items():
-            if not value:
-                raise ValueError(f"O usuário deve ter um {key}.")
+        cpf = "".join(filter(str.isdigit, cpf))
 
-        email = self.normalize_email(email=email)
-        user = self.model(username=username, email=email, **extra_fields)
+        if not email:
+            raise ValueError("O usuário deve possuir um e-mail.")
+
+        try:
+            pessoa = Pessoa.objects.get(cpf=cpf)
+        except Pessoa.DoesNotExist:
+            raise ValueError("Não existe uma pessoa com este CPF no banco de dados institucional.")
+
+        if Usuario.objects.filter(pessoa=pessoa).exists():
+            raise ValueError(
+                "Já existe um usuário com esse CPF cadastrado."
+            )
+
+        servidor = Servidor.objects.filter(
+            pessoa=pessoa,
+            ativo=True,
+        ).exists()
+
+        if not servidor:
+            raise ValueError('Somente servidores ativos podem ser usuários.')
+
+        email = self.normalize_email(email)
+
+        user = self.model(
+            cpf=cpf,
+            pessoa=pessoa,
+            email=email,
+            **extra_fields,
+        )
 
         user.set_password(password)
         user.save(using=self._db)
+
         return user
 
-    def create_superuser(self, username, email, password, **extra_fields):
+    def create_superuser(self, cpf, email, password=None, **extra_fields):
         extra_fields.setdefault("is_staff", True)
         extra_fields.setdefault("is_superuser", True)
-        return self.create_user(username, email, password, **extra_fields)
+
+        if not extra_fields["is_staff"]:
+            raise ValueError("Um superusuário deve possuir is_staff=True.")
+
+        if not extra_fields["is_superuser"]:
+            raise ValueError("Um superusuário deve possuir is_superuser=True.")
+
+        return self.create_user(
+            cpf=cpf,
+            email=email,
+            password=password,
+            **extra_fields,
+        )
 
 
 class Usuario(AbstractBaseUser, PermissionsMixin):
-    id = models.AutoField(primary_key=True, editable=False, db_column="id_usuario")
-    username = models.CharField(unique=True, max_length=32)
-    email = models.EmailField(unique=True)
-    full_name = models.CharField(max_length=255, blank=True)
-    is_active = models.BooleanField(blank=True, default=True)
-    is_staff = models.BooleanField(blank=True, default=False)
-    created_at = models.DateTimeField(auto_now_add=True)
+    id = models.AutoField(primary_key=True, editable=False, db_column="id")
+    cpf = models.CharField(max_length=11, unique=True, null=False, blank=False, db_column="cpf")
+    email = models.EmailField(unique=True, db_column='email')
+    is_active = models.BooleanField(blank=True, default=True, db_column='is_active')
+    is_staff = models.BooleanField(blank=True, default=False, db_column='is_staff')
+    created_at = models.DateTimeField(auto_now_add=True, db_column='created_at')
+    # is_superuser é um campo herdado de permissionsMixin
+
+    pessoa = models.OneToOneField(
+        Pessoa,
+        on_delete=models.PROTECT,
+        db_column="id_pessoa",
+    )
 
     class Meta:
         managed = False
         db_table = "usuarios"
+
         verbose_name = "Usuário"
         verbose_name_plural = "Usuários"
 
-    objects: UserManager = UserManager()
-    USERNAME_FIELD = "username"
+    objects = UserManager()
+
+    USERNAME_FIELD = "cpf"
     EMAIL_FIELD = "email"
 
-    REQUIRED_FIELDS = ["email", "full_name"]
+    REQUIRED_FIELDS = ["email"]
 
-    def set_password(self, raw_password: str | None) -> None:
-        return super().set_password(raw_password)
+    @property
+    def full_name(self):
+        return self.pessoa.nome_pessoa
 
     def __str__(self):
-        return self.username
+        return f"{self.full_name} ({self.cpf})"

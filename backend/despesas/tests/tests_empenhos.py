@@ -2,7 +2,7 @@ from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
 from usuarios.models import Usuario
-from despesas.models import Transacao, TipoDocumento, Empenho, Finalidade, NaturezaFinalidade, TipoFinalidade, Subunidade
+from despesas.models import Transacao, TipoDocumento, Empenho, Finalidade, NaturezaFinalidade, GrupoFinalidade, Unidade
 
 
 class SetupTestAPI:
@@ -16,12 +16,12 @@ class SetupTestAPI:
         self.user_normal = Usuario.objects.create_user(username="user_test", email="user_test@gmail.com", password="userpass")
         
         self.user_data_adm = {
-            "username": self.user_admin.username,
+            "matricula": self.user_admin.matricula,
             "password": "adminpass",
         }
         
         self.user_data_normal = {
-            "username": self.user_normal.username,
+            "matricula": self.user_normal.matricula,
             "password": "userpass",
         }
 
@@ -32,7 +32,7 @@ class SetupTestAPI:
         self.client.credentials(HTTP_AUTHORIZATION="Bearer " + token)
 
     def create_finalidade(self):
-        self.tipo_finalidade = TipoFinalidade.objects.create(tipo_finalidade="Bolsas")
+        self.tipo_finalidade = GrupoFinalidade.objects.create(tipo_finalidade="Bolsas")
         self.natureza_finalidade = NaturezaFinalidade.objects.create(natureza_finalidade="Custeio")
         self.finalidade = Finalidade.objects.create(
             tipo_finalidade=self.tipo_finalidade, natureza_finalidade=self.natureza_finalidade, finalidade="Bolsa 2A"
@@ -41,7 +41,7 @@ class SetupTestAPI:
     def create_basic_data(self):
         self.empenho = Empenho.objects.create(empenho="2024NE0001", descricao="Empenho de Teste", finalidade=self.finalidade)
         self.tipo_doc = TipoDocumento.objects.create(tipo_documento="Nota Fiscal")
-        self.subunidade = Subunidade.objects.create(subunidade="PROPLAN")
+        self.subunidade = Unidade.objects.create(subunidade="PROPLAN")
 
 
 class EmpenhoViewTestCase(APITestCase, SetupTestAPI):
@@ -89,5 +89,5 @@ class SingleEmpenhoViewTestCase(APITestCase, SetupTestAPI):
         response = self.client.put(self.url, data=data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.empenho.refresh_from_db()
-        self.assertEqual(self.empenho.empenho, "2024NE0001-MOD")
+        self.assertEqual(self.empenho.numero_empenho, "2024NE0001-MOD")
 
