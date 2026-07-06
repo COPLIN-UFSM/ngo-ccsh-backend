@@ -4,7 +4,7 @@ from entidades.managers import PessoaManager, CentroManager, UnidadeManager
 
 
 class CentroSIE(models.Model):
-    id_centro_sie = models.AutoField(primary_key=True, db_column="id_centro")
+    id_centro_sie = models.AutoField(primary_key=True, db_column="id_centro_sie")
     cod_estruturado = models.CharField(max_length=15, unique=True, db_column='cod_estruturado')
     sigla_centro = models.CharField(max_length=16, unique=True, db_column='sigla_centro')
     nome_centro = models.CharField(max_length=256, db_column='nome_centro')

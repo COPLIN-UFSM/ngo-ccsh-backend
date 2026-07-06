@@ -48,7 +48,7 @@ class Finalidade(models.Model):
     """
     id_finalidade = models.AutoField(primary_key=True, db_column='id_finalidade')
     natureza_finalidade = models.ForeignKey(NaturezaFinalidade, models.DO_NOTHING, db_column="id_natureza_finalidade")
-    grupo_finalidade = models.ForeignKey(GrupoFinalidade, models.DO_NOTHING, db_column="id_grupo_finalidade")
+    grupo_finalidade = models.ForeignKey(GrupoFinalidade, models.DO_NOTHING, db_column="id_grupo_finalidade", null=True, blank=True)
 
     finalidade = models.CharField(max_length=512, unique=True, null=False, blank=False)
     ativo = models.BooleanField(default=True, blank=True)

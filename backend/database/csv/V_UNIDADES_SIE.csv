@@ -1,4 +1,4 @@
-id_unidade,nome_unidade,cod_estruturado,centro_id,tipo_unidade_id,situacao_unidade_id
+id_unidade_sie,nome_unidade,cod_estruturado,id_centro_sie,id_tipo_unidade,id_situacao_unidade
 5004,Unidade do Sistema Cardiovascular,93.01.07.02.3.0,163,14,2
 5005,Unidade Neuro-Músculo-Esquelética,93.01.07.02.4.0,163,14,2
 7204,Divisão Multiprofissional,30.04.00.00.0.0,7201,14,6
