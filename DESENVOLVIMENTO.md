@@ -58,9 +58,9 @@ Crie o banco de dados com
 ```bash
 conda activate ngo
 python backend/manage.py create_dev_database --settings=ngo_ccsh.dev_settings
+python backend/manage.py seed_dev_database --settings=ngo_ccsh.dev_settings
 python backend/manage.py makemigrations --settings=ngo_ccsh.dev_settings
 python backend/manage.py migrate --settings=ngo_ccsh.dev_settings
-python backend/manage.py seed_dev_database --settings=ngo_ccsh.dev_settings
 python backend/manage.py createsuperuser --settings=ngo_ccsh.dev_settings
 ```
 

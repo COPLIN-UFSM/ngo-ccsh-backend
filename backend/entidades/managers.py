@@ -3,14 +3,26 @@ from django.apps import apps
 from django.db import IntegrityError, transaction
 
 
-class ResolveFromSIEManager(models.Manager):
-    """
-    Importa objetos do SIE quando eles são requisitados pela primeira vez.
+class ResolveFromSIEQuerySet(models.QuerySet):
 
-    Subclasses devem implementar:
-        * sie_model_name
-        * import_from_sie()
-    """
+    def get(self, *args, **kwargs):
+        try:
+            return super().get(*args, **kwargs)
+        except self.model.DoesNotExist:
+            pass
+
+        if args:
+            raise NotImplementedError(
+                "Positional arguments are not supported yet."
+            )
+
+        self.model.objects._import_if_needed(**kwargs)
+        return super().get(*args, **kwargs)
+
+
+class ResolveFromSIEManager(
+    models.Manager.from_queryset(ResolveFromSIEQuerySet)
+):
     sie_model_name = None
 
     @property
@@ -20,12 +32,7 @@ class ResolveFromSIEManager(models.Manager):
     def import_from_sie(self, sie_obj):
         raise NotImplementedError
 
-    def resolve(self, **kwargs):
-        try:
-            return self.get(**kwargs)
-        except self.model.DoesNotExist:
-            pass
-
+    def _import_if_needed(self, **kwargs):
         try:
             sie = self.sie_model.objects.get(**kwargs)
         except self.sie_model.DoesNotExist:
@@ -33,10 +40,9 @@ class ResolveFromSIEManager(models.Manager):
 
         try:
             with transaction.atomic():
-                return self.import_from_sie(sie)
-
+                self.import_from_sie(sie)
         except IntegrityError:
-            return self.get(**kwargs)
+            pass
 
 
 class PessoaManager(ResolveFromSIEManager):

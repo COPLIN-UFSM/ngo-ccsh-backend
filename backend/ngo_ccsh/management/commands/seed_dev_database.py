@@ -65,8 +65,6 @@ class Command(BaseCommand):
 
                 field_objects[attr_name] = field
 
-            print(str(model))
-
             with open(csv_path / filename, newline='', encoding='utf-8') as f:
                 reader = csv.DictReader(f)
 
