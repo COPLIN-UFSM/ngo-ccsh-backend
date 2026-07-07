@@ -49,7 +49,7 @@ class Command(BaseCommand):
             "GRUPOS_FINALIDADES.csv": GrupoFinalidade,
             "FINALIDADES.csv": Finalidade,
             "TIPOS_DOCUMENTOS.csv": TipoDocumento,
-            "TIPOS_DOCUMENTOS_PARA_FINALIDADES.csv": TiposDocumentosParaFinalidades,
+            "TIPOS_DOCUMENTOS_PARA_FINALIDADES.csv": TipoDocumentoParaFinalidade,
             "STATUS_TRANSACOES.csv": StatusTransacao,
         }
 

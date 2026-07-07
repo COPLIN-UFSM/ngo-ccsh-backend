@@ -53,6 +53,12 @@ class Finalidade(models.Model):
     finalidade = models.CharField(max_length=512, unique=True, null=False, blank=False)
     ativo = models.BooleanField(default=True, blank=True)
 
+    tipos_documentos = models.ManyToManyField(
+        "TipoDocumento",
+        through="TipoDocumentoParaFinalidade",
+        related_name="finalidades",
+    )
+
     class Meta:
         managed = False
         db_table = "finalidades"
@@ -75,7 +81,7 @@ class TipoDocumento(models.Model):
         return self.tipo_documento
 
 
-class TiposDocumentosParaFinalidades(models.Model):
+class TipoDocumentoParaFinalidade(models.Model):
     """
     Tabela que liga os tipos de documentos às finalidades.
     """

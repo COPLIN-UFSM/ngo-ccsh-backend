@@ -4,7 +4,6 @@ from django.db import IntegrityError, transaction
 
 
 class ResolveFromSIEQuerySet(models.QuerySet):
-
     def get(self, *args, **kwargs):
         try:
             return super().get(*args, **kwargs)
@@ -12,17 +11,13 @@ class ResolveFromSIEQuerySet(models.QuerySet):
             pass
 
         if args:
-            raise NotImplementedError(
-                "Positional arguments are not supported yet."
-            )
+            raise NotImplementedError("Ainda não há suporte para argumentos.")
 
         self.model.objects._import_if_needed(**kwargs)
         return super().get(*args, **kwargs)
 
 
-class ResolveFromSIEManager(
-    models.Manager.from_queryset(ResolveFromSIEQuerySet)
-):
+class ResolveFromSIEManager(models.Manager.from_queryset(ResolveFromSIEQuerySet)):
     sie_model_name = None
 
     @property
@@ -56,6 +51,7 @@ class PessoaManager(ResolveFromSIEManager):
             rg=pessoa.rg,
         )
 
+
 class CentroManager(ResolveFromSIEManager):
     sie_model_name = "CentroSIE"
 
@@ -66,6 +62,7 @@ class CentroManager(ResolveFromSIEManager):
             sigla_centro=centro.sigla_centro,
             cod_estruturado=centro.cod_estruturado
         )
+
 
 class UnidadeManager(ResolveFromSIEManager):
     sie_model_name = "UnidadeSIE"
