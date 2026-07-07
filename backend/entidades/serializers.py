@@ -26,6 +26,10 @@ class TipoUnidadeSerializer(serializers.ModelSerializer):
 
 
 class UnidadeSerializer(serializers.ModelSerializer):
+    tipo_unidade = TipoUnidadeSerializer()
+    situacao_unidade = SituacaoUnidadeSerializer()
+    centro = CentroSerializer()
+
     class Meta:
         model = Unidade
         fields = ["id_unidade_interna", "nome_unidade", "cod_estruturado", "centro", "tipo_unidade", "situacao_unidade"]
@@ -53,7 +57,15 @@ class PessoaSerializer(serializers.ModelSerializer):
         read_only_fields = ["rg", "cpf"]
 
 
+class EmailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Email
+        fields = "__all__"
+
 class DiscenteSerializer(serializers.ModelSerializer):
+    email = EmailSerializer()
+    curso = CursoSerializer()
+
     class Meta:
         model = Discente
         fields = "__all__"
@@ -61,16 +73,16 @@ class DiscenteSerializer(serializers.ModelSerializer):
 
 
 class ServidorSerializer(serializers.ModelSerializer):
+    email = EmailSerializer()
+    curso = CursoSerializer()
+    cargo = CargoSerializer()
+
     class Meta:
         model = Servidor
         fields = "__all__"
         read_only_fields = "__all__"
 
 
-class EmailSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Email
-        fields = "__all__"
 
 
 class TelefoneSerializer(serializers.ModelSerializer):
