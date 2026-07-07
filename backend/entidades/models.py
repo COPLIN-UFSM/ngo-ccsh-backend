@@ -19,9 +19,9 @@ class Centro(models.Model):
 
     id_centro_interno = models.AutoField(primary_key=True, db_column='id_centro_interno')
     centro_sie = models.OneToOneField(CentroSIE, on_delete=models.DO_NOTHING, db_column='id_centro_sie')
-    nome_centro = models.CharField(max_length=256, db_column='nome_centro')
-    sigla_centro = models.CharField(max_length=16, unique=True, db_column='sigla_centro')
-    cod_estruturado = models.CharField(max_length=15, unique=False, null=True, blank=True, db_column='cod_estruturado')
+    nome_centro = models.CharField(max_length=256, unique=True, db_column='nome_centro')
+    sigla_centro = models.CharField(max_length=16, blank=True, null=True, db_column='sigla_centro')
+    cod_estruturado = models.CharField(max_length=15, null=True, blank=True, db_column='cod_estruturado')
 
     class Meta:
         managed = False
@@ -65,12 +65,12 @@ class Unidade(models.Model):
 
     id_unidade_interna = models.AutoField(primary_key=True, db_column='id_unidade')
     unidade_sie = models.OneToOneField(UnidadeSIE, on_delete=models.DO_NOTHING, db_column="id_unidade_sie")
-    nome_unidade = models.CharField(max_length=256, unique=False, db_column='nome_unidade')
-    cod_estruturado = models.CharField(max_length=15, unique=True, db_column='cod_estruturado')
+    nome_unidade = models.CharField(max_length=256, blank=False, null=False, db_column='nome_unidade')
+    cod_estruturado = models.CharField(max_length=15, blank=True, null=True, db_column='cod_estruturado')
 
-    centro = models.ForeignKey(Centro, models.DO_NOTHING, db_column="id_centro_interno")
-    tipo_unidade = models.ForeignKey(TipoUnidade, models.DO_NOTHING, db_column="id_tipo_unidade")
-    situacao_unidade = models.ForeignKey(SituacaoUnidade, models.DO_NOTHING, db_column="id_situacao")
+    centro = models.ForeignKey(Centro, models.DO_NOTHING, blank=False, null=False, db_column="id_centro_interno")
+    tipo_unidade = models.ForeignKey(TipoUnidade, models.DO_NOTHING, blank=False, null=False, db_column="id_tipo_unidade")
+    situacao_unidade = models.ForeignKey(SituacaoUnidade, models.DO_NOTHING, blank=False, null=False, db_column="id_situacao")
 
     class Meta:
         managed = False
