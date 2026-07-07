@@ -102,9 +102,9 @@ class ValorDocumento(models.Model):
     """
     Valor de um documento. Por exemplo, o valor da Lista SIAFI.
     """
-    id_valor_documento = models.AutoField(primary_key=True, db_column='id_valor_documento')
+    pk = models.CompositePrimaryKey("tipo_documento_id", "transacao_id")
     tipo_documento = models.ForeignKey(TipoDocumento, models.DO_NOTHING, db_column="id_tipo_documento")
-    transacao = models.ForeignKey("Transacao", models.DO_NOTHING, related_name="documentos", db_column="id_transacao")
+    versao_transacao = models.ForeignKey("VersaoTransacao", models.DO_NOTHING, related_name="documentos", db_column="id_versao_transacao")
 
     valor_documento = models.CharField(max_length=256, db_column='valor_documento')
 
@@ -118,7 +118,7 @@ class Empenho(models.Model):
     numero_empenho = models.CharField(max_length=32, unique=True, db_column='numero_empenho')
     numero_pen = models.CharField(max_length=32, unique=True, null=True, blank=True, db_column='numero_pen')
     finalidade = models.ForeignKey(Finalidade, models.DO_NOTHING, db_column="id_finalidade")
-    data_lancamento = models.DateTimeField(blank=True, auto_now_add=True)
+    data_criacao = models.DateTimeField(blank=True, auto_now_add=True, db_column='data_criacao')
 
     @property
     def montante(self):
@@ -183,9 +183,7 @@ class VersaoTransacao(models.Model):
     """
 
     id_versao_transacao = models.AutoField(primary_key=True, db_column="id_versao_transacao")
-
     transacao = models.ForeignKey(Transacao, on_delete=models.PROTECT, related_name="versoes", db_column="id_transacao")
-
     numero_versao = models.PositiveIntegerField(default=1)
 
     empenho = models.ForeignKey(

@@ -1,0 +1,1 @@
+# TODO talvez seja preciso implementar um manager para Transacao para pegar sempre a última versão!

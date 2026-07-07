@@ -131,7 +131,7 @@ class TransacaoSerializer(serializers.ModelSerializer):
             "montante",
             "quantidade",
             "local_trecho",
-            "data_lancamento",
+            "data_criacao",
             "data_modificacao",
             "motivo_modificacao",
             "documentos",
