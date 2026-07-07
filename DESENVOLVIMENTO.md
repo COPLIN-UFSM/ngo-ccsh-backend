@@ -64,6 +64,10 @@ python backend/manage.py migrate --settings=ngo_ccsh.dev_settings
 python backend/manage.py createsuperuser --settings=ngo_ccsh.dev_settings
 ```
 
+> [!NOTE]
+> É necessário usar um usuário que já exista no banco de dados para criar o super usuário. Use o CPF 00000000001
+> para isto.
+
 Rode a aplicação com 
 
 ```bash

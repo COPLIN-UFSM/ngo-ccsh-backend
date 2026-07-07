@@ -102,7 +102,7 @@ class ValorDocumento(models.Model):
     """
     Valor de um documento. Por exemplo, o valor da Lista SIAFI.
     """
-    pk = models.CompositePrimaryKey("tipo_documento_id", "transacao_id")
+    pk = models.CompositePrimaryKey("tipo_documento_id", "versao_transacao_id")
     tipo_documento = models.ForeignKey(TipoDocumento, models.DO_NOTHING, db_column="id_tipo_documento")
     versao_transacao = models.ForeignKey("VersaoTransacao", models.DO_NOTHING, related_name="documentos", db_column="id_versao_transacao")
 
