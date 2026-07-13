@@ -2,12 +2,12 @@ from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from drf_spectacular.utils import extend_schema, OpenApiParameter, OpenApiResponse
+
 from .serializers import UserListSerializer, UserDetailsSerializer, ChangePasswordSerializer
 
 from usuarios.models import Usuario
 from utils import response
 from utils.pagination import PaginationWithSize
-
 class UserListView(APIView):
     """
     View para listar usuários e criar um novo usuário
@@ -209,7 +209,7 @@ class UserDetailsView(APIView):
                 {'detail': 'Apenas outro usuário administrador pode desativar sua conta!'}, status=status.HTTP_403_FORBIDDEN
             )
 
-        user.ativo = False
+        user.is_active = False
         user.save()
         return Response(status=status.HTTP_204_NO_CONTENT)
 

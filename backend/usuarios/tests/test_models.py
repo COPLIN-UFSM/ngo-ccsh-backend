@@ -175,17 +175,8 @@ class CreateSuperServidorTest(BaseServidorTestCase):
             email="admin@gmail.com",
             password="superpassword",
         )
-        self.assertTrue(superuser.is_staff)
         self.assertTrue(superuser.is_superuser)
         self.assertTrue(superuser.is_active)
-
-    def test_create_superuser_has_is_staff_true(self):
-        superuser = Usuario.objects.create_superuser(
-            cpf=self.servidor_superusuario.pessoa.cpf,
-            email="staff@gmail.com",
-            password="password",
-        )
-        self.assertTrue(superuser.is_staff)
 
     def test_create_superuser_has_is_superuser_true(self):
         superuser = Usuario.objects.create_superuser(
@@ -263,16 +254,6 @@ class CreateSuperServidorTest(BaseServidorTestCase):
             password="password",
         )
         self.assertEqual(superuser.email, "invalidsuperemail")
-
-    def test_create_superuser_cannot_force_is_staff_false(self):
-        with self.assertRaises(ValueError) as context:
-            Usuario.objects.create_superuser(
-                cpf=self.servidor_superusuario.pessoa.cpf,
-                email="staff_false@gmail.com",
-                password="password",
-                is_staff=False,
-            )
-        self.assertIn("is_staff", str(context.exception).lower())
 
     def test_create_superuser_cannot_force_is_superuser_false(self):
         with self.assertRaises(ValueError) as context:

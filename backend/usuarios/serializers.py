@@ -1,6 +1,7 @@
 from rest_framework import serializers
-from rest_framework.exceptions import ValidationError
+from django.core.exceptions import ValidationError as DjangoValidationError
 
+from django.contrib.auth.password_validation import validate_password
 from .models import Usuario
 
 class UserListSerializer(serializers.ModelSerializer):
@@ -19,11 +20,24 @@ class UserListSerializer(serializers.ModelSerializer):
                 "password": "As senhas não são iguais.",
                 "password2": "As senhas não são iguais.",
             })
+
+        try:
+            validate_password(data['password1'])
+        except DjangoValidationError as passwordWeek:
+            raise serializers.ValidationError({
+                "password": passwordWeek.messages
+            })
+
         return data
 
     def create(self, validated_data):
         validated_data.pop("password2")
-        user = Usuario.objects.create_user(**validated_data)
+        try:
+            user = Usuario.objects.create_user(**validated_data)
+        except ValueError as createError:
+            raise serializers.ValidationError({
+                "detail": str(createError)
+            })
         return user
 
 
@@ -32,9 +46,18 @@ class UserDetailsSerializer(serializers.ModelSerializer):
         model = Usuario
         fields = ["id", "cpf", "email", "full_name", "is_superuser", "is_active"]
 
+    def update(self, instance, validated_data):
+        try:
+            user = Usuario.objects.update_user(**validated_data,instance=instance)
+        except ValueError as e:
+            raise serializers.ValidationError({
+                "detail": str(e)
+            })
+        return user
+
 
 class ChangePasswordSerializer(serializers.Serializer):
-    password1 = serializers.CharField(
+    password = serializers.CharField(
         required=True,
         error_messages={
             "required": "Por favor informe a nova senha.",
@@ -50,10 +73,15 @@ class ChangePasswordSerializer(serializers.Serializer):
     )
 
     def validate(self, attrs):
-        new_password = attrs['password1']
+        new_password = attrs['password']
         new_password_confirm = attrs['password2']
 
         if new_password != new_password_confirm:
-            raise ValidationError({"detail": 'As senhas não são iguais!'})
+            raise serializers.ValidationError({"password": 'As senhas não são iguais!'})
+
+        try:
+            validate_password(attrs['password'])
+        except DjangoValidationError as passwordWeek:
+            raise serializers.ValidationError({"password": passwordWeek.messages})
 
         return attrs

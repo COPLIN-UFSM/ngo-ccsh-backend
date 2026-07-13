@@ -47,7 +47,6 @@ class CustomUserAdmin(UserAdmin):
 
     list_filter = (
         "is_active",
-        "is_staff",
         "is_superuser",
     )
 
@@ -57,7 +56,6 @@ class CustomUserAdmin(UserAdmin):
         ("Permissions", {
             "fields": (
                 "is_active",
-                "is_staff",
                 "is_superuser",
                 "groups",
                 "user_permissions",
