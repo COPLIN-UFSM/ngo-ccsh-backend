@@ -31,7 +31,7 @@ class LoginView(APIView):
 
         if not username or not password:
             return Response(
-                {"detail": "Por favor insira o usuário e a senha."},
+                {"detail": "Por favor insira o cpf e a senha."},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 

@@ -13,7 +13,7 @@ Esse capítulo explica como configurar o ambiente de desenvolvimento para a apli
 Existem duas branches principais: `main` e `dev`.
 
 Na `main` deve ser mantido **apenas** o código de produção, pronto para ser usado. Já na `dev` deve ser mantido o código
-de desenvolvimento, que contém código (a princípio) estável mas que ainda não está totalmente testado.
+de desenvolvimento, que contém código (a princípio) estável, mas que ainda não está totalmente testado.
 
 Quando desenvolver um novo recurso, crie uma branch a partir da branch `dev`. Prefixe ela com `dev_*`, onde `*` deve ser
 o nome do novo recurso sendo implementado. Commite para `dev` apenas quando tiver terminado de implementar o novo 

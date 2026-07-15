@@ -69,12 +69,11 @@ class UnidadeViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
 
 
-
+# OK
 class CursoViewSet(viewsets.ModelViewSet):
-    queryset = Curso.objects.all()
+    queryset = Curso.objects.all().select_related('centro')
     serializer_class = CursoSerializer
     http_method_names = ["get"]
-    # !OK
 
 
 class PessoaViewSet(viewsets.ModelViewSet):
