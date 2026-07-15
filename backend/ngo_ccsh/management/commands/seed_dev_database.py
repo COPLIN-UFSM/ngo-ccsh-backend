@@ -36,12 +36,15 @@ class Command(BaseCommand):
         mapping = {
             # Entidades
             "V_CENTROS_SIE.csv": CentroSIE,
+            "CENTROS.csv": Centro,
             "V_TIPOS_UNIDADES.csv": TipoUnidade,
             "V_SITUACOES_UNIDADES.csv": SituacaoUnidade,
             "V_UNIDADES_SIE.csv": UnidadeSIE,
+            "UNIDADES.csv": Unidade,
             "V_CURSOS.csv": Curso,
             "V_CARGOS.csv": Cargo,
             "V_PESSOAS_SIE.csv": PessoaSIE,
+            "PESSOAS.csv": Pessoa,
             "V_SERVIDORES.csv": Servidor,
             "V_DISCENTES.csv": Discente,
             # Despesas
@@ -53,28 +56,33 @@ class Command(BaseCommand):
             "STATUS_TRANSACOES.csv": StatusTransacao,
         }
 
-        for filename, model in tqdm(mapping.items(), total=len(mapping), desc='Inserindo dados'):
-            field_map = {}
-            field_objects = {}
+        with tqdm(total=len(mapping), desc="Inserindo dados nas tabelas") as pbar:
+            for filename, model in mapping.items():
+                pbar.desc = f"Inserindo dados no modelo {model.__name__}"
 
-            for field in model._meta.fields:
-                attr_name = field.attname if field.is_relation else field.name
+                field_map = {}
+                field_objects = {}
 
-                if field.column is not None:
-                    field_map[field.column.upper()] = attr_name
+                for field in model._meta.fields:
+                    attr_name = field.attname if field.is_relation else field.name
 
-                field_objects[attr_name] = field
+                    if field.column is not None:
+                        field_map[field.column.upper()] = attr_name
 
-            with open(csv_path / filename, newline='', encoding='utf-8') as f:
-                reader = csv.DictReader(f)
+                    field_objects[attr_name] = field
 
-                for row in reader:
-                    new_row = {}
+                with open(csv_path / filename, newline='', encoding='utf-8') as f:
+                    reader = csv.DictReader(f)
 
-                    for key, value in row.items():
-                        attr_name = field_map[key.upper()]
-                        field = field_objects[attr_name]
+                    for row in reader:
+                        new_row = {}
 
-                        new_row[attr_name] = self.convert_value(field, value)
+                        for key, value in row.items():
+                            attr_name = field_map[key.upper()]
+                            field = field_objects[attr_name]
 
-                    model.objects.create(**new_row)
+                            new_row[attr_name] = self.convert_value(field, value)
+
+                        model.objects.create(**new_row)
+
+                pbar.update(1)
