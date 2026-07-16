@@ -2,7 +2,6 @@ from django.db import models
 
 from entidades.managers import PessoaManager, CentroManager, UnidadeManager
 
-
 class CentroSIE(models.Model):
     id_centro_sie = models.AutoField(primary_key=True, db_column="id_centro_sie")
     cod_estruturado = models.CharField(max_length=15, unique=True, db_column='cod_estruturado')
@@ -13,12 +12,15 @@ class CentroSIE(models.Model):
         managed = False
         db_table = "v_centros_sie"
 
+    def __str__(self) -> str:
+        return self.nome_centro
 
 class Centro(models.Model):
     objects = CentroManager()
 
     id_centro_interno = models.AutoField(primary_key=True, db_column='id_centro_interno')
-    centro_sie = models.OneToOneField(CentroSIE, on_delete=models.DO_NOTHING, db_column='id_centro_sie')
+    # Pode ser null pelo fato de que existem tabelas que não estão cadastradas no sie
+    centro_sie = models.OneToOneField(CentroSIE, null=True, blank=True, on_delete=models.DO_NOTHING, db_column='id_centro_sie')
     nome_centro = models.CharField(max_length=256, unique=True, db_column='nome_centro')
     sigla_centro = models.CharField(max_length=16, blank=True, null=True, db_column='sigla_centro')
     cod_estruturado = models.CharField(max_length=15, null=True, blank=True, db_column='cod_estruturado')
@@ -27,6 +29,8 @@ class Centro(models.Model):
         managed = False
         db_table = "centros"
 
+    def __str__(self) -> str:
+        return self.nome_centro
 
 class SituacaoUnidade(models.Model):
     id_situacao_unidade = models.AutoField(primary_key=True, db_column='id_situacao_unidade')
@@ -51,7 +55,7 @@ class UnidadeSIE(models.Model):
     nome_unidade = models.CharField(max_length=256, unique=False, db_column='nome_unidade')
     cod_estruturado = models.CharField(max_length=15, unique=True, db_column='cod_estruturado')
 
-    centro = models.ForeignKey(Centro, models.DO_NOTHING, db_column="id_centro_sie", to_field="centro_sie", db_constraint=False)
+    centro = models.ForeignKey(Centro, models.DO_NOTHING, db_column="id_centro_sie", db_constraint=False)
     tipo_unidade = models.ForeignKey(TipoUnidade, models.DO_NOTHING, db_column="id_tipo_unidade")
     situacao_unidade = models.ForeignKey(SituacaoUnidade, models.DO_NOTHING, db_column="id_situacao_unidade")
 
@@ -63,14 +67,14 @@ class UnidadeSIE(models.Model):
 class Unidade(models.Model):
     objects = UnidadeManager()
 
-    id_unidade_interna = models.AutoField(primary_key=True, db_column='id_unidade')
+    id_unidade_interna = models.AutoField(primary_key=True, db_column='id_unidade_interna')
     unidade_sie = models.OneToOneField(UnidadeSIE, on_delete=models.DO_NOTHING, db_column="id_unidade_sie")
     nome_unidade = models.CharField(max_length=256, blank=False, null=False, db_column='nome_unidade')
     cod_estruturado = models.CharField(max_length=15, blank=True, null=True, db_column='cod_estruturado')
 
     centro = models.ForeignKey(Centro, models.DO_NOTHING, blank=False, null=False, db_column="id_centro_interno")
     tipo_unidade = models.ForeignKey(TipoUnidade, models.DO_NOTHING, blank=False, null=False, db_column="id_tipo_unidade")
-    situacao_unidade = models.ForeignKey(SituacaoUnidade, models.DO_NOTHING, blank=False, null=False, db_column="id_situacao")
+    situacao_unidade = models.ForeignKey(SituacaoUnidade, models.DO_NOTHING, blank=False, null=False, db_column="id_situacao_unidade")
 
     class Meta:
         managed = False
@@ -82,7 +86,7 @@ class Unidade(models.Model):
 
 class Curso(models.Model):
     id_curso = models.AutoField(primary_key=True, db_column="id_curso")
-    centro = models.ForeignKey(Centro, on_delete=models.DO_NOTHING, db_column="id_centro_sie", to_field="centro_sie", db_constraint=False)
+    centro = models.ForeignKey(Centro, on_delete=models.DO_NOTHING, db_column="id_centro_interno", db_constraint=False)
     nome_curso = models.TextField(max_length=256, unique=False, null=False, blank=False, db_column="nome_curso")
     nivel_curso = models.TextField(max_length=256, unique=False, null=False, blank=False, db_column="nivel_curso")
     modalidade_curso = models.TextField(max_length=256, unique=False, null=False, blank=False, db_column="modalidade_curso")
@@ -132,9 +136,7 @@ class Discente(models.Model):
     pessoa = models.ForeignKey(
         Pessoa,
         on_delete=models.DO_NOTHING,
-        to_field="pessoa_sie",
-        db_column="id_pessoa_sie",
-        db_constraint=False
+        db_column="id_pessoa_interna",
     )
     matricula = models.TextField(max_length=32, unique=True, null=False, blank=False, db_column="matricula")
     curso = models.ForeignKey(Curso, on_delete=models.DO_NOTHING, db_column="id_curso")
@@ -150,8 +152,7 @@ class Servidor(models.Model):
     pessoa = models.ForeignKey(
         Pessoa,
         on_delete=models.DO_NOTHING,
-        to_field="pessoa_sie",
-        db_column="id_pessoa_sie",
+        db_column="id_pessoa_interna",
         db_constraint=False
     )
     matricula = models.TextField(max_length=32, unique=True, null=False, blank=False, db_column="matricula")

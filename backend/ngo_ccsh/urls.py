@@ -22,10 +22,14 @@ from drf_spectacular.views import SpectacularRedocView, SpectacularAPIView, Spec
 urlpatterns = [
     path("", SpectacularSwaggerView.as_view(url_name="schema"), name="index"),
     path('api-auth/', include('rest_framework.urls')),  # para fazer login na browsable API do DRF
+
     path("admin/", admin.site.urls),
     path("usuarios/", include("usuarios.urls")),
     path("despesas/", include("despesas.urls")),
     path("autenticacao/", include("autenticacao.urls")),
+    path("entidades/", include("entidades.urls")),
+
+    # Documentação:
     path("schema/", SpectacularAPIView.as_view(), name="schema"),
     path("docs/", SpectacularSwaggerView.as_view(url_name="schema"), name="swagger-ui"),
     path("redoc/", SpectacularRedocView.as_view(url_name="schema"), name="redoc"),

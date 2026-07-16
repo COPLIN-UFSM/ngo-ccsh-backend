@@ -8,21 +8,21 @@ class CentroSerializer(serializers.ModelSerializer):
     class Meta:
         model = Centro
         fields = ["id_centro_interno", "nome_centro", "sigla_centro", "cod_estruturado"]
-        read_only_fields = "__all__"
 
+    # def validate(self, attrs):
 
 class SituacaoUnidadeSerializer(serializers.ModelSerializer):
     class Meta:
         model = SituacaoUnidade
         fields = "__all__"
-        read_only_fields = "__all__"
+        extra_kwargs = {field.name: {'read_only': True} for field in SituacaoUnidade._meta.fields}
 
 
 class TipoUnidadeSerializer(serializers.ModelSerializer):
     class Meta:
         model = TipoUnidade
         fields = "__all__"
-        read_only_fields = "__all__"
+        extra_kwargs = {field.name: {'read_only': True} for field in TipoUnidade._meta.fields}
 
 
 class UnidadeSerializer(serializers.ModelSerializer):
@@ -33,21 +33,21 @@ class UnidadeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Unidade
         fields = ["id_unidade_interna", "nome_unidade", "cod_estruturado", "centro", "tipo_unidade", "situacao_unidade"]
-        read_only_fields = "__all__"
+        extra_kwargs = {field.name: {'read_only': True} for field in Unidade._meta.fields}
 
 
 class CursoSerializer(serializers.ModelSerializer):
+    centro = serializers.StringRelatedField()
     class Meta:
         model = Curso
         fields = "__all__"
-        read_only_fields = "__all__"
-
+        extra_kwargs = {field.name: {'read_only': True} for field in Curso._meta.fields}
 
 class CargoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Cargo
         fields = "__all__"
-        read_only_fields = "__all__"
+        extra_kwargs = {field.name: {'read_only': True} for field in Cargo._meta.fields}
 
 
 class PessoaSerializer(serializers.ModelSerializer):
@@ -69,7 +69,7 @@ class DiscenteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Discente
         fields = "__all__"
-        read_only_fields = "__all__"
+        extra_kwargs = {field.name: {'read_only': True} for field in Discente._meta.fields}
 
 
 class ServidorSerializer(serializers.ModelSerializer):
@@ -80,7 +80,7 @@ class ServidorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Servidor
         fields = "__all__"
-        read_only_fields = "__all__"
+        extra_kwargs = {field.name: {'read_only': True} for field in Servidor._meta.fields}
 
 
 

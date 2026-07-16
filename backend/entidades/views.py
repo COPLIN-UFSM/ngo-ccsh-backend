@@ -1,4 +1,5 @@
-from rest_framework import viewsets, status
+from django.http import Http404
+from rest_framework import viewsets
 from rest_framework.exceptions import ValidationError, MethodNotAllowed
 from rest_framework.response import Response
 
@@ -68,9 +69,9 @@ class UnidadeViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
 
 
-
+# OK
 class CursoViewSet(viewsets.ModelViewSet):
-    queryset = Curso.objects.all()
+    queryset = Curso.objects.all().select_related('centro')
     serializer_class = CursoSerializer
     http_method_names = ["get", "post", "patch"]
     # !OK
