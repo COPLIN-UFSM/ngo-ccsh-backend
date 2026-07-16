@@ -23,14 +23,23 @@ from entidades.serializers import (
     DiscenteSerializer,
     PessoaSerializer, UnidadeSerializer
 )
+detailNotAllowed = "Método não permitido para elementos cadastrados no sie."
 
-detailNotAllowed = "Método não permitido para unidades cadastrados no sie"
+class TipoUnidadeViewSet(viewsets.ModelViewSet):
+    queryset = TipoUnidade.objects.all()
+    serializer_class = TipoUnidadeSerializer
+    http_method_names = ["get"]
+
+class SituacaoUnidadeViewSet(viewsets.ModelViewSet):
+    queryset = SituacaoUnidade.objects.all()
+    serializer_class = SituacaoUnidadeSerializer
+    http_method_names = ["get"]
+
+# OK
 class CentroViewSet(viewsets.ModelViewSet):
     queryset = Centro.objects.all()
     serializer_class = CentroSerializer
     http_method_names = ["get", "post", "patch"]
-    # OK ?
-    # TODO depende se pode mexer! se tiver centro_sie, não pode mexer. do contrário, pode
 
     def partial_update(self,request, *args, **kwargs):
         centro: Centro = self.get_object()
@@ -45,17 +54,12 @@ class CentroViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
 
 
-
+#OK
 class UnidadeViewSet(viewsets.ModelViewSet):
     queryset = Unidade.objects.all().select_related("centro", "tipo_unidade", "situacao_unidade")
     serializer_class = UnidadeSerializer
     http_method_names = ["get","post","patch"]
 
-    # OK?
-    # TODO depende se pode mexer! se tiver id_unidade_sie, não pode mexer. do contrário, pode
-    # TODO mostrar centro
-    # TODO mostrar situacaoUnidade
-    # TODO mostrar tipoUnidade
     def partial_update(self,request, *args, **kwargs):
         unidade: Unidade = self.get_object()
 
