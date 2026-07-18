@@ -72,9 +72,10 @@ class Unidade(models.Model):
     objects = UnidadeManager()
 
     id_unidade_interna = models.AutoField(primary_key=True, db_column='id_unidade_interna')
-    unidade_sie = models.OneToOneField(UnidadeSIE, on_delete=models.DO_NOTHING, db_column="id_unidade_sie")
+    unidade_sie = models.OneToOneField(UnidadeSIE, null=True, blank=False, on_delete=models.DO_NOTHING, db_column="id_unidade_sie")
+
     nome_unidade = models.CharField(max_length=256, blank=False, null=False, db_column='nome_unidade')
-    cod_estruturado = models.CharField(max_length=15, blank=True, null=True, db_column='cod_estruturado')
+    cod_estruturado = models.CharField(max_length=15, unique=True, blank=True, null=True, db_column='cod_estruturado')
 
     centro = models.ForeignKey(Centro, models.DO_NOTHING, blank=False, null=False,  db_column="id_centro_interno")
     tipo_unidade = models.ForeignKey(TipoUnidade, models.DO_NOTHING, blank=False, null=False, db_column="id_tipo_unidade")
