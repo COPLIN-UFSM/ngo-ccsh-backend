@@ -54,6 +54,7 @@ class TipoUnidade(models.Model):
         return self.tipo_unidade
 
 
+
 class UnidadeSIE(models.Model):
     id_unidade_sie = models.AutoField(primary_key=True, db_column='id_unidade_sie')
     nome_unidade = models.CharField(max_length=256, unique=False, db_column='nome_unidade')

@@ -59,7 +59,7 @@ class CentroField(serializers.RelatedField):
         except Centro.DoesNotExist:
             raise ValidationError('Não existe nenhum centro com este ID.')
 
-#POST e PATCH com problema, GET OK
+#OK
 class UnidadeSerializer(serializers.ModelSerializer):
     tipo_unidade = TipoUnidadeField(queryset=TipoUnidade.objects.all())
     situacao_unidade = SituacaoUnidadeField(queryset=SituacaoUnidade.objects.all())
@@ -70,12 +70,14 @@ class UnidadeSerializer(serializers.ModelSerializer):
         fields = ["id_unidade_interna", "nome_unidade", "cod_estruturado", "centro", "tipo_unidade", "situacao_unidade"]
         read_only = ['id_unidade_interna']
 
+# Falta arrumar o patch, talvez seja na view.
 class CursoSerializer(serializers.ModelSerializer):
-    centro = serializers.StringRelatedField()
+    centro = CentroField(queryset=Centro.objects.all())
+
     class Meta:
         model = Curso
         fields = "__all__"
-        extra_kwargs = {field.name: {'read_only': True} for field in Curso._meta.fields}
+        read_only = ["id_curso"]
 
 class CargoSerializer(serializers.ModelSerializer):
     class Meta:
@@ -115,9 +117,6 @@ class ServidorSerializer(serializers.ModelSerializer):
         model = Servidor
         fields = "__all__"
         extra_kwargs = {field.name: {'read_only': True} for field in Servidor._meta.fields}
-
-
-
 
 class TelefoneSerializer(serializers.ModelSerializer):
     class Meta:

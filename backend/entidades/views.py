@@ -23,17 +23,23 @@ from entidades.serializers import (
     DiscenteSerializer,
     PessoaSerializer, UnidadeSerializer
 )
+
 detailNotAllowed = "Método não permitido para elementos cadastrados no sie."
 
+
+#OK
 class TipoUnidadeViewSet(viewsets.ModelViewSet):
     queryset = TipoUnidade.objects.all()
     serializer_class = TipoUnidadeSerializer
     http_method_names = ["get"]
 
+
+#OK
 class SituacaoUnidadeViewSet(viewsets.ModelViewSet):
     queryset = SituacaoUnidade.objects.all()
     serializer_class = SituacaoUnidadeSerializer
     http_method_names = ["get"]
+
 
 # OK
 class CentroViewSet(viewsets.ModelViewSet):
@@ -41,7 +47,7 @@ class CentroViewSet(viewsets.ModelViewSet):
     serializer_class = CentroSerializer
     http_method_names = ["get", "post", "patch"]
 
-    def partial_update(self,request, *args, **kwargs):
+    def partial_update(self, request, *args, **kwargs):
         centro: Centro = self.get_object()
 
         if centro.centro_sie is not None:
@@ -58,9 +64,9 @@ class CentroViewSet(viewsets.ModelViewSet):
 class UnidadeViewSet(viewsets.ModelViewSet):
     queryset = Unidade.objects.all().select_related("centro", "tipo_unidade", "situacao_unidade")
     serializer_class = UnidadeSerializer
-    http_method_names = ["get","post","patch"]
+    http_method_names = ["get", 'post', "patch"]
 
-    def partial_update(self,request, *args, **kwargs):
+    def partial_update(self, request: object, *args: object, **kwargs: object) -> Response:
         unidade: Unidade = self.get_object()
 
         if unidade.unidade_sie is not None:
@@ -78,6 +84,7 @@ class CursoViewSet(viewsets.ModelViewSet):
     queryset = Curso.objects.all().select_related('centro')
     serializer_class = CursoSerializer
     http_method_names = ["get", "post", "patch"]
+
     # !OK
     def partial_update(self, request, *args, **kwargs):
         curso = self.get_object()
@@ -88,6 +95,7 @@ class CursoViewSet(viewsets.ModelViewSet):
 
         serializer.save()
         return Response(serializer.data)
+
 
 class PessoaViewSet(viewsets.ModelViewSet):
     queryset = Pessoa.objects.all().select_related('email', 'telefone')
@@ -114,7 +122,6 @@ class DiscenteViewSet(viewsets.ModelViewSet):
 
     # TODO mostrar e-mail e telefone
     # TODO mostrar curso
-
 
 
 class ServidorViewSet(viewsets.ModelViewSet):
