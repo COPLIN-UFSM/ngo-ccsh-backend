@@ -83,16 +83,7 @@ class UnidadeViewSet(viewsets.ModelViewSet):
 class CursoViewSet(viewsets.ModelViewSet):
     queryset = Curso.objects.all().select_related('centro')
     serializer_class = CursoSerializer
-    http_method_names = ["get", "post", "patch"]
-
-    def partial_update(self, request, *args, **kwargs):
-        curso = self.get_object()
-        serializer = self.get_serializer(curso, data=request.data, partial=True)
-        serializer.is_valid(raise_exception=True)
-
-        #Se curso tbm tiver SIE deve adicionar o if aqui.
-        serializer.save()
-        return Response(serializer.data)
+    http_method_names = ["get"]
 
 
 class PessoaViewSet(viewsets.ModelViewSet):
