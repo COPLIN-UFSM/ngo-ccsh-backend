@@ -139,11 +139,17 @@ class PessoaSerializer(serializers.ModelSerializer):
             setattr(instance, attr, value)
         instance.save()
 
+        fields_errors = {
+            "telefones": [],
+            "emails": []
+        }
         for telefone in telefones_data:
             telefone_id = telefone.pop("id_telefone", None)
 
             if telefone_id:
-                Telefone.objects.filter(pk=telefone_id).update(**telefone, pessoa=instance)
+                telefone = Telefone.objects.filter(pk=telefone_id,pessoa=instance).update(**telefone, pessoa=instance)
+                if not telefone:
+                    fields_errors['telefones'].append(f"Telefone com ID {telefone_id} não encontrado para a pessoa {instance.nome_pessoa}")
             else:
                 Telefone.objects.create(pessoa=instance, **telefone)
 
@@ -151,9 +157,16 @@ class PessoaSerializer(serializers.ModelSerializer):
             email_id = email.pop("id_email", None)
 
             if email_id:
-                Email.objects.filter(pk=email_id).update(**email, pessoa=instance)
+                email = Email.objects.filter(pk=email_id,pessoa=instance).update(**email, pessoa=instance)
+                if not email:
+                    fields_errors['emails'].append(f"Email com ID {email_id} não encontrado para a pessoa {instance.nome_pessoa}")
+
             else:
                 Email.objects.create(pessoa=instance, **email)
+
+        if fields_errors['telefones'] or fields_errors['emails']:
+            raise serializers.ValidationError(fields_errors)
+
         instance.refresh_from_db()
         return instance
 

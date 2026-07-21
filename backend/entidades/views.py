@@ -24,7 +24,7 @@ from entidades.serializers import (
     PessoaSerializer, UnidadeSerializer
 )
 
-detailNotAllowed = "Método não permitido para elementos cadastrados no sie."
+detailNotAllowed = "Método não permitido para elementos cadastrados no SIE."
 
 
 #OK
@@ -85,7 +85,7 @@ class CursoViewSet(viewsets.ModelViewSet):
     serializer_class = CursoSerializer
     http_method_names = ["get"]
 
-
+#OK
 class PessoaViewSet(viewsets.ModelViewSet):
     queryset = Pessoa.objects.all().prefetch_related("telefone_set", "email_set")
     serializer_class = PessoaSerializer
