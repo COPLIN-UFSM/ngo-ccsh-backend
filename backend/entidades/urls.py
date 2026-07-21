@@ -17,9 +17,11 @@ router.register("unidades/tipos", TipoUnidadeViewSet, basename="tipos_unidades")
 router.register("unidades", UnidadeViewSet, basename="unidades")
 
 router.register("cursos", CursoViewSet, basename="cursos") # OK
-router.register("pessoas", PessoaViewSet, basename="pessoas")
+#router.register("pessoas/telefones", TelefoneViewSet, basename="telefones")
+#router.register("pessoas/emails", EmailViewSet, basename="emails")
 router.register("pessoas/discentes", DiscenteViewSet, basename="discentes")
 router.register("pessoas/servidores", ServidorViewSet, basename="servidores")
+router.register("pessoas", PessoaViewSet, basename="pessoas")
 
 
 urlpatterns = [

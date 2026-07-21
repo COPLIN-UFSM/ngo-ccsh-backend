@@ -77,13 +77,15 @@ class CursoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Curso
         fields = "__all__"
-        read_only = ["id_centro_interno"]
+        extra_kwargs = {field.name: {'read_only': True} for field in Curso._meta.fields}
 
 class CargoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Cargo
         fields = "__all__"
         extra_kwargs = {field.name: {'read_only': True} for field in Cargo._meta.fields}
+
+
 
 class TelefoneSerializer(serializers.ModelSerializer):
     class Meta:
@@ -171,7 +173,7 @@ class PessoaSerializer(serializers.ModelSerializer):
         return instance
 
 class DiscenteSerializer(serializers.ModelSerializer):
-    email = EmailSerializer()
+    pessoa = PessoaSerializer()
     curso = CursoSerializer()
 
     class Meta:
@@ -181,9 +183,8 @@ class DiscenteSerializer(serializers.ModelSerializer):
 
 
 class ServidorSerializer(serializers.ModelSerializer):
-    email = EmailSerializer()
-    curso = CursoSerializer()
-    cargo = CargoSerializer()
+    pessoa = PessoaSerializer()
+    cargo = serializers.StringRelatedField()
 
     class Meta:
         model = Servidor

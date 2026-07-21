@@ -51,6 +51,7 @@ class TipoUnidade(models.Model):
     class Meta:
         managed = False
         db_table = "v_tipos_unidades"
+
     def __str__(self):
         return self.tipo_unidade
 
@@ -99,6 +100,7 @@ class Curso(models.Model):
     modalidade_curso = models.TextField(max_length=256, unique=False, null=False, blank=False, db_column="modalidade_curso")
     classificacao_curso = models.TextField(max_length=256, unique=False, null=False, blank=False, db_column="classificacao_curso")
 
+
     class Meta:
         managed = False
         db_table = "v_cursos"
@@ -112,7 +114,8 @@ class Cargo(models.Model):
         managed = False
         db_table = "v_cargos"
 
-
+    def __str__(self):
+        return self.cargo
 class PessoaSIE(models.Model):
     id_pessoa_sie = models.AutoField(primary_key=True, db_column="id_pessoa_sie")
     nome_pessoa = models.TextField(max_length=256, unique=False, null=False, blank=False, db_column="nome_pessoa")
@@ -130,9 +133,8 @@ class Pessoa(models.Model):
     id_pessoa_interna = models.AutoField(primary_key=True, db_column="id_pessoa_interna")
     pessoa_sie = models.OneToOneField(PessoaSIE, on_delete=models.DO_NOTHING, null=True, blank=True, db_column="id_pessoa_sie")
     nome_pessoa = models.TextField(max_length=256, unique=False, null=False, blank=False, db_column="nome_pessoa")
-    cpf = models.TextField(max_length=11, unique=False, null=False, blank=False, db_column="cpf")
-    rg = models.TextField(max_length=11, unique=False, null=False, blank=False, db_column="rg")
-    # Uma pessoa não é apenas uma pessoa? E esta pessoa pode ser tanto servidor, estudante, docente?
+    cpf = models.TextField(max_length=11, unique=True, null=False, blank=False, db_column="cpf")
+    rg = models.TextField(max_length=11, unique=True, null=False, blank=False, db_column="rg")
 
     class Meta:
         managed = False

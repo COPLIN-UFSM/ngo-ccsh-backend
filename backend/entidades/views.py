@@ -60,6 +60,7 @@ class CentroViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
 
 
+
 #OK
 class UnidadeViewSet(viewsets.ModelViewSet):
     queryset = Unidade.objects.all().select_related("centro", "tipo_unidade", "situacao_unidade")
@@ -85,6 +86,7 @@ class CursoViewSet(viewsets.ModelViewSet):
     serializer_class = CursoSerializer
     http_method_names = ["get"]
 
+    search_fields = ["nome_curso"]
 #OK
 class PessoaViewSet(viewsets.ModelViewSet):
     queryset = Pessoa.objects.all().prefetch_related("telefone_set", "email_set")
@@ -102,12 +104,15 @@ class PessoaViewSet(viewsets.ModelViewSet):
 
         return Response(serializer.data)
 
+    # CRIAR DELETE?
+
     # TODO depende se pode mexer! se tiver id_pessoa_sie, não pode mexer. do contrário, pode
     # TODO mostrar e-mail e telefone
 
 
+#OK
 class DiscenteViewSet(viewsets.ModelViewSet):
-    queryset = Discente.objects.all().select_related('email', 'curso')
+    queryset = Discente.objects.all().select_related('pessoa', 'curso')
     serializer_class = DiscenteSerializer
     http_method_names = ["get"]
 
@@ -116,7 +121,7 @@ class DiscenteViewSet(viewsets.ModelViewSet):
 
 
 class ServidorViewSet(viewsets.ModelViewSet):
-    queryset = Servidor.objects.all().select_related('email', 'curso', 'cargo')
+    queryset = Servidor.objects.all().select_related('pessoa', 'cargo')
     serializer_class = ServidorSerializer
     http_method_names = ["get"]
 
