@@ -85,30 +85,30 @@ class CursoViewSet(viewsets.ModelViewSet):
     serializer_class = CursoSerializer
     http_method_names = ["get", "post", "patch"]
 
-    # !OK
     def partial_update(self, request, *args, **kwargs):
         curso = self.get_object()
-        if curso.centro_sie is not None:
-            return MethodNotAllowed(detail=detailNotAllowed, method="PATCH")
         serializer = self.get_serializer(curso, data=request.data, partial=True)
         serializer.is_valid(raise_exception=True)
 
+        #Se curso tbm tiver SIE deve adicionar o if aqui.
         serializer.save()
         return Response(serializer.data)
 
 
 class PessoaViewSet(viewsets.ModelViewSet):
-    queryset = Pessoa.objects.all().select_related('email', 'telefone')
+    queryset = Pessoa.objects.all().prefetch_related("telefone_set", "email_set")
     serializer_class = PessoaSerializer
     http_method_names = ["get", "post", "patch"]
 
     def partial_update(self, request, *args, **kwargs):
         pessoa = self.get_object()
         if pessoa.pessoa_sie is not None:
-            return MethodNotAllowed(detail=detailNotAllowed, method="PATCH")
+            raise MethodNotAllowed(detail=detailNotAllowed, method="PATCH")
+
         serializer = PessoaSerializer(instance=pessoa, data=request.data, partial=True)
         serializer.is_valid(raise_exception=True)
         serializer.save()
+
         return Response(serializer.data)
 
     # TODO depende se pode mexer! se tiver id_pessoa_sie, não pode mexer. do contrário, pode

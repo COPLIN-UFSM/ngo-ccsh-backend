@@ -15,6 +15,7 @@ class CentroSIE(models.Model):
     def __str__(self) -> str:
         return self.nome_centro
 
+
 class Centro(models.Model):
     objects = CentroManager()
 
@@ -131,6 +132,7 @@ class Pessoa(models.Model):
     nome_pessoa = models.TextField(max_length=256, unique=False, null=False, blank=False, db_column="nome_pessoa")
     cpf = models.TextField(max_length=11, unique=False, null=False, blank=False, db_column="cpf")
     rg = models.TextField(max_length=11, unique=False, null=False, blank=False, db_column="rg")
+    # Uma pessoa não é apenas uma pessoa? E esta pessoa pode ser tanto servidor, estudante, docente?
 
     class Meta:
         managed = False
@@ -174,7 +176,7 @@ class Email(models.Model):
     id_email = models.AutoField(primary_key=True, db_column="id_conta")
     pessoa = models.ForeignKey(Pessoa, on_delete=models.DO_NOTHING, db_column="id_pessoa_interna")
     email = models.EmailField(unique=False, db_column="email")
-    ativo = models.BooleanField(unique=False, null=False, blank=False, db_column="ativo")
+    ativo = models.BooleanField(unique=False, default=True, blank=True, db_column="ativo")
 
     class Meta:
         managed = False
@@ -185,7 +187,7 @@ class Telefone(models.Model):
     id_telefone = models.AutoField(primary_key=True, db_column="id_telefone")
     pessoa = models.ForeignKey(Pessoa, on_delete=models.DO_NOTHING, db_column="id_pessoa_interna")
     telefone = models.TextField(max_length=16, unique=False, null=False, blank=False, db_column="telefone")
-    ativo = models.BooleanField(unique=False, null=False, blank=False, db_column="ativo")
+    ativo = models.BooleanField(unique=False, default=True, blank=True, db_column="ativo")
 
     class Meta:
         managed = False

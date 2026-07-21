@@ -77,7 +77,7 @@ class CursoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Curso
         fields = "__all__"
-        read_only = ["id_curso"]
+        read_only = ["id_centro_interno"]
 
 class CargoSerializer(serializers.ModelSerializer):
     class Meta:
@@ -85,18 +85,77 @@ class CargoSerializer(serializers.ModelSerializer):
         fields = "__all__"
         extra_kwargs = {field.name: {'read_only': True} for field in Cargo._meta.fields}
 
-
-class PessoaSerializer(serializers.ModelSerializer):
+class TelefoneSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Pessoa
-        fields = ["id_pessoa_interna", "nome_pessoa", "cpf", "rg"]
-        read_only_fields = ["rg", "cpf"]
-
+        model = Telefone
+        fields = "__all__"
 
 class EmailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Email
         fields = "__all__"
+
+
+class TelefonePessoaSerializer(serializers.ModelSerializer):
+    id_telefone = serializers.IntegerField(required=False)
+
+    class Meta:
+        model = Telefone
+        fields = ['id_telefone','telefone', "ativo"]
+
+class EmailPessoaSerializer(serializers.ModelSerializer):
+    id_email = serializers.IntegerField(required=False)
+    class Meta:
+        model = Email
+        fields = ['id_email','email', 'ativo']
+
+
+class PessoaSerializer(serializers.ModelSerializer):
+    telefones = TelefonePessoaSerializer(many=True, source="telefone_set",required=False)
+    emails = EmailPessoaSerializer(many=True, source="email_set", required=False)
+
+    class Meta:
+        model = Pessoa
+        fields = ["id_pessoa_interna", "nome_pessoa", "cpf", "rg", "telefones", "emails"]
+        read_only_fields = ["id_pessoa_interna"]
+
+    def create(self, validated_data):
+        telefones_data = validated_data.pop("telefone_set", [])
+        emails_data = validated_data.pop("email_set", [])
+        pessoa = Pessoa.objects.create(**validated_data)
+
+        for telefone in telefones_data:
+            Telefone.objects.create(pessoa=pessoa, **telefone)
+
+        for email in emails_data:
+            Email.objects.create(pessoa=pessoa, **email)
+        return pessoa
+
+    def update(self, instance: Pessoa, validated_data):
+        telefones_data = validated_data.pop("telefone_set", [])
+        emails_data = validated_data.pop("email_set", [])
+
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+        instance.save()
+
+        for telefone in telefones_data:
+            telefone_id = telefone.pop("id_telefone", None)
+
+            if telefone_id:
+                Telefone.objects.filter(pk=telefone_id).update(**telefone, pessoa=instance)
+            else:
+                Telefone.objects.create(pessoa=instance, **telefone)
+
+        for email in emails_data:
+            email_id = email.pop("id_email", None)
+
+            if email_id:
+                Email.objects.filter(pk=email_id).update(**email, pessoa=instance)
+            else:
+                Email.objects.create(pessoa=instance, **email)
+        instance.refresh_from_db()
+        return instance
 
 class DiscenteSerializer(serializers.ModelSerializer):
     email = EmailSerializer()
@@ -118,7 +177,3 @@ class ServidorSerializer(serializers.ModelSerializer):
         fields = "__all__"
         extra_kwargs = {field.name: {'read_only': True} for field in Servidor._meta.fields}
 
-class TelefoneSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Telefone
-        fields = "__all__"
