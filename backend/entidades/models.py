@@ -100,7 +100,6 @@ class Curso(models.Model):
     modalidade_curso = models.TextField(max_length=256, unique=False, null=False, blank=False, db_column="modalidade_curso")
     classificacao_curso = models.TextField(max_length=256, unique=False, null=False, blank=False, db_column="classificacao_curso")
 
-
     class Meta:
         managed = False
         db_table = "v_cursos"
@@ -177,8 +176,7 @@ class Servidor(models.Model):
 class Email(models.Model):
     id_email = models.AutoField(primary_key=True, db_column="id_conta")
     pessoa = models.ForeignKey(Pessoa, on_delete=models.DO_NOTHING, db_column="id_pessoa_interna")
-    email = models.EmailField(unique=False, db_column="email")
-    ativo = models.BooleanField(unique=False, default=True, blank=True, db_column="ativo")
+    email = models.EmailField(unique=True, db_column="email")
 
     class Meta:
         managed = False

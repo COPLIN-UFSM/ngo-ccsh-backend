@@ -1,5 +1,5 @@
 from django.http import Http404
-from rest_framework import viewsets
+from rest_framework import viewsets, status
 from rest_framework.exceptions import ValidationError, MethodNotAllowed
 from rest_framework.response import Response
 
@@ -11,7 +11,7 @@ from entidades.models import (
     TipoUnidade,
     Centro,
     Pessoa,
-    Unidade
+    Unidade, Telefone, Email
 )
 
 from entidades.serializers import (
@@ -21,27 +21,21 @@ from entidades.serializers import (
     SituacaoUnidadeSerializer,
     ServidorSerializer,
     DiscenteSerializer,
-    PessoaSerializer, UnidadeSerializer
+    PessoaSerializer, UnidadeSerializer, TelefoneSerializer, EmailSerializer
 )
 
 detailNotAllowed = "Método não permitido para elementos cadastrados no SIE."
 
-
-#OK
 class TipoUnidadeViewSet(viewsets.ModelViewSet):
     queryset = TipoUnidade.objects.all()
     serializer_class = TipoUnidadeSerializer
     http_method_names = ["get"]
 
-
-#OK
 class SituacaoUnidadeViewSet(viewsets.ModelViewSet):
     queryset = SituacaoUnidade.objects.all()
     serializer_class = SituacaoUnidadeSerializer
     http_method_names = ["get"]
 
-
-# OK
 class CentroViewSet(viewsets.ModelViewSet):
     queryset = Centro.objects.all()
     serializer_class = CentroSerializer
@@ -59,9 +53,15 @@ class CentroViewSet(viewsets.ModelViewSet):
         serializer.save()
         return Response(serializer.data)
 
+    # def destroy(self, request, *args, **kwargs):
+    #     centro: Centro = self.get_object()
+    #     if centro.centro_sie is not None:
+    #         raise MethodNotAllowed(detail=detailNotAllowed, method="PATCH")
+    #     centro.ativo = False
+    #     centro.save()
+    #     return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-#OK
 class UnidadeViewSet(viewsets.ModelViewSet):
     queryset = Unidade.objects.all().select_related("centro", "tipo_unidade", "situacao_unidade")
     serializer_class = UnidadeSerializer
@@ -79,15 +79,13 @@ class UnidadeViewSet(viewsets.ModelViewSet):
         serializer.save()
         return Response(serializer.data)
 
-
-# OK
 class CursoViewSet(viewsets.ModelViewSet):
     queryset = Curso.objects.all().select_related('centro')
     serializer_class = CursoSerializer
     http_method_names = ["get"]
 
     search_fields = ["nome_curso"]
-#OK
+
 class PessoaViewSet(viewsets.ModelViewSet):
     queryset = Pessoa.objects.all().prefetch_related("telefone_set", "email_set")
     serializer_class = PessoaSerializer
@@ -104,26 +102,22 @@ class PessoaViewSet(viewsets.ModelViewSet):
 
         return Response(serializer.data)
 
-    # CRIAR DELETE?
-
-    # TODO depende se pode mexer! se tiver id_pessoa_sie, não pode mexer. do contrário, pode
-    # TODO mostrar e-mail e telefone
-
-
-#OK
 class DiscenteViewSet(viewsets.ModelViewSet):
     queryset = Discente.objects.all().select_related('pessoa', 'curso')
     serializer_class = DiscenteSerializer
     http_method_names = ["get"]
-
-    # TODO mostrar e-mail e telefone
-    # TODO mostrar curso
-
 
 class ServidorViewSet(viewsets.ModelViewSet):
     queryset = Servidor.objects.all().select_related('pessoa', 'cargo')
     serializer_class = ServidorSerializer
     http_method_names = ["get"]
 
-    # TODO mostrar e-mail e telefone
-    # TODO mostrar cargo
+class TelefoneViewSet(viewsets.ModelViewSet):
+    queryset = Telefone.objects.all()
+    serializer_class = TelefoneSerializer
+    http_method_names = ["get", "post", "patch", "delete"]
+
+class EmailViewSet(viewsets.ModelViewSet):
+    queryset = Email.objects.all()
+    serializer_class = EmailSerializer
+    http_method_names = ["get", "post", "patch", "delete"]

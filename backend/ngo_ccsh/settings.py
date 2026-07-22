@@ -115,6 +115,9 @@ REST_FRAMEWORK = {
     "DEFAULT_PAGINATION_CLASS": "utils.pagination.PaginationWithSize",
     "DEFAULT_RENDERER_CLASSES": ["utils.renders.CustomJSONRenderer"], 
     "PAGE_SIZE": 10,
+    'DEFAULT_FILTER_BACKENDS': [
+        'rest_framework.filters.SearchFilter',
+    ],
 }
 
 SIMPLE_JWT = {

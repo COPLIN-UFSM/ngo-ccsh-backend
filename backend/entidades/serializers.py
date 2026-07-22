@@ -85,8 +85,6 @@ class CargoSerializer(serializers.ModelSerializer):
         fields = "__all__"
         extra_kwargs = {field.name: {'read_only': True} for field in Cargo._meta.fields}
 
-
-
 class TelefoneSerializer(serializers.ModelSerializer):
     class Meta:
         model = Telefone
@@ -103,13 +101,14 @@ class TelefonePessoaSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Telefone
-        fields = ['id_telefone','telefone', "ativo"]
+        fields = ['id_telefone','telefone']
 
 class EmailPessoaSerializer(serializers.ModelSerializer):
     id_email = serializers.IntegerField(required=False)
+
     class Meta:
         model = Email
-        fields = ['id_email','email', 'ativo']
+        fields = ['id_email','email']
 
 
 class PessoaSerializer(serializers.ModelSerializer):
