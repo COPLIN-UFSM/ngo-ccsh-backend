@@ -11,7 +11,7 @@ class UserListSerializer(serializers.ModelSerializer):
         model = Usuario
         fields = ["id", "cpf", "email", "full_name", "is_superuser", "is_active", "password", "password2"]
 
-        read_only_fields = ["is_active"]
+        read_only_fields = ["id", "is_active"]
         extra_kwargs = {"password": {"write_only": True}}
 
     def validate(self, data):
@@ -22,7 +22,7 @@ class UserListSerializer(serializers.ModelSerializer):
             })
 
         try:
-            validate_password(data['password1'])
+            validate_password(data['password'])
         except DjangoValidationError as passwordWeek:
             raise serializers.ValidationError({
                 "password": passwordWeek.messages

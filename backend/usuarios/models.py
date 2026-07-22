@@ -7,30 +7,34 @@ from entidades.models import Pessoa, Servidor
 class UserManager(BaseUserManager):
     def update_user(self, instance, **validated_data):
         pessoa = instance.pessoa
+
         if 'cpf' in validated_data:
             try:
                 pessoa = Pessoa.objects.get(cpf=validated_data['cpf'])
             except Pessoa.DoesNotExist:
                 raise ValueError("Não existe uma pessoa com este CPF no banco de dados institucional.")
+
+        email = None
         if 'email' in validated_data:
-            email = self.normalize_email(validated_data['email'])
+            email = self.normalize_email(validated_data.pop('email'))
 
         if pessoa != instance.pessoa:
             if Usuario.objects.filter(pessoa=pessoa).exists():
-                raise ValueError(
-                    "Já existe um usuário com esse CPF cadastrado."
-                )
+                raise ValueError("Já existe um usuário com esse CPF cadastrado.")
 
-            servidor = Servidor.objects.filter(
-                pessoa=pessoa,
-                ativo=True,
-            ).exists()
-
-            if not servidor:  # -> Leandro não é servidor.
+            servidor = Servidor.objects.filter(pessoa=pessoa, ativo=True).exists()
+            if not servidor:
                 raise ValueError('Somente servidores ativos podem ser usuários.')
 
-        validated_data.pop('email')
-        instance = self.model(**validated_data, email=email)
+        if 'cpf' in validated_data:
+            instance.cpf = "".join(filter(str.isdigit, validated_data.pop('cpf')))
+            instance.pessoa = pessoa
+
+        if email is not None:
+            instance.email = email
+
+        for field, value in validated_data.items():
+            setattr(instance, field, value)
 
         instance.save()
         return instance
