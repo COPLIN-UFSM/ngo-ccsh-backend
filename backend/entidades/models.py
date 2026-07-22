@@ -177,6 +177,7 @@ class Email(models.Model):
     id_email = models.AutoField(primary_key=True, db_column="id_conta")
     pessoa = models.ForeignKey(Pessoa, on_delete=models.DO_NOTHING, db_column="id_pessoa_interna")
     email = models.EmailField(unique=True, db_column="email")
+    ativo = models.BooleanField(unique=False, default=True, blank=True, db_column="ativo")
 
     class Meta:
         managed = False
