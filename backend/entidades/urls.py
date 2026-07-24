@@ -16,6 +16,7 @@ router.register("centros", CentroViewSet, basename="centros")
 router.register("unidades/situacoes", SituacaoUnidadeViewSet, basename="situacoes_unidades")
 router.register("unidades/tipos", TipoUnidadeViewSet, basename="tipos_unidades")
 router.register("unidades", UnidadeViewSet, basename="unidades")
+
 router.register("telefones", TelefoneViewSet, basename="telefones")
 router.register("emails", EmailViewSet, basename="emails")
 router.register("cursos", CursoViewSet, basename="cursos") # OK
