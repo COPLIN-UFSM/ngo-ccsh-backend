@@ -166,7 +166,7 @@ class Servidor(models.Model):
     )
     matricula = models.TextField(max_length=32, unique=True, null=False, blank=False, db_column="matricula")
     cargo = models.ForeignKey(Cargo, on_delete=models.DO_NOTHING, db_column="id_cargo")
-    ativo = models.BooleanField(unique=False, null=False, blank=False, db_column="ativo")
+    ativo = models.BooleanField(unique=False, default=True, blank=True, db_column="ativo")
 
     class Meta:
         managed = False

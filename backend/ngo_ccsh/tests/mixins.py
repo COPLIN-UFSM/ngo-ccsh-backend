@@ -38,6 +38,13 @@ class BaseServidorTestCase(APITestCase):
             cpf="00000000004",
             rg="00000000004"
         )
+
+        cls.pessoa_outra_inativa = Pessoa.objects.create(
+            nome_pessoa="Freyr",
+            cpf="00000000005",
+            rg="00000000005"
+        )
+
         cls.servidor_ativo = Servidor.objects.create(
             pessoa=cls.pessoa_ativa,
             matricula="00000000000",
@@ -47,6 +54,12 @@ class BaseServidorTestCase(APITestCase):
         cls.servidor_inativo = Servidor.objects.create(
             pessoa=cls.pessoa_inativa,
             matricula="00000000001",
+            cargo=cls.cargo_professor,
+            ativo=False
+        )
+        cls.servidor_outro_inativo = Servidor.objects.create(
+            pessoa=cls.pessoa_outra_inativa,
+            matricula="00000000011",
             cargo=cls.cargo_professor,
             ativo=True
         )
@@ -85,12 +98,11 @@ class BaseAuthenticatedUserTestCase(BaseServidorTestCase):
             is_active=True,
         )
         cls.usuario_inativo = Usuario.objects.create_user(
-            cpf=cls.servidor_inativo.pessoa.cpf,
+            cpf=cls.servidor_outro_inativo.pessoa.cpf,
             email="odin@example.com",
             password="1234",
-            is_active=False,
+            is_active=False
         )
-        cls.servidor_inativo.ativo=False
 
         cls.usuario_outro = Usuario.objects.create_user(
             cpf=cls.servidor_outro.pessoa.cpf,
@@ -98,6 +110,7 @@ class BaseAuthenticatedUserTestCase(BaseServidorTestCase):
             password="1234",
             is_active=True,
         )
+
         cls.superusuario = Usuario.objects.create_superuser(
             cpf=cls.servidor_superusuario.pessoa.cpf,
             email="baldur@example.com",

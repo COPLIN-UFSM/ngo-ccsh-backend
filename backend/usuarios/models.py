@@ -63,7 +63,7 @@ class UserManager(BaseUserManager):
             ativo=True,
         ).exists()
 
-        if not servidor: # -> Leandro não é servidor.
+        if not servidor:
            raise ValueError('Somente servidores ativos podem ser usuários.')
 
         email = self.normalize_email(email)

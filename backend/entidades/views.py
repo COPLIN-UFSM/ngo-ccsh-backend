@@ -53,15 +53,6 @@ class CentroViewSet(viewsets.ModelViewSet):
         serializer.save()
         return Response(serializer.data)
 
-    # def destroy(self, request, *args, **kwargs):
-    #     centro: Centro = self.get_object()
-    #     if centro.centro_sie is not None:
-    #         raise MethodNotAllowed(detail=detailNotAllowed, method="PATCH")
-    #     centro.ativo = False
-    #     centro.save()
-    #     return Response(status=status.HTTP_204_NO_CONTENT)
-
-
 class UnidadeViewSet(viewsets.ModelViewSet):
     queryset = Unidade.objects.all().select_related("centro", "tipo_unidade", "situacao_unidade")
     serializer_class = UnidadeSerializer
