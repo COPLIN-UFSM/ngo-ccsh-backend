@@ -20,6 +20,8 @@ jobs:
         run: |
           docker run \
             -e DJANGO_SETTINGS_MODULE=ngo_ccsh.test_settings \
+            -e DJANGO_SECRET_KEY=any-random-secret-key-for-testing \
+            -e JWT_SIGNING_KEY=any-random-secret-key-for-testing \
             ngo-ccsh-backend \
             python manage.py test
 
