@@ -1,8 +1,9 @@
 from django.core.exceptions import ValidationError
+from django.db.models import Model
 from rest_framework import serializers
 
 from entidades.models import Unidade, Cargo, TipoUnidade, Curso, SituacaoUnidade, Servidor, Discente, Centro, Pessoa, \
-    Email, Telefone
+    Email, Telefone, PessoaSIE
 
 
 class CentroSerializer(serializers.ModelSerializer):
@@ -120,9 +121,17 @@ class PessoaSerializer(serializers.ModelSerializer):
         fields = ["id_pessoa_interna", "nome_pessoa", "cpf", "rg", "telefones", "emails"]
         read_only_fields = ["id_pessoa_interna"]
 
+    def validate_cpf(self, value):
+        try:
+            Pessoa.objects.get(cpf=value)
+            raise serializers.ValidationError(f"Já existe uma pessoa com o CPF {value}.")
+        except Pessoa.DoesNotExist:
+            return value
+
     def create(self, validated_data):
         telefones_data = validated_data.pop("telefone_set", [])
         emails_data = validated_data.pop("email_set", [])
+
         pessoa = Pessoa.objects.create(**validated_data)
 
         for telefone in telefones_data:
@@ -130,6 +139,7 @@ class PessoaSerializer(serializers.ModelSerializer):
 
         for email in emails_data:
             Email.objects.create(pessoa=pessoa, **email)
+
         return pessoa
 
     def update(self, instance: Pessoa, validated_data):
