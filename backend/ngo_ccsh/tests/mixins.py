@@ -23,11 +23,13 @@ class BaseServidorTestCase(APITestCase):
             cpf="00000000001",
             rg="00000000001"
         )
+
         cls.pessoa_outra = Pessoa.objects.create(
             nome_pessoa="Thor",
             cpf="00000000002",
             rg="00000000002"
         )
+
         cls.pessoa_nao_servidora = Pessoa.objects.create(
             nome_pessoa="Valkyria",
             cpf="00000000003",

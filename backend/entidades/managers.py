@@ -13,7 +13,11 @@ class ResolveFromSIEQuerySet(models.QuerySet):
         if args:
             raise NotImplementedError("Ainda não há suporte para argumentos.")
 
-        self.model.objects._import_if_needed(**kwargs)
+        # Try to import from SIE; if import returns an instance, return it directly.
+        imported = self.model.objects._import_if_needed(**kwargs)
+        if isinstance(imported, self.model):
+            return imported
+
         return super().get(*args, **kwargs)
 
 
@@ -35,7 +39,9 @@ class ResolveFromSIEManager(models.Manager.from_queryset(ResolveFromSIEQuerySet)
 
         try:
             with transaction.atomic():
-                self.import_from_sie(sie)
+                created = self.import_from_sie(sie)
+                if created:
+                    return created
         except IntegrityError:
             pass
 
