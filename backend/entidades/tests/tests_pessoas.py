@@ -1,16 +1,18 @@
 from django.urls import reverse
 from rest_framework import status
 
-from entidades.models import Centro, Curso, Pessoa, PessoaSIE
+from entidades.models import Pessoa, PessoaSIE
 from ngo_ccsh.tests.mixins import BaseAuthenticatedUserTestCase
 
 
 class PessoaViewTestCase(BaseAuthenticatedUserTestCase):
     def setUp(self):
         self.url = reverse("entidades:pessoas-list")
-        self.pessoaSIE = PessoaSIE.objects.create(nome_pessoa="Leandro", rg="05100000000", cpf="05100000000" )
-        self.pessoa2SIE = PessoaSIE.objects.create(id_pessoa_sie=100, nome_pessoa="Shintaro Yamazaki", rg="22200000000", cpf="22200000000")
-        self.pessoa = Pessoa.objects.create(nome_pessoa="Leandro", rg="05100000000", cpf="05100000000", pessoa_sie=self.pessoaSIE)
+        self.pessoaSIE = PessoaSIE.objects.create(nome_pessoa="Leandro", rg="05100000000", cpf="05100000000")
+        self.pessoa2SIE = PessoaSIE.objects.create(id_pessoa_sie=100, nome_pessoa="Shintaro Yamazaki", rg="22200000000",
+                                                   cpf="22200000000")
+        self.pessoa = Pessoa.objects.create(nome_pessoa="Leandro", rg="05100000000", cpf="05100000000",
+                                            pessoa_sie=self.pessoaSIE)
 
         self.pessoa_data = {
             "nome_pessoa": "Shingen Yamazaki",
@@ -28,8 +30,9 @@ class PessoaViewTestCase(BaseAuthenticatedUserTestCase):
         self.authentication(self.user_data_adm)
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data['count'], 7) # Contando com os criados no setup.
-        self.assertIn({"id_pessoa_interna": 7, "nome_pessoa": "Leandro", "rg": "05100000000", "cpf": "05100000000", "telefones": [], "emails": []}, response.data['data'])
+        self.assertEqual(response.data['count'], 7)  # Contando com os criados no setup.
+        self.assertIn({"id_pessoa_interna": 7, "nome_pessoa": "Leandro", "rg": "05100000000", "cpf": "05100000000",
+                       "telefones": [], "emails": []}, response.data['data'])
 
     def test_create_pessoa_registered_in_sie(self):
         self.authentication(self.user_data_adm)
@@ -38,8 +41,9 @@ class PessoaViewTestCase(BaseAuthenticatedUserTestCase):
         self.assertIn("cpf", response.data)
 
         response = self.client.get(self.url)
-        self.assertIn({"id_pessoa_interna": 8, "nome_pessoa": "Shintaro Yamazaki", "rg": "22200000000", "cpf": "22200000000", "telefones": [], "emails": []}, response.data['data'])
-
+        self.assertIn(
+            {"id_pessoa_interna": 8, "nome_pessoa": "Shintaro Yamazaki", "rg": "22200000000", "cpf": "22200000000",
+             "telefones": [], "emails": []}, response.data['data'])
 
     def test_create_pessoa_not_registered_in_sie(self):
         self.authentication(self.user_data_adm)
@@ -57,14 +61,15 @@ class PessoaViewTestCase(BaseAuthenticatedUserTestCase):
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
 
-
 class SinglePessoaViewTestCase(BaseAuthenticatedUserTestCase):
     def setUp(self):
         self.pessoaSIE = PessoaSIE.objects.create(nome_pessoa="Leandro", rg="05100000000", cpf="05100000000")
-        self.pessoa2SIE = PessoaSIE.objects.create(id_pessoa_sie=100, nome_pessoa="Shintaro Yamazaki", rg="22200000000", cpf="22200000000")
-
         self.pessoa = Pessoa.objects.create(nome_pessoa="Leandro", rg="05100000000", cpf="05100000000",
                                             pessoa_sie=self.pessoaSIE)
+
+        self.pessoa2SIE = PessoaSIE.objects.create(id_pessoa_sie=100, nome_pessoa="Shintaro Yamazaki", rg="22200000000",
+                                                   cpf="22200000000")
+
         self.pessoa_data = {
             "nome_pessoa": "Shingen Yamazaki",
             "rg": "22200000000",
@@ -79,7 +84,6 @@ class SinglePessoaViewTestCase(BaseAuthenticatedUserTestCase):
 
         self.urlPrefix = "entidades:pessoas-detail"
         self.url = reverse(self.urlPrefix, kwargs={"pk": self.pessoa.id_pessoa_interna})
-
 
     def test_get_single_pessoa(self):
         self.authentication(self.user_data_adm)
@@ -100,7 +104,7 @@ class SinglePessoaViewTestCase(BaseAuthenticatedUserTestCase):
         response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
-    def test_pessoa_registered_in_sie(self):
+    def test_patch_pessoa_registered_in_sie(self):
         self.authentication(self.user_data_adm)
         response = self.client.patch(self.url)
         self.assertEqual(response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
@@ -110,20 +114,26 @@ class SinglePessoaViewTestCase(BaseAuthenticatedUserTestCase):
         self.pessoa.pessoa_sie = None
         self.pessoa.save()
 
-        data = {"nome_pessoa": "Artemis", "telefone": "55991738312"}
+        data = {"nome_pessoa": "Artemis", "telefones": [{"telefone": "55991738312"}]}
         response = self.client.patch(self.url, data=data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
-    # def test_patch_pessoa_cpf_not_unique_only_pessoas_not_in_sie(self):
-    #     self.authentication(self.user_data_adm)
-    #     self.pessoa.pessoa_sie = None
-    #     self.pessoa.save()
-    #
-    #     data = {"nome_pessoa": "Artemis", "telefone": "55991738312"}
-    #     response = self.client.patch(self.url, data=data)
-    #     self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual('Artemis', response.data["nome_pessoa"])
+        #self.assertJSONEqual("55991738312", response.data["telefones"][0]["telefone"])
+
+    def test_patch_pessoa_only_registered_in_sie(self):
+        self.authentication(self.user_data_adm)
+        url = reverse(self.urlPrefix, kwargs={"pk": self.pessoa2SIE.id_pessoa_sie})
+        response = self.client.patch(self.url, data={"rg": "05100000000"}, format="json")
+        self.assertEqual(response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
+
+        response = self.client.get(url)
+        self.assertEqual(
+            {"id_pessoa_interna": 8, "nome_pessoa": "Shintaro Yamazaki", "rg": "22200000000", "cpf": "22200000000",
+             "telefones": [], "emails": []}, response.data)
 
     def test_delete_pessoa(self):
         self.authentication(self.user_data_adm)
         response = self.client.delete(self.url)
         self.assertEqual(response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
+
