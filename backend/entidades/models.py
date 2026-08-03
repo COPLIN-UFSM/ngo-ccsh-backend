@@ -149,7 +149,7 @@ class Discente(models.Model):
     )
     matricula = models.TextField(max_length=32, unique=True, null=False, blank=False, db_column="matricula")
     curso = models.ForeignKey(Curso, on_delete=models.DO_NOTHING, db_column="id_curso")
-    ativo = models.BooleanField(unique=False, null=False, blank=False, db_column="ativo")
+    ativo = models.BooleanField(unique=False, default=True, blank=True, db_column="ativo")
 
     class Meta:
         managed = False
