@@ -1,5 +1,7 @@
 from django.db.models import Case, F, Sum, When
+from django.db.models.sql import query
 from rest_framework import serializers
+from rest_framework.exceptions import ValidationError
 
 from despesas.models import *
 
@@ -26,54 +28,92 @@ class ValorDocumentoSerializer(serializers.ModelSerializer):
         read_only_fields = ["id_valor_documento"]
 
 
-class TipoFinalidadeSerializer(serializers.ModelSerializer):
+class GrupoFinalidadeSerializer(serializers.ModelSerializer):
     class Meta:
         model = GrupoFinalidade
-        fields = ["id_grupo_finalidade", "grupo_finalidade"]
+        fields = ["id_grupo_finalidade", "grupo_finalidade", "ativo"]
         read_only_fields = ["id_grupo_finalidade"]
-
+        extra_kwargs = {
+            "ativo": {"write_only": True},
+        }
 
 class NaturezaFinalidadeSerializer(serializers.ModelSerializer):
     class Meta:
         model = NaturezaFinalidade
-        fields = ["id_natureza_finalidade", "natureza_finalidade"]
+        fields = ["id_natureza_finalidade", "natureza_finalidade", "ativo"]
         read_only_fields = ["id_natureza_finalidade"]
+        extra_kwargs = {
+            "ativo": {"write_only": True},
+        }
+
+class TipoDocumentoParaFinalidadeSerializer(serializers.ModelSerializer):
+    tipo_documento = TipoDocumentoSerializer(read_only=True)
+
+    class Meta:
+        model = TipoDocumentoParaFinalidade
+        fields = ["tipo_documento", "obrigatorio"]
+
+
+class GrupoFinalidadeField(serializers.RelatedField):
+    def to_representation(self, value):
+        return GrupoFinalidadeSerializer(value).data
+
+    def to_internal_value(self, data):
+        try:
+            return GrupoFinalidade.objects.get(pk=data)
+        except GrupoFinalidade.DoesNotExist:
+            raise ValidationError('Não existe nenhum grupo de finalidade com este ID.')
+
+class  NaturezaFinalidadeField(serializers.RelatedField):
+    def to_representation(self, value):
+        return NaturezaFinalidadeSerializer(value).data
+
+    def to_internal_value(self, data):
+        try:
+            return NaturezaFinalidade.objects.get(pk=data)
+        except NaturezaFinalidade.DoesNotExist:
+            raise ValidationError('Não existe nenhuma natureza de finalidade com este ID.')
+
 
 
 class FinalidadeSerializer(serializers.ModelSerializer):
-    natureza_finalidade = serializers.PrimaryKeyRelatedField(
-        queryset=NaturezaFinalidade.objects.all(),
-        write_only=True,
-        error_messages={
-            "does_not_exist": "Código de despesa inexistente.",
-            "incorrect_type": "Formato de dado inválido para o tipo de despesa.",
-        },
-    )
+    natureza_finalidade = NaturezaFinalidadeField(queryset=NaturezaFinalidade.objects.all())
+    grupo_finalidade = GrupoFinalidadeField(queryset=GrupoFinalidade.objects.all())
 
-    tipo_finalidade = serializers.PrimaryKeyRelatedField(
-        queryset=GrupoFinalidade.objects.all(),
-        write_only=True,
-        error_messages={
-            "does_not_exist": "Código da categoria da finalidade inexistente.",
-            "incorrect_type": "Formato de dado inválido para a categoria da finalidade.",
-        },
-    )
-
-    natureza_finalidade_detail = NaturezaFinalidadeSerializer(source="natureza_finalidade", read_only=True)
-    tipo_finalidade_detail = TipoFinalidadeSerializer(source="grupo_finalidade", read_only=True)
+    tipos_documentos = TipoDocumentoParaFinalidadeSerializer(
+        source="tipodocumentoparafinalidade_set", many=True, read_only=True)
 
     class Meta:
         model = Finalidade
         fields = [
             "id_finalidade",
-            "finalidade",
             "natureza_finalidade",
-            "natureza_finalidade_detail",
-            "tipo_finalidade",
-            "tipo_finalidade_detail",
-            "modalidade",
+            "grupo_finalidade",
+            "finalidade",
+            "tipos_documentos"
         ]
+
         read_only_fields = ["id_finalidade"]
+
+        def create(self, validated_data):
+            tipos_documentos = validated_data.pop("tipodocumentoparafinalidade_set", [])
+
+            finalidade = Finalidade.objects.create(**validated_data)
+            for tipo_documento in tipos_documentos:
+                tipo_documento_instance = TipoDocumento.objects.get(id_tipo_documento=tipo_documento["tipo_documento"]["id_tipo_documento"])
+                TipoDocumentoParaFinalidade.objects.create(
+                    finalidade=finalidade,
+                    tipo_documento=tipo_documento_instance,
+                    obrigatorio=tipo_documento.get("obrigatorio", False)
+                )
+
+            return finalidade
+
+
+
+
+
+
 
 
 class DocumentoNestedSerializer(serializers.ModelSerializer):
