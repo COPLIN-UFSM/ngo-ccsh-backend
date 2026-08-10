@@ -19,12 +19,12 @@
     <option name="launchJavascriptDebuger" value="false" />
     <option name="port" value="8000" />
     <option name="host" value="" />
-    <option name="additionalOptions" value="" />
+    <option name="additionalOptions" value="--settings=ngo_ccsh.dev_settings" />
     <option name="browserUrl" value="" />
     <option name="runTestServer" value="false" />
     <option name="runNoReload" value="false" />
-    <option name="useCustomRunCommand" value="true" />
-    <option name="customRunCommand" value="--settings=ngo_ccsh.dev_settings" />
+    <option name="useCustomRunCommand" value="false" />
+    <option name="customRunCommand" value="" />
     <method v="2" />
   </configuration>
 </component>

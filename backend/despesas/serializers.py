@@ -46,8 +46,20 @@ class NaturezaFinalidadeSerializer(serializers.ModelSerializer):
             "ativo": {"write_only": True},
         }
 
+
+class TipoDocumentoField(serializers.RelatedField):
+
+    def to_representation(self, value):
+        return TipoDocumentoSerializer(value).data
+    def to_internal_value(self, data):
+        try:
+            return TipoDocumento.objects.get(pk=data)
+        except TipoDocumento.DoesNotExist:
+            raise ValidationError('Não existe nenhum tipo de documento com este ID.')
+
+
 class TipoDocumentoParaFinalidadeSerializer(serializers.ModelSerializer):
-    tipo_documento = TipoDocumentoSerializer(read_only=True)
+    tipo_documento = TipoDocumentoField(queryset=TipoDocumento.objects.filter(ativo=True))
 
     class Meta:
         model = TipoDocumentoParaFinalidade
@@ -74,6 +86,19 @@ class  NaturezaFinalidadeField(serializers.RelatedField):
         except NaturezaFinalidade.DoesNotExist:
             raise ValidationError('Não existe nenhuma natureza de finalidade com este ID.')
 
+class TipoDocumentoParaFinalidadeField(serializers.RelatedField):
+    def to_representation(self, value):
+        return TipoDocumentoParaFinalidadeSerializer(value).data
+
+    def to_internal_value(self, data):
+        try:
+            tipo_documento = data.get("tipo_documento")
+            return TipoDocumento.objects.get(pk=tipo_documento)
+
+        except TipoDocumento.DoesNotExist:
+            raise ValidationError('Não existe nenhum tipo de documento para finalidade com este ID.')
+        except (AttributeError, TypeError):
+            raise ValidationError('O formato do item de documento enviado é inválido.')
 
 
 class FinalidadeSerializer(serializers.ModelSerializer):
@@ -81,7 +106,7 @@ class FinalidadeSerializer(serializers.ModelSerializer):
     grupo_finalidade = GrupoFinalidadeField(queryset=GrupoFinalidade.objects.all())
 
     tipos_documentos = TipoDocumentoParaFinalidadeSerializer(
-        source="tipodocumentoparafinalidade_set", many=True, read_only=True)
+        source="tipodocumentoparafinalidade_set", many=True)
 
     class Meta:
         model = Finalidade
@@ -95,19 +120,38 @@ class FinalidadeSerializer(serializers.ModelSerializer):
 
         read_only_fields = ["id_finalidade"]
 
-        def create(self, validated_data):
-            tipos_documentos = validated_data.pop("tipodocumentoparafinalidade_set", [])
+    def validate_tipos_documentos(self, value):
+        id_list = []
+        for tipo_documento in value:
+            if not isinstance(tipo_documento, dict):
+                raise ValidationError("Cada item em tipos_documentos deve ser um dicionário.")
+            if "tipo_documento" not in tipo_documento:
+                raise ValidationError("Cada item em tipos_documentos deve conter a chave 'tipo_documento'.")
+            id_list.append(tipo_documento["tipo_documento"])
 
-            finalidade = Finalidade.objects.create(**validated_data)
-            for tipo_documento in tipos_documentos:
-                tipo_documento_instance = TipoDocumento.objects.get(id_tipo_documento=tipo_documento["tipo_documento"]["id_tipo_documento"])
-                TipoDocumentoParaFinalidade.objects.create(
-                    finalidade=finalidade,
-                    tipo_documento=tipo_documento_instance,
-                    obrigatorio=tipo_documento.get("obrigatorio", False)
-                )
+        if len(id_list) != len(set(id_list)):
+            raise ValidationError("Os IDs dos tipos de documento devem ser únicos.")
 
-            return finalidade
+        return value
+
+
+    def create(self, validated_data):
+        tipos_documentos = validated_data.pop("tipodocumentoparafinalidade_set", [])
+
+        finalidade = Finalidade.objects.create(**validated_data)
+
+        for tipo_documento in tipos_documentos:
+            tipo_documento_instance = tipo_documento['tipo_documento']
+
+
+
+            TipoDocumentoParaFinalidade.objects.create(
+                finalidade=finalidade,
+                tipo_documento=tipo_documento_instance,
+                obrigatorio=tipo_documento.get("obrigatorio", True)
+            )
+
+        return finalidade
 
 
 
