@@ -92,6 +92,7 @@ class TipoDocumentoParaFinalidade(models.Model):
         default=True, blank=True, db_column='obrigatorio',
         db_comment='Se este tipo de documento é obrigatório para esta finalidade'
     )
+    #ativo = models.BooleanField(default=True, blank=True, db_column='ativo')
 
     class Meta:
         managed = False

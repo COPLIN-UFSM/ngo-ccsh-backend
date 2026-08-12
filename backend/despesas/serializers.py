@@ -54,6 +54,8 @@ class TipoDocumentoField(serializers.RelatedField):
 
     def to_internal_value(self, data):
         try:
+            if not isinstance(data, int):
+                raise ValidationError('O ID do tipo de documento deve ser um número inteiro.')
             return TipoDocumento.objects.get(pk=data)
         except TipoDocumento.DoesNotExist:
             raise ValidationError('Não existe nenhum tipo de documento com este ID.')
@@ -128,7 +130,30 @@ class FinalidadeSerializer(serializers.ModelSerializer):
                 obrigatorio=tipo_documento.get("obrigatorio", True)
             )
 
-            return finalidade
+        return finalidade
+
+    def update(self, instance, validated_data):
+        tipos_documentos = validated_data.pop("tipodocumentoparafinalidade_set", [])
+
+        instance = super().update(instance, validated_data)
+
+        for item in tipos_documentos:
+            item_registered = False
+            for tipo_registered in instance.tipodocumentoparafinalidade_set.all():
+                if item['tipo_documento'].id_tipo_documento == tipo_registered.tipo_documento.id_tipo_documento:
+                    tipo_registered.obrigatorio = item.get('obrigatorio', True)
+                    #tipo_registered.ativo = item.get('obrigatorio', tipo_registered.ativo)
+                    tipo_registered.save()
+                    item_registered = True
+                    break
+            if not item_registered:
+                TipoDocumentoParaFinalidade.objects.create(
+                    finalidade=instance,
+                    tipo_documento=item['tipo_documento'],
+                    obrigatorio=item.get('obrigatorio', True)
+                )
+        return instance
+
 
     # class DocumentoNestedSerializer(serializers.ModelSerializer):
     #     tipo_documento = TipoDocumentoSerializer(read_only=True)
