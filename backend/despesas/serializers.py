@@ -1,4 +1,7 @@
+from django.db.models import Case, F, Sum, When
+from django.db.models.sql import query
 from rest_framework import serializers
+from rest_framework.exceptions import ValidationError
 
 from despesas.models import *
 
@@ -11,114 +14,160 @@ class TipoDocumentoSerializer(serializers.ModelSerializer):
 
 
 class ValorDocumentoSerializer(serializers.ModelSerializer):
-    tipo_documento = TipoDocumentoSerializer(read_only=True)
+
+    tipo_documento  = TipoDocumentoSerializer(read_only=True)
 
     id_tipo_documento = serializers.PrimaryKeyRelatedField(
         queryset=TipoDocumento.objects.all(),
         source="tipo_documento",  # Aponta para o atributo do modelo Django
         write_only=True
     )
-
     class Meta:
         model = ValorDocumento
-        fields = ["id_valor_documento", "id_tipo_documento", "tipo_documento", "valor_documento", "transacao",
-                  "descricao"]
+        fields = ["id_valor_documento", "id_tipo_documento", "tipo_documento", "valor_documento", "transacao", "descricao"]
         read_only_fields = ["id_valor_documento"]
 
 
 class GrupoFinalidadeSerializer(serializers.ModelSerializer):
     class Meta:
         model = GrupoFinalidade
-        fields = ["id_grupo_finalidade", "grupo_finalidade"]
+        fields = ["id_grupo_finalidade", "grupo_finalidade", "ativo"]
         read_only_fields = ["id_grupo_finalidade"]
-
+        extra_kwargs = {
+            "ativo": {"write_only": True},
+        }
 
 class NaturezaFinalidadeSerializer(serializers.ModelSerializer):
     class Meta:
         model = NaturezaFinalidade
-        fields = ["id_natureza_finalidade", "natureza_finalidade"]
+        fields = ["id_natureza_finalidade", "natureza_finalidade", "ativo"]
         read_only_fields = ["id_natureza_finalidade"]
+        extra_kwargs = {
+            "ativo": {"write_only": True},
+        }
+
+
+class TipoDocumentoField(serializers.RelatedField):
+
+    def to_representation(self, value):
+        return TipoDocumentoSerializer(value).data
+    def to_internal_value(self, data):
+        try:
+            return TipoDocumento.objects.get(pk=data)
+        except TipoDocumento.DoesNotExist:
+            raise ValidationError('Não existe nenhum tipo de documento com este ID.')
+
+
+class TipoDocumentoParaFinalidadeSerializer(serializers.ModelSerializer):
+    tipo_documento = TipoDocumentoField(queryset=TipoDocumento.objects.filter(ativo=True))
+
+    class Meta:
+        model = TipoDocumentoParaFinalidade
+        fields = ["tipo_documento", "obrigatorio"]
 
 
 class GrupoFinalidadeField(serializers.RelatedField):
-
     def to_representation(self, value):
         return GrupoFinalidadeSerializer(value).data
 
     def to_internal_value(self, data):
         try:
-            return GrupoFinalidade.objects.get(pk=data, ativo=True)
-        except NaturezaFinalidade.DoesNotExist:
-            raise serializers.ValidationError("Não existe nenhum grupo de finalidade com este id.")
+            return GrupoFinalidade.objects.get(pk=data)
+        except GrupoFinalidade.DoesNotExist:
+            raise ValidationError('Não existe nenhum grupo de finalidade com este ID.')
 
-
-class NaturezaFinalidadeField(serializers.RelatedField):
-
+class  NaturezaFinalidadeField(serializers.RelatedField):
     def to_representation(self, value):
         return NaturezaFinalidadeSerializer(value).data
 
     def to_internal_value(self, data):
         try:
-            return NaturezaFinalidade.objects.get(pk=data, ativo=True)
+            return NaturezaFinalidade.objects.get(pk=data)
         except NaturezaFinalidade.DoesNotExist:
-            raise serializers.ValidationError("Não existe nenhuma natureza de finalidade com este id.")
+            raise ValidationError('Não existe nenhuma natureza de finalidade com este ID.')
 
+class TipoDocumentoParaFinalidadeField(serializers.RelatedField):
+    def to_representation(self, value):
+        return TipoDocumentoParaFinalidadeSerializer(value).data
 
-class TipoDocumentoParaFinalidadeSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = TipoDocumentoParaFinalidade
-        fields = ["pk", "tipo_documento", "obrigatorio"]
-        read_only_fields = ['pk']
+    def to_internal_value(self, data):
+        try:
+            tipo_documento = data.get("tipo_documento")
+            return TipoDocumento.objects.get(pk=tipo_documento)
+
+        except TipoDocumento.DoesNotExist:
+            raise ValidationError('Não existe nenhum tipo de documento para finalidade com este ID.')
+        except (AttributeError, TypeError):
+            raise ValidationError('O formato do item de documento enviado é inválido.')
 
 
 class FinalidadeSerializer(serializers.ModelSerializer):
-    grupo_finalidade = GrupoFinalidadeField(queryset=GrupoFinalidade.objects.all())
     natureza_finalidade = NaturezaFinalidadeField(queryset=NaturezaFinalidade.objects.all())
-    tipos_documentos = TipoDocumentoParaFinalidadeSerializer(many=True)
+    grupo_finalidade = GrupoFinalidadeField(queryset=GrupoFinalidade.objects.all())
+
+    tipos_documentos = TipoDocumentoParaFinalidadeSerializer(
+        source="tipodocumentoparafinalidade_set", many=True)
 
     class Meta:
         model = Finalidade
         fields = [
             "id_finalidade",
-            "finalidade",
             "natureza_finalidade",
             "grupo_finalidade",
-            "tipos_documentos",
+            "finalidade",
+            "tipos_documentos"
         ]
+
         read_only_fields = ["id_finalidade"]
 
     def validate_tipos_documentos(self, value):
-        errors_tipos_documentos = []
-        for tipo_doc in value:
-            try:
-                TipoDocumento.objects.get(pk=tipo_doc['tipo_documento'])
-            except TipoDocumento.DoesNotExist:
-                errors_tipos_documentos.append(
-                    f'Não existe nenhum tipo de documento com id {tipo_doc["tipo_documento"]}')
-        if len(errors_tipos_documentos) > 0:
-            raise serializers.ValidationError(errors_tipos_documentos)
+        id_list = []
+        for tipo_documento in value:
+            if not isinstance(tipo_documento, dict):
+                raise ValidationError("Cada item em tipos_documentos deve ser um dicionário.")
+            if "tipo_documento" not in tipo_documento:
+                raise ValidationError("Cada item em tipos_documentos deve conter a chave 'tipo_documento'.")
+            id_list.append(tipo_documento["tipo_documento"])
+
+        if len(id_list) != len(set(id_list)):
+            raise ValidationError("Os IDs dos tipos de documento devem ser únicos.")
 
         return value
 
+
     def create(self, validated_data):
-        tipos_documentos = validated_data.pop("tipos_documentos", [])
-        instance = Finalidade.objects.create(**validated_data)
-        for tipo_doc in tipos_documentos:
-            tipo_documento = TipoDocumento.objects.get(pk=tipo_doc['tipo_documento'])
-            TipoDocumentoParaFinalidade.objects.create(tipo_documento=tipo_documento, finalide=instance,
-                                                       obrigatorio=tipo_doc['obrigatorio'])
-        return instance
+        tipos_documentos = validated_data.pop("tipodocumentoparafinalidade_set", [])
+
+        finalidade = Finalidade.objects.create(**validated_data)
+
+        for tipo_documento in tipos_documentos:
+            tipo_documento_instance = tipo_documento['tipo_documento']
+
+
+
+            TipoDocumentoParaFinalidade.objects.create(
+                finalidade=finalidade,
+                tipo_documento=tipo_documento_instance,
+                obrigatorio=tipo_documento.get("obrigatorio", True)
+            )
+
+        return finalidade
+
+
+
+
+
 
 
 
 class DocumentoNestedSerializer(serializers.ModelSerializer):
-    tipo_documento = TipoDocumentoSerializer(read_only=True)
+    tipo_documento  = TipoDocumentoSerializer(read_only=True)
     id_tipo_documento = serializers.PrimaryKeyRelatedField(
         queryset=TipoDocumento.objects.all(),
         source="tipo_documento",  # Aponta para o atributo do modelo Django
         write_only=True
     )
-
+    
     class Meta:
         model = ValorDocumento
         exclude = ["transacao"]
@@ -188,21 +237,20 @@ class TransacaoSerializer(serializers.ModelSerializer):
             queryset = queryset.exclude(id_transacao=id_transacao)
 
         total_despesas = (
-                queryset.aggregate(
-                    total=Sum(
-                        Case(
-                            When(eh_credito=True, then=F("montante")),
-                            When(eh_credito=False, then=-F("montante")),
-                        )
+            queryset.aggregate(
+                total=Sum(
+                    Case(
+                        When(eh_credito=True, then=F("montante")),
+                        When(eh_credito=False, then=-F("montante")),
                     )
-                )["total"]
-                or 0.00
+                )
+            )["total"]
+            or 0.00
         )
 
         if not eh_credito and montante > total_despesas:
             raise serializers.ValidationError(
-                {
-                    "montante": f"Saldo insuficiente. O Valor da despesa (R$ {montante:.2f}) é maior que o saldo atual (R$ {total_despesas:.2f})."}
+                {"montante": f"Saldo insuficiente. O Valor da despesa (R$ {montante:.2f}) é maior que o saldo atual (R$ {total_despesas:.2f})."}
             )
         return data
 
@@ -217,16 +265,17 @@ class EmpenhoSerializer(serializers.ModelSerializer):
         read_only_fields = ["id_empenho"]
 
     def get_montante(self, obj):
+
         valor_somado = (
-                Transacao.objects.filter(empenho=obj).aggregate(
-                    total=Sum(
-                        Case(
-                            When(eh_credito=True, then=F("montante")),
-                            When(eh_credito=False, then=-F("montante")),
-                        )
+            Transacao.objects.filter(empenho=obj).aggregate(
+                total=Sum(
+                    Case(
+                        When(eh_credito=True, then=F("montante")),
+                        When(eh_credito=False, then=-F("montante")),
                     )
-                )["total"]
-                or 0.00
+                )
+            )["total"]
+            or 0.00
         )
 
         return valor_somado

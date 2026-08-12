@@ -7,12 +7,10 @@ from despesas.serializers import ValorDocumentoSerializer, TipoDocumentoSerializ
 class TipoDocumentoViewSet(viewsets.ModelViewSet):
     queryset = TipoDocumento.objects.all()
     serializer_class = TipoDocumentoSerializer
+    http_method_names  = ['get', 'post', 'patch', 'delete']
 
     def get_queryset(self):
         return TipoDocumento.objects.filter(ativo=True)
-
-    def get_permissions(self):
-        return [IsAuthenticated()]
     
     def perform_destroy(self, instance):
         instance.ativo = False
@@ -22,6 +20,7 @@ class TipoDocumentoViewSet(viewsets.ModelViewSet):
 class DocumentoViewSet(viewsets.ModelViewSet):
     queryset = ValorDocumento.objects.all()
     serializer_class = ValorDocumentoSerializer
+    http_method_names = ['get', 'post', 'patch', 'delete']
 
     def get_queryset(self):
         return ValorDocumento.objects.filter()
