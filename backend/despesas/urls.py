@@ -16,17 +16,11 @@ router = DefaultRouter()
 router.register("documentos/tipos/", TipoDocumentoViewSet, basename="tipos_documentos")
 router.register("transacoes/", TransacoesViewSet, basename="transacoes")
 router.register("transacoes/status/", StatusTransacaoViewSet, basename="status_transacoes")
-
+router.register("finalidades/grupos", GrupoFinalidadeViewSet, basename="grupos_finalidades")
+router.register("finalidades/naturezas", NaturezaFinalidadeViewSet, basename="naturezas_finalidades")
+router.register("finalidades/", FinalidadeViewSet, basename="finalidades")
 urlpatterns = [
     path("", include(router.urls)),
-    path("finalidades/naturezas", view=NaturezaFinalidadeListView.as_view(), name="naturezas_finalidades"),
-    # acho que não precisa
-    # path("finalidades/naturezas/<int:pk>/", view=NaturezaFinalidadeDetailsView.as_view(), name="naturezas_finalidades_detalhes"),
-    path("finalidades/grupos/", view=GrupoFinalidadeListView.as_view(), name="grupos_finalidades"),
-    # acho que não precisa
-    # path("finalidades/grupos/<int:pk>/", view=SingleTipoFinalidadeView.as_view(), name="grupos_finalidades_detalhes"),
-    path("finalidades/", view=FinalidadesListView.as_view(), name="finalidades"),
-    path("finalidades/<int:pk>/", view=FinalidadeDetailsView.as_view(), name="finalidades_detalhes"),
     path("empenhos/", EmpenhoListView.as_view(), name="empenhos"),
     path("empenhos/<int:pk>/", EmpenhoDetailsView.as_view(), name="empenhos_detalhes"),
 ]
