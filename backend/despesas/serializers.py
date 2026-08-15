@@ -1,3 +1,4 @@
+from django.db import transaction
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 
@@ -117,18 +118,31 @@ class FinalidadeSerializer(serializers.ModelSerializer):
 
         read_only_fields = ["id_finalidade"]
 
+    def validate_tipos_documentos(self, data):
+        list_id_tipos_documentos = []
+        for tipo_doc in data:
+            list_id_tipos_documentos.append(tipo_doc['tipo_documento'])
+
+        if len(list_id_tipos_documentos) > len(set(list_id_tipos_documentos)):
+            raise serializers.ValidationError("Os ids de documentos devem ser únicos")
+        return data
+
     def create(self, validated_data):
         tipos_documentos = validated_data.pop("tipodocumentoparafinalidade_set", [])
 
-        finalidade = Finalidade.objects.create(**validated_data)
+        with transaction.atomic():
+            finalidade = Finalidade.objects.create(**validated_data)
+            relations = [
+                TipoDocumentoParaFinalidade(
+                    finalidade=finalidade,
+                    tipo_documento=item['tipo_documento'],
+                    obrigatorio=item.get("obrigatorio", True)
+                )
+                for item in tipos_documentos
+            ]
 
-        for tipo_documento in tipos_documentos:
-            tipo_documento_instance = tipo_documento["tipo_documento"]
-            TipoDocumentoParaFinalidade.objects.create(
-                finalidade=finalidade,
-                tipo_documento=tipo_documento_instance,
-                obrigatorio=tipo_documento.get("obrigatorio", True)
-            )
+            if len(relations) > 0:
+                TipoDocumentoParaFinalidade.objects.bulk_create(relations)
 
         return finalidade
 
@@ -142,7 +156,7 @@ class FinalidadeSerializer(serializers.ModelSerializer):
             for tipo_registered in instance.tipodocumentoparafinalidade_set.all():
                 if item['tipo_documento'].id_tipo_documento == tipo_registered.tipo_documento.id_tipo_documento:
                     tipo_registered.obrigatorio = item.get('obrigatorio', True)
-                    #tipo_registered.ativo = item.get('obrigatorio', tipo_registered.ativo)
+                    # tipo_registered.ativo = item.get('obrigatorio', tipo_registered.ativo)
                     tipo_registered.save()
                     item_registered = True
                     break
@@ -153,7 +167,6 @@ class FinalidadeSerializer(serializers.ModelSerializer):
                     obrigatorio=item.get('obrigatorio', True)
                 )
         return instance
-
 
     # class DocumentoNestedSerializer(serializers.ModelSerializer):
     #     tipo_documento = TipoDocumentoSerializer(read_only=True)
