@@ -154,7 +154,7 @@ class Transacao(models.Model):
     """
     Transações imutáveis. As múltiplas versões de uma transação são armazenadas em VersaoTransacao.
 
-    Cada nova versão é criada quando por exemplo o montante é atualizado, ou o status de pagamento trocado.
+    Cada nova versão é criada quando, por exemplo, o montante é atualizado, ou o status de pagamento trocado.
     """
 
     id_transacao = models.AutoField(primary_key=True, db_column="id_transacao")
@@ -187,13 +187,13 @@ class VersaoTransacao(models.Model):
     transacao = models.ForeignKey(Transacao, on_delete=models.PROTECT, related_name="versoes", db_column="id_transacao")
     numero_versao = models.PositiveIntegerField(default=1)
 
-    empenho = models.ForeignKey(
-        Empenho,
-        models.DO_NOTHING,
-        null=True,
-        blank=True,
-        db_column="id_empenho",
-    )
+    # empenho = models.ForeignKey(
+    #     Empenho,
+    #     models.DO_NOTHING,
+    #     null=True,
+    #     blank=True,
+    #     db_column="id_empenho",
+    # )
 
     finalidade = models.ForeignKey(
         Finalidade,

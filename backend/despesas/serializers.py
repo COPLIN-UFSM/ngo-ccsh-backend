@@ -168,100 +168,127 @@ class FinalidadeSerializer(serializers.ModelSerializer):
                 )
         return instance
 
-    # class DocumentoNestedSerializer(serializers.ModelSerializer):
-    #     tipo_documento = TipoDocumentoSerializer(read_only=True)
-    #     id_tipo_documento = serializers.PrimaryKeyRelatedField(
-    #         queryset=TipoDocumento.objects.all(),
-    #         source="tipo_documento",  # Aponta para o atributo do modelo Django
-    #         write_only=True
-    #     )
+
+#OK
+class ValorDocumentosNestedSerializer(serializers.ModelSerializer):
+    tipo_documento = TipoDocumentoField(queryset=TipoDocumento.objects.all(), read_only=True)
+
+    class Meta:
+        model = ValorDocumento
+        exclude = ["tipo_documento", "valor_documento", "versao_transacao"]
+        extra_kwargs = {
+            "versao_transacao": {"write_only": True}
+        }
+
+class VersaoTransacaoSerializer(serializers.ModelSerializer):
+    documentos = ValorDocumentosNestedSerializer(many=True, required=False, allow_empty=True)
+
+    def validate_documentos(self, documentos):
+        tipos_documentos = Finalidade.objects.get(id_finalidade=self.finalidade).tipos_documentos
+        validation_errors = []
+        for tipo_doc in tipos_documentos:
+            if tipo_doc['obrigatorio']:
+                if tipo_doc['tipo_documento']['id_tipo_documento'] not in documentos:
+                    validation_errors.append(
+                        f'O tipo documento {tipo_doc["tipo_documento"]["tipo_documento"]} é obrigatório.')
+        tipos_documentos_required_id = [id_doc for id_doc in tipos_documentos['tipo_documento']['id_tipo_documento']]
+
+        if validation_errors:
+            raise serializers.ValidationError(validation_errors)
+
+        for documentos_sent in documentos:
+            if documentos_sent not in tipos_documentos_required_id:
+                documentos.pop(documentos_sent)
+
+        return documentos
+
+    def create(self, validated_data):
+        documentos_data = validated_data.pop("documentos", [])
+        transacao = Transacao.objects.create(**validated_data)
+
+        with transaction.atomic():
+            docs = [
+                ValorDocumento(transacao=transacao, **doc) for doc in documentos_data
+            ]
+            ValorDocumento.objects.bulk_create(docs)
+
+        return transacao
+
+    class Meta:
+        model = Transacao
+        fields = [
+            "id_transacao",
+            "transacao",
+            "numero_versao"
+            "empenho",
+            "finalidade",
+            "unidade_credora",
+            "unidade_executora",
+            "usuario",
+            "status_pagamento",
+            "beneficiario",
+            "credito",
+            "montante",
+            "data_criacao",
+            "documentos",
+        ]
+
+    # def validate(self, data):
+    #     empenho = data.get("empenho")
+    #     montante = data.get("montante")
+    #     id_transacao = data.get("id_transacao")
+    #     eh_credito = data.get("eh_credito")
     #
-    #     class Meta:
-    #         model = ValorDocumento
-    #         exclude = ["transacao"]
-    #
-    # class TransacaoSerializer(serializers.ModelSerializer):
-    #     documentos = DocumentoNestedSerializer(many=True, required=False, allow_empty=True)
-    #
-    #     def create(self, validated_data):
-    #         documentos_data = validated_data.pop("documentos", [])
-    #         transacao = Transacao.objects.create(**validated_data)
-    #
-    #         for doc_data in documentos_data:
-    #             ValorDocumento.objects.create(transacao=transacao, **doc_data)
-    #         return transacao
-    #
-    #     def update(self, instance, validated_data):
-    #         documentos_data = validated_data.pop("documentos", None)
-    #
-    #         for attr, value in validated_data.items():
-    #             setattr(instance, attr, value)
-    #         instance.save()
-    #
-    #         if documentos_data is not None:
-    #             instance.documentos.all().delete()
-    #             for doc_data in documentos_data:
-    #                 ValorDocumento.objects.create(transacao=instance, **doc_data)
-    #
-    #         return instance
-    #
-    #     class Meta:
-    #         model = Transacao
-    #         fields = [
-    #             "id_transacao",
-    #             "transacao_pai",
-    #             "empenho",
-    #             "finalidade",
-    #             "unidade_credora",
-    #             "unidade_executora",
-    #             "usuario",
-    #             "status",
-    #             "beneficiario_interno",
-    #             "credito",
-    #             "descricao",
-    #             "montante",
-    #             "quantidade",
-    #             "local_trecho",
-    #             "data_criacao",
-    #             "data_modificacao",
-    #             "motivo_modificacao",
-    #             "documentos",
-    #         ]
-    #
-    #     def validate(self, data):
-    #         empenho = data.get("empenho")
-    #         montante = data.get("montante")
-    #         id_transacao = data.get("id_transacao")
-    #         eh_credito = data.get("eh_credito")
-    #
-    #         if empenho and not empenho.ativo:
-    #             raise serializers.ValidationError(
-    #                 {"empenho": "Não é possível criar ou modificar transações de um empenho inativo."}
-    #             )
-    #
-    #         queryset = Transacao.objects.filter(empenho=empenho)
-    #         if self.instance:
-    #             queryset = queryset.exclude(id_transacao=id_transacao)
-    #
-    #         total_despesas = (
-    #                 queryset.aggregate(
-    #                     total=Sum(
-    #                         Case(
-    #                             When(eh_credito=True, then=F("montante")),
-    #                             When(eh_credito=False, then=-F("montante")),
-    #                         )
-    #                     )
-    #                 )["total"]
-    #                 or 0.00
+    #     if empenho and not empenho.ativo:
+    #         raise serializers.ValidationError(
+    #             {"empenho": "Não é possível criar ou modificar transações de um empenho inativo."}
     #         )
     #
-    #         if not eh_credito and montante > total_despesas:
-    #             raise serializers.ValidationError(
-    #                 {
-    #                     "montante": f"Saldo insuficiente. O Valor da despesa (R$ {montante:.2f}) é maior que o saldo atual (R$ {total_despesas:.2f})."}
-    #             )
-    #         return data
+    #     queryset = Transacao.objects.filter(empenho=empenho)
+    #     if self.instance:
+    #         queryset = queryset.exclude(id_transacao=id_transacao)
     #
+    #     total_despesas = (
+    #             queryset.aggregate(
+    #                 total=Sum(
+    #                     Case(
+    #                         When(eh_credito=True, then=F("montante")),
+    #                         When(eh_credito=False, then=-F("montante")),
+    #                     )
+    #                 )
+    #             )["total"]
+    #             or 0.00
+    #     )
+    #
+    #     if not eh_credito and montante > total_despesas:
+    #         raise serializers.ValidationError(
+    #             {
+    #                 "montante": f"Saldo insuficiente. O Valor da despesa (R$ {montante:.2f}) é maior que o saldo atual (R$ {total_despesas:.2f})."}
+    #         )
+    #     return data
+
+
+# OK
+class TransacaoSerializer(serializers.ModelSerializer):
+    versao_transacao = VersaoTransacaoSerializer()
+
+    class Meta:
+        model = Transacao
+        fields = ['id_transacao', 'versao_transacao', 'data_criacao']
+        read_only_fields = ['id_transacao', 'data_criacao']
+
+
+
+
+
+
+
+
+
+
+
+
+
     # class EmpenhoSerializer(serializers.ModelSerializer):
     #     transacoes = TransacaoSerializer(many=True, read_only=True)
     #     montante = serializers.SerializerMethodField()
