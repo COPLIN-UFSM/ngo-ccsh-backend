@@ -11,22 +11,18 @@ class TipoDocumentoSerializer(serializers.ModelSerializer):
         fields = ["id_tipo_documento", "tipo_documento"]
         read_only_fields = ["id_tipo_documento"]
 
+class TipoDocumentoField(serializers.RelatedField):
 
-class ValorDocumentoSerializer(serializers.ModelSerializer):
-    tipo_documento = TipoDocumentoSerializer(read_only=True)
+    def to_representation(self, value):
+        return TipoDocumentoSerializer(value).data
 
-    id_tipo_documento = serializers.PrimaryKeyRelatedField(
-        queryset=TipoDocumento.objects.all(),
-        source="tipo_documento",  # Aponta para o atributo do modelo Django
-        write_only=True
-    )
-
-    class Meta:
-        model = ValorDocumento
-        fields = ["id_valor_documento", "id_tipo_documento", "tipo_documento", "valor_documento", "transacao",
-                  "descricao"]
-        read_only_fields = ["id_valor_documento"]
-
+    def to_internal_value(self, data):
+        try:
+            if not isinstance(data, int):
+                raise ValidationError('O ID do tipo de documento deve ser um número inteiro.')
+            return TipoDocumento.objects.get(pk=data)
+        except TipoDocumento.DoesNotExist:
+            raise ValidationError('Não existe nenhum tipo de documento com este ID.')
 
 class GrupoFinalidadeSerializer(serializers.ModelSerializer):
     class Meta:
@@ -46,21 +42,6 @@ class NaturezaFinalidadeSerializer(serializers.ModelSerializer):
         extra_kwargs = {
             "ativo": {"write_only": True},
         }
-
-
-class TipoDocumentoField(serializers.RelatedField):
-
-    def to_representation(self, value):
-        return TipoDocumentoSerializer(value).data
-
-    def to_internal_value(self, data):
-        try:
-            if not isinstance(data, int):
-                raise ValidationError('O ID do tipo de documento deve ser um número inteiro.')
-            return TipoDocumento.objects.get(pk=data)
-        except TipoDocumento.DoesNotExist:
-            raise ValidationError('Não existe nenhum tipo de documento com este ID.')
-
 
 class TipoDocumentoParaFinalidadeSerializer(serializers.ModelSerializer):
     tipo_documento = TipoDocumentoField(queryset=TipoDocumento.objects.filter(ativo=True))
@@ -167,6 +148,18 @@ class FinalidadeSerializer(serializers.ModelSerializer):
                     obrigatorio=item.get('obrigatorio', True)
                 )
         return instance
+
+    # OBS: O valor do documento nunca é alterado. Apenas é Criado, pois quando é alterado
+    # uma nova versão da transação é criada, e um novo valor Documento para essa nova versão?
+    # Ou ele pode ser alterado, e uma nova versão da transação é criada, apenas quando o valor
+    # é alterado, pois é no valor que pode ter problema de saldo, sendo algo mais sensível.
+    class ValorDocumentoSerializer(serializers.ModelSerializer):
+        tipo_documento = TipoDocumentoField(queryset=TipoDocumento.objects.filter(ativo=True))
+        #versao_documento = VersaoTransacaoField()
+
+        class Meta:
+            model = ValorDocumento
+            fields = ["tipo_documento", "valor_documento", "versao_transacao"]
 
     # class DocumentoNestedSerializer(serializers.ModelSerializer):
     #     tipo_documento = TipoDocumentoSerializer(read_only=True)
