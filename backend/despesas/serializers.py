@@ -1,8 +1,11 @@
 from django.db import transaction
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
+from tutorial.quickstart.serializers import UserSerializer
 
 from despesas.models import *
+from entidades.serializers import PessoaSerializer, UnidadeField, PessoaField
+from usuarios.serializers import UserDetailsSerializer
 
 
 class TipoDocumentoSerializer(serializers.ModelSerializer):
@@ -169,9 +172,9 @@ class FinalidadeSerializer(serializers.ModelSerializer):
         return instance
 
 
-#OK
+# OK
 class ValorDocumentosNestedSerializer(serializers.ModelSerializer):
-    tipo_documento = TipoDocumentoField(queryset=TipoDocumento.objects.all(), read_only=True)
+    tipo_documento = TipoDocumentoField(queryset=TipoDocumento.objects.all())
 
     class Meta:
         model = ValorDocumento
@@ -180,25 +183,67 @@ class ValorDocumentosNestedSerializer(serializers.ModelSerializer):
             "versao_transacao": {"write_only": True}
         }
 
+
+class FinalidadeField(serializers.RelatedField):
+    def to_representation(self, value):
+        return FinalidadeSerializer(value).data
+
+    def to_internal_value(self, data):
+        try:
+            return Finalidade.objects.get(pk=data)
+        except Finalidade.DoesNotExist:
+            raise ValidationError('Não existe nenhuma finalidade com este ID.')
+
+
+class StatusTransacaoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = StatusTransacao
+        fields = "__all__"
+
+
+class StatusTransacaoField(serializers.RelatedField):
+    def to_representation(self, value):
+        return StatusTransacaoSerializer(value).data
+
+    def to_internal_value(self, data):
+        try:
+            return StatusTransacao.objects.get(pk=data)
+        except StatusTransacao.DoesNotExist:
+            raise ValidationError('Não existe nenhum status com este ID.')
+
 class VersaoTransacaoSerializer(serializers.ModelSerializer):
     documentos = ValorDocumentosNestedSerializer(many=True, required=False, allow_empty=True)
 
+    finalidade = FinalidadeField(required=False, allow_null=True, queryset=Finalidade.objects.all())
+    unidade_credora = UnidadeField(required=False, allow_empty=True, queryset=Unidade.objects.all())
+    unidade_executora = UnidadeField(required=True, queryset=Unidade.objects.all())
+    status_pagamento = StatusTransacaoField(queryset=StatusTransacao.objects.all())
+    beneficiario = PessoaField(queryset=Pessoa.objects.all())
+    usuario = UserDetailsSerializer(read_only=True)
+    # empenho = Empenho
+
     def validate_documentos(self, documentos):
-        tipos_documentos = Finalidade.objects.get(id_finalidade=self.finalidade).tipos_documentos
+        if self.finalidade is None:
+            return documentos
+
+        tipos_documentos = self.finalidade['tipodocumentoparafinalidade_set'].all()
+
         validation_errors = []
+
         for tipo_doc in tipos_documentos:
             if tipo_doc['obrigatorio']:
                 if tipo_doc['tipo_documento']['id_tipo_documento'] not in documentos:
                     validation_errors.append(
                         f'O tipo documento {tipo_doc["tipo_documento"]["tipo_documento"]} é obrigatório.')
-        tipos_documentos_required_id = [id_doc for id_doc in tipos_documentos['tipo_documento']['id_tipo_documento']]
+                    continue
 
         if validation_errors:
             raise serializers.ValidationError(validation_errors)
 
-        for documentos_sent in documentos:
-            if documentos_sent not in tipos_documentos_required_id:
-                documentos.pop(documentos_sent)
+        tipos_documentos_in_finalidade = [id_doc for id_doc in tipos_documentos['tipo_documento']['id_tipo_documento']]
+        for documentos_send in documentos:
+            if documentos_send not in tipos_documentos_in_finalidade:
+                documentos.pop(documentos_send)
 
         return documentos
 
@@ -220,7 +265,6 @@ class VersaoTransacaoSerializer(serializers.ModelSerializer):
             "id_transacao",
             "transacao",
             "numero_versao"
-            "empenho",
             "finalidade",
             "unidade_credora",
             "unidade_executora",
@@ -276,6 +320,11 @@ class TransacaoSerializer(serializers.ModelSerializer):
         model = Transacao
         fields = ['id_transacao', 'versao_transacao', 'data_criacao']
         read_only_fields = ['id_transacao', 'data_criacao']
+
+
+
+
+
 
 
 

@@ -71,6 +71,17 @@ class UnidadeSerializer(serializers.ModelSerializer):
         fields = ["id_unidade_interna", "nome_unidade", "cod_estruturado", "centro", "tipo_unidade", "situacao_unidade"]
         read_only = ['id_unidade_interna']
 
+class UnidadeField(serializers.RelatedField):
+    def to_representation(self, value: Centro):
+        return UnidadeSerializer(value).data
+
+    def to_internal_value(self, data: SituacaoUnidade):
+        try:
+            return Unidade._base_manager.get(pk=data)
+        except Unidade.DoesNotExist:
+            raise ValidationError('Não existe nenhum unidade com este ID.')
+
+
 # Falta arrumar o patch, talvez seja na view.
 class CursoSerializer(serializers.ModelSerializer):
     centro = CentroField(queryset=Centro.objects.all())
@@ -112,7 +123,7 @@ class EmailPessoaSerializer(serializers.ModelSerializer):
         fields = ['id_email','email']
 
 
-class PessoaSerializer(serializers.ModelSerializer):
+class  PessoaSerializer(serializers.ModelSerializer):
     telefones = TelefonePessoaSerializer(many=True, source="telefone_set",required=False)
     emails = EmailPessoaSerializer(many=True, source="email_set", required=False)
 
@@ -180,6 +191,19 @@ class PessoaSerializer(serializers.ModelSerializer):
 
         instance.refresh_from_db()
         return instance
+
+class PessoaField(serializers.RelatedField):
+    def to_representation(self, data):
+        return PessoaSerializer(data).data
+
+    def to_internal_value(self, data):
+        try:
+            return Pessoa.objects.get(pk=data)
+        except Pessoa.DoesNotExist:
+            raise serializers.ValidationError(f"Não existe nenhuma pessoa com o ID {data}")
+
+
+
 
 class DiscenteSerializer(serializers.ModelSerializer):
     pessoa = PessoaSerializer()
