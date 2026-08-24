@@ -187,13 +187,13 @@ class VersaoTransacao(models.Model):
     transacao = models.ForeignKey(Transacao, on_delete=models.PROTECT, related_name="versoes", db_column="id_transacao")
     numero_versao = models.PositiveIntegerField(default=1)
 
-    # empenho = models.ForeignKey(
-    #     Empenho,
-    #     models.DO_NOTHING,
-    #     null=True,
-    #     blank=True,
-    #     db_column="id_empenho",
-    # )
+    empenho = models.ForeignKey(
+        Empenho,
+        models.DO_NOTHING,
+        null=True,
+        blank=True,
+        db_column="id_empenho",
+    )
 
     finalidade = models.ForeignKey(
         Finalidade,

@@ -30,7 +30,7 @@ class TipoUnidadeField(serializers.RelatedField):
 
     def to_internal_value(self, data: TipoUnidade):
         try:
-            return TipoUnidade.objects.get(id_tipo_unidade=data)
+            return TipoUnidade.objects.get(id_tipo_unidade=data).pk
         except TipoUnidade.DoesNotExist:
             raise ValidationError('não existe nenhum tipo de unidade com este ID.')
 
@@ -40,7 +40,7 @@ class SituacaoUnidadeField(serializers.RelatedField):
 
     def to_internal_value(self, data: SituacaoUnidade):
         try:
-            return SituacaoUnidade.objects.get(id_situacao_unidade=data)
+            return SituacaoUnidade.objects.get(id_situacao_unidade=data).pk
         except SituacaoUnidade.DoesNotExist:
             raise ValidationError('Não existe nenhuma situacao de unidade com este ID.')
 
@@ -56,7 +56,7 @@ class CentroField(serializers.RelatedField):
 
     def to_internal_value(self, data: SituacaoUnidade):
         try:
-            return Centro._base_manager.get(id_centro_interno=data)
+            return Centro._base_manager.get(id_centro_interno=data).pk
         except Centro.DoesNotExist:
             raise ValidationError('Não existe nenhum centro com este ID.')
 
@@ -77,7 +77,7 @@ class UnidadeField(serializers.RelatedField):
 
     def to_internal_value(self, data: SituacaoUnidade):
         try:
-            return Unidade._base_manager.get(pk=data)
+            return Unidade._base_manager.get(pk=data).pk
         except Unidade.DoesNotExist:
             raise ValidationError('Não existe nenhum unidade com este ID.')
 
@@ -198,7 +198,7 @@ class PessoaField(serializers.RelatedField):
 
     def to_internal_value(self, data):
         try:
-            return Pessoa.objects.get(pk=data)
+            return Pessoa.objects.get(pk=data).pk
         except Pessoa.DoesNotExist:
             raise serializers.ValidationError(f"Não existe nenhuma pessoa com o ID {data}")
 

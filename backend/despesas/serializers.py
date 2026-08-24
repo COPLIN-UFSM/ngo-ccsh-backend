@@ -60,7 +60,8 @@ class TipoDocumentoField(serializers.RelatedField):
         try:
             if not isinstance(data, int):
                 raise ValidationError('O ID do tipo de documento deve ser um número inteiro.')
-            return TipoDocumento.objects.get(pk=data)
+            instance = TipoDocumento.objects.get(pk=data)
+            return instance.pk
         except TipoDocumento.DoesNotExist:
             raise ValidationError('Não existe nenhum tipo de documento com este ID.')
 
@@ -86,7 +87,8 @@ class GrupoFinalidadeField(serializers.RelatedField):
 
     def to_internal_value(self, data):
         try:
-            return GrupoFinalidade.objects.get(pk=data)
+            instance = GrupoFinalidade.objects.get(pk=data)
+            return instance.pk
         except GrupoFinalidade.DoesNotExist:
             raise ValidationError('Não existe nenhum grupo de finalidade com este ID.')
 
@@ -97,7 +99,8 @@ class NaturezaFinalidadeField(serializers.RelatedField):
 
     def to_internal_value(self, data):
         try:
-            return NaturezaFinalidade.objects.get(pk=data)
+            instance = NaturezaFinalidade.objects.get(pk=data)
+            return instance.pk
         except NaturezaFinalidade.DoesNotExist:
             raise ValidationError('Não existe nenhuma natureza de finalidade com este ID.')
 
@@ -190,7 +193,8 @@ class FinalidadeField(serializers.RelatedField):
 
     def to_internal_value(self, data):
         try:
-            return Finalidade.objects.get(pk=data)
+            finalidade = Finalidade.objects.get(pk=data)
+            return finalidade.pk
         except Finalidade.DoesNotExist:
             raise ValidationError('Não existe nenhuma finalidade com este ID.')
 
@@ -207,9 +211,18 @@ class StatusTransacaoField(serializers.RelatedField):
 
     def to_internal_value(self, data):
         try:
-            return StatusTransacao.objects.get(pk=data)
+            status = StatusTransacao.objects.get(pk=data)
+            return status.pk
         except StatusTransacao.DoesNotExist:
             raise ValidationError('Não existe nenhum status com este ID.')
+
+
+class TransacaoReadSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Transacao
+        fields = ['id_transacao', 'data_criacao']
+        read_only_fields = ['id_transacao', 'data_criacao']
+
 
 class VersaoTransacaoSerializer(serializers.ModelSerializer):
     documentos = ValorDocumentosNestedSerializer(many=True, required=False, allow_empty=True)
@@ -218,9 +231,27 @@ class VersaoTransacaoSerializer(serializers.ModelSerializer):
     unidade_credora = UnidadeField(required=False, allow_empty=True, queryset=Unidade.objects.all())
     unidade_executora = UnidadeField(required=True, queryset=Unidade.objects.all())
     status_pagamento = StatusTransacaoField(queryset=StatusTransacao.objects.all())
-    beneficiario = PessoaField(queryset=Pessoa.objects.all())
+    beneficiario = PessoaField(queryset=Pessoa.objects.all(), required=False, allow_empty=True)
     usuario = UserDetailsSerializer(read_only=True)
-    # empenho = Empenho
+    transacao = TransacaoReadSerializer(read_only=True)
+
+    class Meta:
+        model = VersaoTransacao
+        fields = [
+            "id_versao_transacao",
+            "transacao",
+            "numero_versao",
+            "finalidade",
+            "unidade_credora",
+            "unidade_executora",
+            "usuario",
+            "status_pagamento",
+            "beneficiario",
+            "credito",
+            "montante",
+            "data_criacao",
+            "documentos",
+        ]
 
     def validate_documentos(self, documentos):
         if self.finalidade is None:
@@ -249,33 +280,19 @@ class VersaoTransacaoSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         documentos_data = validated_data.pop("documentos", [])
-        transacao = Transacao.objects.create(**validated_data)
+        user = self.context['request'].user
 
+        transacao = None
         with transaction.atomic():
+            transacao = Transacao.objects.create(**validated_data)
             docs = [
-                ValorDocumento(transacao=transacao, **doc) for doc in documentos_data
+                ValorDocumento(transacao=transacao, usuario=user, **doc) for doc in documentos_data
             ]
             ValorDocumento.objects.bulk_create(docs)
+        if transacao is None:
+            raise ValidationError(f"Erro ao criar transacao {transacao}")
 
         return transacao
-
-    class Meta:
-        model = Transacao
-        fields = [
-            "id_transacao",
-            "transacao",
-            "numero_versao"
-            "finalidade",
-            "unidade_credora",
-            "unidade_executora",
-            "usuario",
-            "status_pagamento",
-            "beneficiario",
-            "credito",
-            "montante",
-            "data_criacao",
-            "documentos",
-        ]
 
     # def validate(self, data):
     #     empenho = data.get("empenho")
@@ -312,31 +329,27 @@ class VersaoTransacaoSerializer(serializers.ModelSerializer):
     #     return data
 
 
-# OK
 class TransacaoSerializer(serializers.ModelSerializer):
-    versao_transacao = VersaoTransacaoSerializer()
+    transacao = VersaoTransacaoSerializer(required=True, source="versao_transacao")
 
     class Meta:
         model = Transacao
-        fields = ['id_transacao', 'versao_transacao', 'data_criacao']
+        fields = ['id_transacao', 'transacao', 'data_criacao']
         read_only_fields = ['id_transacao', 'data_criacao']
 
+    def create(self, validated_data):
+        versao_transacao_data = validated_data.pop('transacao', None)
 
+        with transaction.atomic():
+            transacao = Transacao.objects.create(**validated_data)
+            versao_transacao_data['transacao'] = transacao
+            versao_transacao = VersaoTransacao(**versao_transacao_data)
+            #raise serializers.ValidationError(f"Erro ao criar transacao {versao_transacao_data}")
+            transacao_serializer = VersaoTransacaoSerializer(versao_transacao)
+            transacao_serializer.is_valid(raise_exception=True)
+            transacao.save()
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        return transacao
 
     # class EmpenhoSerializer(serializers.ModelSerializer):
     #     transacoes = TransacaoSerializer(many=True, read_only=True)
