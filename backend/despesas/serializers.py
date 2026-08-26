@@ -189,12 +189,12 @@ class ValorDocumentosNestedSerializer(serializers.ModelSerializer):
 
 class FinalidadeField(serializers.RelatedField):
     def to_representation(self, value):
-        return FinalidadeSerializer(value).data
+        FinalidadeSerializer(value).data
 
     def to_internal_value(self, data):
         try:
-            finalidade = Finalidade.objects.get(pk=data)
-            return finalidade.pk
+            return Finalidade.objects.get(pk=data)
+
         except Finalidade.DoesNotExist:
             raise ValidationError('Não existe nenhuma finalidade com este ID.')
 
@@ -330,21 +330,25 @@ class VersaoTransacaoSerializer(serializers.ModelSerializer):
 
 
 class TransacaoSerializer(serializers.ModelSerializer):
-    transacao = VersaoTransacaoSerializer(required=True, source="versao_transacao")
+    transacao = VersaoTransacaoSerializer(required=True, allow_null=False, source="versao_transacao")
 
     class Meta:
         model = Transacao
         fields = ['id_transacao', 'transacao', 'data_criacao']
         read_only_fields = ['id_transacao', 'data_criacao']
 
-    def create(self, validated_data):
-        versao_transacao_data = validated_data.pop('transacao', None)
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        return representation['transacao']
 
+    def create(self, validated_data):
+        versao_transacao_data = validated_data.pop('versao_transacao', None)
+
+        #raise serializers.ValidationError(f"Erro ao criar transacao {versao_transacao_data}")
         with transaction.atomic():
             transacao = Transacao.objects.create(**validated_data)
-            versao_transacao_data['transacao'] = transacao
+
             versao_transacao = VersaoTransacao(**versao_transacao_data)
-            #raise serializers.ValidationError(f"Erro ao criar transacao {versao_transacao_data}")
             transacao_serializer = VersaoTransacaoSerializer(versao_transacao)
             transacao_serializer.is_valid(raise_exception=True)
             transacao.save()
