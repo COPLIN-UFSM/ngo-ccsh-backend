@@ -81,7 +81,7 @@ class ChangePasswordSerializer(serializers.Serializer):
 
         try:
             validate_password(attrs['password'])
-        except DjangoValidationError as passwordWeek:
-            raise serializers.ValidationError({"password": passwordWeek.messages})
+        except DjangoValidationError as passwordWeak:
+            raise serializers.ValidationError({"password": passwordWeak.messages})
 
         return attrs
