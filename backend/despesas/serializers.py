@@ -1,7 +1,6 @@
 from django.db import transaction
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
-from tutorial.quickstart.serializers import UserSerializer
 
 from despesas.models import *
 from entidades.serializers import PessoaSerializer, UnidadeField, PessoaField
