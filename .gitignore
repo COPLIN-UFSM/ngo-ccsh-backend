@@ -163,3 +163,4 @@ extensions.txt
 pyrightconfig.json
 
 backend/*.sqlite3
+.run

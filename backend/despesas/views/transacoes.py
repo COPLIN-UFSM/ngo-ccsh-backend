@@ -7,14 +7,10 @@ from despesas.serializers import TransacaoSerializer, StatusTransacaoSerializer
 class TransacoesViewSet(viewsets.ModelViewSet):
     queryset = Transacao.objects.all()
     serializer_class = TransacaoSerializer
-    http_method_names = ['GET', 'POST', 'PATCH']
-    get_permissions = [IsAuthenticated]
+    http_method_names = ['get', 'post', 'patch']
 
 
 class StatusTransacaoViewSet(viewsets.ModelViewSet):
     queryset = StatusTransacao.objects.all()
     serializer_class = StatusTransacaoSerializer
-    http_method_names = ['GET']
-
-    def get_permissions(self):
-        return [IsAuthenticated()]
+    http_method_names = ['get']
