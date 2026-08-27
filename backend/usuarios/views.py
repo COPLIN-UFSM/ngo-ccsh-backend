@@ -53,7 +53,8 @@ class UserListView(APIView):
         if not serializer.is_valid():
             return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
 
-        serializer.save()
+        # TODO corrigir aqui!
+        serializer.create(request.data)
         return response.created("Usuário criado com sucesso.")
 
 

@@ -23,9 +23,9 @@ class UserListSerializer(serializers.ModelSerializer):
 
         try:
             validate_password(data['password'])
-        except DjangoValidationError as passwordWeek:
+        except DjangoValidationError as passwordWeak:
             raise serializers.ValidationError({
-                "password": passwordWeek.messages
+                "password": passwordWeak.messages
             })
 
         return data
