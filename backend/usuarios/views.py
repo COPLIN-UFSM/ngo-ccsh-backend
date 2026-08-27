@@ -8,6 +8,8 @@ from .serializers import UserListSerializer, UserDetailsSerializer, ChangePasswo
 from usuarios.models import Usuario
 from utils import response
 from utils.pagination import PaginationWithSize
+
+
 class UserListView(APIView):
     """
     View para listar usuários e criar um novo usuário
@@ -28,7 +30,7 @@ class UserListView(APIView):
         queryset = Usuario.objects.all().order_by('id')
         paginator = PaginationWithSize()
         page = paginator.paginate_queryset(queryset, request, self)
-        serializer = self.serializer_class(queryset, many=True)
+        serializer = self.serializer_class(page, many=True)
 
         if page is not None:
             return paginator.get_paginated_response(serializer.data)
