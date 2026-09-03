@@ -115,6 +115,8 @@ class Cargo(models.Model):
 
     def __str__(self):
         return self.cargo
+
+
 class PessoaSIE(models.Model):
     id_pessoa_sie = models.AutoField(primary_key=True, db_column="id_pessoa_sie")
     nome_pessoa = models.TextField(max_length=256, unique=False, null=False, blank=False, db_column="nome_pessoa")
