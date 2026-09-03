@@ -100,6 +100,7 @@ class Usuario(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(unique=True, max_length=64, db_column='email')
     is_active = models.BooleanField(blank=True, default=True, db_column='is_active')
     created_at = models.DateTimeField(auto_now_add=True, db_column='created_at')
+    is_staff = models.BooleanField(default=False, db_column='is_staff')
 
     pessoa = models.OneToOneField(
         Pessoa,

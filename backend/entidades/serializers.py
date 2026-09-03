@@ -216,11 +216,33 @@ class DiscenteSerializer(serializers.ModelSerializer):
 
 
 class ServidorSerializer(serializers.ModelSerializer):
-    pessoa = PessoaSerializer()
-    cargo = serializers.StringRelatedField()
+    nome_pessoa = serializers.CharField(source="pessoa.nome_pessoa", read_only=True)
+    cpf = serializers.CharField(source="pessoa.cpf", read_only=True)
+    # rg = serializers.CharField(source="pessoa.rg", read_only=True)
+
+    emails = EmailSerializer(
+        source="pessoa.emails",
+        many=True,
+        read_only=True,
+    )
+    telefones = TelefoneSerializer(
+        source="pessoa.telefones",
+        many=True,
+        read_only=True,
+    )
+
+    # cargo = serializers.StringRelatedField()
 
     class Meta:
         model = Servidor
-        fields = "__all__"
-        extra_kwargs = {field.name: {'read_only': True} for field in Servidor._meta.fields}
-
+        fields = [
+            "id_contrato_rh",
+            "nome_pessoa",
+            "cpf",
+            # "rg",
+            "telefones",
+            "emails",
+            # "cargo",
+            "matricula",
+            "ativo",
+        ]
