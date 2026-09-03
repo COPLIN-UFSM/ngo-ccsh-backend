@@ -1,0 +1,14 @@
+[MASTER]
+load-plugins=pylint_django
+django-settings-module=ngo_ccsh.settings
+
+[MESSAGES CONTROL]
+disable=
+    missing-module-docstring,
+    missing-class-docstring,
+    missing-function-docstring,
+    too-few-public-methods,
+    line-too-long,
+
+[FORMAT]
+max-line-length=88

@@ -16,14 +16,31 @@ jobs:
       - name: Build Docker image
         run: docker build -t ngo-ccsh-backend .
 
+      - name: Criar arquivo .env para os testes
+        run: |
+          cat <<EOF > .env
+          DEBUG=False
+          APP_FULL_NAME=Sistema de Gerenciamento de Gastos Acadêmicos da UFSM
+          APP_SHORT_NAME=SIGGA
+          FRONTEND_URL=http://localhost:5173
+          EMAIL_HOST_USER=${{ secrets.TEST_EMAIL_HOST_USER }}
+          EMAIL_HOST_PASSWORD=${{ secrets.TEST_EMAIL_HOST_PASSWORD }}
+          DEFAULT_FROM_EMAIL=Núcleo de Gestão Orçamentária <no-reply@ufsm.br>
+          DJANGO_SECRET_KEY=${{ secrets.TEST_DJANGO_SECRET_KEY }}
+          JWT_SIGNING_KEY=${{ secrets.TEST_JWT_SIGNING_KEY }}
+          EOF
+
       - name: Run tests inside container
         run: |
           docker run \
             -e DJANGO_SETTINGS_MODULE=ngo_ccsh.test_settings \
-            -e DJANGO_SECRET_KEY=any-random-secret-key-for-testing \
-            -e JWT_SIGNING_KEY=any-random-secret-key-for-testing \
+            --env-file .env \
             ngo-ccsh-backend \
             python manage.py test
+
+      - name: Remover .env
+        if: always()
+        run: rm -f .env
 
   deploy:
     needs: test
@@ -34,10 +51,10 @@ jobs:
         run: |
           cd /home/coplin/ngo-ccsh-backend
           git pull origin main
-          
+
           docker compose build
-      
+
           docker compose run --rm web python manage.py migrate
           docker compose run --rm web python manage.py collectstatic --noinput
-          
+
           docker compose up -d
