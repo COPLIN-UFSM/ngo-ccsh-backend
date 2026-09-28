@@ -69,21 +69,21 @@ class UserTestCase(APITestCase):
             cpf=self.servidor_1.pessoa.cpf,
             email="loki@gmail.com",
             password=self.usuario_admin_raw_password,
-            is_active=True,
+            ativo=True,
             is_superuser=True
         )
         self.user_regular = Usuario.objects.create_user(
             cpf=self.servidor_2.pessoa.cpf,
             email="odin@gmail.com",
             password=self.usuario_regular_raw_password,
-            is_active=True,
+            ativo=True,
             is_superuser=False
         )
         self.user_inactive = Usuario.objects.create_user(
             cpf=self.servidor_3.pessoa.cpf,
             email="thor@gmail.com",
             password=self.usuario_inactive_raw_password,
-            is_active=False,
+            ativo=False,
             is_superuser=False
         )
 
@@ -110,10 +110,9 @@ class UserListViewTestCase(UserTestCase):
         self.new_user_data = {
             "cpf": self.servidor_4.pessoa.cpf,
             "email": "goku@capsulecorporation.com",
-            "full_name":"Goku",
-            "is_superuser": False,
-            "password": "vegeta@fraco.com",
-            "password2": "vegeta@fraco.com"
+            "administrador": True,
+            "senha": "vegeta@fraco.com",
+            "senha2": "vegeta@fraco.com"
         }
 
     def test_get_users_while_not_authenticated(self):
@@ -234,7 +233,7 @@ class UserDetailsViewTestCase(UserTestCase):
         self.authenticate(user=self.user_regular)
         response = self.client.patch(
             self.url(self.user_regular.id),
-            data={"is_superuser": True}
+            data={"administrador": True}
         )
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
@@ -242,7 +241,7 @@ class UserDetailsViewTestCase(UserTestCase):
         self.authenticate(user=self.user_admin)
         response = self.client.patch(
             self.url(self.user_admin.id),
-            data={"is_superuser": False}
+            data={"administrador": False}
         )
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
@@ -294,8 +293,8 @@ class ChangePasswordViewTestCase(UserTestCase):
         super().setUp()
         self.url = lambda x: reverse("usuarios:change_password", kwargs={"id": x})
         self.new_password = {
-            "password": "spider_man",
-            "password2": "spider_man",
+            "senha": "spider_man",
+            "senha2": "spider_man",
         }
 
     def test_change_self_password_while_not_logged_in(self):
@@ -322,8 +321,8 @@ class ChangePasswordViewTestCase(UserTestCase):
         response = self.client.patch(
             self.url(self.user_regular.id),
             data={
-                "password": self.new_password["password"],
-                "password2": self.new_password["password2"],
+                "senha": self.new_password["senha"],
+                "senha2": self.new_password["senha2"],
             },
         )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -343,8 +342,8 @@ class ChangePasswordViewTestCase(UserTestCase):
         response = self.client.patch(
             self.url(self.user_regular.id),
             data={
-                "password": self.new_password['password'],
-                "password2": self.new_password['password'] + '!'
+                "password": self.new_password['senha'],
+                "password2": self.new_password['senha'] + '!'
             },
         )
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
@@ -359,8 +358,8 @@ class ChangePasswordViewTestCase(UserTestCase):
         response = self.client.patch(
             self.url(self.user_regular.id),
             data={
-                "password": self.new_password["password"],
-                "password2": self.new_password["password2"],
+                "senha": self.new_password["senha"],
+                "senha2": self.new_password["senha2"],
             },
         )
         self.assertEqual(response.status_code, status.HTTP_200_OK)

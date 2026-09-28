@@ -1,3 +1,4 @@
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -8,13 +9,19 @@ from .serializers import UserListSerializer, UserDetailsSerializer, ChangePasswo
 from usuarios.models import Usuario
 from utils import response
 from utils.pagination import PaginationWithSize
+from rest_framework.filters import OrderingFilter
+from usuarios.filters import UserFilterSet
+from rest_framework.generics import GenericAPIView
 
-
-class UserListView(APIView):
+class UserListView(GenericAPIView):
     """
     View para listar usuários e criar um novo usuário
     """
+    ordering_fields = ['id', 'data_criacao', 'nome_pessoa']
+    filter_backends = (DjangoFilterBackend, OrderingFilter)
     serializer_class = UserListSerializer
+    filterset_class =  UserFilterSet
+
 
     @extend_schema(
         summary="Lista usuários",
@@ -26,8 +33,11 @@ class UserListView(APIView):
         tags=["usuários"],
     )
     def get(self, request):
-        # TODO adicionar depois possibilidade de filtrar!
         queryset = Usuario.objects.all().order_by('id')
+        if not request.query_params.get('ativo'):
+            queryset = queryset.filter(ativo=True)
+        queryset = self.filter_queryset(queryset)
+
         paginator = PaginationWithSize()
         page = paginator.paginate_queryset(queryset, request, self)
         serializer = self.serializer_class(page, many=True)
@@ -54,9 +64,7 @@ class UserListView(APIView):
         serializer = self.serializer_class(data=request.data)
         if not serializer.is_valid():
             return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
-
-        # TODO corrigir aqui!
-        serializer.create(request.data)
+        serializer.save()
         return response.created("Usuário criado com sucesso.")
 
 
@@ -93,7 +101,7 @@ class UserDetailsView(APIView):
             user = Usuario.objects.get(id=id_usuario)
         except Usuario.DoesNotExist:
             return Response(
-                {"detail": f"Usuário com id {id_usuario} não encontrado."},
+                {"detail": f"Usuário não encontrado."},
                 status=status.HTTP_404_NOT_FOUND,
             )
         serializer = self.serializer_class(user)
@@ -126,7 +134,7 @@ class UserDetailsView(APIView):
             user = Usuario.objects.get(id=id_usuario)
         except Usuario.DoesNotExist:
             return Response(
-                {"detail": f"Usuário com id {id_usuario} não encontrado!"},
+                {"detail": f"Usuário não encontrado!"},
                 status=status.HTTP_404_NOT_FOUND
             )
 
@@ -138,13 +146,6 @@ class UserDetailsView(APIView):
         for field, value in serializer.validated_data.items():
             if getattr(user, field) != value:
                 changes[field] = value
-
-        if not changes:
-            return Response(
-                {"detail": f"Nenhuma mudança realizada."},
-                status.HTTP_200_OK,
-            )
-
         if not request.user.is_superuser:
             if user.id != request.user.id:
                 return Response(
@@ -158,7 +159,7 @@ class UserDetailsView(APIView):
                 )
             elif 'ativo' in changes:
                 return Response(
-                    {"detail": "Apenas um administrador pode desativar sua conta!"},
+                    {"detail": "Apenas um administrador pode (des)ativar sua conta!"},
                     status=status.HTTP_403_FORBIDDEN
                 )
         elif user.id == request.user.id:
@@ -167,10 +168,9 @@ class UserDetailsView(APIView):
                     {"detail": "Apenas outro usuário administrador pode remover seu privilégio de administrador!"},
                     status=status.HTTP_403_FORBIDDEN
                 )
-
         serializer.save()
         return Response(
-            {"detail": "Campos atualizado com sucesso.", "changes": changes},
+            {"changes": changes, "data": serializer.data},
             status.HTTP_200_OK,
         )
 
@@ -200,7 +200,7 @@ class UserDetailsView(APIView):
             user = Usuario.objects.get(id=id_usuario)
         except Usuario.DoesNotExist:
             return Response(
-                {"detail": f"Usuário com id {id_usuario} não encontrado."},
+                {"detail": f"Usuário não encontrado."},
                 status=status.HTTP_404_NOT_FOUND,
             )
 
@@ -212,8 +212,9 @@ class UserDetailsView(APIView):
                 {'detail': 'Apenas outro usuário administrador pode desativar sua conta!'}, status=status.HTTP_403_FORBIDDEN
             )
 
-        user.is_active = False
+        user.ativo = False
         user.save()
+
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
@@ -239,6 +240,8 @@ class ChangePasswordView(APIView):
         },
         tags=["usuários"],
     )
+
+    #TODO: não permitir que eu altere minha senha, sem a antiga.
     def patch(self, request, *args, **kwargs):
         id_usuario = kwargs['id']
 
@@ -261,7 +264,7 @@ class ChangePasswordView(APIView):
         serializer = ChangePasswordSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
-        user.set_password(serializer.validated_data["password"])
+        user.set_password(serializer.validated_data["senha"])
         user.save()
 
         return Response(

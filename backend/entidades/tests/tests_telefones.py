@@ -9,7 +9,7 @@ class TelefonesViewSetTestCase(BaseAuthenticatedUserTestCase):
     def setUp(self):
         self.url = reverse("entidades:telefones-list")
         self.telefone = Telefone.objects.create(telefone="55999300012", pessoa=self.pessoa_ativa)
-        self.data = {"telefone": "5599111111", "pessoa": self.pessoa_ativa.pk}
+        self.data = {"telefone": "5599111111", "id_pessoa_interna": self.pessoa_ativa.pk}
 
     def test_get_telefones(self):
         self.authentication(self.user_data_adm)

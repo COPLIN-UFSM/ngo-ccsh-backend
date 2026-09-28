@@ -19,8 +19,8 @@ class UnidadeViewTestCase(BaseAuthenticatedUserTestCase):
                                               centro=self.centro, tipo_unidade=self.tipo_unidade,
                                               situacao_unidade=self.situacao_unidade)
         self.unidade_data = {"nome_unidade": "Departamento D", "cod_estruturado": "DEPTO2",
-                             "centro": self.centro.id_centro_interno, "tipo_unidade": self.tipo_unidade.id_tipo_unidade,
-                             "situacao_unidade": self.situacao_unidade.id_situacao_unidade}
+                             "id_centro": self.centro.id_centro_interno, "id_tipo_unidade": self.tipo_unidade.id_tipo_unidade,
+                             "id_situacao_unidade": self.situacao_unidade.id_situacao_unidade}
 
     def test_get_unidades(self):
         self.authentication(self.user_data_adm)

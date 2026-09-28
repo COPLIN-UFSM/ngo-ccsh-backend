@@ -98,8 +98,8 @@ class Usuario(AbstractBaseUser, PermissionsMixin):
     id = models.AutoField(primary_key=True, editable=False, db_column="id")
     cpf = models.CharField(max_length=11, unique=True, null=False, blank=False, db_column="cpf")
     email = models.EmailField(unique=True, max_length=64, db_column='email')
-    is_active = models.BooleanField(blank=True, default=True, db_column='is_active')
-    created_at = models.DateTimeField(auto_now_add=True, db_column='created_at')
+    ativo = models.BooleanField(blank=True, default=True, db_column='is_active')
+    data_criacao = models.DateTimeField(auto_now_add=True, db_column='created_at')
 
     pessoa = models.OneToOneField(
         Pessoa,
@@ -122,8 +122,8 @@ class Usuario(AbstractBaseUser, PermissionsMixin):
     REQUIRED_FIELDS = ["email"]
 
     @property
-    def full_name(self):
+    def nome_pessoa(self):
         return self.pessoa.nome_pessoa
 
     def __str__(self):
-        return f"{self.full_name} ({self.cpf})"
+        return f"{self.nome_pessoa} ({self.cpf})"
