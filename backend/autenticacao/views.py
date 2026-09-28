@@ -27,7 +27,7 @@ class LoginView(APIView):
     )
     def post(self, request):
         username = request.data.get("cpf")
-        password = request.data.get("password")
+        password = request.data.get("senha")
 
         if not username or not password:
             return Response(
@@ -44,7 +44,7 @@ class LoginView(APIView):
                 status=status.HTTP_401_UNAUTHORIZED,
             )
 
-        if not user.is_active:
+        if not user.ativo:
             return Response(
                 {
                     "detail": "O usuário está inativo e não pode fazer login no sistema.",

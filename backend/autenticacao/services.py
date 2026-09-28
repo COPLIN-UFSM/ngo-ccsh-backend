@@ -35,7 +35,7 @@ def send_email_reset_password(user, token):
         "app_full_name": settings.APP_FULL_NAME,
         "app_short_name": settings.APP_SHORT_NAME,
         "cpf": user.cpf,
-        "user_full_name": user.full_name,
+        "user_full_name": user.nome_pessoa,
         "link": link,
         "year": dt.now().year
     }

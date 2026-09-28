@@ -49,13 +49,13 @@ class AuthenticationBaseTestCase(APITestCase):
             cpf=self.servidor_ativo_1.pessoa.cpf,
             email="loki@gmail.com",
             password=self.usuario_ativo_raw_password,
-            is_active=True,
+            ativo=True,
         )
         self.usuario_inativo = Usuario.objects.create_user(
             cpf=self.servidor_ativo_2.pessoa.cpf,
             email="odin@gmail.com",
             password=self.usuario_inativo_raw_password,
-            is_active=False,
+            ativo=False,
         )
 
 class LoginViewTestCase(AuthenticationBaseTestCase):
@@ -65,7 +65,7 @@ class LoginViewTestCase(AuthenticationBaseTestCase):
 
     def test_login_cpf_not_provided(self):
         data = {
-            "password": self.usuario_ativo.password,
+            "senha": self.usuario_ativo.password,
         }
         response = self.client.post(self.url, data=data)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
@@ -80,7 +80,7 @@ class LoginViewTestCase(AuthenticationBaseTestCase):
     def test_login_wrong_password(self):
         data = {
             "cpf": self.usuario_ativo.pessoa.cpf,
-            "password": self.usuario_ativo_raw_password + '!',
+            "senha": self.usuario_ativo_raw_password + '!',
         }
         response = self.client.post(self.url, data=data)
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
@@ -88,7 +88,7 @@ class LoginViewTestCase(AuthenticationBaseTestCase):
     def test_login_wrong_username(self):
         data = {
             "cpf": str(self.usuario_ativo.pessoa.cpf)[:-1] + '!',
-            "password": self.usuario_ativo_raw_password,
+            "senha": self.usuario_ativo_raw_password,
         }
         response = self.client.post(self.url, data=data)
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
@@ -96,14 +96,15 @@ class LoginViewTestCase(AuthenticationBaseTestCase):
     def test_login_user_not_active(self):
         response = self.client.post(self.url, data={
             "cpf": self.usuario_inativo.pessoa.cpf,
-            "password": self.usuario_inativo_raw_password,
+            "senha": self.usuario_inativo_raw_password,
         })
+        print(response.data)
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_login_user_active(self):
         data = {
             "cpf": self.usuario_ativo.pessoa.cpf,
-            "password": self.usuario_ativo_raw_password,
+            "senha": self.usuario_ativo_raw_password,
         }
         response = self.client.post(self.url, data=data)
         self.assertIn("token", response.data)

@@ -11,9 +11,9 @@ class CreateTestUsers(BaseServidorTestCase):
             cpf=self.servidor_ativo.pessoa.cpf,
             email="loki@gmail.com",
             password=self.usuario_ativo_raw_password,
-            is_active=True,
+            ativo=True,
         )
-        self.assertTrue(self.usuario_ativo.is_active)
+        self.assertTrue(self.usuario_ativo.ativo)
 
     def test_create_user_valid_cpf_format_with_mask(self):
         user = Usuario.objects.create_user(
@@ -44,18 +44,18 @@ class CreateTestUsers(BaseServidorTestCase):
             cpf=self.servidor_ativo.pessoa.cpf,
             email="active_test@gmail.com",
             password="password",
-            is_active=True,
+            ativo=True,
         )
-        self.assertTrue(user.is_active)
+        self.assertTrue(user.ativo)
 
     def test_create_user_valid_is_active_false(self):
         user = Usuario.objects.create_user(
             cpf=self.servidor_ativo.pessoa.cpf,
             email="inactive_test@gmail.com",
             password="password",
-            is_active=False,
+            ativo=False,
         )
-        self.assertFalse(user.is_active)
+        self.assertFalse(user.ativo)
 
     def test_create_user_missing_cpf(self):
         with self.assertRaises(ValueError) as context:
@@ -108,7 +108,7 @@ class CreateTestUsers(BaseServidorTestCase):
                 cpf=self.servidor_inativo.pessoa.cpf,
                 email="odin@gmail.com",
                 password=self.usuario_inativo_raw_password,
-                is_active=True,
+                ativo=True,
             )
         self.assertIn("servidores ativos", str(context.exception).lower())
 
@@ -118,7 +118,7 @@ class CreateTestUsers(BaseServidorTestCase):
                 cpf=self.pessoa_nao_servidora.cpf,
                 email="valkyria@gmail.com",
                 password="1234",
-                is_active=True,
+                ativo=True,
             )
         self.assertIn("servidores ativos", str(context.exception).lower())
 
@@ -176,7 +176,7 @@ class CreateSuperServidorTest(BaseServidorTestCase):
             password="superpassword",
         )
         self.assertTrue(superuser.is_superuser)
-        self.assertTrue(superuser.is_active)
+        self.assertTrue(superuser.ativo)
 
     def test_create_superuser_has_is_superuser_true(self):
         superuser = Usuario.objects.create_superuser(
