@@ -7,9 +7,14 @@ def custom_exception_handler(exc, context):
 
     # Verifica se a exceção resultou em um erro 404
     if response is not None and response.status_code == status.HTTP_404_NOT_FOUND:
+
+        message = getattr(exc, 'detail', None)
+
+        if message:
+            return response
+
         view = context.get('view')
         model_name = "Registro"
-        
         if view and hasattr(view, 'get_queryset'):
             try:
                 queryset = view.get_queryset()

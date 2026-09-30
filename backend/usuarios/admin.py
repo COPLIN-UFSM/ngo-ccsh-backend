@@ -7,11 +7,9 @@ from usuarios.models import Usuario
 
 class MyUserCreationForm(UserCreationForm):
     email = forms.EmailField(required=True)
-    full_name = forms.CharField(max_length=256, required=False)
-
     class Meta:
         model = Usuario
-        fields = ("cpf", "email", "full_name")
+        fields = ("cpf", "email")
 
 
 @admin.register(Usuario)
@@ -19,17 +17,16 @@ class CustomUserAdmin(UserAdmin):
     add_form = MyUserCreationForm
     model = Usuario
 
-    list_display = ["cpf", "email", "full_name"]
+    list_display = ["cpf", "email", "nome_pessoa"]
 
     add_fieldsets = (
         (
             "Autenticação",
             {
-                "classes": ("wide",),
+                "classes":["wide",],
                 "fields": (
-                    "matricula",
+                    "cpf",
                     "email",
-                    "full_name",
                     "password1",
                     "password2",
                 ),
@@ -41,27 +38,26 @@ class CustomUserAdmin(UserAdmin):
 
     search_fields = (
         "cpf",
-        "full_name",
         "email",
     )
 
     list_filter = (
-        "is_active",
+        "ativo",
         "is_superuser",
     )
 
     fieldsets = (
         ("Auth", {"fields": ("cpf", "password")}),
-        ("Infos", {"fields": ("full_name", "email")}),
+        ("Infos", {"fields": ["email"]}),
         ("Permissions", {
             "fields": (
-                "is_active",
+                "ativo",
                 "is_superuser",
                 "groups",
                 "user_permissions",
             )
         }),
-        ("Metadata", {"fields": ("created_at",)})
+        ("Metadata", {"fields": ("data_criacao",)})
     )
 
-    readonly_fields = ("created_at",)
+    readonly_fields = ("data_criacao",)

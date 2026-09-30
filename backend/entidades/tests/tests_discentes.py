@@ -35,7 +35,7 @@ class DiscenteViewTestCase(BaseAuthenticatedUserTestCase):
         self.assertIsNotNone(item)
 
         self.assertEqual("202311173", item['matricula'])
-        self.assertEqual("Leandro", item['pessoa']['nome_pessoa'])
+        self.assertEqual("Leandro", item['nome_pessoa'])
 
     def test_create_discente(self):
         self.authentication(self.user_data_adm)
@@ -97,9 +97,9 @@ class SingleDiscenteViewTestCase(BaseAuthenticatedUserTestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
         self.assertEqual("202311173", response.data["matricula"])
-        self.assertEqual("Leandro", response.data["pessoa"]['nome_pessoa'])
-        self.assertEqual("05100000000", response.data["pessoa"]['cpf'])
-        self.assertEqual("Curso A", response.data["curso"]["nome_curso"])
+        self.assertEqual("Leandro", response.data['nome_pessoa'])
+        self.assertEqual("05100000000", response.data['cpf'])
+        self.assertEqual("Curso A", response.data["nome_curso"])
 
     def test_get_nonexistent_discente(self):
         self.authentication(self.user_data_adm)

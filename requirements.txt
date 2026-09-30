@@ -15,4 +15,5 @@ whitenoise
 drf-spectacular
 python-dotenv
 django-extensions
+django_filters
 pygraphviz

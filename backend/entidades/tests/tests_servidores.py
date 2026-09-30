@@ -76,8 +76,8 @@ class SingleServidorViewTestCase(BaseAuthenticatedUserTestCase):
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual("Professor", response.data["cargo"])
-        self.assertEqual("Leandro", response.data["pessoa"]['nome_pessoa'])
-        self.assertEqual("05100000000", response.data["pessoa"]['cpf'])
+        self.assertEqual("Leandro", response.data['nome_pessoa'])
+        self.assertEqual("05100000000", response.data['cpf'])
 
     def test_get_nonexistent_servidor(self):
         self.authentication(self.user_data_adm)

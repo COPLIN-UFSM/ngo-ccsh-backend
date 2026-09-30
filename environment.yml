@@ -25,3 +25,5 @@ dependencies:
     - python-dotenv
     - django-extensions
     - pygraphviz
+  - django-filter
+  - drf-nested-routers

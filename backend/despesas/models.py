@@ -63,6 +63,8 @@ class Finalidade(models.Model):
         managed = False
         db_table = "finalidades"
 
+    def __str__(self):
+        return self.finalidade
 
 class TipoDocumento(models.Model):
     """
@@ -148,6 +150,8 @@ class StatusTransacao(models.Model):
     class Meta:
         managed = False
         db_table = "status_transacoes"
+    def __str__(self):
+        return self.status_transacao
 
 
 class Transacao(models.Model):
