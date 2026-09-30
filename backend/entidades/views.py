@@ -1,5 +1,6 @@
-from rest_framework import viewsets
-from rest_framework.exceptions import MethodNotAllowed
+from django.http import Http404
+from rest_framework import viewsets, status
+from rest_framework.exceptions import ValidationError, MethodNotAllowed
 from rest_framework.response import Response
 
 from entidades.models import (
@@ -12,6 +13,7 @@ from entidades.models import (
     Pessoa,
     Unidade, Telefone, Email
 )
+
 from entidades.serializers import (
     CentroSerializer,
     TipoUnidadeSerializer,
@@ -23,7 +25,6 @@ from entidades.serializers import (
 )
 
 detailNotAllowed = "Método não permitido para elementos cadastrados no SIE."
-
 
 class TipoUnidadeViewSet(viewsets.ModelViewSet):
     queryset = TipoUnidade.objects.all()
@@ -109,50 +110,51 @@ class ServidorViewSet(viewsets.ModelViewSet):
     serializer_class = ServidorSerializer
     http_method_names = ["get"]
 
-    def get_queryset(self):
-        queryset = super().get_queryset()
-
-        cpf = self.request.query_params.get("cpf")
-
-        if cpf:
-            queryset = self._filtrar_por_cpf(queryset, cpf)
-        else:
-            queryset = self._filtrar_por_ativo_padrao(queryset)
-
-        # 'ativo' explícito sempre pode ser aplicado, com ou sem cpf
-        queryset = self._filtrar_por_ativo_explicito(queryset)
-
-        return queryset
-
-    def _filtrar_por_ativo_padrao(self, queryset):
-        # Sem cpf: comportamento de listagem, só ativos por padrão
-        if self.request.query_params.get("ativo") is None:
-            return queryset.filter(ativo=True)
-        return queryset
-
-    def _filtrar_por_ativo_explicito(self, queryset):
-        ativo_param = self.request.query_params.get("ativo")
-        if ativo_param is None:
-            return queryset
-
-        ativo_bool = ativo_param.strip().lower() in ("true", "1")
-        return queryset.filter(ativo=ativo_bool)
-
-    @staticmethod
-    def _filtrar_por_cpf(queryset, cpf):
-        cpf_normalizado = "".join(filter(str.isdigit, cpf))
-
-        if len(cpf_normalizado) != 11:
-            return queryset.none()
-
-        try:
-            pessoa = Pessoa.objects.get(cpf=cpf_normalizado)
-        except Pessoa.DoesNotExist:
-            return queryset.none()
-        except Pessoa.MultipleObjectsReturned:
-            pessoa = Pessoa.objects.filter(cpf=cpf_normalizado).first()
-
-        return queryset.filter(pessoa=pessoa)
+    # TODO pegar apenas servidores ativos!
+    # def get_queryset(self):
+    #     queryset = super().get_queryset()
+    #
+    #     cpf = self.request.query_params.get("cpf")
+    #
+    #     if cpf:
+    #         queryset = self._filtrar_por_cpf(queryset, cpf)
+    #     else:
+    #         queryset = self._filtrar_por_ativo_padrao(queryset)
+    #
+    #     # 'ativo' explícito sempre pode ser aplicado, com ou sem cpf
+    #     queryset = self._filtrar_por_ativo_explicito(queryset)
+    #
+    #     return queryset
+    #
+    # def _filtrar_por_ativo_padrao(self, queryset):
+    #     # Sem cpf: comportamento de listagem, só ativos por padrão
+    #     if self.request.query_params.get("ativo") is None:
+    #         return queryset.filter(ativo=True)
+    #     return queryset
+    #
+    # def _filtrar_por_ativo_explicito(self, queryset):
+    #     ativo_param = self.request.query_params.get("ativo")
+    #     if ativo_param is None:
+    #         return queryset
+    #
+    #     ativo_bool = ativo_param.strip().lower() in ("true", "1")
+    #     return queryset.filter(ativo=ativo_bool)
+    #
+    # @staticmethod
+    # def _filtrar_por_cpf(queryset, cpf):
+    #     cpf_normalizado = "".join(filter(str.isdigit, cpf))
+    #
+    #     if len(cpf_normalizado) != 11:
+    #         return queryset.none()
+    #
+    #     try:
+    #         pessoa = Pessoa.objects.get(cpf=cpf_normalizado)
+    #     except Pessoa.DoesNotExist:
+    #         return queryset.none()
+    #     except Pessoa.MultipleObjectsReturned:
+    #         pessoa = Pessoa.objects.filter(cpf=cpf_normalizado).first()
+    #
+    #     return queryset.filter(pessoa=pessoa)
 
 
 class TelefoneViewSet(viewsets.ModelViewSet):

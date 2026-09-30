@@ -53,6 +53,7 @@ class CentroResumoSerializer(serializers.ModelSerializer):
         fields = ["nome_centro", "sigla_centro"]
         read_only = ["nome_centro", "sigla_centro"]
 
+
 class CentroField(serializers.RelatedField):
     def to_representation(self, value: Centro):
         return CentroResumoSerializer(value).data
@@ -256,11 +257,29 @@ class DiscenteSerializer(serializers.ModelSerializer):
 
 
 class ServidorSerializer(serializers.ModelSerializer):
-    pessoa = PessoaSerializer()
-    cargo = serializers.StringRelatedField()
+    id_pessoa_interna = serializers.PrimaryKeyRelatedField(queryset=Pessoa.objects.all(), source="pessoa")
+    nome_pessoa = serializers.CharField(source="pessoa.nome_pessoa", read_only=True)
+    cpf = serializers.CharField(source="pessoa.cpf", read_only=True)
+    rg = serializers.CharField(source="pessoa.rg", read_only=True)
+
+    cargo = serializers.StringRelatedField(read_only=True)
 
     class Meta:
         model = Servidor
-        fields = "__all__"
-        extra_kwargs = {field.name: {'read_only': True} for field in Servidor._meta.fields}
+        fields = ["id_contrato_rh", "id_pessoa_interna", "nome_pessoa", "cpf", "rg", "cargo", "matricula",
+                  "telefones", "emails", "ativo"]
 
+    telefones = serializers.SerializerMethodField()
+    emails = serializers.SerializerMethodField()
+
+    def get_telefones(self, obj):
+        if obj.pessoa:
+            queryset = obj.pessoa.telefone_set.all()
+            return TelefonePessoaSerializer(queryset, many=True, context=self.context).data
+        return []
+
+    def get_emails(self, obj):
+        if obj.pessoa:
+            queryset = obj.pessoa.email_set.all()
+            return EmailPessoaSerializer(queryset, many=True, context=self.context).data
+        return []

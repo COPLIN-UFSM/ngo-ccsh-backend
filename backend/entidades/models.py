@@ -179,7 +179,7 @@ class Servidor(models.Model):
 
 class Email(models.Model):
     id_email = models.AutoField(primary_key=True, db_column="id_conta")
-    pessoa = models.ForeignKey(Pessoa, on_delete=models.DO_NOTHING, db_column="id_pessoa_interna", related_name='emails')
+    pessoa = models.ForeignKey(Pessoa, on_delete=models.DO_NOTHING, db_column="id_pessoa_interna")# , related_name='emails')
     email = models.EmailField(unique=True, db_column="email")
     ativo = models.BooleanField(unique=False, default=True, blank=True, db_column="ativo")
 
@@ -190,7 +190,7 @@ class Email(models.Model):
 
 class Telefone(models.Model):
     id_telefone = models.AutoField(primary_key=True, db_column="id_telefone")
-    pessoa = models.ForeignKey(Pessoa, on_delete=models.DO_NOTHING, db_column="id_pessoa_interna", related_name="telefones",)
+    pessoa = models.ForeignKey(Pessoa, on_delete=models.DO_NOTHING, db_column="id_pessoa_interna")#, related_name="telefones",)
     telefone = models.TextField(max_length=16, unique=False, null=False, blank=False, db_column="telefone")
     ativo = models.BooleanField(unique=False, default=True, blank=True, db_column="ativo")
 
