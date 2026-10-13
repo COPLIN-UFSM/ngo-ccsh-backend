@@ -1,5 +1,8 @@
 from django.db import models
+from django.db.models import Sum, Case, When, F, DecimalField
+from decimal import Decimal
 
+from despesas.models import VersaoTransacao
 from entidades.managers import PessoaManager, CentroManager, UnidadeManager
 
 class CentroSIE(models.Model):
@@ -92,6 +95,20 @@ class Unidade(models.Model):
 
     def __str__(self) -> str:
         return self.nome_unidade
+
+    @property
+    def montante(self):
+        related_transaction = VersaoTransacao.objects.filter(unidade=self, transacao__isnull=False).aggregate(
+            montante=Sum(
+                Case(
+                    When(credito=True, then=F("montante")),
+                    When(credito=False, then=-F("montante")),
+                    default=Decimal(0.00),
+                ),
+                output_field=DecimalField(),
+            )
+        )
+        return related_transaction["montante"] or Decimal(0.00)
 
 
 class Curso(models.Model):
