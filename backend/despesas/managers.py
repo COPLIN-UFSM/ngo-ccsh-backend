@@ -30,7 +30,7 @@ class TransacaoManager(models.Manager):
                 numero_versao=current_version.numero_versao + 1,
                 finalidade=current_version.finalidade,
                 unidade_executora=current_version.unidade_executora,
-                unidade_credora=current_version.unidade_credora,
+                unidade_receptora=current_version.unidade_receptora,
                 credito=current_version.credito,
                 status_pagamento=kwargs[
                     'status_pagamento'] if 'status_pagamento' in kwargs else current_version.status_pagamento,

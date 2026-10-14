@@ -3,7 +3,7 @@ from django.db.models import Model
 from rest_framework import serializers
 
 from entidades.models import Unidade, Cargo, TipoUnidade, Curso, SituacaoUnidade, Servidor, Discente, Centro, Pessoa, \
-    Email, Telefone, PessoaSIE
+    Email, Telefone, PessoaSIE, UnidadeSIE
 
 
 class CentroSerializer(serializers.ModelSerializer):
@@ -75,11 +75,12 @@ class UnidadeSerializer(serializers.ModelSerializer):
     tipo_unidade = serializers.StringRelatedField(read_only=True)
     situacao_unidade = serializers.StringRelatedField(read_only=True)
     centro = serializers.StringRelatedField(read_only=True)
+    id_unidade_sie = serializers.PrimaryKeyRelatedField(read_only=True, source="unidade_sie")
 
     class Meta:
         model = Unidade
         fields = ["id_unidade_interna", "nome_unidade", "cod_estruturado", "id_centro", "centro", "id_tipo_unidade",
-                  "tipo_unidade", "id_situacao_unidade", "situacao_unidade"]
+                  "tipo_unidade", "id_situacao_unidade", "id_unidade_sie", "situacao_unidade", "pode_empenhar"]
         read_only = ['id_unidade_interna']
 
 

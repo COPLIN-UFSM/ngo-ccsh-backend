@@ -4,6 +4,7 @@ from rest_framework import serializers
 from rest_framework.relations import PrimaryKeyRelatedField
 
 from despesas.models import *
+from despesas.models import Empenho
 
 
 class TipoDocumentoSerializer(serializers.ModelSerializer):
@@ -175,8 +176,8 @@ class TransacaoReadSerializer(serializers.ModelSerializer):
 class VersaoTransacaoSerializer(serializers.ModelSerializer):
     id_finalidade = PrimaryKeyRelatedField(required=False, allow_null=True, queryset=Finalidade.objects.all(),
                                            source="finalidade")
-    id_unidade_credora = serializers.PrimaryKeyRelatedField(queryset=Unidade.objects.all(), required=False,
-                                                            allow_null=True, source="unidade_credora")
+    id_unidade_receptora = serializers.PrimaryKeyRelatedField(queryset=Unidade.objects.all(), required=False,
+                                                              allow_null=True, source="unidade_receptora")
     id_unidade_executora = serializers.PrimaryKeyRelatedField(queryset=Unidade.objects.all(),
                                                               source="unidade_executora")
     id_status_pagamento = serializers.PrimaryKeyRelatedField(queryset=StatusTransacao.objects.all(),
@@ -184,12 +185,15 @@ class VersaoTransacaoSerializer(serializers.ModelSerializer):
     id_beneficiario = serializers.PrimaryKeyRelatedField(required=False, allow_null=True, queryset=Pessoa.objects.all(),
                                                          source="beneficiario")
     id_usuario = serializers.PrimaryKeyRelatedField(read_only=True, source="usuario")
+    id_empenho = serializers.PrimaryKeyRelatedField(required=False, allow_null=True, queryset=Empenho.objects.all(),
+                                                    source="empenho")
 
     finalidade = serializers.StringRelatedField(read_only=True)
-    unidade_credora = serializers.StringRelatedField(read_only=True)
+    unidade_receptora = serializers.StringRelatedField(read_only=True)
     unidade_executora = serializers.StringRelatedField(read_only=True)
     status_pagamento = serializers.StringRelatedField(read_only=True)
     beneficiario = serializers.StringRelatedField(read_only=True)
+    empenho = serializers.StringRelatedField(read_only=True)
     id_transacao = serializers.PrimaryKeyRelatedField(queryset=Transacao.objects.all(), source="transacao")
 
     documentos = ValorDocumentoSerializer(many=True, required=False)
@@ -202,8 +206,8 @@ class VersaoTransacaoSerializer(serializers.ModelSerializer):
             "numero_versao",
             "id_finalidade",
             "finalidade",
-            "id_unidade_credora",
-            "unidade_credora",
+            "id_unidade_receptora",
+            "unidade_receptora",
             "id_unidade_executora",
             "unidade_executora",
             "id_usuario",
@@ -211,6 +215,8 @@ class VersaoTransacaoSerializer(serializers.ModelSerializer):
             "status_pagamento",
             "id_beneficiario",
             "beneficiario",
+            "id_empenho",
+            "empenho",
             "documentos",
             "credito",
             "montante",
@@ -218,11 +224,16 @@ class VersaoTransacaoSerializer(serializers.ModelSerializer):
         ]
 
     def validate(self, data):
+        unidade_executora = data.get('unidade_executora')
         finalidade = data.get('finalidade')
         documentos = data.get('documentos', [])
         documentos_id = [doc['tipo_documento'].pk for doc in documentos]
-
+        montante = data.get('montante', None)
         validation_errors = []
+
+        if not montante:
+            raise serializers.ValidationError({'montante': 'O montante é obrigatório.'})
+
         vistos = set()
         for doc in documentos_id:
             if doc not in vistos:
@@ -234,9 +245,8 @@ class VersaoTransacaoSerializer(serializers.ModelSerializer):
                 })
 
         if not finalidade:
-            if validation_errors:
-                raise serializers.ValidationError({'documentos': validation_errors})
-            return data
+            validation_errors.append({'finalidade': 'A finalidade é obrigatório para uma transação'})
+            raise serializers.ValidationError(validation_errors)
 
         tipos_documentos_possiveis = finalidade.tipodocumentoparafinalidade_set.select_related('tipo_documento').all()
         tipos_documentos_possiveis_pk = [tipo_doc.tipo_documento.pk for tipo_doc in tipos_documentos_possiveis]
@@ -259,6 +269,36 @@ class VersaoTransacaoSerializer(serializers.ModelSerializer):
         if validation_errors:
             raise serializers.ValidationError({'documentos': validation_errors})
 
+        empenho = data.get("empenho", None)
+
+        if not empenho:
+            return data
+
+        id_transacao = data.get("id_transacao")
+        credito = data.get("credito")
+
+        #     if empenho and not empenho.ativo:
+        #         raise serializers.ValidationError(
+        #             {"empenho": "Não é possível criar ou modificar transações de um empenho inativo."}
+        #         )
+        #
+
+        empenho_montante = empenho.montante
+        montante_transacao_update = VersaoTransacao.objects.filter(transacao_id=id_transacao, transacao__isnull=False).first()
+
+
+        if montante_transacao_update:
+            empenho_montante += montante_transacao_update
+
+        if not credito and montante > empenho_montante:
+            raise serializers.ValidationError(
+                {
+                    "montante": f"Saldo insuficiente no empenho. O Valor da despesa (R$ {montante:.2f}) é maior que o saldo atual (R$ {empenho_montante:.2f})."}
+            )
+        elif credito and not unidade_executora.pode_empenhar:
+            raise serializers.ValidationError({
+                "credito": "Está unidade não tem a permissão para empenhar um valor."
+            })
         return data
 
     def create(self, validated_data):
@@ -274,64 +314,6 @@ class VersaoTransacaoSerializer(serializers.ModelSerializer):
             ValorDocumento.objects.bulk_create(docs)
 
         return versao_transacao
-
-        # def update(self, instance, validated_data):
-        #     documentos_data = validated_data.pop("documentos", [])
-        #     user = self.context['request'].user
-        #     validated_data['numero_versao'] = int(instance.numero_versao) + 1
-        #     old_versao_transacao = model_to_dict(instance.versao_transacao, exclude=['id_versao_transacao'])
-        #
-        #     new_data = validated_data.pop('transacao', None)
-        #     if new_data is not None:
-        #         raise serializers.ValidationError({'transacao': 'Nenhum campo foi atualizado.'})
-        #
-        #     new_versao_transacao = {**old_versao_transacao, **new_data}
-        #     raise serializers.ValidationError(new_versao_transacao)
-
-        versao_transacao = VersaoTransacao.objects.create(**validated_data, usuario=user)
-        # versao_transacao = None
-        # with transaction.atomic():
-        # docs = [
-        #     ValorDocumento(versao_transacao=versao_transacao, **doc) for doc in documentos_data
-        # ]
-        # ValorDocumento.objects.bulk_create(docs)
-
-        return versao_transacao
-
-    # def validate(self, data):
-    #     empenho = data.get("empenho")
-    #     montante = data.get("montante")
-    #     id_transacao = data.get("id_transacao")
-    #     eh_credito = data.get("eh_credito")
-    #
-    #     if empenho and not empenho.ativo:
-    #         raise serializers.ValidationError(
-    #             {"empenho": "Não é possível criar ou modificar transações de um empenho inativo."}
-    #         )
-    #
-    #     queryset = Transacao.objects.filter(empenho=empenho)
-    #     if self.instance:
-    #         queryset = queryset.exclude(id_transacao=id_transacao)
-    #
-    #     total_despesas = (
-    #             queryset.aggregate(
-    #                 total=Sum(
-    #                     Case(
-    #                         When(eh_credito=True, then=F("montante")),
-    #                         When(eh_credito=False, then=-F("montante")),
-    #                     )
-    #                 )
-    #             )["total"]
-    #             or 0.00
-    #     )
-    #
-    #     if not eh_credito and montante > total_despesas:
-    #         raise serializers.ValidationError(
-    #             {
-    #                 "montante": f"Saldo insuficiente. O Valor da despesa (R$ {montante:.2f}) é maior que o saldo atual (R$ {total_despesas:.2f})."}
-    #         )
-    #     return data
-
 
 class TransacaoSerializer(serializers.ModelSerializer):
     transacao = VersaoTransacaoSerializer(read_only=True, allow_null=False, source="versao_transacao")
@@ -379,7 +361,7 @@ class TransacaoSerializer(serializers.ModelSerializer):
 
         old_versao_transacao = model_to_dict(instance.versao_transacao, exclude=['id_versao_transacao'])
         for field, value in old_versao_transacao.copy().items():
-            if field in ['transacao', 'finalidade', 'unidade_executora', 'unidade_credora', 'usuario',
+            if field in ['transacao', 'finalidade', 'unidade_executora', 'unidade_receptora', 'usuario',
                          'status_pagamento', 'empenho', 'beneficiario']:
                 old_versao_transacao.pop(field)
                 old_versao_transacao[f'id_{field}'] = value
@@ -390,7 +372,6 @@ class TransacaoSerializer(serializers.ModelSerializer):
             dados_combinados = {doc['id_tipo_documento']: doc for doc in old_docs}
             dados_combinados.update({doc['id_tipo_documento']: doc for doc in new_docs})
             old_versao_transacao['documentos'] = list(dados_combinados.values())
-
 
         new_data = {**old_versao_transacao, **versao_transacao_data}
         for field, value in new_data.copy().items():
@@ -408,31 +389,15 @@ class TransacaoSerializer(serializers.ModelSerializer):
             instance.save()
         return instance
 
-# class EmpenhoSerializer(serializers.ModelSerializer):
-#     transacoes = TransacaoSerializer(many=True, read_only=True)
-#     montante = serializers.SerializerMethodField()
-#
-#     class Meta:
-#         model = Empenho
-#         fields = ["id_empenho", "numero_empenho", "numero_pen", "descricao", "finalidade", "montante", "transacoes"]
-#         read_only_fields = ["id_empenho"]
-#
-#     def get_montante(self, obj):
-#         valor_somado = (
-#                 Transacao.objects.filter(empenho=obj).aggregate(
-#                     total=Sum(
-#                         Case(
-#                             When(eh_credito=True, then=F("montante")),
-#                             When(eh_credito=False, then=-F("montante")),
-#                         )
-#                     )
-#                 )["total"]
-#                 or 0.00
-#         )
-#
-#         return valor_somado
-#
-# class StatusTransacaoSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = StatusTransacao
-#         fields = "__all__"
+
+class EmpenhoSerializer(serializers.ModelSerializer):
+    transacoes = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Empenho
+        fields = ["id_empenho", "numero_empenho", "numero_pen", "finalidade", "data_criacao", "montante", "transacoes"]
+        read_only_fields = ["id_empenho", "data_criacao", "montante"]
+
+    def get_transacoes(self, obj):
+        queryset = Transacao.objects.filter(versao_transacao__empenho=obj)
+        return TransacaoSerializer(queryset, many=True, context=self.context).data

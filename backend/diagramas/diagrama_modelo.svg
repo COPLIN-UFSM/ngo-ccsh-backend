@@ -1028,7 +1028,7 @@
 <text xml:space="preserve" text-anchor="start" x="921.72" y="-1198.72" font-family="Roboto" font-weight="bold" font-size="8.00">ForeignKey (id_transacao)</text>
 <text xml:space="preserve" text-anchor="start" x="1028.22" y="-1198.72" font-family="Roboto" font-size="8.00"> &#160;&#160;&#160;</text>
 <text xml:space="preserve" text-anchor="start" x="807.47" y="-1184.22" font-family="Roboto" font-size="8.00"> &#160;&#160;&#160;</text>
-<text xml:space="preserve" text-anchor="start" x="816.47" y="-1184.22" font-family="Roboto" font-weight="bold" font-size="8.00" fill="#7b7b7b">unidade_credora</text>
+<text xml:space="preserve" text-anchor="start" x="816.47" y="-1184.22" font-family="Roboto" font-weight="bold" font-size="8.00" fill="#7b7b7b">unidade_receptora</text>
 <text xml:space="preserve" text-anchor="start" x="885.47" y="-1184.22" font-family="Roboto" font-size="8.00"> &#160;&#160;&#160;</text>
 <text xml:space="preserve" text-anchor="start" x="912.72" y="-1184.22" font-family="Roboto" font-size="8.00"> &#160;&#160;&#160;</text>
 <text xml:space="preserve" text-anchor="start" x="921.72" y="-1184.22" font-family="Roboto" font-weight="bold" font-size="8.00" fill="#7b7b7b">ForeignKey (id_unidade_interna)</text>
@@ -1189,7 +1189,7 @@
 <title>despesas_models_VersaoTransacao&#45;&gt;entidades_models_Unidade</title>
 <path fill="none" stroke="black" d="M877.64,-1300.89C843.43,-1371.41 802.14,-1460.29 775.98,-1520.13"/>
 <ellipse fill="black" stroke="black" cx="879.59" cy="-1296.87" rx="4" ry="4"/>
-<text xml:space="preserve" text-anchor="middle" x="789.16" y="-1408.82" font-family="Roboto" font-size="8.00"> unidade_credora (+)</text>
+<text xml:space="preserve" text-anchor="middle" x="789.16" y="-1408.82" font-family="Roboto" font-size="8.00"> unidade_receptora (+)</text>
 </g>
 <!-- despesas_models_VersaoTransacao&#45;&gt;entidades_models_Unidade -->
 <g id="edge33" class="edge">

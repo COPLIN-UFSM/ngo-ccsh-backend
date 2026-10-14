@@ -1178,7 +1178,7 @@ digraph model_graph {
   
   
     <TR><TD ALIGN="LEFT" BORDER="0">
-    <FONT COLOR="#7B7B7B" FACE="Roboto"><B>unidade_credora</B></FONT>
+    <FONT COLOR="#7B7B7B" FACE="Roboto"><B>unidade_receptora</B></FONT>
     </TD><TD ALIGN="LEFT">
     <FONT COLOR="#7B7B7B" FACE="Roboto"><B>ForeignKey (id_unidade_interna)</B></FONT>
     </TD></TR>
@@ -1348,7 +1348,7 @@ digraph model_graph {
   [label=" finalidade (versaotransacao)"] [arrowhead=none, arrowtail=dot, dir=both];
 
   despesas_models_VersaoTransacao -> entidades_models_Unidade
-  [label=" unidade_credora (+)"] [arrowhead=none, arrowtail=dot, dir=both];
+  [label=" unidade_receptora (+)"] [arrowhead=none, arrowtail=dot, dir=both];
 
   despesas_models_VersaoTransacao -> entidades_models_Unidade
   [label=" unidade_executora (+)"] [arrowhead=none, arrowtail=dot, dir=both];

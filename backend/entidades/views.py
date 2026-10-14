@@ -1,3 +1,4 @@
+from django.contrib.sessions import serializers
 from django.http import Http404
 from rest_framework import viewsets, status
 from rest_framework.exceptions import ValidationError, MethodNotAllowed
@@ -26,15 +27,18 @@ from entidades.serializers import (
 
 detailNotAllowed = "Método não permitido para elementos cadastrados no SIE."
 
+
 class TipoUnidadeViewSet(viewsets.ModelViewSet):
     queryset = TipoUnidade.objects.all()
     serializer_class = TipoUnidadeSerializer
     http_method_names = ["get"]
 
+
 class SituacaoUnidadeViewSet(viewsets.ModelViewSet):
     queryset = SituacaoUnidade.objects.all()
     serializer_class = SituacaoUnidadeSerializer
     http_method_names = ["get"]
+
 
 class CentroViewSet(viewsets.ModelViewSet):
     queryset = Centro.objects.all()
@@ -53,6 +57,7 @@ class CentroViewSet(viewsets.ModelViewSet):
         serializer.save()
         return Response(serializer.data)
 
+
 class UnidadeViewSet(viewsets.ModelViewSet):
     queryset = Unidade.objects.all().select_related("centro", "tipo_unidade", "situacao_unidade")
     serializer_class = UnidadeSerializer
@@ -60,9 +65,16 @@ class UnidadeViewSet(viewsets.ModelViewSet):
 
     def partial_update(self, request: object, *args: object, **kwargs: object) -> Response:
         unidade: Unidade = self.get_object()
-
+        unidade_fields = ["id_unidade_interna", "nome_unidade", "cod_estruturado", "id_centro",
+                          "id_tipo_unidade", "id_situacao_unidade"]
+        data_sent = request.data.keys()
+        field_errors = []
         if unidade.unidade_sie is not None:
-            raise MethodNotAllowed(detail=detailNotAllowed, method="PATCH")
+            for field in data_sent:
+                if field in unidade_fields:
+                    field_errors.append({field: "Este campo não pode ser alterado em uma Unidade do SIE"})
+            if field_errors:
+                return Response(field_errors, status=status.HTTP_400_BAD_REQUEST)
 
         serializer = self.get_serializer(unidade, data=request.data, partial=True)
         serializer.is_valid(raise_exception=True)
@@ -70,12 +82,14 @@ class UnidadeViewSet(viewsets.ModelViewSet):
         serializer.save()
         return Response(serializer.data)
 
+
 class CursoViewSet(viewsets.ModelViewSet):
     queryset = Curso.objects.all().select_related('centro')
     serializer_class = CursoSerializer
     http_method_names = ["get"]
 
     search_fields = ["nome_curso"]
+
 
 class PessoaViewSet(viewsets.ModelViewSet):
     queryset = Pessoa.objects.all().prefetch_related("telefone_set", "email_set")
@@ -93,20 +107,24 @@ class PessoaViewSet(viewsets.ModelViewSet):
 
         return Response(serializer.data)
 
+
 class DiscenteViewSet(viewsets.ModelViewSet):
     queryset = Discente.objects.all().select_related('pessoa', 'curso')
     serializer_class = DiscenteSerializer
     http_method_names = ["get"]
+
 
 class ServidorViewSet(viewsets.ModelViewSet):
     queryset = Servidor.objects.all().select_related('pessoa', 'cargo')
     serializer_class = ServidorSerializer
     http_method_names = ["get"]
 
+
 class TelefoneViewSet(viewsets.ModelViewSet):
     queryset = Telefone.objects.all()
     serializer_class = TelefoneSerializer
     http_method_names = ["get", "post", "patch", "delete"]
+
 
 class EmailViewSet(viewsets.ModelViewSet):
     queryset = Email.objects.all()
