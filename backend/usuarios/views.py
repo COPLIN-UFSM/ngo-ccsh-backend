@@ -26,9 +26,8 @@ class UserListView(GenericAPIView):
     filter_backends = (DjangoFilterBackend, OrderingFilter)
     serializer_class = UserListSerializer
     filterset_class = UserFilterSet
+    ordering_fields = ["id", "data_criacao", "nome_pessoa"]
 
-    def __init__(self):
-        self.ordering_fields = ["id", "data_criacao", "nome_pessoa"]
 
     @extend_schema(
         summary="Lista usuários",

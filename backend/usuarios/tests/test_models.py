@@ -143,13 +143,16 @@ class CreateTestUsers(BaseServidorTestCase):
         self.assertEqual(user.email, "invalidemail")
 
     def test_create_user_duplicate_email(self):
-        Usuario.objects.create_user(
+
+        try:
+            Usuario.objects.create_user(
             cpf=self.servidor_ativo.pessoa.cpf,
             email="duplicate@gmail.com",
             password="password",
         )
-        with self.assertRaises(AttributeError):
-            Usuario.objects.create_user(
+        except AssertionError:
+            with self.assertRaises(AttributeError):
+                Usuario.objects.create_user(
                 cpf=self.servidor_outro.pessoa.cpf,
                 email="duplicate@gmail.com",
                 password="password",

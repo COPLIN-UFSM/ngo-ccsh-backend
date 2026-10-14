@@ -1,9 +1,8 @@
-from despesas.models import Unidade
 from django.urls import reverse
 from ngo_ccsh.tests.mixins import BaseAuthenticatedUserTestCase
 from rest_framework import status
 
-from entidades.models import Centro, SituacaoUnidade, TipoUnidade, UnidadeSIE
+from entidades.models import Centro, SituacaoUnidade, TipoUnidade, Unidade, UnidadeSIE
 
 
 class UnidadeViewTestCase(BaseAuthenticatedUserTestCase):
@@ -107,15 +106,16 @@ class SingleUnidadeViewTestCase(BaseAuthenticatedUserTestCase):
 
     def test_patch_unidade_registered_on_sie(self):
         self.authentication(self.user_data_adm)
-        response = self.client.patch(self.url)
-        self.assertEqual(response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
+        data = {"nome_unidade": "Departamento Alok"}
+        response = self.client.patch(self.url, data=data)
+        self.assertEqual(status.HTTP_400_BAD_REQUEST, response.status_code)
 
     def test_patch_unidade(self):
         self.authentication(self.user_data_adm)
         self.unidade.unidade_sie = None
         self.unidade.save()
 
-        data = {"unidade": "Departamento B Editado"}
+        data = {"nome_unidade": "Departamento B Editado"}
         response = self.client.patch(self.url, data=data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 

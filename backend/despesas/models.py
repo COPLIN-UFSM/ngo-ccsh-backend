@@ -175,18 +175,18 @@ class Empenho(models.Model):
     @property
     def montante(self):
         related_transaction = VersaoTransacao.objects.filter(
-            empenho=self, transacao__isnull=False
+            empenho=self, transacao__versao_transacao=F("id_versao_transacao")
         ).aggregate(
             montante=Sum(
                 Case(
                     When(credito=True, then=F("montante")),
                     When(credito=False, then=-F("montante")),
-                    default=Decimal("0.00"),
+                    default=Decimal('0.00'),
                 ),
                 output_field=DecimalField(),
             )
         )
-        return related_transaction["montante"] or Decimal("0.00")
+        return related_transaction["montante"] or Decimal('0.00')
 
     class Meta:
         managed = False

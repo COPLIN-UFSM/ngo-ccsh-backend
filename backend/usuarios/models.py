@@ -121,8 +121,7 @@ class Usuario(AbstractBaseUser, PermissionsMixin):
         verbose_name = "Usuário"
         verbose_name_plural = "Usuários"
 
-    def __init__(self):
-        self.REQUIRED_FIELDS = ["email"]
+    REQUIRED_FIELDS = ["email"]
 
     objects = UserManager()
 

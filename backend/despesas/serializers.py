@@ -1,7 +1,7 @@
 from django.db import transaction
 from django.forms.models import model_to_dict
 from entidades.models import Pessoa, Unidade
-from ngo_ccsh.constrains import CAPITAL, CUSTEIO
+from ngo_ccsh.constrains import CAPITAL, CUSTEIO, TRANSFERENCIA_FINALIDADES
 from rest_framework import serializers
 from rest_framework.relations import PrimaryKeyRelatedField
 
@@ -78,14 +78,10 @@ class TipoDocumentoParaFinalidadeSerializer(serializers.ModelSerializer):
 
 class FinalidadeSerializer(serializers.ModelSerializer):
     id_natureza_finalidade = PrimaryKeyRelatedField(
-        queryset=NaturezaFinalidade.objects.all(),
-        write_only=True,
-        source="natureza_finalidade",
+        queryset=NaturezaFinalidade.objects.all(), source="natureza_finalidade"
     )
     id_grupo_finalidade = PrimaryKeyRelatedField(
-        queryset=GrupoFinalidade.objects.all(),
-        write_only=True,
-        source="grupo_finalidade",
+        queryset=GrupoFinalidade.objects.all(), source="grupo_finalidade"
     )
     natureza_finalidade = serializers.StringRelatedField(read_only=True)
     grupo_finalidade = serializers.StringRelatedField(read_only=True)
@@ -98,9 +94,9 @@ class FinalidadeSerializer(serializers.ModelSerializer):
         model = Finalidade
         fields = [
             "id_finalidade",
+            "id_natureza_finalidade",
             "natureza_finalidade",
             "grupo_finalidade",
-            "id_natureza_finalidade",
             "id_grupo_finalidade",
             "finalidade",
             "tipos_documentos",
@@ -323,39 +319,63 @@ class VersaoTransacaoSerializer(serializers.ModelSerializer):
                 )
 
         if documentos_validation_errors:
-            validation_errors.append({"documentos": documentos_validation_errors})
+            validation_errors["documentos"] = documentos_validation_errors
 
         # montante
         id_transacao = data.get("id_transacao")
         unidade_executora = data.get("unidade_executora")
+        unidade_receptora = data.get("unidade_receptora")
         empenho = data.get("empenho", None)
         credito = data.get("credito")
 
         transacao_update = VersaoTransacao.objects.filter(
-            transacao_id=id_transacao, transacao__isnull=False
+            transacao_id=id_transacao,
+            transacao__versao_transacao=F("id_versao_transacao"),
         ).first()
 
-        montante_unidade = 0
-        if finalidade.natureza_finalidade == CUSTEIO:
-            montante_unidade = (
-                unidade_executora.montante_custeio + transacao_update.montante
-            )
+        montante_unidade = 0.00
+        transacao_update_montante = transacao_update.montante if transacao_update else 0
 
-        elif finalidade.natureza_finalidade == CAPITAL:
+        if finalidade.natureza_finalidade.pk == CUSTEIO:
             montante_unidade = (
-                unidade_executora.montante_capital + transacao_update.montante
+                unidade_executora.montante_custeio + transacao_update_montante
+            )
+        elif finalidade.natureza_finalidade.pk == CAPITAL:
+            montante_unidade = (
+                unidade_executora.montante_capital + transacao_update_montante
             )
 
         if not credito and montante_unidade < montante:
             montante_validation_errors.append(
                 f"O valor do montante na unidade '{unidade_executora}' é insuficiente. "
-                f"Valor do montante na unidade: {montante_unidade}."
+                f"Valor do montante de {finalidade.natureza_finalidade} na unidade: {montante_unidade:.2f}."
+            )
+
+        if credito and not unidade_executora.pode_empenhar:
+            credito_validation_errors.append(
+                "Está unidade não tem a permissão para empenhar um valor."
             )
 
         if not empenho:
-            if not validation_errors:
-                return data
-            raise serializers.ValidationError(validation_errors)
+            if credito and not unidade_receptora:
+                validation_errors["unidade_receptora"] = (
+                    "Para realizar uma transferiência de montante é necessário uma unidade receptora."
+                )
+
+            if finalidade.id_finalidade not in TRANSFERENCIA_FINALIDADES:
+                credito_validation_errors.append(
+                    "Esta finalidade não permite tranferência."
+                )
+
+            if montante_validation_errors:
+                validation_errors["montante"] = montante_validation_errors
+
+            if credito_validation_errors:
+                validation_errors["credito"] = credito_validation_errors
+
+            if validation_errors:
+                raise serializers.ValidationError(validation_errors)
+            return data
 
         if not empenho.ativo:
             empenho_validation_errors.append(
@@ -372,14 +392,9 @@ class VersaoTransacaoSerializer(serializers.ModelSerializer):
                 f"Saldo insuficiente no empenho. O Valor da despesa (R$ {montante:.2f}) "
                 f"é maior que o saldo atual (R$ {montante_empenho:.2f})."
             )
-
-        elif credito and not unidade_executora.pode_empenhar:
-            credito_validation_errors.append(
-                "Está unidade não tem a permissão para empenhar um valor."
-            )
-
         if empenho_validation_errors:
             validation_errors["id_empenho"] = empenho_validation_errors
+
         if montante_validation_errors:
             validation_errors["montante"] = montante_validation_errors
 

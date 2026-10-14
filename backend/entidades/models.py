@@ -161,12 +161,13 @@ class Unidade(models.Model):
 
     def __montante_calc__(self, finalidade):
         transactions = VersaoTransacao.objects.filter(
-            transacao__isnull=False, finalidade__natureza_finalidade=finalidade
+            transacao__versao_transacao=F("id_versao_transacao"),
+            finalidade__natureza_finalidade=finalidade,
         ).aggregate(
             montante=Sum(
                 Case(
-                    When(unidade_receptora=self.instance, then=F("montante")),
-                    When(unidade_executora=self.instance, then=-F("montante")),
+                    When(unidade_receptora=self, then=F("montante")),
+                    When(unidade_executora=self, then=-F("montante")),
                     default=Decimal("0.00"),
                 ),
                 output_field=DecimalField(),
