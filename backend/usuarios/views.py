@@ -28,7 +28,6 @@ class UserListView(GenericAPIView):
     filterset_class = UserFilterSet
     ordering_fields = ["id", "data_criacao", "nome_pessoa"]
 
-
     @extend_schema(
         summary="Lista usuários",
         description="Retorna a lista de usuários, ativos ou inativos",

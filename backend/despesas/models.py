@@ -181,12 +181,12 @@ class Empenho(models.Model):
                 Case(
                     When(credito=True, then=F("montante")),
                     When(credito=False, then=-F("montante")),
-                    default=Decimal('0.00'),
+                    default=Decimal("0.00"),
                 ),
                 output_field=DecimalField(),
             )
         )
-        return related_transaction["montante"] or Decimal('0.00')
+        return related_transaction["montante"] or Decimal("0.00")
 
     class Meta:
         managed = False

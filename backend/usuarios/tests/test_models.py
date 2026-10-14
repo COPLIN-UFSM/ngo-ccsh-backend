@@ -146,17 +146,17 @@ class CreateTestUsers(BaseServidorTestCase):
 
         try:
             Usuario.objects.create_user(
-            cpf=self.servidor_ativo.pessoa.cpf,
-            email="duplicate@gmail.com",
-            password="password",
-        )
-        except AssertionError:
-            with self.assertRaises(AttributeError):
-                Usuario.objects.create_user(
-                cpf=self.servidor_outro.pessoa.cpf,
+                cpf=self.servidor_ativo.pessoa.cpf,
                 email="duplicate@gmail.com",
                 password="password",
             )
+        except AssertionError:
+            with self.assertRaises(AttributeError):
+                Usuario.objects.create_user(
+                    cpf=self.servidor_outro.pessoa.cpf,
+                    email="duplicate@gmail.com",
+                    password="password",
+                )
 
     def test_create_user_with_none_password(self):
         user = Usuario.objects.create_user(
