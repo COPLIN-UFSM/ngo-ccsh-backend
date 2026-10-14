@@ -1,19 +1,18 @@
-from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework.filters import OrderingFilter
-from rest_framework.viewsets import ModelViewSet
-
 from despesas.filters import (
     FinalidadeFilterSet,
     GrupoFinalidadeFilterSet,
     NaturezaFinalidadeFilterSet,
 )
-from despesas.models import NaturezaFinalidade, GrupoFinalidade, Finalidade
+from despesas.models import Finalidade, GrupoFinalidade, NaturezaFinalidade
 from despesas.serializers import (
-    NaturezaFinalidadeSerializer,
     FinalidadeSerializer,
     GrupoFinalidadeSerializer,
+    NaturezaFinalidadeSerializer,
 )
 from despesas.views.ativoUtil import AtivoListDefaultMixin
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.filters import OrderingFilter
+from rest_framework.viewsets import ModelViewSet
 
 
 class NaturezaFinalidadeViewSet(AtivoListDefaultMixin, ModelViewSet):

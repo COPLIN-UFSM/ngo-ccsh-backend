@@ -1,15 +1,15 @@
 from datetime import datetime
 
 from django.contrib.auth import authenticate
-from drf_spectacular.utils import extend_schema, OpenApiResponse
+from drf_spectacular.utils import OpenApiResponse, extend_schema
 from rest_framework import status
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
+from usuarios.models import Usuario
 
 from autenticacao.services import trigger_password_reset_flow
-from usuarios.models import Usuario
 
 
 class LoginView(APIView):

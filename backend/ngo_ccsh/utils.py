@@ -1,5 +1,5 @@
-from rest_framework.views import exception_handler
 from rest_framework import status
+from rest_framework.views import exception_handler
 
 
 def custom_exception_handler(exc, context):
@@ -19,7 +19,7 @@ def custom_exception_handler(exc, context):
             try:
                 queryset = view.get_queryset()
                 model_name = queryset.model._meta.verbose_name.title()
-            except Exception:
+            except AttributeError:
                 pass
 
         response.data = {"detail": f"{model_name} não encontrado."}

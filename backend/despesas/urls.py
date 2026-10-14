@@ -1,19 +1,19 @@
-from django.urls import path, include
+from django.urls import include, path
 from rest_framework.routers import DefaultRouter
+from rest_framework_nested import routers
 
+from despesas.views.documentos import TipoDocumentoViewSet, ValorDocumentoViewSet
 from despesas.views.empenhos import EmpenhoViewSet
 from despesas.views.finalidades import (
     FinalidadeViewSet,
-    NaturezaFinalidadeViewSet,
     GrupoFinalidadeViewSet,
+    NaturezaFinalidadeViewSet,
 )
-from despesas.views.documentos import TipoDocumentoViewSet, ValorDocumentoViewSet
 from despesas.views.transacoes import (
-    TransacoesViewSet,
     StatusTransacaoViewSet,
+    TransacoesViewSet,
     VersoesTransacaoViewSet,
 )
-from rest_framework_nested import routers
 
 app_name = "despesas"
 

@@ -1,10 +1,9 @@
-from django.db import models
 from django.contrib.auth.models import (
-    BaseUserManager,
     AbstractBaseUser,
+    BaseUserManager,
     PermissionsMixin,
 )
-
+from django.db import models
 from entidades.models import Pessoa, Servidor
 
 
@@ -122,12 +121,13 @@ class Usuario(AbstractBaseUser, PermissionsMixin):
         verbose_name = "Usuário"
         verbose_name_plural = "Usuários"
 
+    def __init__(self):
+        self.REQUIRED_FIELDS = ["email"]
+
     objects = UserManager()
 
     USERNAME_FIELD = "cpf"
     EMAIL_FIELD = "email"
-
-    REQUIRED_FIELDS = ["email"]
 
     @property
     def nome_pessoa(self):

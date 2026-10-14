@@ -1,8 +1,8 @@
 from django.urls import reverse
+from ngo_ccsh.tests.mixins import BaseAuthenticatedUserTestCase
 from rest_framework import status
 
 from entidades.models import Centro, CentroSIE
-from ngo_ccsh.tests.mixins import BaseAuthenticatedUserTestCase
 
 
 class CentroViewTestCase(BaseAuthenticatedUserTestCase):

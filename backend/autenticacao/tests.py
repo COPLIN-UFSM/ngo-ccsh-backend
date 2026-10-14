@@ -1,13 +1,11 @@
 from django.core import mail
-from django.test import TestCase
 from django.urls import reverse
-
-from entidades.models import Pessoa, Servidor, Cargo
+from entidades.models import Cargo, Pessoa, Servidor
 from ngo_ccsh import settings
 from rest_framework import status
 from rest_framework.test import APITestCase
 from rest_framework_simplejwt.tokens import AccessToken
-from usuarios.models import Usuario, UserManager
+from usuarios.models import Usuario
 
 from autenticacao.services import (
     create_token_with_allow_password_change,
@@ -128,7 +126,7 @@ class RecoverPasswordViewTestCase(AuthenticationBaseTestCase):
         self.url = reverse("autenticacao:recuperar_senha")
 
     def test_recover_password_without_email(self):
-        response = self.client.post(self.url, data=dict())
+        response = self.client.post(self.url, data={})
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_recover_password_with_unknown_email(self):

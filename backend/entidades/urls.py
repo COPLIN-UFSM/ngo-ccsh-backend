@@ -1,17 +1,17 @@
-from django.urls import path, include
+from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 
 from entidades.views import (
     CentroViewSet,
-    UnidadeViewSet,
     CursoViewSet,
-    PessoaViewSet,
     DiscenteViewSet,
+    EmailViewSet,
+    PessoaViewSet,
     ServidorViewSet,
-    TipoUnidadeViewSet,
     SituacaoUnidadeViewSet,
     TelefoneViewSet,
-    EmailViewSet,
+    TipoUnidadeViewSet,
+    UnidadeViewSet,
 )
 
 app_name = "entidades"

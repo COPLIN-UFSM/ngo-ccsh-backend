@@ -1,21 +1,21 @@
 from django_filters.rest_framework import DjangoFilterBackend
+from drf_spectacular.utils import OpenApiParameter, OpenApiResponse, extend_schema
 from rest_framework import status
-from rest_framework.views import APIView
+from rest_framework.filters import OrderingFilter
+from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
-from drf_spectacular.utils import extend_schema, OpenApiParameter, OpenApiResponse
-
-from .serializers import (
-    UserListSerializer,
-    UserDetailsSerializer,
-    ChangePasswordSerializer,
-)
-
-from usuarios.models import Usuario
+from rest_framework.views import APIView
 from utils import response
 from utils.pagination import PaginationWithSize
-from rest_framework.filters import OrderingFilter
+
 from usuarios.filters import UserFilterSet
-from rest_framework.generics import GenericAPIView
+from usuarios.models import Usuario
+
+from .serializers import (
+    ChangePasswordSerializer,
+    UserDetailsSerializer,
+    UserListSerializer,
+)
 
 
 class UserListView(GenericAPIView):
@@ -23,10 +23,12 @@ class UserListView(GenericAPIView):
     View para listar usuários e criar um novo usuário
     """
 
-    ordering_fields = ["id", "data_criacao", "nome_pessoa"]
     filter_backends = (DjangoFilterBackend, OrderingFilter)
     serializer_class = UserListSerializer
     filterset_class = UserFilterSet
+
+    def __init__(self):
+        self.ordering_fields = ["id", "data_criacao", "nome_pessoa"]
 
     @extend_schema(
         summary="Lista usuários",
@@ -108,7 +110,7 @@ class UserDetailsView(APIView):
             user = Usuario.objects.get(id=id_usuario)
         except Usuario.DoesNotExist:
             return Response(
-                {"detail": f"Usuário não encontrado."},
+                {"detail": "Usuário não encontrado."},
                 status=status.HTTP_404_NOT_FOUND,
             )
         serializer = self.serializer_class(user)
@@ -145,14 +147,14 @@ class UserDetailsView(APIView):
             user = Usuario.objects.get(id=id_usuario)
         except Usuario.DoesNotExist:
             return Response(
-                {"detail": f"Usuário não encontrado!"}, status=status.HTTP_404_NOT_FOUND
+                {"detail": "Usuário não encontrado!"}, status=status.HTTP_404_NOT_FOUND
             )
 
         serializer = self.serializer_class(user, data=request.data, partial=True)
         if not serializer.is_valid():
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-        changes = dict()
+        changes = {}
         for field, value in serializer.validated_data.items():
             if getattr(user, field) != value:
                 changes[field] = value
@@ -176,14 +178,13 @@ class UserDetailsView(APIView):
                     {"detail": "Apenas um administrador pode (des)ativar sua conta!"},
                     status=status.HTTP_403_FORBIDDEN,
                 )
-        elif user.id == request.user.id:
-            if "is_superuser" in changes:
-                return Response(
-                    {
-                        "detail": "Apenas outro usuário administrador pode remover seu privilégio de administrador!"
-                    },
-                    status=status.HTTP_403_FORBIDDEN,
-                )
+        elif user.id == request.user.id and "is_superuser" in changes:
+            return Response(
+                {
+                    "detail": "Apenas outro usuário administrador pode remover seu privilégio de administrador!"
+                },
+                status=status.HTTP_403_FORBIDDEN,
+            )
         serializer.save()
         return Response(
             {"changes": changes, "data": serializer.data},
@@ -216,7 +217,7 @@ class UserDetailsView(APIView):
             user = Usuario.objects.get(id=id_usuario)
         except Usuario.DoesNotExist:
             return Response(
-                {"detail": f"Usuário não encontrado."},
+                {"detail": "Usuário não encontrado."},
                 status=status.HTTP_404_NOT_FOUND,
             )
 
@@ -261,7 +262,6 @@ class ChangePasswordView(APIView):
         },
         tags=["usuários"],
     )
-
     # TODO: não permitir que eu altere minha senha, sem a antiga.
     def patch(self, request, *args, **kwargs):
         id_usuario = kwargs["id"]

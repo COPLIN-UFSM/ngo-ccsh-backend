@@ -1,10 +1,10 @@
 from django.db import transaction
 from django.forms.models import model_to_dict
+from entidades.models import Pessoa, Unidade
+from ngo_ccsh.constrains import CAPITAL, CUSTEIO
 from rest_framework import serializers
 from rest_framework.relations import PrimaryKeyRelatedField
 
-from entidades.models import Unidade, Pessoa
-from ngo_ccsh.constrains import CUSTEIO, CAPITAL
 from despesas.models import *
 from despesas.models import Empenho, Finalidade
 

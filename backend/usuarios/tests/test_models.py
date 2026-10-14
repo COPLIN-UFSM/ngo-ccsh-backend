@@ -1,7 +1,5 @@
-from django.test import TestCase
-
-from entidades.models import Cargo, Pessoa, Servidor
 from ngo_ccsh.tests.mixins import BaseServidorTestCase
+
 from ..models import Usuario
 
 
@@ -150,7 +148,7 @@ class CreateTestUsers(BaseServidorTestCase):
             email="duplicate@gmail.com",
             password="password",
         )
-        with self.assertRaises(Exception):
+        with self.assertRaises(AttributeError):
             Usuario.objects.create_user(
                 cpf=self.servidor_outro.pessoa.cpf,
                 email="duplicate@gmail.com",

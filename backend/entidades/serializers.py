@@ -1,21 +1,18 @@
 from django.core.exceptions import ValidationError
-from django.db.models import Model
 from rest_framework import serializers
 
 from entidades.models import (
-    Unidade,
     Cargo,
-    TipoUnidade,
-    Curso,
-    SituacaoUnidade,
-    Servidor,
-    Discente,
     Centro,
-    Pessoa,
+    Curso,
+    Discente,
     Email,
+    Pessoa,
+    Servidor,
+    SituacaoUnidade,
     Telefone,
-    PessoaSIE,
-    UnidadeSIE,
+    TipoUnidade,
+    Unidade,
 )
 
 

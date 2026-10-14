@@ -1,7 +1,6 @@
-from django_filters import CharFilter
+from django_filters import CharFilter, FilterSet
 
 from usuarios.models import Usuario
-from django_filters import FilterSet
 
 
 class BaseFilterSet(FilterSet):

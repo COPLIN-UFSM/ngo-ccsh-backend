@@ -1,33 +1,30 @@
-from django.contrib.sessions import serializers
-from django.http import Http404
-from rest_framework import viewsets, status
-from rest_framework.exceptions import ValidationError, MethodNotAllowed
+from rest_framework import status, viewsets
+from rest_framework.exceptions import MethodNotAllowed
 from rest_framework.response import Response
 
 from entidades.models import (
+    Centro,
+    Curso,
     Discente,
+    Email,
+    Pessoa,
     Servidor,
     SituacaoUnidade,
-    Curso,
-    TipoUnidade,
-    Centro,
-    Pessoa,
-    Unidade,
     Telefone,
-    Email,
+    TipoUnidade,
+    Unidade,
 )
-
 from entidades.serializers import (
     CentroSerializer,
-    TipoUnidadeSerializer,
     CursoSerializer,
-    SituacaoUnidadeSerializer,
-    ServidorSerializer,
     DiscenteSerializer,
-    PessoaSerializer,
-    UnidadeSerializer,
-    TelefoneSerializer,
     EmailSerializer,
+    PessoaSerializer,
+    ServidorSerializer,
+    SituacaoUnidadeSerializer,
+    TelefoneSerializer,
+    TipoUnidadeSerializer,
+    UnidadeSerializer,
 )
 
 detailNotAllowed = "Método não permitido para elementos cadastrados no SIE."

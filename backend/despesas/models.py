@@ -1,7 +1,7 @@
 from decimal import Decimal
 
 from django.db import models
-from django.db.models import Sum, Case, When, F, DecimalField
+from django.db.models import Case, DecimalField, F, Sum, When
 
 # from entidades.models import Unidade, Pessoa
 # from usuarios.models import Usuario
@@ -181,12 +181,12 @@ class Empenho(models.Model):
                 Case(
                     When(credito=True, then=F("montante")),
                     When(credito=False, then=-F("montante")),
-                    default=Decimal(0.00),
+                    default=Decimal("0.00"),
                 ),
                 output_field=DecimalField(),
             )
         )
-        return related_transaction["montante"] or Decimal(0.00)
+        return related_transaction["montante"] or Decimal("0.00")
 
     class Meta:
         managed = False

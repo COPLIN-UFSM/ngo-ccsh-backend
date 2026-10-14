@@ -1,9 +1,8 @@
 from django.urls import reverse
+from ngo_ccsh.tests.mixins import BaseAuthenticatedUserTestCase
 from rest_framework import status
 
-from despesas.models import Unidade
-from entidades.models import Centro, TipoUnidade, SituacaoUnidade, UnidadeSIE, Curso
-from ngo_ccsh.tests.mixins import BaseAuthenticatedUserTestCase
+from entidades.models import Centro, Curso
 
 
 class CursoViewTestCase(BaseAuthenticatedUserTestCase):

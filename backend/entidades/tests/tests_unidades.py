@@ -1,9 +1,9 @@
+from despesas.models import Unidade
 from django.urls import reverse
+from ngo_ccsh.tests.mixins import BaseAuthenticatedUserTestCase
 from rest_framework import status
 
-from despesas.models import Unidade
-from entidades.models import Centro, TipoUnidade, SituacaoUnidade, UnidadeSIE
-from ngo_ccsh.tests.mixins import BaseAuthenticatedUserTestCase
+from entidades.models import Centro, SituacaoUnidade, TipoUnidade, UnidadeSIE
 
 
 class UnidadeViewTestCase(BaseAuthenticatedUserTestCase):
@@ -229,7 +229,7 @@ class TipoUnidadeViewTestCase(BaseAuthenticatedUserTestCase):
         self.assertEqual(405, self.response.status_code)
 
 
-class TipoUnidadeViewTestCase(BaseAuthenticatedUserTestCase):
+class SingleTipoUnidadeViewTestCase(BaseAuthenticatedUserTestCase):
     def setUp(self):
         self.tipo_unidade = TipoUnidade.objects.create(
             tipo_unidade="Muito interessante"

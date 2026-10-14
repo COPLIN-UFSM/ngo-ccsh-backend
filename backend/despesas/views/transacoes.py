@@ -1,14 +1,12 @@
-from rest_framework import viewsets
-from rest_framework.exceptions import NotFound
-
-from despesas.models import Transacao, StatusTransacao, VersaoTransacao
+from despesas.models import StatusTransacao, Transacao, VersaoTransacao
 from despesas.serializers import (
-    TransacaoSerializer,
     StatusTransacaoSerializer,
+    TransacaoSerializer,
     VersaoTransacaoSerializer,
 )
-
 from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import viewsets
+from rest_framework.exceptions import NotFound
 from rest_framework.filters import OrderingFilter
 
 

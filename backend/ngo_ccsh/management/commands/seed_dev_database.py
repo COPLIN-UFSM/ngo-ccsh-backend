@@ -1,13 +1,10 @@
 import csv
 from pathlib import Path
 
+from despesas.models import *
 from django.conf import settings
 from django.core.management.base import BaseCommand
-from django.db import IntegrityError
-
-from despesas.models import *
 from entidades.models import *
-
 from tqdm import tqdm
 
 

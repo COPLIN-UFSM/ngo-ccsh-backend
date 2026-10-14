@@ -1,8 +1,8 @@
 from django.urls import reverse
+from ngo_ccsh.tests.mixins import BaseAuthenticatedUserTestCase
 from rest_framework import status
 
 from entidades.models import Email
-from ngo_ccsh.tests.mixins import BaseAuthenticatedUserTestCase
 
 
 class EmailViewSetTestCase(BaseAuthenticatedUserTestCase):

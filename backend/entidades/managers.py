@@ -1,6 +1,5 @@
-from django.db import models
 from django.apps import apps
-from django.db import IntegrityError, transaction
+from django.db import IntegrityError, models, transaction
 
 
 class ResolveFromSIEQuerySet(models.QuerySet):

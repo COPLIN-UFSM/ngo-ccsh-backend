@@ -1,6 +1,5 @@
-from rest_framework.test import APITestCase
-
 from entidades.models import Cargo, Pessoa, Servidor
+from rest_framework.test import APITestCase
 from usuarios.models import Usuario
 
 

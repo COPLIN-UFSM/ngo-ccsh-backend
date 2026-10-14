@@ -1,10 +1,11 @@
-from ngo_ccsh.constrains import CUSTEIO, CAPITAL
-from despesas.models import VersaoTransacao
-from entidades.managers import PessoaManager, CentroManager, UnidadeManager
 from decimal import Decimal
 
+from despesas.models import VersaoTransacao
 from django.db import models
-from django.db.models import Sum, Case, When, F, DecimalField
+from django.db.models import Case, DecimalField, F, Sum, When
+from ngo_ccsh.constrains import CAPITAL, CUSTEIO
+
+from entidades.managers import CentroManager, PessoaManager, UnidadeManager
 
 
 class CentroSIE(models.Model):

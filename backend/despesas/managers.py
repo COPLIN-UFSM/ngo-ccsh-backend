@@ -1,7 +1,7 @@
 from django.core.exceptions import ValidationError
 from django.db import models, transaction
 
-from despesas.models import VersaoTransacao, Transacao
+from despesas.models import Transacao, VersaoTransacao
 
 
 class TransacaoManager(models.Manager):
@@ -37,20 +37,10 @@ class TransacaoManager(models.Manager):
                 unidade_receptora=current_version.unidade_receptora,
                 credito=current_version.credito,
                 status_pagamento=(
-                    kwargs["status_pagamento"]
-                    if "status_pagamento" in kwargs
-                    else current_version.status_pagamento
+                    kwargs.get("status_pagamento", current_version.status_pagamento)
                 ),
-                beneficiario=(
-                    kwargs["beneficiario"]
-                    if "beneficiario" in kwargs
-                    else current_version.beneficiario
-                ),
-                montante=(
-                    kwargs["montante"]
-                    if "montante" in kwargs
-                    else current_version.montante
-                ),
+                beneficiario=(kwargs.get("beneficiario", current_version.beneficiario)),
+                montante=(kwargs.get("montante", current_version.montante)),
             )
 
             transacao.versao_transacao = new_version

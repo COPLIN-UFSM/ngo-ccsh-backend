@@ -26,7 +26,7 @@ try:
     with open(SECRETS_FILE) as f:
         DB_PARAMETERS = json.load(f)
 except FileNotFoundError:
-    DB_PARAMETERS = dict()
+    DB_PARAMETERS = {}
 
 
 def get_database_parameter(key):

@@ -1,11 +1,11 @@
+from autenticacao.services import create_token_with_allow_password_change
 from django.urls import reverse
+from entidades.models import Cargo, Pessoa, Servidor
 from rest_framework import status
 from rest_framework.test import APITestCase
 from rest_framework_simplejwt.tokens import RefreshToken
 
-from entidades.models import Servidor, Cargo, Pessoa
 from usuarios.models import Usuario
-from autenticacao.services import create_token_with_allow_password_change
 
 
 class UserTestCase(APITestCase):
@@ -78,7 +78,7 @@ class UserTestCase(APITestCase):
         )
 
     def authenticate_with_invalid_token(self):
-        self.client.credentials(HTTP_AUTHORIZATION=f"Bearer invalid_token")
+        self.client.credentials(HTTP_AUTHORIZATION="Bearer invalid_token")
 
     def authenticate(self, user):
         token = str(RefreshToken.for_user(user).access_token)
