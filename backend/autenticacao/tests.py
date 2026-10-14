@@ -15,32 +15,27 @@ from autenticacao.services import (
     send_email_reset_password,
 )
 
+
 class AuthenticationBaseTestCase(APITestCase):
     def setUp(self):
-        self.cargo_professor = Cargo.objects.create(
-            cargo="Professor"
-        )
+        self.cargo_professor = Cargo.objects.create(cargo="Professor")
         self.pessoa_ativa = Pessoa.objects.create(
-            nome_pessoa="Loki",
-            cpf="00000000000",
-            rg="00000000000"
+            nome_pessoa="Loki", cpf="00000000000", rg="00000000000"
         )
         self.pessoa_inativa = Pessoa.objects.create(
-            nome_pessoa="Odin",
-            cpf="00000000001",
-            rg="00000000001"
+            nome_pessoa="Odin", cpf="00000000001", rg="00000000001"
         )
         self.servidor_ativo_1 = Servidor.objects.create(
             pessoa=self.pessoa_ativa,
             matricula="123456789",
             cargo=self.cargo_professor,
-            ativo=True
+            ativo=True,
         )
         self.servidor_ativo_2 = Servidor.objects.create(
             pessoa=self.pessoa_inativa,
             matricula="987654321",
             cargo=self.cargo_professor,
-            ativo=True
+            ativo=True,
         )
         self.usuario_ativo_raw_password = "1234"
         self.usuario_inativo_raw_password = "1234"
@@ -57,6 +52,7 @@ class AuthenticationBaseTestCase(APITestCase):
             password=self.usuario_inativo_raw_password,
             ativo=False,
         )
+
 
 class LoginViewTestCase(AuthenticationBaseTestCase):
     def setUp(self):
@@ -80,24 +76,27 @@ class LoginViewTestCase(AuthenticationBaseTestCase):
     def test_login_wrong_password(self):
         data = {
             "cpf": self.usuario_ativo.pessoa.cpf,
-            "senha": self.usuario_ativo_raw_password + '!',
+            "senha": self.usuario_ativo_raw_password + "!",
         }
         response = self.client.post(self.url, data=data)
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_login_wrong_username(self):
         data = {
-            "cpf": str(self.usuario_ativo.pessoa.cpf)[:-1] + '!',
+            "cpf": str(self.usuario_ativo.pessoa.cpf)[:-1] + "!",
             "senha": self.usuario_ativo_raw_password,
         }
         response = self.client.post(self.url, data=data)
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_login_user_not_active(self):
-        response = self.client.post(self.url, data={
-            "cpf": self.usuario_inativo.pessoa.cpf,
-            "senha": self.usuario_inativo_raw_password,
-        })
+        response = self.client.post(
+            self.url,
+            data={
+                "cpf": self.usuario_inativo.pessoa.cpf,
+                "senha": self.usuario_inativo_raw_password,
+            },
+        )
         print(response.data)
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
@@ -118,7 +117,9 @@ class LoginViewTestCase(AuthenticationBaseTestCase):
 
         self.assertEqual(response_get.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
         self.assertEqual(response_patch.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
-        self.assertEqual(response_delete.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
+        self.assertEqual(
+            response_delete.status_code, status.HTTP_405_METHOD_NOT_ALLOWED
+        )
 
 
 class RecoverPasswordViewTestCase(AuthenticationBaseTestCase):
@@ -131,7 +132,9 @@ class RecoverPasswordViewTestCase(AuthenticationBaseTestCase):
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_recover_password_with_unknown_email(self):
-        response = self.client.post(self.url, data={"email": self.usuario_ativo.email + '!'})
+        response = self.client.post(
+            self.url, data={"email": self.usuario_ativo.email + "!"}
+        )
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
     def test_recover_password_with_valid_email(self):
@@ -162,7 +165,9 @@ class PasswordResetServiceTest(AuthenticationBaseTestCase):
         self.assertEqual(len(mail.outbox), 1)
         email = mail.outbox[0]
 
-        self.assertEqual(email.subject, f"{settings.APP_FULL_NAME} - Recuperação de Senha")
+        self.assertEqual(
+            email.subject, f"{settings.APP_FULL_NAME} - Recuperação de Senha"
+        )
         self.assertEqual(email.to, [self.usuario_ativo.email])
 
         self.assertIn(token, email.body)  # type: ignore

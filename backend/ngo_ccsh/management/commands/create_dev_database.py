@@ -24,6 +24,8 @@ class Command(BaseCommand):
 
                 self.stdout.write(self.style.SUCCESS(f"  [OK] {model._meta.db_table}"))
             except Exception as e:
-                self.stdout.write(self.style.ERROR(f"[ERRO] {model._meta.db_table}: {e}"))
+                self.stdout.write(
+                    self.style.ERROR(f"[ERRO] {model._meta.db_table}: {e}")
+                )
             finally:
                 model._meta.managed = original

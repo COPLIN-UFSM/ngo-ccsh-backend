@@ -37,7 +37,7 @@ def send_email_reset_password(user, token):
         "cpf": user.cpf,
         "user_full_name": user.nome_pessoa,
         "link": link,
-        "year": dt.now().year
+        "year": dt.now().year,
     }
     html_content = render_to_string("email/recuperar_email.html", context)
     text_content = strip_tags(html_content)

@@ -94,10 +94,8 @@ class RecoverPasswordView(APIView):
         user = Usuario.objects.filter(email=email).first()
         if not user:
             return Response(
-                {
-                    "detail": "Não existe um usuário com o e-mail informado."
-                },
-                status=status.HTTP_404_NOT_FOUND
+                {"detail": "Não existe um usuário com o e-mail informado."},
+                status=status.HTTP_404_NOT_FOUND,
             )
 
         if not user.is_active:

@@ -7,6 +7,7 @@ from usuarios.models import Usuario
 
 class MyUserCreationForm(UserCreationForm):
     email = forms.EmailField(required=True)
+
     class Meta:
         model = Usuario
         fields = ("cpf", "email")
@@ -23,7 +24,9 @@ class CustomUserAdmin(UserAdmin):
         (
             "Autenticação",
             {
-                "classes":["wide",],
+                "classes": [
+                    "wide",
+                ],
                 "fields": (
                     "cpf",
                     "email",
@@ -49,15 +52,18 @@ class CustomUserAdmin(UserAdmin):
     fieldsets = (
         ("Auth", {"fields": ("cpf", "password")}),
         ("Infos", {"fields": ["email"]}),
-        ("Permissions", {
-            "fields": (
-                "ativo",
-                "is_superuser",
-                "groups",
-                "user_permissions",
-            )
-        }),
-        ("Metadata", {"fields": ("data_criacao",)})
+        (
+            "Permissions",
+            {
+                "fields": (
+                    "ativo",
+                    "is_superuser",
+                    "groups",
+                    "user_permissions",
+                )
+            },
+        ),
+        ("Metadata", {"fields": ("data_criacao",)}),
     )
 
     readonly_fields = ("data_criacao",)

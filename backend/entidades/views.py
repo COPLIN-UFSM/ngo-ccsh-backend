@@ -12,7 +12,9 @@ from entidades.models import (
     TipoUnidade,
     Centro,
     Pessoa,
-    Unidade, Telefone, Email
+    Unidade,
+    Telefone,
+    Email,
 )
 
 from entidades.serializers import (
@@ -22,7 +24,10 @@ from entidades.serializers import (
     SituacaoUnidadeSerializer,
     ServidorSerializer,
     DiscenteSerializer,
-    PessoaSerializer, UnidadeSerializer, TelefoneSerializer, EmailSerializer
+    PessoaSerializer,
+    UnidadeSerializer,
+    TelefoneSerializer,
+    EmailSerializer,
 )
 
 detailNotAllowed = "Método não permitido para elementos cadastrados no SIE."
@@ -59,20 +64,34 @@ class CentroViewSet(viewsets.ModelViewSet):
 
 
 class UnidadeViewSet(viewsets.ModelViewSet):
-    queryset = Unidade.objects.all().select_related("centro", "tipo_unidade", "situacao_unidade")
+    queryset = Unidade.objects.all().select_related(
+        "centro", "tipo_unidade", "situacao_unidade"
+    )
     serializer_class = UnidadeSerializer
-    http_method_names = ["get", 'post', "patch"]
+    http_method_names = ["get", "post", "patch"]
 
-    def partial_update(self, request: object, *args: object, **kwargs: object) -> Response:
+    def partial_update(
+        self, request: object, *args: object, **kwargs: object
+    ) -> Response:
         unidade: Unidade = self.get_object()
-        unidade_fields = ["id_unidade_interna", "nome_unidade", "cod_estruturado", "id_centro",
-                          "id_tipo_unidade", "id_situacao_unidade"]
+        unidade_fields = [
+            "id_unidade_interna",
+            "nome_unidade",
+            "cod_estruturado",
+            "id_centro",
+            "id_tipo_unidade",
+            "id_situacao_unidade",
+        ]
         data_sent = request.data.keys()
         field_errors = []
         if unidade.unidade_sie is not None:
             for field in data_sent:
                 if field in unidade_fields:
-                    field_errors.append({field: "Este campo não pode ser alterado em uma Unidade do SIE"})
+                    field_errors.append(
+                        {
+                            field: "Este campo não pode ser alterado em uma Unidade do SIE"
+                        }
+                    )
             if field_errors:
                 return Response(field_errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -84,7 +103,7 @@ class UnidadeViewSet(viewsets.ModelViewSet):
 
 
 class CursoViewSet(viewsets.ModelViewSet):
-    queryset = Curso.objects.all().select_related('centro')
+    queryset = Curso.objects.all().select_related("centro")
     serializer_class = CursoSerializer
     http_method_names = ["get"]
 
@@ -109,13 +128,13 @@ class PessoaViewSet(viewsets.ModelViewSet):
 
 
 class DiscenteViewSet(viewsets.ModelViewSet):
-    queryset = Discente.objects.all().select_related('pessoa', 'curso')
+    queryset = Discente.objects.all().select_related("pessoa", "curso")
     serializer_class = DiscenteSerializer
     http_method_names = ["get"]
 
 
 class ServidorViewSet(viewsets.ModelViewSet):
-    queryset = Servidor.objects.all().select_related('pessoa', 'cargo')
+    queryset = Servidor.objects.all().select_related("pessoa", "cargo")
     serializer_class = ServidorSerializer
     http_method_names = ["get"]
 
