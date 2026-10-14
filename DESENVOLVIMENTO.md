@@ -7,6 +7,9 @@ Esse capítulo explica como configurar o ambiente de desenvolvimento para a apli
 * [Onde fazer commits](#onde-fazer-commits)
 * [Sem Docker](#sem-docker)
 * [Com Docker](#com-docker)
+* [Variáveis de ambiente](#variáveis-de-ambiente)
+* [Integração contínua](#integração-contínua)
+* [Gerar diagramas do banco de dados](#gerar-diagramas-do-banco-de-dados)
 
 ## Onde fazer commits
 
@@ -118,6 +121,22 @@ JWT_SIGNING_KEY="alguma_OUTRA_string_com_pelo_menos_32_caracteres"
 O `EMAIL_HOST_PASSWORD` deve ser obtido a partir
 do [painel de controle de segurança do Google](https://myaccount.google.com/u/0/apppasswords), criando uma **senha de App** 
 para o email.
+
+## Integração contínua
+
+O repositório usa dois workflows do GitHub Actions, em `.github/workflows/`:
+
+* **`lint.yml`**: roda em todo Pull Request para a `main`. Verifica formatação (`black --check`), estilo (`flake8`) e
+  qualidade de código (`pylint`). Se alguma checagem falhar, o PR fica bloqueado até ser corrigido — não há correção
+  automática.
+* **`main.yml`**: roda a cada push na `main`. Primeiro constrói a imagem Docker e roda os testes 
+  (`python manage.py test`) com `ngo_ccsh.test_settings`; se os testes passarem, faz o deploy no servidor 
+  (`git pull` + rebuild + migrate + collectstatic + restart dos containers).
+
+As variáveis sensíveis usadas pelos testes (chaves de assinatura, credenciais de e-mail de teste) ficam armazenadas
+como **GitHub Secrets** no repositório (`Settings > Secrets and variables > Actions`), nunca direto no arquivo do
+workflow.
+
 
 ## Gerar diagramas do banco de dados
 
