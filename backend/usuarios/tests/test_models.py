@@ -168,7 +168,6 @@ class CreateTestUsers(BaseServidorTestCase):
 
 
 class CreateSuperServidorTest(BaseServidorTestCase):
-
     # Valid superuser creation tests
     def test_create_superuser_with_valid_fields(self):
         superuser = Usuario.objects.create_superuser(

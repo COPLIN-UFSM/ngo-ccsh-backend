@@ -3,9 +3,6 @@ from decimal import Decimal
 from django.db import models
 from django.db.models import Case, DecimalField, F, Sum, When
 
-# from entidades.models import Unidade, Pessoa
-# from usuarios.models import Usuario
-
 
 class NaturezaFinalidade(models.Model):
     """

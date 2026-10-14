@@ -1,10 +1,32 @@
 import csv
+from decimal import Decimal
 from pathlib import Path
 
-from despesas.models import *
+from despesas.models import (
+    Finalidade,
+    GrupoFinalidade,
+    NaturezaFinalidade,
+    StatusTransacao,
+    TipoDocumento,
+    TipoDocumentoParaFinalidade,
+)
 from django.conf import settings
 from django.core.management.base import BaseCommand
-from entidades.models import *
+from django.db import models
+from entidades.models import (
+    Cargo,
+    Centro,
+    CentroSIE,
+    Curso,
+    Discente,
+    Pessoa,
+    PessoaSIE,
+    Servidor,
+    SituacaoUnidade,
+    TipoUnidade,
+    Unidade,
+    UnidadeSIE,
+)
 from tqdm import tqdm
 
 

@@ -1,12 +1,23 @@
 from django.db import transaction
+from django.db.models import F
 from django.forms.models import model_to_dict
 from entidades.models import Pessoa, Unidade
 from ngo_ccsh.constrains import CAPITAL, CUSTEIO, TRANSFERENCIA_FINALIDADES
 from rest_framework import serializers
 from rest_framework.relations import PrimaryKeyRelatedField
 
-from despesas.models import *
-from despesas.models import Empenho, Finalidade
+from despesas.models import (
+    Empenho,
+    Finalidade,
+    GrupoFinalidade,
+    NaturezaFinalidade,
+    StatusTransacao,
+    TipoDocumento,
+    TipoDocumentoParaFinalidade,
+    Transacao,
+    ValorDocumento,
+    VersaoTransacao,
+)
 
 
 class TipoDocumentoSerializer(serializers.ModelSerializer):
