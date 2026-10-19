@@ -3,10 +3,10 @@ from ngo_ccsh.tests.mixins import BaseAuthenticatedUserTestCase
 from rest_framework import status
 
 
-
 class PessoaViewTestCase(BaseAuthenticatedUserTestCase):
     def setUp(self):
         from entidades.models import Pessoa, PessoaSIE
+
         self.url = reverse("entidades:pessoas-list")
         self.pessoaSIE = PessoaSIE.objects.create(
             nome_pessoa="Leandro", rg="05100000000", cpf="05100000000"

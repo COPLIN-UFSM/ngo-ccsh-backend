@@ -1,10 +1,23 @@
-[tool.black]
+[tool.ruff]
+# Define o limite de caracteres para o código normal
 line-length = 88
-target-version = ["py312"]
-exclude = '''
-/(
-    migrations
-  | venv
-  | \.venv
-)/
-'''
+
+# Pastas e arquivos que o Ruff deve ignorar completamente (escopo global)
+exclude = [
+    "migrations",
+    "venv",
+    ".venv",
+]
+
+[tool.ruff.lint]
+# Ativa os seletores de erro (E), erros lógicos (F) e ordenação de imports (I) e avisos de docstrings (W)
+select = ["E", "F", "I"]
+ignore = ["RUF012", "E501", "W505"]
+
+[tool.ruff.lint.pycodestyle]
+# Define o limite máximo aceitável de caracteres especificamente para docstrings e comentários
+max-doc-length = 88
+
+[tool.ruff.format]
+# Formata e quebra as linhas de código que estão DENTRO de docstrings (ex: exemplos de código)
+docstring-code-format = true
