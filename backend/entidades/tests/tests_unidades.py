@@ -1,26 +1,40 @@
 from django.urls import reverse
+from ngo_ccsh.tests.mixins import BaseAuthenticatedUserTestCase
 from rest_framework import status
 
-from despesas.models import Unidade
-from entidades.models import Centro, TipoUnidade, SituacaoUnidade, UnidadeSIE
-from ngo_ccsh.tests.mixins import BaseAuthenticatedUserTestCase
+from entidades.models import Centro, SituacaoUnidade, TipoUnidade, Unidade, UnidadeSIE
 
 
 class UnidadeViewTestCase(BaseAuthenticatedUserTestCase):
     def setUp(self):
         self.url = reverse("entidades:unidades-list")
-        self.centro = Centro.objects.create(nome_centro="Curso X", sigla_centro="TEST", cod_estruturado="TTEST")
+        self.centro = Centro.objects.create(
+            nome_centro="Curso X", sigla_centro="TEST", cod_estruturado="TTEST"
+        )
         self.tipo_unidade = TipoUnidade.objects.create(tipo_unidade="TOP")
-        self.situacao_unidade = SituacaoUnidade.objects.create(situacao_unidade="MUITO BOA")
-        self.centro = Centro.objects.create(nome_centro="Curso X", sigla_centro="CoisaBonita12",
-                                            cod_estruturado="TdTEST")
+        self.situacao_unidade = SituacaoUnidade.objects.create(
+            situacao_unidade="MUITO BOA"
+        )
+        self.centro = Centro.objects.create(
+            nome_centro="Curso X",
+            sigla_centro="CoisaBonita12",
+            cod_estruturado="TdTEST",
+        )
 
-        self.unidade = Unidade.objects.create(nome_unidade="Departamento A", cod_estruturado="DEPTO1",
-                                              centro=self.centro, tipo_unidade=self.tipo_unidade,
-                                              situacao_unidade=self.situacao_unidade)
-        self.unidade_data = {"nome_unidade": "Departamento D", "cod_estruturado": "DEPTO2",
-                             "id_centro": self.centro.id_centro_interno, "id_tipo_unidade": self.tipo_unidade.id_tipo_unidade,
-                             "id_situacao_unidade": self.situacao_unidade.id_situacao_unidade}
+        self.unidade = Unidade.objects.create(
+            nome_unidade="Departamento A",
+            cod_estruturado="DEPTO1",
+            centro=self.centro,
+            tipo_unidade=self.tipo_unidade,
+            situacao_unidade=self.situacao_unidade,
+        )
+        self.unidade_data = {
+            "nome_unidade": "Departamento D",
+            "cod_estruturado": "DEPTO2",
+            "id_centro": self.centro.id_centro_interno,
+            "id_tipo_unidade": self.tipo_unidade.id_tipo_unidade,
+            "id_situacao_unidade": self.situacao_unidade.id_situacao_unidade,
+        }
 
     def test_get_unidades(self):
         self.authentication(self.user_data_adm)
@@ -47,19 +61,34 @@ class UnidadeViewTestCase(BaseAuthenticatedUserTestCase):
 
 class SingleUnidadeViewTestCase(BaseAuthenticatedUserTestCase):
     def setUp(self):
-        self.centro = Centro.objects.create(nome_centro="Curso X", sigla_centro="TEST", cod_estruturado="TTEST")
+        self.centro = Centro.objects.create(
+            nome_centro="Curso X", sigla_centro="TEST", cod_estruturado="TTEST"
+        )
         self.tipo_unidade = TipoUnidade.objects.create(tipo_unidade="TOP")
-        self.situacao_unidade = SituacaoUnidade.objects.create(situacao_unidade="MUITO BOA")
-        self.centro = Centro.objects.create(nome_centro="Curso X", sigla_centro="CoisaBonita12",
-                                            cod_estruturado="TdTEST")
-        self.unidade_sie = UnidadeSIE.objects.create(nome_unidade="Departamento A", cod_estruturado="DEPTO1",
-                                                     centro=self.centro, tipo_unidade=self.tipo_unidade,
-                                                     situacao_unidade=self.situacao_unidade)
+        self.situacao_unidade = SituacaoUnidade.objects.create(
+            situacao_unidade="MUITO BOA"
+        )
+        self.centro = Centro.objects.create(
+            nome_centro="Curso X",
+            sigla_centro="CoisaBonita12",
+            cod_estruturado="TdTEST",
+        )
+        self.unidade_sie = UnidadeSIE.objects.create(
+            nome_unidade="Departamento A",
+            cod_estruturado="DEPTO1",
+            centro=self.centro,
+            tipo_unidade=self.tipo_unidade,
+            situacao_unidade=self.situacao_unidade,
+        )
 
-        self.unidade = Unidade.objects.create(unidade_sie=self.unidade_sie, nome_unidade="Departamento A",
-                                              cod_estruturado="DEPTO1",
-                                              centro=self.centro, tipo_unidade=self.tipo_unidade,
-                                              situacao_unidade=self.situacao_unidade)
+        self.unidade = Unidade.objects.create(
+            unidade_sie=self.unidade_sie,
+            nome_unidade="Departamento A",
+            cod_estruturado="DEPTO1",
+            centro=self.centro,
+            tipo_unidade=self.tipo_unidade,
+            situacao_unidade=self.situacao_unidade,
+        )
         self.urlPrefix = "entidades:unidades-detail"
         self.url = reverse(self.urlPrefix, kwargs={"pk": self.unidade.pk})
 
@@ -77,15 +106,16 @@ class SingleUnidadeViewTestCase(BaseAuthenticatedUserTestCase):
 
     def test_patch_unidade_registered_on_sie(self):
         self.authentication(self.user_data_adm)
-        response = self.client.patch(self.url)
-        self.assertEqual(response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
+        data = {"nome_unidade": "Departamento Alok"}
+        response = self.client.patch(self.url, data=data)
+        self.assertEqual(status.HTTP_400_BAD_REQUEST, response.status_code)
 
     def test_patch_unidade(self):
         self.authentication(self.user_data_adm)
         self.unidade.unidade_sie = None
         self.unidade.save()
 
-        data = {"unidade": "Departamento B Editado"}
+        data = {"nome_unidade": "Departamento B Editado"}
         response = self.client.patch(self.url, data=data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
@@ -97,7 +127,9 @@ class SingleUnidadeViewTestCase(BaseAuthenticatedUserTestCase):
 
 class SituacaoUnidadeViewTestCase(BaseAuthenticatedUserTestCase):
     def setUp(self):
-        self.situacao_unidade = SituacaoUnidade.objects.create(situacao_unidade="MUITO BOA")
+        self.situacao_unidade = SituacaoUnidade.objects.create(
+            situacao_unidade="MUITO BOA"
+        )
         self.url = reverse("entidades:situacoes_unidades-list")
         self.data = {"situacao_unidade": "Curso Legal"}
 
@@ -106,7 +138,10 @@ class SituacaoUnidadeViewTestCase(BaseAuthenticatedUserTestCase):
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(1, response.data["count"])
-        self.assertEqual("MUITO BOA", response.data["data"][0]["situacao_unidade"], )
+        self.assertEqual(
+            "MUITO BOA",
+            response.data["data"][0]["situacao_unidade"],
+        )
 
     def test_create_situacao_unidade_without_authentication(self):
         self.authentication(self.user_data_normal)
@@ -120,7 +155,9 @@ class SituacaoUnidadeViewTestCase(BaseAuthenticatedUserTestCase):
 
     def test_create_situacao_unidade_with_name_already_exist(self):
         self.authentication(self.user_data_normal)
-        self.response = self.client.post(self.url, data={"situacao_unidade": self.situacao_unidade.situacao_unidade})
+        self.response = self.client.post(
+            self.url, data={"situacao_unidade": self.situacao_unidade.situacao_unidade}
+        )
         self.assertEqual(405, self.response.status_code)
 
     def test_create_situacao_unidade_bad_request(self):
@@ -128,9 +165,12 @@ class SituacaoUnidadeViewTestCase(BaseAuthenticatedUserTestCase):
         self.response = self.client.post(self.url, data={"nome_unidade": "Curso Legal"})
         self.assertEqual(405, self.response.status_code)
 
+
 class SingleSituacaoUnidadeViewTestCase(BaseAuthenticatedUserTestCase):
     def setUp(self):
-        self.situacao_unidade = SituacaoUnidade.objects.create(situacao_unidade="MUITO BOA")
+        self.situacao_unidade = SituacaoUnidade.objects.create(
+            situacao_unidade="MUITO BOA"
+        )
 
         self.urlPrefix = "entidades:situacoes_unidades-detail"
         self.url = reverse(self.urlPrefix, kwargs={"pk": self.situacao_unidade.pk})
@@ -159,9 +199,12 @@ class SingleSituacaoUnidadeViewTestCase(BaseAuthenticatedUserTestCase):
         response = self.client.delete(self.url)
         self.assertEqual(response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
 
+
 class TipoUnidadeViewTestCase(BaseAuthenticatedUserTestCase):
     def setUp(self):
-        self.tipo_unidade = TipoUnidade.objects.create(tipo_unidade="Muito interessante")
+        self.tipo_unidade = TipoUnidade.objects.create(
+            tipo_unidade="Muito interessante"
+        )
         self.url = reverse("entidades:tipos_unidades-list")
         self.data = {"tipos_unidades": "Tipo top de linha"}
 
@@ -170,7 +213,10 @@ class TipoUnidadeViewTestCase(BaseAuthenticatedUserTestCase):
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(1, response.data["count"])
-        self.assertEqual("Muito interessante", response.data["data"][0]["tipo_unidade"], )
+        self.assertEqual(
+            "Muito interessante",
+            response.data["data"][0]["tipo_unidade"],
+        )
 
     def test_create_tipo_unidade_without_authentication(self):
         self.authentication(self.user_data_normal)
@@ -183,9 +229,11 @@ class TipoUnidadeViewTestCase(BaseAuthenticatedUserTestCase):
         self.assertEqual(405, self.response.status_code)
 
 
-class TipoUnidadeViewTestCase(BaseAuthenticatedUserTestCase):
+class SingleTipoUnidadeViewTestCase(BaseAuthenticatedUserTestCase):
     def setUp(self):
-        self.tipo_unidade = TipoUnidade.objects.create(tipo_unidade="Muito interessante")
+        self.tipo_unidade = TipoUnidade.objects.create(
+            tipo_unidade="Muito interessante"
+        )
 
         self.urlPrefix = "entidades:tipos_unidades-detail"
         self.url = reverse(self.urlPrefix, kwargs={"pk": self.tipo_unidade.pk})
@@ -213,4 +261,3 @@ class TipoUnidadeViewTestCase(BaseAuthenticatedUserTestCase):
         self.authentication(self.user_data_adm)
         response = self.client.delete(self.url)
         self.assertEqual(response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
-

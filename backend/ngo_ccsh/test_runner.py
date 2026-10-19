@@ -1,6 +1,6 @@
-from django.test.runner import DiscoverRunner
 from django.apps import apps
 from django.db import connection
+from django.test.runner import DiscoverRunner
 
 
 class CustomTestRunner(DiscoverRunner):
@@ -14,7 +14,7 @@ class CustomTestRunner(DiscoverRunner):
                     model._meta.managed = True
                     try:
                         schema_editor.create_model(model)
-                    except Exception:
+                    except AttributeError:
                         pass
                     finally:
                         model._meta.managed = original

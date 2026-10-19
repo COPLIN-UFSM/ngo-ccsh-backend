@@ -2,7 +2,7 @@
 Script para desenvolvimento local com SQLite persistente em disco, sem alterar o banco de produção.
 """
 
-from .settings import *
+from .settings import BASE_DIR, FORCE_SCRIPT_NAME, REST_FRAMEWORK
 
 DATABASES = {
     "default": {
@@ -12,10 +12,15 @@ DATABASES = {
 }
 
 # desativa configuração ativa apenas em produção
-del FORCE_SCRIPT_NAME
+try:
+    del FORCE_SCRIPT_NAME
+except NameError:
+    pass
 
 # adiciona autenticação por sessão APENAS para o ambiente dev
-REST_FRAMEWORK["DEFAULT_AUTHENTICATION_CLASSES"] += ["rest_framework.authentication.SessionAuthentication"]
+REST_FRAMEWORK["DEFAULT_AUTHENTICATION_CLASSES"] += [
+    "rest_framework.authentication.SessionAuthentication"
+]
 
 # remove configurações do servidor de produção
 STATIC_URL = "/static/"

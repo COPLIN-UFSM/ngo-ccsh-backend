@@ -107,15 +107,15 @@ docker compose -f docker-compose.dev.yml exec web python manage.py createsuperus
 Crie um arquivo `.env` na raiz do projeto, e adicione as seguintes variáveis de ambiente:
 
 ```python
-DEBUG=True
-APP_FULL_NAME="Sistema de Gerenciamento de Gastos Acadêmicos da UFSM"
-APP_SHORT_NAME="SIGGA"
-FRONTEND_URL="http://localhost:5173"
-EMAIL_HOST_USER="henry.cagnini@ufsm.br"
-EMAIL_HOST_PASSWORD="aaaa bbbb cccc dddd"
-DEFAULT_FROM_EMAIL="Núcleo de Gestão Orçamentária <henry.cagnini@ufsm.br>"
-DJANGO_SECRET_KEY="alguma_string_com_pelo_menos_32_caracteres"
-JWT_SIGNING_KEY="alguma_OUTRA_string_com_pelo_menos_32_caracteres"
+DEBUG = True
+APP_FULL_NAME = "Sistema de Gerenciamento de Gastos Acadêmicos da UFSM"
+APP_SHORT_NAME = "SIGGA"
+FRONTEND_URL = "http://localhost:5173"
+EMAIL_HOST_USER = "henry.cagnini@ufsm.br"
+EMAIL_HOST_PASSWORD = "aaaa bbbb cccc dddd"
+DEFAULT_FROM_EMAIL = "Núcleo de Gestão Orçamentária <henry.cagnini@ufsm.br>"
+DJANGO_SECRET_KEY = "alguma_string_com_pelo_menos_32_caracteres"
+JWT_SIGNING_KEY = "alguma_OUTRA_string_com_pelo_menos_32_caracteres"
 ```
 
 O `EMAIL_HOST_PASSWORD` deve ser obtido a partir

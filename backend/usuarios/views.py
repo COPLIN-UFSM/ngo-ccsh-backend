@@ -1,27 +1,32 @@
 from django_filters.rest_framework import DjangoFilterBackend
+from drf_spectacular.utils import OpenApiParameter, OpenApiResponse, extend_schema
 from rest_framework import status
-from rest_framework.views import APIView
+from rest_framework.filters import OrderingFilter
+from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
-from drf_spectacular.utils import extend_schema, OpenApiParameter, OpenApiResponse
-
-from .serializers import UserListSerializer, UserDetailsSerializer, ChangePasswordSerializer
-
-from usuarios.models import Usuario
+from rest_framework.views import APIView
 from utils import response
 from utils.pagination import PaginationWithSize
-from rest_framework.filters import OrderingFilter
+
 from usuarios.filters import UserFilterSet
-from rest_framework.generics import GenericAPIView
+from usuarios.models import Usuario
+
+from .serializers import (
+    ChangePasswordSerializer,
+    UserDetailsSerializer,
+    UserListSerializer,
+)
+
 
 class UserListView(GenericAPIView):
     """
     View para listar usuários e criar um novo usuário
     """
-    ordering_fields = ['id', 'data_criacao', 'nome_pessoa']
+
     filter_backends = (DjangoFilterBackend, OrderingFilter)
     serializer_class = UserListSerializer
-    filterset_class =  UserFilterSet
-
+    filterset_class = UserFilterSet
+    ordering_fields = ["id", "data_criacao", "nome_pessoa"]
 
     @extend_schema(
         summary="Lista usuários",
@@ -33,8 +38,8 @@ class UserListView(GenericAPIView):
         tags=["usuários"],
     )
     def get(self, request):
-        queryset = Usuario.objects.all().order_by('id')
-        if not request.query_params.get('ativo'):
+        queryset = Usuario.objects.all().order_by("id")
+        if not request.query_params.get("ativo"):
             queryset = queryset.filter(ativo=True)
         queryset = self.filter_queryset(queryset)
 
@@ -53,7 +58,9 @@ class UserListView(GenericAPIView):
         responses={
             201: OpenApiResponse(description="Usuário criado com sucesso"),
             400: OpenApiResponse(description="Dados inválidos para criação do usuário"),
-            403: OpenApiResponse(description="Apenas administradores podem criar usuários"),
+            403: OpenApiResponse(
+                description="Apenas administradores podem criar usuários"
+            ),
         },
         tags=["usuários"],
     )
@@ -96,12 +103,12 @@ class UserDetailsView(APIView):
         Mostra dados de um usuário
         """
 
-        id_usuario = kwargs['id']
+        id_usuario = kwargs["id"]
         try:
             user = Usuario.objects.get(id=id_usuario)
         except Usuario.DoesNotExist:
             return Response(
-                {"detail": f"Usuário não encontrado."},
+                {"detail": "Usuário não encontrado."},
                 status=status.HTTP_404_NOT_FOUND,
             )
         serializer = self.serializer_class(user)
@@ -120,54 +127,62 @@ class UserDetailsView(APIView):
             )
         ],
         responses={
-            200: OpenApiResponse(description="Dados do usuário atualizados com sucesso"),
+            200: OpenApiResponse(
+                description="Dados do usuário atualizados com sucesso"
+            ),
             400: OpenApiResponse(description="Dados inválidos para atualização"),
-            403: OpenApiResponse(description="Não é possível alterar dados de outro usuário"),
+            403: OpenApiResponse(
+                description="Não é possível alterar dados de outro usuário"
+            ),
             404: OpenApiResponse(description="Usuário não encontrado"),
         },
         tags=["usuários"],
     )
     def patch(self, request, *args, **kwargs):
-        id_usuario = kwargs['id']
+        id_usuario = kwargs["id"]
 
         try:
             user = Usuario.objects.get(id=id_usuario)
         except Usuario.DoesNotExist:
             return Response(
-                {"detail": f"Usuário não encontrado!"},
-                status=status.HTTP_404_NOT_FOUND
+                {"detail": "Usuário não encontrado!"}, status=status.HTTP_404_NOT_FOUND
             )
 
         serializer = self.serializer_class(user, data=request.data, partial=True)
         if not serializer.is_valid():
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-        changes = dict()
+        changes = {}
         for field, value in serializer.validated_data.items():
             if getattr(user, field) != value:
                 changes[field] = value
         if not request.user.is_superuser:
             if user.id != request.user.id:
                 return Response(
-                    {"detail": "Não é possível alterar dados de outro usuário sem ser administrador."},
-                    status=status.HTTP_403_FORBIDDEN
+                    {
+                        "detail": "Não é possível alterar dados de outro usuário sem ser administrador."
+                    },
+                    status=status.HTTP_403_FORBIDDEN,
                 )
-            elif 'is_superuser' in changes:
+            elif "is_superuser" in changes:
                 return Response(
-                    {"detail": "Não é possível conceder-se privilégio de administrador sem ser administrador!"},
-                    status=status.HTTP_403_FORBIDDEN
+                    {
+                        "detail": "Não é possível conceder-se privilégio de administrador sem ser administrador!"
+                    },
+                    status=status.HTTP_403_FORBIDDEN,
                 )
-            elif 'ativo' in changes:
+            elif "ativo" in changes:
                 return Response(
                     {"detail": "Apenas um administrador pode (des)ativar sua conta!"},
-                    status=status.HTTP_403_FORBIDDEN
+                    status=status.HTTP_403_FORBIDDEN,
                 )
-        elif user.id == request.user.id:
-            if 'is_superuser' in changes:
-                return Response(
-                    {"detail": "Apenas outro usuário administrador pode remover seu privilégio de administrador!"},
-                    status=status.HTTP_403_FORBIDDEN
-                )
+        elif user.id == request.user.id and "is_superuser" in changes:
+            return Response(
+                {
+                    "detail": "Apenas outro usuário administrador pode remover seu privilégio de administrador!"
+                },
+                status=status.HTTP_403_FORBIDDEN,
+            )
         serializer.save()
         return Response(
             {"changes": changes, "data": serializer.data},
@@ -194,13 +209,13 @@ class UserDetailsView(APIView):
         tags=["usuários"],
     )
     def delete(self, request, *args, **kwargs):
-        id_usuario = kwargs['id']
+        id_usuario = kwargs["id"]
 
         try:
             user = Usuario.objects.get(id=id_usuario)
         except Usuario.DoesNotExist:
             return Response(
-                {"detail": f"Usuário não encontrado."},
+                {"detail": "Usuário não encontrado."},
                 status=status.HTTP_404_NOT_FOUND,
             )
 
@@ -209,7 +224,10 @@ class UserDetailsView(APIView):
 
         if user.id == request.user.id:
             return Response(
-                {'detail': 'Apenas outro usuário administrador pode desativar sua conta!'}, status=status.HTTP_403_FORBIDDEN
+                {
+                    "detail": "Apenas outro usuário administrador pode desativar sua conta!"
+                },
+                status=status.HTTP_403_FORBIDDEN,
             )
 
         user.ativo = False
@@ -235,21 +253,22 @@ class ChangePasswordView(APIView):
             200: OpenApiResponse(description="Senha atualizada com sucesso"),
             400: OpenApiResponse(description="Dados inválidos para alteração de senha"),
             401: OpenApiResponse(description="Senha atual incorreta"),
-            403: OpenApiResponse(description="Não é possível alterar senha de outro usuário"),
+            403: OpenApiResponse(
+                description="Não é possível alterar senha de outro usuário"
+            ),
             404: OpenApiResponse(description="Usuário não cadastrado"),
         },
         tags=["usuários"],
     )
-
-    #TODO: não permitir que eu altere minha senha, sem a antiga.
+    # TODO: não permitir que eu altere minha senha, sem a antiga.
     def patch(self, request, *args, **kwargs):
-        id_usuario = kwargs['id']
+        id_usuario = kwargs["id"]
 
         try:
             user = Usuario.objects.get(id=id_usuario)
         except Usuario.DoesNotExist:
             return Response(
-                {'detail': 'Usuário não encontrado!'}, status=status.HTTP_404_NOT_FOUND
+                {"detail": "Usuário não encontrado!"}, status=status.HTTP_404_NOT_FOUND
             )
 
         is_admin = request.user.is_superuser
@@ -257,7 +276,10 @@ class ChangePasswordView(APIView):
 
         if not is_admin and changing_other:
             return Response(
-                {'detail': 'Apenas administradores podem trocar a senha de outros usuários.'},
+                {
+                    "detail": "Apenas administradores podem trocar a senha de outros "
+                    "usuários."
+                },
                 status=status.HTTP_403_FORBIDDEN,
             )
 

@@ -1,6 +1,5 @@
-from django.db import models
 from django.apps import apps
-from django.db import IntegrityError, transaction
+from django.db import IntegrityError, models, transaction
 
 
 class ResolveFromSIEQuerySet(models.QuerySet):
@@ -66,7 +65,7 @@ class CentroManager(ResolveFromSIEManager):
             centro_sie=centro,
             nome_centro=centro.nome_centro,
             sigla_centro=centro.sigla_centro,
-            cod_estruturado=centro.cod_estruturado
+            cod_estruturado=centro.cod_estruturado,
         )
 
 
@@ -80,5 +79,5 @@ class UnidadeManager(ResolveFromSIEManager):
             cod_estruturado=unidade.cod_estruturado,
             centro=unidade.centro,
             tipo_unidade=unidade.tipo_unidade,
-            situacao_unidade=unidade.situacao_unidade
+            situacao_unidade=unidade.situacao_unidade,
         )

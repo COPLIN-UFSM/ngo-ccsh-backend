@@ -5,7 +5,6 @@
 # from despesas.models import TipoDocumento, Transacao, Empenho, Finalidade, NaturezaFinalidade, GrupoFinalidade
 
 
-
 # class TransacaoPagamentoParcialTestCase(APITestCase, PartialPaymentsTestAPI):
 #     def setUp(self):
 #         self.create_test_users()

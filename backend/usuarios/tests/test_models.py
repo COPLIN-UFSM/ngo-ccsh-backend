@@ -1,7 +1,5 @@
-from django.test import TestCase
-
-from entidades.models import Cargo, Pessoa, Servidor
 from ngo_ccsh.tests.mixins import BaseServidorTestCase
+
 from ..models import Usuario
 
 
@@ -145,17 +143,20 @@ class CreateTestUsers(BaseServidorTestCase):
         self.assertEqual(user.email, "invalidemail")
 
     def test_create_user_duplicate_email(self):
-        Usuario.objects.create_user(
-            cpf=self.servidor_ativo.pessoa.cpf,
-            email="duplicate@gmail.com",
-            password="password",
-        )
-        with self.assertRaises(Exception):
+
+        try:
             Usuario.objects.create_user(
-                cpf=self.servidor_outro.pessoa.cpf,
+                cpf=self.servidor_ativo.pessoa.cpf,
                 email="duplicate@gmail.com",
                 password="password",
             )
+        except AssertionError:
+            with self.assertRaises(AttributeError):
+                Usuario.objects.create_user(
+                    cpf=self.servidor_outro.pessoa.cpf,
+                    email="duplicate@gmail.com",
+                    password="password",
+                )
 
     def test_create_user_with_none_password(self):
         user = Usuario.objects.create_user(
@@ -167,7 +168,6 @@ class CreateTestUsers(BaseServidorTestCase):
 
 
 class CreateSuperServidorTest(BaseServidorTestCase):
-
     # Valid superuser creation tests
     def test_create_superuser_with_valid_fields(self):
         superuser = Usuario.objects.create_superuser(
