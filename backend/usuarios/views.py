@@ -277,7 +277,8 @@ class ChangePasswordView(APIView):
         if not is_admin and changing_other:
             return Response(
                 {
-                    "detail": "Apenas administradores podem trocar a senha de outros usuários."
+                    "detail": "Apenas administradores podem trocar a senha de outros "
+                    "usuários."
                 },
                 status=status.HTTP_403_FORBIDDEN,
             )

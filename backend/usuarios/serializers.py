@@ -52,7 +52,6 @@ class UserListSerializer(serializers.ModelSerializer):
 
 
 class UserDetailsSerializer(serializers.ModelSerializer):
-
     administrador = serializers.BooleanField(
         source="is_superuser", required=False, default=False
     )

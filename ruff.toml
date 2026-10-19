@@ -1,5 +1,0 @@
-# ruff.toml
-
-[lint]
-# Fixed: RUF012 has only one 'F'
-ignore = ["RUF012"]

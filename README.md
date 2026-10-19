@@ -62,6 +62,9 @@ Para rodar os testes:
 ```bash
 conda activate ngo
 cd backend
+black .
+ruff check --fix
+pylint .
 python manage.py test --settings=ngo_ccsh.test_settings
 ```
 

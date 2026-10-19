@@ -1,3 +1,4 @@
+from django.urls import reverse
 from entidades.models import Cargo, Pessoa, Servidor
 from rest_framework.test import APITestCase
 from usuarios.models import Usuario
@@ -67,9 +68,6 @@ class BaseServidorTestCase(APITestCase):
         cls.usuario_ativo_raw_password = "1234"
         cls.usuario_inativo_raw_password = "1234"
         cls.usuario_super_raw_password = "1234"
-
-
-from django.urls import reverse
 
 
 class BaseAuthenticatedUserTestCase(BaseServidorTestCase):

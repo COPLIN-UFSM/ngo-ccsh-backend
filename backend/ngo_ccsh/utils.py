@@ -7,7 +7,6 @@ def custom_exception_handler(exc, context):
 
     # Verifica se a exceção resultou em um erro 404
     if response is not None and response.status_code == status.HTTP_404_NOT_FOUND:
-
         message = getattr(exc, "detail", None)
 
         if message:
