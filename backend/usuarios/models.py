@@ -1,6 +1,9 @@
+from django.contrib.auth.models import (
+    AbstractBaseUser,
+    BaseUserManager,
+    PermissionsMixin,
+)
 from django.db import models
-from django.contrib.auth.models import BaseUserManager, AbstractBaseUser, PermissionsMixin
-
 from entidades.models import Pessoa, Servidor
 
 
@@ -8,15 +11,17 @@ class UserManager(BaseUserManager):
     def update_user(self, instance, **validated_data):
         pessoa = instance.pessoa
 
-        if 'cpf' in validated_data:
+        if "cpf" in validated_data:
             try:
-                pessoa = Pessoa.objects.get(cpf=validated_data['cpf'])
+                pessoa = Pessoa.objects.get(cpf=validated_data["cpf"])
             except Pessoa.DoesNotExist:
-                raise ValueError("Não existe uma pessoa com este CPF no banco de dados institucional.")
+                raise ValueError(
+                    "Não existe uma pessoa com este CPF no banco de dados institucional."
+                )
 
         email = None
-        if 'email' in validated_data:
-            email = self.normalize_email(validated_data.pop('email'))
+        if "email" in validated_data:
+            email = self.normalize_email(validated_data.pop("email"))
 
         if pessoa != instance.pessoa:
             if Usuario.objects.filter(pessoa=pessoa).exists():
@@ -24,10 +29,10 @@ class UserManager(BaseUserManager):
 
             servidor = Servidor.objects.filter(pessoa=pessoa, ativo=True).exists()
             if not servidor:
-                raise ValueError('Somente servidores ativos podem ser usuários.')
+                raise ValueError("Somente servidores ativos podem ser usuários.")
 
-        if 'cpf' in validated_data:
-            instance.cpf = "".join(filter(str.isdigit, validated_data.pop('cpf')))
+        if "cpf" in validated_data:
+            instance.cpf = "".join(filter(str.isdigit, validated_data.pop("cpf")))
             instance.pessoa = pessoa
 
         if email is not None:
@@ -51,12 +56,12 @@ class UserManager(BaseUserManager):
         try:
             pessoa = Pessoa.objects.get(cpf=cpf)
         except Pessoa.DoesNotExist:
-            raise ValueError("Não existe uma pessoa com este CPF no banco de dados institucional.")
+            raise ValueError(
+                "Não existe uma pessoa com este CPF no banco de dados institucional."
+            )
 
         if Usuario.objects.filter(pessoa=pessoa).exists():
-            raise ValueError(
-                "Já existe um usuário com esse CPF cadastrado."
-            )
+            raise ValueError("Já existe um usuário com esse CPF cadastrado.")
 
         servidor = Servidor.objects.filter(
             pessoa=pessoa,
@@ -64,7 +69,7 @@ class UserManager(BaseUserManager):
         ).exists()
 
         if not servidor:
-           raise ValueError('Somente servidores ativos podem ser usuários.')
+            raise ValueError("Somente servidores ativos podem ser usuários.")
 
         email = self.normalize_email(email)
 
@@ -96,10 +101,12 @@ class UserManager(BaseUserManager):
 
 class Usuario(AbstractBaseUser, PermissionsMixin):
     id = models.AutoField(primary_key=True, editable=False, db_column="id")
-    cpf = models.CharField(max_length=11, unique=True, null=False, blank=False, db_column="cpf")
-    email = models.EmailField(unique=True, max_length=64, db_column='email')
-    ativo = models.BooleanField(blank=True, default=True, db_column='is_active')
-    data_criacao = models.DateTimeField(auto_now_add=True, db_column='created_at')
+    cpf = models.CharField(
+        max_length=11, unique=True, null=False, blank=False, db_column="cpf"
+    )
+    email = models.EmailField(unique=True, max_length=64, db_column="email")
+    ativo = models.BooleanField(blank=True, default=True, db_column="is_active")
+    data_criacao = models.DateTimeField(auto_now_add=True, db_column="created_at")
 
     pessoa = models.OneToOneField(
         Pessoa,
@@ -114,12 +121,12 @@ class Usuario(AbstractBaseUser, PermissionsMixin):
         verbose_name = "Usuário"
         verbose_name_plural = "Usuários"
 
+    REQUIRED_FIELDS = ["email"]
+
     objects = UserManager()
 
     USERNAME_FIELD = "cpf"
     EMAIL_FIELD = "email"
-
-    REQUIRED_FIELDS = ["email"]
 
     @property
     def nome_pessoa(self):

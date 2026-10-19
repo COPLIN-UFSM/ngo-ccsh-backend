@@ -1,17 +1,37 @@
 import csv
+from decimal import Decimal
 from pathlib import Path
 
+from despesas.models import (
+    Finalidade,
+    GrupoFinalidade,
+    NaturezaFinalidade,
+    StatusTransacao,
+    TipoDocumento,
+    TipoDocumentoParaFinalidade,
+)
 from django.conf import settings
 from django.core.management.base import BaseCommand
-from django.db import IntegrityError
-
-from despesas.models import *
-from entidades.models import *
-
+from django.db import models
+from entidades.models import (
+    Cargo,
+    Centro,
+    CentroSIE,
+    Curso,
+    Discente,
+    Pessoa,
+    PessoaSIE,
+    Servidor,
+    SituacaoUnidade,
+    TipoUnidade,
+    Unidade,
+    UnidadeSIE,
+)
 from tqdm import tqdm
 
+
 class Command(BaseCommand):
-    help = 'Cria dados iniciais para o banco de dados de desenvolvimento'
+    help = "Cria dados iniciais para o banco de dados de desenvolvimento"
 
     @staticmethod
     def convert_value(field, value):
@@ -21,7 +41,9 @@ class Command(BaseCommand):
         if isinstance(field, models.BooleanField):
             return value.upper() in ("TRUE", "1", "YES")
 
-        if isinstance(field, ( models.IntegerField, models.AutoField, models.BigIntegerField)):
+        if isinstance(
+            field, (models.IntegerField, models.AutoField, models.BigIntegerField)
+        ):
             return int(value)
 
         if isinstance(field, models.DecimalField):
@@ -29,9 +51,8 @@ class Command(BaseCommand):
 
         return value
 
-
     def handle(self, *args, **kwargs):
-        csv_path = Path(settings.BASE_DIR) / 'database' / 'csv'
+        csv_path = Path(settings.BASE_DIR) / "database" / "csv"
 
         mapping = {
             # Entidades
@@ -71,7 +92,7 @@ class Command(BaseCommand):
 
                     field_objects[attr_name] = field
 
-                with open(csv_path / filename, newline='', encoding='utf-8') as f:
+                with open(csv_path / filename, newline="", encoding="utf-8") as f:
                     reader = csv.DictReader(f)
 
                     for row in reader:

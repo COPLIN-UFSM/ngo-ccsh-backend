@@ -1,17 +1,27 @@
 from django.urls import reverse
+from ngo_ccsh.tests.mixins import BaseAuthenticatedUserTestCase
 from rest_framework import status
 
 from entidades.models import Centro, CentroSIE
-from ngo_ccsh.tests.mixins import BaseAuthenticatedUserTestCase
 
 
 class CentroViewTestCase(BaseAuthenticatedUserTestCase):
     def setUp(self):
         self.url = reverse("entidades:centros-list")
-        self.centro = CentroSIE.objects.create(nome_centro="Curso X", sigla_centro="TEST", cod_estruturado="TdTEST")
-        self.centro = Centro.objects.create(centro_sie=self.centro, nome_centro="Curso X", sigla_centro="TEST", cod_estruturado="TdTEST")
-        self.centro_data = {"nome_centro": "Curso X2", "sigla_centro": "TESTE", "cod_estruturado": "TdTESTE"}
-
+        self.centro = CentroSIE.objects.create(
+            nome_centro="Curso X", sigla_centro="TEST", cod_estruturado="TdTEST"
+        )
+        self.centro = Centro.objects.create(
+            centro_sie=self.centro,
+            nome_centro="Curso X",
+            sigla_centro="TEST",
+            cod_estruturado="TdTEST",
+        )
+        self.centro_data = {
+            "nome_centro": "Curso X2",
+            "sigla_centro": "TESTE",
+            "cod_estruturado": "TdTESTE",
+        }
 
     def test_get_centros(self):
         self.authentication(self.user_data_adm)
@@ -39,10 +49,20 @@ class CentroViewTestCase(BaseAuthenticatedUserTestCase):
 class SingleCentroViewTestCase(BaseAuthenticatedUserTestCase):
     def setUp(self):
         super().setUp()
-        self.centro = CentroSIE.objects.create(nome_centro="Curso X", sigla_centro="TEST", cod_estruturado="TdTEST")
-        self.centro = Centro.objects.create(centro_sie=self.centro, nome_centro="Curso X", sigla_centro="TEST",
-                                            cod_estruturado="TdTEST")
-        self.centro_data = {"nome_centro": "Curso X", "sigla_centro": "TEST", "cod_estruturado": "TdTEST"}
+        self.centro = CentroSIE.objects.create(
+            nome_centro="Curso X", sigla_centro="TEST", cod_estruturado="TdTEST"
+        )
+        self.centro = Centro.objects.create(
+            centro_sie=self.centro,
+            nome_centro="Curso X",
+            sigla_centro="TEST",
+            cod_estruturado="TdTEST",
+        )
+        self.centro_data = {
+            "nome_centro": "Curso X",
+            "sigla_centro": "TEST",
+            "cod_estruturado": "TdTEST",
+        }
 
         self.urlPrefix = "entidades:centros-detail"
         self.url = reverse(self.urlPrefix, kwargs={"pk": self.centro.pk})

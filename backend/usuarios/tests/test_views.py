@@ -1,11 +1,11 @@
+from autenticacao.services import create_token_with_allow_password_change
 from django.urls import reverse
+from entidades.models import Cargo, Pessoa, Servidor
 from rest_framework import status
 from rest_framework.test import APITestCase
 from rest_framework_simplejwt.tokens import RefreshToken
 
-from entidades.models import Servidor, Cargo, Pessoa
 from usuarios.models import Usuario
-from autenticacao.services import create_token_with_allow_password_change
 
 
 class UserTestCase(APITestCase):
@@ -13,52 +13,42 @@ class UserTestCase(APITestCase):
         """
         Cria usuários para testes.
         """
-        self.cargo_analista = Cargo.objects.create(
-            cargo="Analista"
-        )
+        self.cargo_analista = Cargo.objects.create(cargo="Analista")
         self.pessoa_1 = Pessoa.objects.create(
-            nome_pessoa="Loki",
-            cpf="00000000000",
-            rg="00000000000"
+            nome_pessoa="Loki", cpf="00000000000", rg="00000000000"
         )
         self.pessoa_2 = Pessoa.objects.create(
-            nome_pessoa="Odin",
-            cpf="00000000001",
-            rg="00000000001"
+            nome_pessoa="Odin", cpf="00000000001", rg="00000000001"
         )
         self.pessoa_3 = Pessoa.objects.create(
-            nome_pessoa="Thor",
-            cpf="00000000002",
-            rg="00000000002"
+            nome_pessoa="Thor", cpf="00000000002", rg="00000000002"
         )
         self.pessoa_4 = Pessoa.objects.create(
-            nome_pessoa="Valkyrie",
-            cpf="00000000003",
-            rg="00000000003"
+            nome_pessoa="Valkyrie", cpf="00000000003", rg="00000000003"
         )
         self.servidor_1 = Servidor.objects.create(
             pessoa=self.pessoa_1,
             matricula="0000000",
             cargo=self.cargo_analista,
-            ativo=True
+            ativo=True,
         )
         self.servidor_2 = Servidor.objects.create(
             pessoa=self.pessoa_2,
             matricula="0000001",
             cargo=self.cargo_analista,
-            ativo=True
+            ativo=True,
         )
         self.servidor_3 = Servidor.objects.create(
             pessoa=self.pessoa_3,
             matricula="0000002",
             cargo=self.cargo_analista,
-            ativo=True
+            ativo=True,
         )
         self.servidor_4 = Servidor.objects.create(
             pessoa=self.pessoa_4,
             matricula="0000003",
             cargo=self.cargo_analista,
-            ativo=True
+            ativo=True,
         )
 
         self.usuario_admin_raw_password = "1234"
@@ -70,33 +60,29 @@ class UserTestCase(APITestCase):
             email="loki@gmail.com",
             password=self.usuario_admin_raw_password,
             ativo=True,
-            is_superuser=True
+            is_superuser=True,
         )
         self.user_regular = Usuario.objects.create_user(
             cpf=self.servidor_2.pessoa.cpf,
             email="odin@gmail.com",
             password=self.usuario_regular_raw_password,
             ativo=True,
-            is_superuser=False
+            is_superuser=False,
         )
         self.user_inactive = Usuario.objects.create_user(
             cpf=self.servidor_3.pessoa.cpf,
             email="thor@gmail.com",
             password=self.usuario_inactive_raw_password,
             ativo=False,
-            is_superuser=False
+            is_superuser=False,
         )
 
     def authenticate_with_invalid_token(self):
-        self.client.credentials(
-            HTTP_AUTHORIZATION=f"Bearer invalid_token"
-        )
+        self.client.credentials(HTTP_AUTHORIZATION="Bearer invalid_token")
 
     def authenticate(self, user):
         token = str(RefreshToken.for_user(user).access_token)
-        self.client.credentials(
-            HTTP_AUTHORIZATION=f"Bearer {token}"
-        )
+        self.client.credentials(HTTP_AUTHORIZATION=f"Bearer {token}")
 
     def authenticate_with_reset_password_token(self, user):
         token = create_token_with_allow_password_change(user=user)
@@ -112,7 +98,7 @@ class UserListViewTestCase(UserTestCase):
             "email": "goku@capsulecorporation.com",
             "administrador": True,
             "senha": "vegeta@fraco.com",
-            "senha2": "vegeta@fraco.com"
+            "senha2": "vegeta@fraco.com",
         }
 
     def test_get_users_while_not_authenticated(self):
@@ -121,7 +107,7 @@ class UserListViewTestCase(UserTestCase):
 
     def test_get_users_while_authenticated(self):
         self.authenticate(self.user_regular)
-        response = self.client.get(self.url, format='json')
+        response = self.client.get(self.url, format="json")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_register_user_while_not_authenticated(self):
@@ -193,7 +179,9 @@ class UserDetailsViewTestCase(UserTestCase):
     # PATCH
     def test_update_user_details_while_not_authenticated(self):
         self.authenticate_with_invalid_token()
-        response = self.client.patch(self.url(self.user_regular.id), data=self.new_user_data)
+        response = self.client.patch(
+            self.url(self.user_regular.id), data=self.new_user_data
+        )
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_update_user_details_with_user_not_found(self):
@@ -203,58 +191,67 @@ class UserDetailsViewTestCase(UserTestCase):
 
     def test_update_admin_details_while_being_regular_user(self):
         self.authenticate(user=self.user_regular)
-        response = self.client.patch(self.url(self.user_admin.id), data=self.new_user_data)
+        response = self.client.patch(
+            self.url(self.user_admin.id), data=self.new_user_data
+        )
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
     def test_update_regular_user_details_while_being_admin_user(self):
         self.authenticate(self.user_admin)
-        response = self.client.patch(self.url(self.user_regular.id), data=self.new_user_data)
+        response = self.client.patch(
+            self.url(self.user_regular.id), data=self.new_user_data
+        )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_update_user_details_with_invalid_fields(self):
         self.authenticate(user=self.user_regular)
-        response = self.client.patch(self.url(self.user_regular.id), data={"email": "email_bad_format"})
+        response = self.client.patch(
+            self.url(self.user_regular.id), data={"email": "email_bad_format"}
+        )
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_update_user_details_with_non_existing_fields(self):
         self.authenticate(user=self.user_regular)
         response = self.client.patch(
-            self.url(self.user_regular.id),
-            data={"field_doesnt_exists": "oii"}
+            self.url(self.user_regular.id), data={"field_doesnt_exists": "oii"}
         )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_update_self_details_with_valid_fields(self):
         self.authenticate(user=self.user_regular)
-        response = self.client.patch(self.url(self.user_regular.id), data=self.new_user_data)
+        response = self.client.patch(
+            self.url(self.user_regular.id), data=self.new_user_data
+        )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_update_regular_user_tries_to_grant_themselves_admin_privilege(self):
         self.authenticate(user=self.user_regular)
         response = self.client.patch(
-            self.url(self.user_regular.id),
-            data={"administrador": True}
+            self.url(self.user_regular.id), data={"administrador": True}
         )
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
     def test_update_admin_user_tries_to_demote_themselves(self):
         self.authenticate(user=self.user_admin)
         response = self.client.patch(
-            self.url(self.user_admin.id),
-            data={"administrador": False}
+            self.url(self.user_admin.id), data={"administrador": False}
         )
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
     def test_update_user_permission_while_being_admin_user(self):
         self.authenticate(self.user_admin)
-        response = self.client.patch(self.url(self.user_regular.id), data=self.new_user_data)
+        response = self.client.patch(
+            self.url(self.user_regular.id), data=self.new_user_data
+        )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_update_regular_user_permission_while_being_admin_user(self):
         self.authenticate(self.user_admin)
 
         for is_superuser in [True, False]:
-            response = self.client.patch(self.url(self.user_regular.id), data={"is_superuser": is_superuser})
+            response = self.client.patch(
+                self.url(self.user_regular.id), data={"is_superuser": is_superuser}
+            )
             self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     # DELETE
@@ -276,12 +273,16 @@ class UserDetailsViewTestCase(UserTestCase):
 
     def test_delete_regular_user_while_being_admin_user(self):
         self.authenticate(self.user_admin)
-        response = self.client.delete(self.url(self.user_regular.id), data=self.new_user_data)
+        response = self.client.delete(
+            self.url(self.user_regular.id), data=self.new_user_data
+        )
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
 
     def test_delete_other_admin_user_while_being_an_admin_user(self):
         self.authenticate(self.user_admin)
-        response = self.client.patch(self.url(self.user_regular.id), data={'is_superuser': True})
+        response = self.client.patch(
+            self.url(self.user_regular.id), data={"is_superuser": True}
+        )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
         response = self.client.delete(self.url(self.user_regular.id))
@@ -299,11 +300,15 @@ class ChangePasswordViewTestCase(UserTestCase):
 
     def test_change_self_password_while_not_logged_in(self):
         self.authenticate_with_invalid_token()
-        response = self.client.post(self.url(self.user_regular.id), data=self.new_password)
+        response = self.client.post(
+            self.url(self.user_regular.id), data=self.new_password
+        )
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_change_self_password_while_not_authenticated(self):
-        response = self.client.patch(self.url(self.user_regular.id), data=self.new_password)
+        response = self.client.patch(
+            self.url(self.user_regular.id), data=self.new_password
+        )
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_change_password_with_user_not_found(self):
@@ -313,7 +318,9 @@ class ChangePasswordViewTestCase(UserTestCase):
 
     def test_change_other_user_password_while_being_regular_user(self):
         self.authenticate(user=self.user_regular)
-        response = self.client.patch(self.url(self.user_admin.id), data=self.new_password)
+        response = self.client.patch(
+            self.url(self.user_admin.id), data=self.new_password
+        )
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
     def test_change_other_user_password_while_being_admin(self):
@@ -329,10 +336,14 @@ class ChangePasswordViewTestCase(UserTestCase):
 
     def test_change_password_with_missing_fields(self):
         self.authenticate(user=self.user_regular)
-        response = self.client.patch(self.url(self.user_regular.id), data={"password1": "1s231321"})
+        response = self.client.patch(
+            self.url(self.user_regular.id), data={"password1": "1s231321"}
+        )
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
-        response = self.client.patch(self.url(self.user_regular.id), data={"password2": "1s231321"})
+        response = self.client.patch(
+            self.url(self.user_regular.id), data={"password2": "1s231321"}
+        )
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     # not_identical
@@ -342,15 +353,17 @@ class ChangePasswordViewTestCase(UserTestCase):
         response = self.client.patch(
             self.url(self.user_regular.id),
             data={
-                "password": self.new_password['senha'],
-                "password2": self.new_password['senha'] + '!'
+                "password": self.new_password["senha"],
+                "password2": self.new_password["senha"] + "!",
             },
         )
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_correct_request_to_change_password(self):
         self.authenticate(user=self.user_regular)
-        response = self.client.patch(self.url(self.user_regular.id), data=self.new_password)
+        response = self.client.patch(
+            self.url(self.user_regular.id), data=self.new_password
+        )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_change_password_with_reset_token(self):

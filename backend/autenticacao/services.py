@@ -1,12 +1,11 @@
+from datetime import datetime as dt
+
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
-
-from rest_framework_simplejwt.tokens import AccessToken
-from rest_framework_simplejwt.exceptions import TokenError
-
-from datetime import datetime as dt
 from ngo_ccsh import settings
+from rest_framework_simplejwt.exceptions import TokenError
+from rest_framework_simplejwt.tokens import AccessToken
 
 
 def trigger_password_reset_flow(user):
@@ -37,7 +36,7 @@ def send_email_reset_password(user, token):
         "cpf": user.cpf,
         "user_full_name": user.nome_pessoa,
         "link": link,
-        "year": dt.now().year
+        "year": dt.now().year,
     }
     html_content = render_to_string("email/recuperar_email.html", context)
     text_content = strip_tags(html_content)

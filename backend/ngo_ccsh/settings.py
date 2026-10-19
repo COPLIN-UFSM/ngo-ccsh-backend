@@ -16,7 +16,9 @@ load_dotenv()  # carrega variáveis de ambiente do arquivo .env, se existir
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRETS_FILE = os.path.abspath(os.path.join(BASE_DIR, "..", "instance", "database_credentials.json"))
+SECRETS_FILE = os.path.abspath(
+    os.path.join(BASE_DIR, "..", "instance", "database_credentials.json")
+)
 
 SETTINGS_MODULE = os.environ.get("DJANGO_SETTINGS_MODULE", "")
 
@@ -24,7 +26,7 @@ try:
     with open(SECRETS_FILE) as f:
         DB_PARAMETERS = json.load(f)
 except FileNotFoundError:
-    DB_PARAMETERS = dict()
+    DB_PARAMETERS = {}
 
 
 def get_database_parameter(key):
@@ -49,7 +51,9 @@ def get_database_parameter(key):
     if key in DB_PARAMETERS:
         return DB_PARAMETERS[key]
 
-    raise ImproperlyConfigured(f"Não foi encontrado o atributo '{key}' no CLI nem no arquivo {SECRETS_FILE}")
+    raise ImproperlyConfigured(
+        f"Não foi encontrado o atributo '{key}' no CLI nem no arquivo {SECRETS_FILE}"
+    )
 
 
 # Quick-start development settings - unsuitable for production
@@ -114,8 +118,8 @@ REST_FRAMEWORK = {
     "DEFAULT_PAGINATION_CLASS": "utils.pagination.PaginationWithSize",
     "DEFAULT_RENDERER_CLASSES": ["utils.renders.CustomJSONRenderer"],
     "PAGE_SIZE": 10,
-    'DEFAULT_FILTER_BACKENDS': [
-        'django_filters.rest_framework.DjangoFilterBackend',
+    "DEFAULT_FILTER_BACKENDS": [
+        "django_filters.rest_framework.DjangoFilterBackend",
     ],
 }
 
@@ -161,10 +165,10 @@ DATABASES = {
         "PASSWORD": get_database_parameter("DB_PASSWORD"),
         "OPTIONS": {
             "dsn": f"DATABASE={get_database_parameter('DB_DATABASE')};"
-                   f"HOSTNAME={get_database_parameter('DB_HOST')};"
-                   f"PORT={get_database_parameter('DB_PORT')};"
-                   f"PROTOCOL=TCPIP;"
-                   f"CURRENTSCHEMA={get_database_parameter('DB_SCHEMA')};"
+            f"HOSTNAME={get_database_parameter('DB_HOST')};"
+            f"PORT={get_database_parameter('DB_PORT')};"
+            f"PROTOCOL=TCPIP;"
+            f"CURRENTSCHEMA={get_database_parameter('DB_SCHEMA')};"
         },
         "PCONNECT": True,
     }

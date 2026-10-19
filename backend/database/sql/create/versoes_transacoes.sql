@@ -4,7 +4,7 @@ CREATE TABLE ORCAMENTO.VERSOES_TRANSACOES (
     numero_versao INTEGER NOT NULL DEFAULT 1,
     id_empenho INTEGER DEFAULT NULL REFERENCES ORCAMENTO.EMPENHOS(id_empenho),
     id_finalidade integer not null references orcamento.FINALIDADES(ID_FINALIDADE),
-    id_unidade_credora integer default null references orcamento.unidades(ID_UNIDADE_INTERNA),
+    id_unidade_receptora integer default null references orcamento.unidades(ID_UNIDADE_INTERNA),
     id_unidade_executora integer default null references orcamento.unidades(ID_UNIDADE_INTERNA),
     id_usuario integer not null null references orcamento.usuarios(ID_USUARIO),
     id_status_pagamento integer not null references orcamento.status_pagamentos(ID_STATUS_PAGAMENTO),

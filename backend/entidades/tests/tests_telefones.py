@@ -1,15 +1,20 @@
 from django.urls import reverse
+from ngo_ccsh.tests.mixins import BaseAuthenticatedUserTestCase
 from rest_framework import status
 
 from entidades.models import Telefone
-from ngo_ccsh.tests.mixins import BaseAuthenticatedUserTestCase
 
 
 class TelefonesViewSetTestCase(BaseAuthenticatedUserTestCase):
     def setUp(self):
         self.url = reverse("entidades:telefones-list")
-        self.telefone = Telefone.objects.create(telefone="55999300012", pessoa=self.pessoa_ativa)
-        self.data = {"telefone": "5599111111", "id_pessoa_interna": self.pessoa_ativa.pk}
+        self.telefone = Telefone.objects.create(
+            telefone="55999300012", pessoa=self.pessoa_ativa
+        )
+        self.data = {
+            "telefone": "5599111111",
+            "id_pessoa_interna": self.pessoa_ativa.pk,
+        }
 
     def test_get_telefones(self):
         self.authentication(self.user_data_adm)
@@ -26,7 +31,7 @@ class TelefonesViewSetTestCase(BaseAuthenticatedUserTestCase):
         self.authentication(self.user_data_adm)
         response = self.client.post(self.url, data=self.data, format="json")
         self.assertEqual(status.HTTP_201_CREATED, response.status_code)
-        self.assertEqual(self.data['telefone'], response.data["telefone"])
+        self.assertEqual(self.data["telefone"], response.data["telefone"])
 
     def test_create_and_verify_pessoa_telefone(self):
         self.authentication(self.user_data_adm)
@@ -35,8 +40,11 @@ class TelefonesViewSetTestCase(BaseAuthenticatedUserTestCase):
 
         url = reverse("entidades:pessoas-detail", kwargs={"pk": self.pessoa_ativa.pk})
         response_pessoa = self.client.get(url)
-        response_telefones = response_pessoa.data['telefones']
-        match = next((e for e in response_telefones if e["id_telefone"] == self.telefone.pk), None)
+        response_telefones = response_pessoa.data["telefones"]
+        match = next(
+            (e for e in response_telefones if e["id_telefone"] == self.telefone.pk),
+            None,
+        )
         self.assertNotEqual(None, match)
 
     def test_create_telefone_bad_request(self):
@@ -48,7 +56,9 @@ class TelefonesViewSetTestCase(BaseAuthenticatedUserTestCase):
 
 class SingleTelefoneViewTestCase(BaseAuthenticatedUserTestCase):
     def setUp(self):
-        self.telefone = Telefone.objects.create(telefone="55999300012", pessoa=self.pessoa_ativa)
+        self.telefone = Telefone.objects.create(
+            telefone="55999300012", pessoa=self.pessoa_ativa
+        )
         self.data = {"telefone": "5599111111", "pessoa": self.pessoa_ativa.pk}
 
         self.urlPrefix = "entidades:telefones-detail"
@@ -70,7 +80,7 @@ class SingleTelefoneViewTestCase(BaseAuthenticatedUserTestCase):
         self.authentication(self.user_data_adm)
         response = self.client.patch(self.url, data=self.data)
         self.assertEqual(status.HTTP_200_OK, response.status_code)
-        self.assertEqual("5599111111", response.data['telefone'])
+        self.assertEqual("5599111111", response.data["telefone"])
 
     def test_patch_telefone_without_effect(self):
         self.authentication(self.user_data_adm)

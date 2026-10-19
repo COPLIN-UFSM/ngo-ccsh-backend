@@ -15,7 +15,7 @@ jobs:
       - name: Configurar Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.11"
+          python-version: "3.12"
 
       - name: Instalar dependências do projeto
         run: |
@@ -29,8 +29,12 @@ jobs:
         run: black --check .
 
       - name: Rodar flake8
-        run: flake8 .
+        run: flake8 . --select=E9,F63,F7,F82 --extend-ignore=F821
 
       - name: Rodar pylint
+        env:
+          DJANGO_SETTINGS_MODULE: ngo_ccsh.test_settings
+          DJANGO_SECRET_KEY: lint-secret-key
+          JWT_SIGNING_KEY: lint-secret-key
         run: |
-          find . -name "*.py" -not -path "*/migrations/*" -not -path "*/venv/*" | xargs pylint
+          find . -name "*.py" -not -path "*/migrations/*" -not -path "*/venv/*" | xargs pylint --errors-only

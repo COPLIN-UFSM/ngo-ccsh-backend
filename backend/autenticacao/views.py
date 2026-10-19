@@ -1,15 +1,15 @@
 from datetime import datetime
 
 from django.contrib.auth import authenticate
-from drf_spectacular.utils import extend_schema, OpenApiResponse
+from drf_spectacular.utils import OpenApiResponse, extend_schema
 from rest_framework import status
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
+from usuarios.models import Usuario
 
 from autenticacao.services import trigger_password_reset_flow
-from usuarios.models import Usuario
 
 
 class LoginView(APIView):
@@ -94,10 +94,8 @@ class RecoverPasswordView(APIView):
         user = Usuario.objects.filter(email=email).first()
         if not user:
             return Response(
-                {
-                    "detail": "Não existe um usuário com o e-mail informado."
-                },
-                status=status.HTTP_404_NOT_FOUND
+                {"detail": "Não existe um usuário com o e-mail informado."},
+                status=status.HTTP_404_NOT_FOUND,
             )
 
         if not user.is_active:

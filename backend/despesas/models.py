@@ -1,10 +1,7 @@
 from decimal import Decimal
 
 from django.db import models
-from django.db.models import Sum, Case, When, F, DecimalField
-
-from entidades.models import Unidade, Pessoa
-from usuarios.models import Usuario
+from django.db.models import Case, DecimalField, F, Sum, When
 
 
 class NaturezaFinalidade(models.Model):
@@ -12,9 +9,14 @@ class NaturezaFinalidade(models.Model):
     Pode ser IDR (distribuição orçamentária inicial), custeio, capital, transferência, ou outras categorias com reserva
     de recursos (e.g. Bolsas PRAE, para as quais os fundos não podem ser usados para outras finalidades)
     """
-    id_natureza_finalidade = models.AutoField(primary_key=True, db_column='id_natureza_finalidade')
-    natureza_finalidade = models.CharField(max_length=128, unique=True, db_column='natureza_finalidade')
-    ativo = models.BooleanField(default=True, blank=True, db_column='ativo')
+
+    id_natureza_finalidade = models.AutoField(
+        primary_key=True, db_column="id_natureza_finalidade"
+    )
+    natureza_finalidade = models.CharField(
+        max_length=128, unique=True, db_column="natureza_finalidade"
+    )
+    ativo = models.BooleanField(default=True, blank=True, db_column="ativo")
 
     class Meta:
         managed = False
@@ -29,9 +31,14 @@ class GrupoFinalidade(models.Model):
     Um grupo é um conjunto de finalidades similares, por exemplo Bolsas 2A, Bolsas PRAE, Bolsas de Monitoria são todas
     pertencentes ao grupo Bolsas.
     """
-    id_grupo_finalidade = models.AutoField(primary_key=True, db_column='id_grupo_finalidade')
-    grupo_finalidade = models.CharField(max_length=256, unique=True, db_column='grupo_finalidade')
-    ativo = models.BooleanField(default=True, blank=True, db_column='ativo')
+
+    id_grupo_finalidade = models.AutoField(
+        primary_key=True, db_column="id_grupo_finalidade"
+    )
+    grupo_finalidade = models.CharField(
+        max_length=256, unique=True, db_column="grupo_finalidade"
+    )
+    ativo = models.BooleanField(default=True, blank=True, db_column="ativo")
 
     class Meta:
         managed = False
@@ -46,9 +53,18 @@ class Finalidade(models.Model):
     Uma finalidade é um destino para uma transação. Por exemplo, dentro do GrupoFinalidade Bolsas, existem
     as finalidades de bolsa 2A, bolsa Monitoria, bolsa Descubra...
     """
-    id_finalidade = models.AutoField(primary_key=True, db_column='id_finalidade')
-    natureza_finalidade = models.ForeignKey(NaturezaFinalidade, models.DO_NOTHING, db_column="id_natureza_finalidade")
-    grupo_finalidade = models.ForeignKey(GrupoFinalidade, models.DO_NOTHING, db_column="id_grupo_finalidade", null=True, blank=True)
+
+    id_finalidade = models.AutoField(primary_key=True, db_column="id_finalidade")
+    natureza_finalidade = models.ForeignKey(
+        NaturezaFinalidade, models.DO_NOTHING, db_column="id_natureza_finalidade"
+    )
+    grupo_finalidade = models.ForeignKey(
+        GrupoFinalidade,
+        models.DO_NOTHING,
+        db_column="id_grupo_finalidade",
+        null=True,
+        blank=True,
+    )
 
     finalidade = models.CharField(max_length=512, unique=True, null=False, blank=False)
     ativo = models.BooleanField(default=True, blank=True)
@@ -66,14 +82,20 @@ class Finalidade(models.Model):
     def __str__(self):
         return self.finalidade
 
+
 class TipoDocumento(models.Model):
     """
     Um tipo de documento é uma informação necessária a alguns tipos de finalidade. Por exemplo,
     uma bolsa precisa de uma Lista SIAFI.
     """
-    id_tipo_documento = models.AutoField(primary_key=True, db_column='id_tipo_documento')
-    tipo_documento = models.CharField(max_length=128, unique=True, db_column='tipo_documento')
-    ativo = models.BooleanField(default=True, blank=True, db_column='ativo')
+
+    id_tipo_documento = models.AutoField(
+        primary_key=True, db_column="id_tipo_documento"
+    )
+    tipo_documento = models.CharField(
+        max_length=128, unique=True, db_column="tipo_documento"
+    )
+    ativo = models.BooleanField(default=True, blank=True, db_column="ativo")
 
     class Meta:
         managed = False
@@ -87,14 +109,21 @@ class TipoDocumentoParaFinalidade(models.Model):
     """
     Tabela que liga os tipos de documentos às finalidades.
     """
+
     pk = models.CompositePrimaryKey("tipo_documento_id", "finalidade_id")
-    tipo_documento = models.ForeignKey(TipoDocumento, models.DO_NOTHING, db_column="id_tipo_documento")
-    finalidade = models.ForeignKey(Finalidade, models.DO_NOTHING, db_column="id_finalidade")
-    obrigatorio = models.BooleanField(
-        default=True, blank=True, db_column='obrigatorio',
-        db_comment='Se este tipo de documento é obrigatório para esta finalidade'
+    tipo_documento = models.ForeignKey(
+        TipoDocumento, models.DO_NOTHING, db_column="id_tipo_documento"
     )
-    #ativo = models.BooleanField(default=True, blank=True, db_column='ativo')
+    finalidade = models.ForeignKey(
+        Finalidade, models.DO_NOTHING, db_column="id_finalidade"
+    )
+    obrigatorio = models.BooleanField(
+        default=True,
+        blank=True,
+        db_column="obrigatorio",
+        db_comment="Se este tipo de documento é obrigatório para esta finalidade",
+    )
+    ativo = models.BooleanField(default=True, blank=True, db_column="ativo")
 
     class Meta:
         managed = False
@@ -105,11 +134,19 @@ class ValorDocumento(models.Model):
     """
     Valor de um documento. Por exemplo, o valor da Lista SIAFI.
     """
-    pk = models.CompositePrimaryKey("tipo_documento_id", "versao_transacao_id")
-    tipo_documento = models.ForeignKey(TipoDocumento, models.DO_NOTHING, db_column="id_tipo_documento")
-    versao_transacao = models.ForeignKey("VersaoTransacao", models.DO_NOTHING, related_name="documentos", db_column="id_versao_transacao")
 
-    valor_documento = models.CharField(max_length=256, db_column='valor_documento')
+    pk = models.CompositePrimaryKey("tipo_documento_id", "versao_transacao_id")
+    tipo_documento = models.ForeignKey(
+        TipoDocumento, models.DO_NOTHING, db_column="id_tipo_documento"
+    )
+    versao_transacao = models.ForeignKey(
+        "VersaoTransacao",
+        models.DO_NOTHING,
+        related_name="documentos",
+        db_column="id_versao_transacao",
+    )
+
+    valor_documento = models.CharField(max_length=256, db_column="valor_documento")
 
     class Meta:
         managed = False
@@ -117,39 +154,56 @@ class ValorDocumento(models.Model):
 
 
 class Empenho(models.Model):
-    id_empenho = models.AutoField(primary_key=True, db_column='id_empenho')
-    numero_empenho = models.CharField(max_length=32, unique=True, db_column='numero_empenho')
-    numero_pen = models.CharField(max_length=32, unique=True, null=True, blank=True, db_column='numero_pen')
-    finalidade = models.ForeignKey(Finalidade, models.DO_NOTHING, db_column="id_finalidade")
-    data_criacao = models.DateTimeField(blank=True, auto_now_add=True, db_column='data_criacao')
+    id_empenho = models.AutoField(primary_key=True, db_column="id_empenho")
+    numero_empenho = models.CharField(
+        max_length=32, unique=True, db_column="numero_empenho"
+    )
+    numero_pen = models.CharField(
+        max_length=32, unique=True, null=True, blank=True, db_column="numero_pen"
+    )
+    finalidade = models.ForeignKey(
+        Finalidade, models.DO_NOTHING, db_column="id_finalidade"
+    )
+    data_criacao = models.DateTimeField(
+        blank=True, auto_now_add=True, db_column="data_criacao"
+    )
+    ativo = models.BooleanField(default=True, blank=True, db_column="ativo")
 
     @property
     def montante(self):
-        related_transaction = Transacao.objects.filter(empenho=self).aggregate(
+        related_transaction = VersaoTransacao.objects.filter(
+            empenho=self, transacao__versao_transacao=F("id_versao_transacao")
+        ).aggregate(
             montante=Sum(
                 Case(
-                    When(eh_credito=True, then=F("montante")),
-                    When(eh_credito=False, then=-F("montante")),
-                    default=Decimal(0.00),
+                    When(credito=True, then=F("montante")),
+                    When(credito=False, then=-F("montante")),
+                    default=Decimal("0.00"),
                 ),
                 output_field=DecimalField(),
             )
         )
-        return related_transaction["montante"] or Decimal(0.00)
+        return related_transaction["montante"] or Decimal("0.00")
 
     class Meta:
         managed = False
         db_table = "empenhos"
 
+    def __str__(self):
+        return self.numero_empenho
+
 
 # pago, pendente, alocado
 class StatusTransacao(models.Model):
-    id_status_transacao = models.AutoField(primary_key=True, db_column='id_status_transacao')
-    status_transacao = models.TextField(max_length=64, db_column='status_transacao')
+    id_status_transacao = models.AutoField(
+        primary_key=True, db_column="id_status_transacao"
+    )
+    status_transacao = models.TextField(max_length=64, db_column="status_transacao")
 
     class Meta:
         managed = False
         db_table = "status_transacoes"
+
     def __str__(self):
         return self.status_transacao
 
@@ -187,8 +241,15 @@ class VersaoTransacao(models.Model):
     As versões existentes nunca são modificadas.
     """
 
-    id_versao_transacao = models.AutoField(primary_key=True, db_column="id_versao_transacao")
-    transacao = models.ForeignKey(Transacao, on_delete=models.PROTECT, related_name="versoes", db_column="id_transacao")
+    id_versao_transacao = models.AutoField(
+        primary_key=True, db_column="id_versao_transacao"
+    )
+    transacao = models.ForeignKey(
+        Transacao,
+        on_delete=models.PROTECT,
+        related_name="versoes",
+        db_column="id_transacao",
+    )
     numero_versao = models.PositiveIntegerField(default=1)
 
     empenho = models.ForeignKey(
@@ -207,8 +268,8 @@ class VersaoTransacao(models.Model):
         db_column="id_finalidade",
     )
 
-    unidade_credora = models.ForeignKey(
-        Unidade,
+    unidade_receptora = models.ForeignKey(
+        "entidades.Unidade",
         models.DO_NOTHING,
         null=True,
         blank=True,
@@ -217,14 +278,14 @@ class VersaoTransacao(models.Model):
     )
 
     unidade_executora = models.ForeignKey(
-        Unidade,
+        "entidades.Unidade",
         models.DO_NOTHING,
         related_name="+",
         db_column="id_unidade_executora",
     )
 
     usuario = models.ForeignKey(
-        Usuario,
+        "usuarios.Usuario",
         models.DO_NOTHING,
         db_column="id_usuario",
     )
@@ -236,7 +297,7 @@ class VersaoTransacao(models.Model):
     )
 
     beneficiario = models.ForeignKey(
-        Pessoa,
+        "entidades.Pessoa",
         models.DO_NOTHING,
         null=True,
         blank=True,
@@ -246,9 +307,7 @@ class VersaoTransacao(models.Model):
     credito = models.BooleanField(default=False)
 
     montante = models.DecimalField(
-        max_digits=15,
-        decimal_places=2,
-        default=Decimal("0.00")
+        max_digits=15, decimal_places=2, default=Decimal("0.00")
     )
 
     data_criacao = models.DateTimeField(auto_now_add=True)

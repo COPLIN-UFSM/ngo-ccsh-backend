@@ -1,4 +1,5 @@
 from django.urls import path
+
 from autenticacao.views import (
     LoginView,
     RecoverPasswordView,
