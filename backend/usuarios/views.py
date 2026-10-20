@@ -38,7 +38,7 @@ class UserListView(GenericAPIView):
         tags=["usuários"],
     )
     def get(self, request):
-        queryset = Usuario.objects.all().order_by("id")
+        queryset = Usuario.objects.all().order_by("pessoa__id_pessoa_interna")
         if not request.query_params.get("ativo"):
             queryset = queryset.filter(ativo=True)
         queryset = self.filter_queryset(queryset)
@@ -260,7 +260,7 @@ class ChangePasswordView(APIView):
         },
         tags=["usuários"],
     )
-    # TODO: não permitir que eu altere minha senha, sem a antiga.
+
     def patch(self, request, *args, **kwargs):
         id_usuario = kwargs["id"]
 

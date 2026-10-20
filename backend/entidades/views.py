@@ -4,7 +4,7 @@ from rest_framework.exceptions import MethodNotAllowed
 from rest_framework.filters import OrderingFilter
 from rest_framework.response import Response
 
-from entidades.filters import UnidadeFilterSet
+from entidades.filters import ServidorFilterSet, UnidadeFilterSet
 from entidades.models import (
     Centro,
     Curso,
@@ -115,7 +115,11 @@ class CursoViewSet(viewsets.ModelViewSet):
 
 
 class PessoaViewSet(viewsets.ModelViewSet):
-    queryset = Pessoa.objects.all().prefetch_related("telefone_set", "email_set")
+    queryset = (
+        Pessoa.objects.all()
+        .prefetch_related("telefone_set", "email_set")
+        .order_by("id_pessoa_interna")
+    )
     serializer_class = PessoaSerializer
     http_method_names = ["get", "post", "patch"]
 
@@ -132,24 +136,26 @@ class PessoaViewSet(viewsets.ModelViewSet):
 
 
 class DiscenteViewSet(viewsets.ModelViewSet):
-    queryset = Discente.objects.all().select_related("pessoa", "curso")
+    queryset = Discente.objects.all().select_related("pessoa", "curso").order_by("pessoa__id_pessoa_interna")
     serializer_class = DiscenteSerializer
     http_method_names = ["get"]
 
 
 class ServidorViewSet(viewsets.ModelViewSet):
-    queryset = Servidor.objects.all().select_related("pessoa", "cargo")
+    queryset = Servidor.objects.all().select_related("pessoa", "cargo").order_by("pessoa__id_pessoa_interna")
     serializer_class = ServidorSerializer
     http_method_names = ["get"]
+    filter_backends = (DjangoFilterBackend,)
+    filterset_class = ServidorFilterSet
 
 
 class TelefoneViewSet(viewsets.ModelViewSet):
-    queryset = Telefone.objects.all()
+    queryset = Telefone.objects.all().order_by("id_telefone")
     serializer_class = TelefoneSerializer
     http_method_names = ["get", "post", "patch", "delete"]
 
 
 class EmailViewSet(viewsets.ModelViewSet):
-    queryset = Email.objects.all()
+    queryset = Email.objects.all().order_by("id_email")
     serializer_class = EmailSerializer
     http_method_names = ["get", "post", "patch", "delete"]

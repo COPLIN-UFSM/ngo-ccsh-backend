@@ -1,6 +1,6 @@
 from django_filters import BooleanFilter, CharFilter, FilterSet
 
-from entidades.models import Unidade
+from entidades.models import Servidor, Unidade
 
 
 class UnidadeFilterSet(FilterSet):
@@ -17,4 +17,14 @@ class UnidadeFilterSet(FilterSet):
 
     class Meta:
         model = Unidade
+        fields = []
+
+
+class ServidorFilterSet(FilterSet):
+    # cpf comes from the related Pessoa model.
+    cpf = CharFilter(field_name="pessoa__cpf", lookup_expr="exact")
+    ativo = BooleanFilter(field_name="ativo")
+
+    class Meta:
+        model = Servidor
         fields = []
