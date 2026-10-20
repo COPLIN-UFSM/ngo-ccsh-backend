@@ -2,7 +2,7 @@
 Script para desenvolvimento local com SQLite persistente em disco, sem alterar o banco de produção.
 """
 
-from .settings import BASE_DIR, FORCE_SCRIPT_NAME, REST_FRAMEWORK
+from .settings import *  # noqa: F403
 
 DATABASES = {
     "default": {
