@@ -149,3 +149,8 @@ Para gerar diagramas do banco de dados, use o seguinte comando:
 ```bash
 python .\backend\manage.py graph_models -a -g -o instance/models.png --settings=ngo_ccsh.dev_settings
 ```
+
+## Postman
+
+Para ver o contrato de interface da API, use o Postman. O arquivo de configuração do Postman está em `postman/api.postman_collection.json`.
+

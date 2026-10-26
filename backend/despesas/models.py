@@ -304,6 +304,7 @@ class VersaoTransacao(models.Model):
         db_column="id_beneficiario",
     )
 
+    # True se a transação é um crédito (entrada de recursos), False se é um débito (saída de recursos)
     credito = models.BooleanField(default=False)
 
     montante = models.DecimalField(

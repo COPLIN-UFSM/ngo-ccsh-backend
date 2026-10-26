@@ -1,0 +1,2013 @@
+{
+  "info": {
+    "_postman_id": "b2bbee16-751f-4c76-969b-178971426684",
+    "name": "NGO API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "42665691"
+  },
+  "item": [
+    {
+      "name": "auth",
+      "item": [
+        {
+          "name": "Login",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var jsonData = pm.response.json();\r",
+                  "// Altere de pm.environment para pm.globals\r",
+                  "pm.globals.set(\"token\", jsonData.data.token);\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"senha\": \"leandrokise\",\r\n    \"cpf\": \"00000000001\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}{{autenticacao}}login/",
+              "host": [
+                "{{base_url}}{{autenticacao}}login"
+              ],
+              "path": [
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "RecoverPassword",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{    \r\n    \"username\": \"leandrogalbarino\"\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}{{autenticacao}}recover-password/",
+              "host": [
+                "{{base_url}}{{autenticacao}}recover-password"
+              ],
+              "path": [
+                ""
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "usuarios",
+      "item": [
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"email\": \"gun@yamazaki.com\",\r\n    \"senha\": \"blabla123!\",\r\n    \"senha2\": \"blabla123!\",\r\n    \"cpf\": \"00000000003\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}{{folderPath}}",
+              "host": [
+                "{{base_url}}{{folderPath}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get All",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"finalidade\": \"Bolsa\",\r\n    \"tipo_despesa\": 12,\r\n    \"subtipo_finalidade\": 14\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}{{folderPath}}?ativo=all",
+              "host": [
+                "{{base_url}}{{folderPath}}"
+              ],
+              "query": [
+                {
+                  "key": "ativo",
+                  "value": "all"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get By Id",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"finalidade\": \"Leandro\",\r\n    \"tipos_documentos\": [\r\n        {\r\n            \"tipo_documento\": 4,\r\n            \"obrigatorio\": false\r\n        },{\r\n            \"tipo_documento: 1,\r\n            \"obrigatorio\": false,\r\n        }\r\n\r\n    ]\r\n    \r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}{{folderPath}}1/",
+              "host": [
+                "{{base_url}}{{folderPath}}1"
+              ],
+              "path": [
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Change Info",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"senha\": \"leandrokise\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}{{folderPath}}2/",
+              "host": [
+                "{{base_url}}{{folderPath}}2"
+              ],
+              "path": [
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "ChangePassword",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"senha\": \"leandrokise\",\r\n    \"senha2\": \"leandrokise\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}{{folderPath}}2/senha/",
+              "host": [
+                "{{base_url}}{{folderPath}}2"
+              ],
+              "path": [
+                "senha",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete User",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "{{base_url}}{{usuarios}}2/",
+              "host": [
+                "{{base_url}}{{usuarios}}2"
+              ],
+              "path": [
+                ""
+              ]
+            }
+          },
+          "response": []
+        }
+      ],
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {},
+            "exec": [
+              "// Obtém o caminho completo de execução\r",
+              "const localizacao = pm.execution.location;\r",
+              "\r",
+              "// Se o script está na pasta e roda antes da requisição, \r",
+              "// o penúltimo item do array sempre será o nome dessa pasta.\r",
+              "const nomeDaPastaAtual = localizacao[localizacao.length - 2];\r",
+              "\r",
+              "// Define a variável para ser usada na URL\r",
+              "pm.variables.set(\"nomeDaPasta\", nomeDaPastaAtual);"
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {},
+            "exec": [
+              ""
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "despesas",
+      "item": [
+        {
+          "name": "finalidades",
+          "item": [
+            {
+              "name": "grupos",
+              "item": [
+                {
+                  "name": "Get Finalidades",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"finalidade\": \"Bolsa\",\r\n    \"tipo_despesa\": 12,\r\n    \"subtipo_finalidade\": 14\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{base_url}}{{folderPath}}",
+                      "host": [
+                        "{{base_url}}{{folderPath}}"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Get Single",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"categoria_finalidade\": \"Bolsa\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{base_url}}{{folderPath}}8",
+                      "host": [
+                        "{{base_url}}{{folderPath}}8"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Add finalidade",
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"grupo_finalidade\": \"Pagamento externo\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{base_url}}{{folderPath}}",
+                      "host": [
+                        "{{base_url}}{{folderPath}}"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Update Finalidade",
+                  "request": {
+                    "method": "PATCH",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"grupo_finalidade\": \"Bolsas Estágio\",\r\n    \"ativo\": true\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{base_url}}{{folderPath}}8/",
+                      "host": [
+                        "{{base_url}}{{folderPath}}8"
+                      ],
+                      "path": [
+                        ""
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Delete",
+                  "request": {
+                    "method": "DELETE",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"categoria_finalidade\": \"Bolsa\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{base_url}}{{folderPath}}8/",
+                      "host": [
+                        "{{base_url}}{{folderPath}}8"
+                      ],
+                      "path": [
+                        ""
+                      ]
+                    }
+                  },
+                  "response": []
+                }
+              ]
+            },
+            {
+              "name": "naturezas",
+              "item": [
+                {
+                  "name": "Geta All",
+                  "request": {
+                    "method": "GET",
+                    "header": [],
+                    "url": {
+                      "raw": "{{base_url}}{{folderPath}}",
+                      "host": [
+                        "{{base_url}}{{folderPath}}"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Get Single",
+                  "request": {
+                    "method": "GET",
+                    "header": [],
+                    "url": {
+                      "raw": "{{base_url}}{{folderPath}}3/",
+                      "host": [
+                        "{{base_url}}{{folderPath}}3"
+                      ],
+                      "path": [
+                        ""
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "POST",
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"natureza_finalidade\": \"Bolsa Externa 2\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{base_url}}{{folderPath}}",
+                      "host": [
+                        "{{base_url}}{{folderPath}}"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Update",
+                  "request": {
+                    "method": "PATCH",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"natureza_finalidade\": \"Bolsa Nao Interna\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{base_url}}{{folderPath}}5/",
+                      "host": [
+                        "{{base_url}}{{folderPath}}5"
+                      ],
+                      "path": [
+                        ""
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "DELETE",
+                  "request": {
+                    "method": "DELETE",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"natureza_finalidade\": \"bolsas\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{base_url}}{{folderPath}}3/",
+                      "host": [
+                        "{{base_url}}{{folderPath}}3"
+                      ],
+                      "path": [
+                        ""
+                      ]
+                    }
+                  },
+                  "response": []
+                }
+              ]
+            },
+            {
+              "name": "Get Finalidades",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"finalidade\": \"Bolsa\",\r\n    \"tipo_despesa\": 12,\r\n    \"subtipo_finalidade\": 14\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}{{folderPath}}43",
+                  "host": [
+                    "{{base_url}}{{folderPath}}43"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "finalidade single",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"finalidade\": \"Bolsa\",\r\n    \"tipo_despesa\": 12,\r\n    \"subtipo_finalidade\": 14\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}{{folderPath}}2/",
+                  "host": [
+                    "{{base_url}}{{folderPath}}2"
+                  ],
+                  "path": [
+                    ""
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Add finalidade",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"id_natureza_finalidade\": 1,\r\n    \"id_grupo_finalidade\": 1,\r\n    \"finalidade\": \"IDR-CAPITAL\",\r\n    \"tipos_documentos\": [\r\n        {\r\n            \"id_tipo_documento\": 1\r\n        }\r\n    ]\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}{{folderPath}}",
+                  "host": [
+                    "{{base_url}}{{folderPath}}"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Update",
+              "request": {
+                "method": "PATCH",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"dsada\": true\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}{{folderPath}}2/",
+                  "host": [
+                    "{{base_url}}{{folderPath}}2"
+                  ],
+                  "path": [
+                    ""
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "delete",
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"finalidade\": \"Leandro\",\r\n    \"tipos_documentos\": [\r\n        {\r\n            \"tipo_documento\": 4,\r\n            \"obrigatorio\": false\r\n        },{\r\n            \"tipo_documento: 1,\r\n            \"obrigatorio\": false,\r\n        }\r\n\r\n    ]\r\n    \r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}{{folderPath}}1/1",
+                  "host": [
+                    "{{base_url}}{{folderPath}}1"
+                  ],
+                  "path": [
+                    "1"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "tipos-documentos",
+          "item": [
+            {
+              "name": "Get Tipo Documento",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"categoria_finalidade\": \"Bolsa\"\r\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}{{folderPath}}",
+                  "host": [
+                    "{{base_url}}{{folderPath}}"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Get Single Tipo Doc",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"finalidade\": \"Bolsa\",\r\n    \"tipo_despesa\": 12,\r\n    \"subtipo_finalidade\": 14\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}{{folderPath}}6/",
+                  "host": [
+                    "{{base_url}}{{folderPath}}6"
+                  ],
+                  "path": [
+                    ""
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "ADD",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"tipo_documento\": \"SIAF 22\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}{{folderPath}}",
+                  "host": [
+                    "{{base_url}}{{folderPath}}"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Update",
+              "request": {
+                "method": "PATCH",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"tipo_documento\": \"MANUEL GOMES1\"\r\n\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}{{folderPath}}6/",
+                  "host": [
+                    "{{base_url}}{{folderPath}}6"
+                  ],
+                  "path": [
+                    ""
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Delete",
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"tipo_documento\": \"SIE\"\r\n\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}{{folderPath}}6/",
+                  "host": [
+                    "{{base_url}}{{folderPath}}6"
+                  ],
+                  "path": [
+                    ""
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "empenhos",
+          "item": [
+            {
+              "name": "Get",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"finalidade\": \"Leandro\",\r\n    \"tipos_documentos\": [\r\n        {\r\n            \"tipo_documento\": 4,\r\n            \"obrigatorio\": false\r\n        },{\r\n            \"tipo_documento: 1,\r\n            \"obrigatorio\": false,\r\n        }\r\n\r\n    ]\r\n    \r\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}{{folderPath}}",
+                  "host": [
+                    "{{base_url}}{{folderPath}}"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Get Single",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"finalidade\": \"Leandro\",\r\n    \"tipos_documentos\": [\r\n        {\r\n            \"tipo_documento\": 4,\r\n            \"obrigatorio\": false\r\n        },{\r\n            \"tipo_documento: 1,\r\n            \"obrigatorio\": false,\r\n        }\r\n\r\n    ]\r\n    \r\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}{{folderPath}}",
+                  "host": [
+                    "{{base_url}}{{folderPath}}"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Add empenho",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"numero_empenho\": \"219841121B23F1111DS\",\r\n    \"empenho\": \"12321321fsddadasfsd1\",\r\n    \"descricao\": \"fsdifnsidfs\",\r\n    \"finalidade\": 9\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}{{folderPath}}",
+                  "host": [
+                    "{{base_url}}{{folderPath}}"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Update",
+              "request": {
+                "method": "PATCH",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"numero_empenho\": \"fubds\",\r\n    \"numero_pen\": \"leandro\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}{{folderPath}}10/",
+                  "host": [
+                    "{{base_url}}{{folderPath}}10"
+                  ],
+                  "path": [
+                    ""
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Delete",
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"finalidade\": \"Leandro\",\r\n    \"tipos_documentos\": [\r\n        {\r\n            \"tipo_documento\": 4,\r\n            \"obrigatorio\": false\r\n        },{\r\n            \"tipo_documento: 1,\r\n            \"obrigatorio\": false,\r\n        }\r\n\r\n    ]\r\n    \r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}{{folderPath}}2/",
+                  "host": [
+                    "{{base_url}}{{folderPath}}2"
+                  ],
+                  "path": [
+                    ""
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "transacoes",
+          "item": [
+            {
+              "name": "status",
+              "item": [
+                {
+                  "name": "Get Transações",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"categoria_finalidade\": \"Bolsa\"\r\n}"
+                    },
+                    "url": {
+                      "raw": "{{base_url}}{{folderPath}}",
+                      "host": [
+                        "{{base_url}}{{folderPath}}"
+                      ]
+                    }
+                  },
+                  "response": []
+                }
+              ]
+            },
+            {
+              "name": "9/versoes",
+              "item": [
+                {
+                  "name": "Get versoes",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"finalidade\": \"Bolsa\",\r\n    \"tipo_despesa\": 12,\r\n    \"subtipo_finalidade\": 14\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{base_url}}{{folderPath}}",
+                      "host": [
+                        "{{base_url}}{{folderPath}}"
+                      ]
+                    }
+                  },
+                  "response": []
+                }
+              ]
+            },
+            {
+              "name": "12/documentos",
+              "item": [
+                {
+                  "name": "get",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"finalidade\": \"Bolsa\",\r\n    \"tipo_despesa\": 12,\r\n    \"subtipo_finalidade\": 14\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{base_url}}{{folderPath}}1/",
+                      "host": [
+                        "{{base_url}}{{folderPath}}1"
+                      ],
+                      "path": [
+                        ""
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "get single",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"finalidade\": \"Bolsa\",\r\n    \"tipo_despesa\": 12,\r\n    \"subtipo_finalidade\": 14\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{base_url}}{{folderPath}}6/",
+                      "host": [
+                        "{{base_url}}{{folderPath}}6"
+                      ],
+                      "path": [
+                        ""
+                      ]
+                    }
+                  },
+                  "response": []
+                }
+              ]
+            },
+            {
+              "name": "get all",
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "exec": [
+                      "console.log(pm.globals.get(\"token\"))"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"finalidade\": \"Bolsa\",\r\n    \"tipo_despesa\": 12,\r\n    \"subtipo_finalidade\": 14\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}{{folderPath}}",
+                  "host": [
+                    "{{base_url}}{{folderPath}}"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Get Single Copy",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"finalidade\": \"Bolsa\",\r\n    \"tipo_despesa\": 12,\r\n    \"subtipo_finalidade\": 14\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}{{folderPath}}8/",
+                  "host": [
+                    "{{base_url}}{{folderPath}}8"
+                  ],
+                  "path": [
+                    ""
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Add",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"transacao\": {\r\n        \"id_finalidade\": 41,\r\n        \"id_unidade_executora\": 91,\r\n        \"id_unidade_receptora\": 9,\r\n        \"id_status_pagamento\": 1,\r\n        \"montante\": 20000,\r\n        \"credito\": true,\r\n        \"documentos\": [\r\n            {\r\n                \"id_tipo_documento\": 1,\r\n                \"valor_documento\": \"itadakimasu\"\r\n            }\r\n        ]\r\n    }\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}{{folderPath}}",
+                  "host": [
+                    "{{base_url}}{{folderPath}}"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Update Single",
+              "request": {
+                "method": "PATCH",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"transacao\": {\r\n        \"montante\": 1000\r\n    }\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}{{folderPath}}9/",
+                  "host": [
+                    "{{base_url}}{{folderPath}}9"
+                  ],
+                  "path": [
+                    ""
+                  ]
+                }
+              },
+              "response": []
+            }
+          ],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {},
+                "exec": [
+                  ""
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {},
+                "exec": [
+                  ""
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "unidades",
+          "item": [
+            {
+              "name": "get all Copy",
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "exec": [
+                      "console.log(pm.globals.get(\"token\"))"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"finalidade\": \"Bolsa\",\r\n    \"tipo_despesa\": 12,\r\n    \"subtipo_finalidade\": 14\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}{{folderPath}}91/",
+                  "host": [
+                    "{{base_url}}{{folderPath}}91"
+                  ],
+                  "path": [
+                    ""
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "entidades",
+      "item": [
+        {
+          "name": "centros",
+          "item": [
+            {
+              "name": "get",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": ""
+                },
+                "url": {
+                  "raw": "{{base_url}}{{folderPath}}",
+                  "host": [
+                    "{{base_url}}{{folderPath}}"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "post",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"nome_centro\": \"Escola Estadueal Maria Rocha\",\r\n    \"sigla_centro\": \"TPDDM\",\r\n    \"cod_estruturado\": \"daisjndjasdfsa\"\r\n\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}{{folderPath}}",
+                  "host": [
+                    "{{base_url}}{{folderPath}}"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "get one",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": ""
+                },
+                "url": {
+                  "raw": "{{base_url}}{{folderPath}}7202",
+                  "host": [
+                    "{{base_url}}{{folderPath}}7202"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "update",
+              "request": {
+                "method": "PATCH",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"cod_estruturado\": \"12.00.00.00.0.0\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}{{folderPath}}7202/",
+                  "host": [
+                    "{{base_url}}{{folderPath}}7202"
+                  ],
+                  "path": [
+                    ""
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "delete",
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}{{folderPath}}7202/",
+                  "host": [
+                    "{{base_url}}{{folderPath}}7202"
+                  ],
+                  "path": [
+                    ""
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "unidades",
+          "item": [
+            {
+              "name": "tipos",
+              "item": [
+                {
+                  "name": "get",
+                  "request": {
+                    "method": "GET",
+                    "header": [],
+                    "url": {
+                      "raw": "{{base_url}}{{folderPath}}",
+                      "host": [
+                        "{{base_url}}{{folderPath}}"
+                      ]
+                    }
+                  },
+                  "response": []
+                }
+              ]
+            },
+            {
+              "name": "situacoes",
+              "item": [
+                {
+                  "name": "get",
+                  "request": {
+                    "method": "GET",
+                    "header": [],
+                    "url": {
+                      "raw": "{{base_url}}{{folderPath}}",
+                      "host": [
+                        "{{base_url}}{{folderPath}}"
+                      ]
+                    }
+                  },
+                  "response": []
+                }
+              ]
+            },
+            {
+              "name": "get",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": ""
+                },
+                "url": {
+                  "raw": "{{base_url}}{{folderPath}}76/",
+                  "host": [
+                    "{{base_url}}{{folderPath}}76"
+                  ],
+                  "path": [
+                    ""
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "post",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"nome_unidade\": \"Ensino Medio Integrado C\",\r\n    \"id_centro\": 78,\r\n    \"id_tipo_unidade\": 1,\r\n    \"id_situacao_unidade\": 2,\r\n    \"cod_estruturado\": 100\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}{{folderPath}}",
+                  "host": [
+                    "{{base_url}}{{folderPath}}"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "get one",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": ""
+                },
+                "url": {
+                  "raw": "{{base_url}}{{folderPath}}7214/",
+                  "host": [
+                    "{{base_url}}{{folderPath}}7214"
+                  ],
+                  "path": [
+                    ""
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "update",
+              "request": {
+                "method": "PATCH",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"pode_empenhar\": true\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}{{folderPath}}91/",
+                  "host": [
+                    "{{base_url}}{{folderPath}}91"
+                  ],
+                  "path": [
+                    ""
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "cursos",
+          "item": [
+            {
+              "name": "get Copy",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": ""
+                },
+                "url": {
+                  "raw": "{{base_url}}{{folderPath}}",
+                  "host": [
+                    "{{base_url}}{{folderPath}}"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "pessoas",
+          "item": [
+            {
+              "name": "discentes",
+              "item": [
+                {
+                  "name": "get Copy",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": ""
+                    },
+                    "url": {
+                      "raw": "{{base_url}}{{folderPath}}",
+                      "host": [
+                        "{{base_url}}{{folderPath}}"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "get Copy 2",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": ""
+                    },
+                    "url": {
+                      "raw": "{{base_url}}{{folderPath}}210751",
+                      "host": [
+                        "{{base_url}}{{folderPath}}210751"
+                      ]
+                    }
+                  },
+                  "response": []
+                }
+              ]
+            },
+            {
+              "name": "servidores",
+              "item": [
+                {
+                  "name": "get Copy",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": ""
+                    },
+                    "url": {
+                      "raw": "{{base_url}}{{folderPath}}",
+                      "host": [
+                        "{{base_url}}{{folderPath}}"
+                      ]
+                    }
+                  },
+                  "response": []
+                }
+              ]
+            },
+            {
+              "name": "get Copy",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": ""
+                },
+                "url": {
+                  "raw": "{{base_url}}{{folderPath}}",
+                  "host": [
+                    "{{base_url}}{{folderPath}}"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "get one Copy",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": ""
+                },
+                "url": {
+                  "raw": "{{base_url}}{{folderPath}}304654",
+                  "host": [
+                    "{{base_url}}{{folderPath}}304654"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "post Copy",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"nome_pessoa\": \"Loki Deus da MENTIRA\",\r\n    \"cpf\": \"0518660063\",\r\n    \"rg\": \"05186600693\",\r\n    \"telefones\": [\r\n        {\r\n            \"telefone\": \"3232131312\"\r\n        }\r\n    ],\r\n    \"emails\": [\r\n        {\r\n            \"email\": \"Lokideusdamentira@gmail.com\"\r\n        }\r\n    ]\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}{{folderPath}}",
+                  "host": [
+                    "{{base_url}}{{folderPath}}"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "update Copy",
+              "request": {
+                "method": "PATCH",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"telefones\": [\r\n        {\r\n            \"id_telefone\": 6,\r\n            \"telefone\": \"55991526343\"\r\n        }\r\n    ]\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}{{folderPath}}788941/",
+                  "host": [
+                    "{{base_url}}{{folderPath}}788941"
+                  ],
+                  "path": [
+                    ""
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "telefones",
+          "item": [
+            {
+              "name": "get Copy",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": ""
+                },
+                "url": {
+                  "raw": "{{base_url}}{{folderPath}}",
+                  "host": [
+                    "{{base_url}}{{folderPath}}"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "post Copy",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"telefone\": \"559915263421\",\r\n    \"id_pessoa_interna\": 304654\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}{{folderPath}}",
+                  "host": [
+                    "{{base_url}}{{folderPath}}"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "get one Copy",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": ""
+                },
+                "url": {
+                  "raw": "{{base_url}}{{folderPath}}18",
+                  "host": [
+                    "{{base_url}}{{folderPath}}18"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "update Copy",
+              "request": {
+                "method": "PATCH",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"telefone\": \"5555555555\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}{{folderPath}}3/",
+                  "host": [
+                    "{{base_url}}{{folderPath}}3"
+                  ],
+                  "path": [
+                    ""
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "New Request",
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}{{folderPath}}18/",
+                  "host": [
+                    "{{base_url}}{{folderPath}}18"
+                  ],
+                  "path": [
+                    ""
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "emails",
+          "item": [
+            {
+              "name": "get Copy",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": ""
+                },
+                "url": {
+                  "raw": "{{base_url}}{{folderPath}}",
+                  "host": [
+                    "{{base_url}}{{folderPath}}"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "post Copy",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"email\": \"loki_deus_do_tempo@acimadotempo.com\",\r\n    \"id_pessoa_interna\": 304654\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}{{folderPath}}",
+                  "host": [
+                    "{{base_url}}{{folderPath}}"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "get one Copy",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": ""
+                },
+                "url": {
+                  "raw": "{{base_url}}{{folderPath}}3",
+                  "host": [
+                    "{{base_url}}{{folderPath}}3"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "update Copy",
+              "request": {
+                "method": "PATCH",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"email\": \"lonascimento@inf.ufsm.br\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}{{folderPath}}4/",
+                  "host": [
+                    "{{base_url}}{{folderPath}}4"
+                  ],
+                  "path": [
+                    ""
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "New Request",
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}{{folderPath}}4/",
+                  "host": [
+                    "{{base_url}}{{folderPath}}4"
+                  ],
+                  "path": [
+                    ""
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          "// 1. Obtém o caminho atual (ex: [\"NGO API\", \"entidades\", \"centros\", \"My Request\"])\r",
+          "const locationPath = pm.execution.location; \r",
+          "\r",
+          "// 2. Garante que existem pastas intermediárias entre a Coleção e a Requisição\r",
+          "if (locationPath && locationPath.length > 2) {\r",
+          "    // Remove o primeiro (Coleção) e o último (Requisição)\r",
+          "    const folderPathSegments = locationPath.slice(1, -1);\r",
+          "    \r",
+          "    // Junta todas as pastas intermediárias com '/' e adiciona a barra no final\r",
+          "    const dynamicPath = folderPathSegments.join('/') + '/';\r",
+          "    \r",
+          "    pm.variables.set(\"folderPath\", dynamicPath);\r",
+          "} else {\r",
+          "    // Se a requisição estiver na raiz da Coleção, deixa o caminho vazio\r",
+          "    pm.variables.set(\"folderPath\", \"\");\r",
+          "}\r",
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": ""
+    },
+    {
+      "key": "userId",
+      "value": ""
+    },
+    {
+      "key": "usuarios",
+      "value": ""
+    },
+    {
+      "key": "parciais",
+      "value": ""
+    },
+    {
+      "key": "despesas",
+      "value": ""
+    },
+    {
+      "key": "autenticacao",
+      "value": ""
+    },
+    {
+      "key": "entidades",
+      "value": ""
+    },
+    {
+      "key": "folderPath",
+      "value": ""
+    }
+  ]
+}
