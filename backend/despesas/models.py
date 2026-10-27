@@ -193,8 +193,9 @@ class Empenho(models.Model):
     numero_pen = models.CharField(max_length=32, unique=True, null=True, blank=True, db_column="numero_pen")
     finalidade = models.ForeignKey(Finalidade, models.DO_NOTHING, db_column="id_finalidade")
     data_criacao = models.DateTimeField(blank=True, auto_now_add=True, db_column="data_criacao")
-    valor_empenhado = models.DecimalField(max_digits=15, decimal_places=2, default=Decimal("0.00"))
     ativo = models.BooleanField(default=True, blank=True, db_column="ativo")
+
+    # TODO além de gasto, também é necessário o empenhado e o que tem sobrando!
 
     @property
     def gasto(self):
