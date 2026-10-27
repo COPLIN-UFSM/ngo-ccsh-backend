@@ -6,17 +6,18 @@ from django.db.models import Case, DecimalField, F, Sum, When
 
 class NaturezaFinalidade(models.Model):
     """
-    Pode ser IDR (distribuição orçamentária inicial), custeio, capital, transferência, ou outras categorias com reserva
-    de recursos (e.g. Bolsas PRAE, para as quais os fundos não podem ser usados para outras finalidades)
-    """
+    A natureza determina para o quê um recurso é usado.
 
-    id_natureza_finalidade = models.AutoField(
-        primary_key=True, db_column="id_natureza_finalidade"
+    Existem 2 tipos primordiais, e outros tipos derivados. Os tipos primordiais são Custeio e Capital. Os tipos derivados
+    são recursos recebidos de outras unidades para fins específicos (por exemplo, bolsas PROGRAD, para o Descubra, ou
+    bolsas PRAE, para auxílio estudantil).
+    """
+    id_natureza_finalidade = models.AutoField(primary_key=True, db_column="id_natureza_finalidade")
+    natureza_finalidade = models.CharField(max_length=256, unique=True, db_column="natureza_finalidade")
+    ativo = models.BooleanField(
+        default=True, blank=True, db_column="ativo",
+        db_comment="Se esta natureza está atualmente ativa ou não"
     )
-    natureza_finalidade = models.CharField(
-        max_length=128, unique=True, db_column="natureza_finalidade"
-    )
-    ativo = models.BooleanField(default=True, blank=True, db_column="ativo")
 
     class Meta:
         managed = False
@@ -28,8 +29,8 @@ class NaturezaFinalidade(models.Model):
 
 class GrupoFinalidade(models.Model):
     """
-    Um grupo é um conjunto de finalidades similares, por exemplo Bolsas 2A, Bolsas PRAE, Bolsas de Monitoria são todas
-    pertencentes ao grupo Bolsas.
+    Um grupo é um conjunto de finalidades similares, como Bolsas 2A, Bolsas PRAE, Bolsas de Monitoria. Tudo
+    isso pertence ao grupo Bolsas.
     """
 
     id_grupo_finalidade = models.AutoField(
@@ -38,7 +39,10 @@ class GrupoFinalidade(models.Model):
     grupo_finalidade = models.CharField(
         max_length=256, unique=True, db_column="grupo_finalidade"
     )
-    ativo = models.BooleanField(default=True, blank=True, db_column="ativo")
+    ativo = models.BooleanField(
+        default=True, blank=True, db_column="ativo",
+        db_comment="Se este grupo está atualmente ativo ou não"
+    )
 
     class Meta:
         managed = False
@@ -48,16 +52,38 @@ class GrupoFinalidade(models.Model):
         return self.grupo_finalidade
 
 
+class TipoFinalidade(models.Model):
+    """
+    Tipos de finalidade: crédito, débito e transferência.
+
+    Uma finalidade de crédito é uma entrada de recursos;
+    uma finalidade de débito é uma saída de recursos;
+    uma finalidade de transferência é uma movimentação de recursos entre unidades.
+    """
+    id_tipo_finalidade = models.AutoField(primary_key=True, db_column="id_tipo_finalidade")
+    tipo_finalidade = models.CharField(max_length=32, unique=True, db_column="tipo_finalidade")
+
+    class Meta:
+        managed = False
+        db_table = "tipos_finalidades"
+
+
 class Finalidade(models.Model):
     """
     Uma finalidade é um destino para uma transação. Por exemplo, dentro do GrupoFinalidade Bolsas, existem
     as finalidades de bolsa 2A, bolsa Monitoria, bolsa Descubra...
+
+    Nem toda bolsa pertence a mesma natureza. Bolsas 2A são custeio; Bolsas Descubra são PROGRAD; Bolsas PRAE são PRAE.
     """
 
     id_finalidade = models.AutoField(primary_key=True, db_column="id_finalidade")
     natureza_finalidade = models.ForeignKey(
         NaturezaFinalidade, models.DO_NOTHING, db_column="id_natureza_finalidade"
     )
+    tipo_finalidade = models.ForeignKey(
+        TipoFinalidade, models.DO_NOTHING, db_column="id_tipo_finalidade"
+    )
+
     grupo_finalidade = models.ForeignKey(
         GrupoFinalidade,
         models.DO_NOTHING,
@@ -123,7 +149,10 @@ class TipoDocumentoParaFinalidade(models.Model):
         db_column="obrigatorio",
         db_comment="Se este tipo de documento é obrigatório para esta finalidade",
     )
-    ativo = models.BooleanField(default=True, blank=True, db_column="ativo")
+    ativo = models.BooleanField(
+        default=True, blank=True, db_column="ativo",
+        db_comment="Se esta relação está atualmente ativa ou não"
+    )
 
     class Meta:
         managed = False
@@ -132,7 +161,7 @@ class TipoDocumentoParaFinalidade(models.Model):
 
 class ValorDocumento(models.Model):
     """
-    Valor de um documento. Por exemplo, o valor da Lista SIAFI.
+    Valor de um documento. Por exemplo, o valor da Lista SIAFI, ou a descrição de uma transação.
     """
 
     pk = models.CompositePrimaryKey("tipo_documento_id", "versao_transacao_id")
@@ -153,7 +182,13 @@ class ValorDocumento(models.Model):
         db_table = "valores_documentos"
 
 
+# TODO revisar!
 class Empenho(models.Model):
+    """
+    Um empenho é uma reserva de recursos para uma finalidade específica. Por exemplo, um empenho pode ser feito para
+    pagar bolsas 2A, ou para pagar bolsas Descubra.
+    """
+
     id_empenho = models.AutoField(primary_key=True, db_column="id_empenho")
     numero_empenho = models.CharField(
         max_length=32, unique=True, db_column="numero_empenho"
@@ -195,6 +230,9 @@ class Empenho(models.Model):
 
 # pago, pendente, alocado
 class StatusTransacao(models.Model):
+    """
+    Status da transação: pago, pendente ou alocado.
+    """
     id_status_transacao = models.AutoField(
         primary_key=True, db_column="id_status_transacao"
     )
@@ -268,7 +306,7 @@ class VersaoTransacao(models.Model):
         db_column="id_finalidade",
     )
 
-    unidade_receptora = models.ForeignKey(
+    unidade_credora = models.ForeignKey(
         "entidades.Unidade",
         models.DO_NOTHING,
         null=True,
@@ -304,12 +342,7 @@ class VersaoTransacao(models.Model):
         db_column="id_beneficiario",
     )
 
-    # True se a transação é um crédito (entrada de recursos), False se é um débito (saída de recursos)
-    credito = models.BooleanField(default=False)
-
-    montante = models.DecimalField(
-        max_digits=15, decimal_places=2, default=Decimal("0.00")
-    )
+    montante = models.DecimalField(max_digits=15, decimal_places=2, default=Decimal("0.00"))
 
     data_criacao = models.DateTimeField(auto_now_add=True)
 

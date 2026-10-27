@@ -8,7 +8,7 @@ from despesas.models import (
     NaturezaFinalidade,
     StatusTransacao,
     TipoDocumento,
-    TipoDocumentoParaFinalidade,
+    TipoDocumentoParaFinalidade, TipoFinalidade,
 )
 from django.conf import settings
 from django.core.management.base import BaseCommand
@@ -70,6 +70,7 @@ class Command(BaseCommand):
             "V_DISCENTES.csv": Discente,
             # Despesas
             "NATUREZAS_FINALIDADES.csv": NaturezaFinalidade,
+            "TIPOS_FINALIDADES.csv": TipoFinalidade,
             "GRUPOS_FINALIDADES.csv": GrupoFinalidade,
             "FINALIDADES.csv": Finalidade,
             "TIPOS_DOCUMENTOS.csv": TipoDocumento,

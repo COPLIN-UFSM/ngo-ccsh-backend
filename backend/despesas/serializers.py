@@ -214,7 +214,7 @@ class VersaoTransacaoSerializer(serializers.ModelSerializer):
         queryset=Unidade.objects.all(),
         required=False,
         allow_null=True,
-        source="unidade_receptora",
+        source="unidade_credora",
     )
     id_unidade_executora = serializers.PrimaryKeyRelatedField(
         queryset=Unidade.objects.all(), source="unidade_executora"
@@ -335,7 +335,7 @@ class VersaoTransacaoSerializer(serializers.ModelSerializer):
         # montante
         id_transacao = data.get("id_transacao")
         unidade_executora = data.get("unidade_executora")
-        unidade_receptora = data.get("unidade_receptora")
+        unidade_receptora = data.get("unidade_credora")
         empenho = data.get("empenho", None)
         credito = data.get("credito")
 
@@ -369,7 +369,7 @@ class VersaoTransacaoSerializer(serializers.ModelSerializer):
 
         if not empenho:
             if credito and not unidade_receptora:
-                validation_errors["unidade_receptora"] = (
+                validation_errors["unidade_credora"] = (
                     "Para realizar uma transferiência de montante é necessário uma unidade receptora."
                 )
 
@@ -498,7 +498,7 @@ class TransacaoSerializer(serializers.ModelSerializer):
                 "transacao",
                 "finalidade",
                 "unidade_executora",
-                "unidade_receptora",
+                "unidade_credora",
                 "usuario",
                 "status_pagamento",
                 "empenho",
