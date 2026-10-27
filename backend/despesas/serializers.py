@@ -393,7 +393,7 @@ class VersaoTransacaoSerializer(serializers.ModelSerializer):
                 "Não é possível criar ou modificar transações de um empenho inativo."
             )
 
-        montante_empenho = empenho.montante
+        montante_empenho = empenho.gasto
 
         if transacao_update:  # Somar o valor que tinha sido subtraído.
             montante_empenho += transacao_update.montante
@@ -544,11 +544,11 @@ class EmpenhoSerializer(serializers.ModelSerializer):
             "numero_pen",
             "finalidade",
             "data_criacao",
-            "montante",
+            "gasto",
             "transacoes",
             "ativo",
         ]
-        read_only_fields = ["id_empenho", "data_criacao", "montante"]
+        read_only_fields = ["id_empenho", "data_criacao", "gasto"]
 
     def get_transacoes(self, obj):
         queryset = Transacao.objects.filter(versao_transacao__empenho=obj)

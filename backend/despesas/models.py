@@ -182,7 +182,6 @@ class ValorDocumento(models.Model):
         db_table = "valores_documentos"
 
 
-# TODO revisar!
 class Empenho(models.Model):
     """
     Um empenho é uma reserva de recursos para uma finalidade específica. Por exemplo, um empenho pode ser feito para
@@ -190,22 +189,18 @@ class Empenho(models.Model):
     """
 
     id_empenho = models.AutoField(primary_key=True, db_column="id_empenho")
-    numero_empenho = models.CharField(
-        max_length=32, unique=True, db_column="numero_empenho"
-    )
-    numero_pen = models.CharField(
-        max_length=32, unique=True, null=True, blank=True, db_column="numero_pen"
-    )
-    finalidade = models.ForeignKey(
-        Finalidade, models.DO_NOTHING, db_column="id_finalidade"
-    )
-    data_criacao = models.DateTimeField(
-        blank=True, auto_now_add=True, db_column="data_criacao"
-    )
+    numero_empenho = models.CharField(max_length=32, unique=True, db_column="numero_empenho")
+    numero_pen = models.CharField(max_length=32, unique=True, null=True, blank=True, db_column="numero_pen")
+    finalidade = models.ForeignKey(Finalidade, models.DO_NOTHING, db_column="id_finalidade")
+    data_criacao = models.DateTimeField(blank=True, auto_now_add=True, db_column="data_criacao")
+    valor_empenhado = models.DecimalField(max_digits=15, decimal_places=2, default=Decimal("0.00"))
     ativo = models.BooleanField(default=True, blank=True, db_column="ativo")
 
     @property
-    def montante(self):
+    def gasto(self):
+        """
+        Retorna o gasto associado a este empenho.
+        """
         related_transaction = VersaoTransacao.objects.filter(
             empenho=self, transacao__versao_transacao=F("id_versao_transacao")
         ).aggregate(
