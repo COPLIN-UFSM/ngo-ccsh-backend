@@ -77,6 +77,9 @@ class Finalidade(models.Model):
     """
 
     id_finalidade = models.AutoField(primary_key=True, db_column="id_finalidade")
+
+    finalidade = models.CharField(max_length=512, unique=True, null=False, blank=False)
+
     natureza_finalidade = models.ForeignKey(
         NaturezaFinalidade, models.DO_NOTHING, db_column="id_natureza_finalidade"
     )
@@ -92,14 +95,13 @@ class Finalidade(models.Model):
         blank=True,
     )
 
-    finalidade = models.CharField(max_length=512, unique=True, null=False, blank=False)
-    ativo = models.BooleanField(default=True, blank=True)
-
     tipos_documentos = models.ManyToManyField(
         "TipoDocumento",
         through="TipoDocumentoParaFinalidade",
         related_name="finalidades",
     )
+
+    ativo = models.BooleanField(default=True, blank=True)
 
     class Meta:
         managed = False
@@ -195,26 +197,28 @@ class Empenho(models.Model):
     data_criacao = models.DateTimeField(blank=True, auto_now_add=True, db_column="data_criacao")
     ativo = models.BooleanField(default=True, blank=True, db_column="ativo")
 
-    # TODO além de gasto, também é necessário o empenhado e o que tem sobrando!
+    def _total_por_tipo_finalidade(self, tipo):
+        total = VersaoTransacao.objects.filter(
+            empenho=self,
+            transacao__versao_transacao=F("id_versao_transacao"),
+            finalidade__tipo_finalidade__tipo_finalidade=tipo,
+        ).aggregate(
+            total=Sum("montante")
+        )["total"]
+
+        return total if total is not None else Decimal("0.00")
 
     @property
     def gasto(self):
-        """
-        Retorna o gasto associado a este empenho.
-        """
-        related_transaction = VersaoTransacao.objects.filter(
-            empenho=self, transacao__versao_transacao=F("id_versao_transacao")
-        ).aggregate(
-            montante=Sum(
-                Case(
-                    When(credito=True, then=F("montante")),
-                    When(credito=False, then=-F("montante")),
-                    default=Decimal("0.00"),
-                ),
-                output_field=DecimalField(),
-            )
-        )
-        return related_transaction["montante"] or Decimal("0.00")
+        return self._total_por_tipo_finalidade("Débito")
+
+    @property
+    def orcamento(self):
+        return self._total_por_tipo_finalidade("Crédito")
+
+    @property
+    def saldo(self):
+        return self.orcamento - self.gasto
 
     class Meta:
         managed = False
@@ -278,12 +282,14 @@ class VersaoTransacao(models.Model):
     id_versao_transacao = models.AutoField(
         primary_key=True, db_column="id_versao_transacao"
     )
+
     transacao = models.ForeignKey(
         Transacao,
         on_delete=models.PROTECT,
         related_name="versoes",
         db_column="id_transacao",
     )
+
     numero_versao = models.PositiveIntegerField(default=1)
 
     empenho = models.ForeignKey(
