@@ -1,9 +1,29 @@
-from decimal import Decimal
+"""
+Entidades: centros, unidades, pessoas e vínculos.
 
-from despesas.models import VersaoTransacao
+Convenção deste módulo
+----------------------
+* Modelos com prefixo/tabela ``v_*`` (``CentroSIE``, ``UnidadeSIE``, ``PessoaSIE``,
+  ``Curso``, ``Cargo``, ``Discente``, ``Servidor``, ...) são *views* do SIE:
+  continuam ``managed = False`` e são somente leitura.
+* Os modelos internos (``Centro``, ``Unidade``, ``Pessoa``, ``Email``, ``Telefone``)
+  agora são gerenciados pelo Django (sem ``managed = False``), já que o schema
+  está sendo proposto e pode mudar. Os nomes de tabelas e colunas foram mantidos
+  para que as views do SIE (que juntam por ``id_pessoa_interna`` etc.) continuem
+  funcionando.
+
+O que mudou em relação à versão anterior
+----------------------------------------
+* ``Unidade`` ganhou ``unidade_pai`` (hierarquia real, via FK) e perdeu
+  ``pode_empenhar`` (quem empenha é sempre o ``Centro``).
+* ``Unidade.__montante_calc__`` / ``montante_custeio`` / ``montante_capital`` saíram:
+  os saldos agora são calculados a partir do razão, em ``despesas.saldos``.
+* Não há mais import de ``despesas`` aqui (evita dependência circular).
+"""
+
+from django.core.exceptions import ValidationError
 from django.db import models
-from django.db.models import Case, DecimalField, F, Sum, When
-from ngo_ccsh.constrains import CAPITAL, CUSTEIO
+from django.db.models import F, Q
 
 from entidades.managers import CentroManager, PessoaManager, UnidadeManager
 
@@ -27,12 +47,17 @@ class CentroSIE(models.Model):
 
 
 class Centro(models.Model):
+    """
+    Um centro (CCSH, CT, CCS...) recebe os recursos da PROPLAN e os mantém sob sua
+    tutela. É o centro quem empenha e quem paga de fato.
+    """
+
     objects = CentroManager()
 
     id_centro_interno = models.AutoField(
         primary_key=True, db_column="id_centro_interno"
     )
-    # Pode ser null pelo fato de que existem tabelas que não estão cadastradas no sie
+    # Pode ser null pelo fato de que existem centros que não estão cadastrados no SIE
     centro_sie = models.OneToOneField(
         CentroSIE,
         null=True,
@@ -49,7 +74,6 @@ class Centro(models.Model):
     )
 
     class Meta:
-        managed = False
         db_table = "centros"
 
     def __str__(self) -> str:
@@ -107,6 +131,15 @@ class UnidadeSIE(models.Model):
 
 
 class Unidade(models.Model):
+    """
+    Uma unidade pertence a um centro. A hierarquia (centro -> subunidades -> ...) é
+    dada por ``unidade_pai``. O ``cod_estruturado`` continua existindo como dado de
+    origem (vem do SIE), mas a árvore é consultada pela FK, não pela string.
+
+    As subunidades não recebem dinheiro de fato: recebem um "cheque" (saldo no razão,
+    ver ``despesas.models.Lancamento``) e pedem ao centro que pague suas despesas.
+    """
+
     objects = UnidadeManager()
 
     id_unidade_interna = models.AutoField(
@@ -134,6 +167,15 @@ class Unidade(models.Model):
         null=False,
         db_column="id_centro_interno",
     )
+    unidade_pai = models.ForeignKey(
+        "self",
+        models.PROTECT,
+        null=True,
+        blank=True,
+        related_name="subunidades",
+        db_column="id_unidade_pai",
+        db_comment="Unidade imediatamente acima na hierarquia; nulo para unidades de topo do centro",
+    )
     tipo_unidade = models.ForeignKey(
         TipoUnidade,
         models.DO_NOTHING,
@@ -148,40 +190,40 @@ class Unidade(models.Model):
         null=False,
         db_column="id_situacao_unidade",
     )
-    pode_empenhar = models.BooleanField(
-        models.DO_NOTHING, blank=True, default=False, db_comment="pode_emepenhar"
-    )
 
     class Meta:
-        managed = False
         db_table = "unidades"
+        constraints = [
+            models.CheckConstraint(
+                condition=~Q(unidade_pai=F("id_unidade_interna")),
+                name="ck_unidade_nao_e_pai_de_si_mesma",
+            )
+        ]
 
     def __str__(self) -> str:
         return self.nome_unidade
 
-    def __montante_calc__(self, finalidade):
-        transactions = VersaoTransacao.objects.filter(
-            transacao__versao_transacao=F("id_versao_transacao"),
-            finalidade__natureza_finalidade=finalidade,
-        ).aggregate(
-            montante=Sum(
-                Case(
-                    When(unidade_receptora=self, then=F("montante")),
-                    When(unidade_executora=self, then=-F("montante")),
-                    default=Decimal("0.00"),
-                ),
-                output_field=DecimalField(),
-            )
-        )
-        return transactions["montante"] or Decimal("0.00")
+    def clean(self):
+        if self.unidade_pai_id:
+            if self.unidade_pai_id == self.pk:
+                raise ValidationError("Uma unidade não pode ser pai de si mesma.")
+            if self.unidade_pai.centro_id != self.centro_id:
+                raise ValidationError(
+                    "A unidade pai precisa pertencer ao mesmo centro da unidade."
+                )
 
-    @property
-    def montante_custeio(self):
-        return self.__montante_calc__(CUSTEIO)
+    def save(self, *args, **kwargs):
+        self.clean()
+        super().save(*args, **kwargs)
 
-    @property
-    def montante_capital(self):
-        return self.__montante_calc__(CAPITAL)
+    def ancestrais(self):
+        """Do pai imediato até o topo da árvore."""
+        resultado = []
+        atual = self.unidade_pai
+        while atual is not None:
+            resultado.append(atual)
+            atual = atual.unidade_pai
+        return resultado
 
 
 class Curso(models.Model):
@@ -250,6 +292,12 @@ class PessoaSIE(models.Model):
 
 
 class Pessoa(models.Model):
+    """
+    Pessoa interna. Quando existe no SIE, ``pessoa_sie`` aponta para o registro de
+    origem; pessoas externas (que podem ser beneficiárias de um pagamento) não têm
+    correspondente no SIE e ficam com ``pessoa_sie`` nulo.
+    """
+
     objects = PessoaManager()
 
     id_pessoa_interna = models.AutoField(
@@ -273,11 +321,15 @@ class Pessoa(models.Model):
     )
 
     class Meta:
-        managed = False
         db_table = "pessoas"
 
     def __str__(self):
         return self.nome_pessoa
+
+    @property
+    def externa(self) -> bool:
+        """Pessoa sem correspondente no SIE (não pode ser bolsista)."""
+        return self.pessoa_sie_id is None
 
 
 class Discente(models.Model):
@@ -332,7 +384,6 @@ class Email(models.Model):
     )
 
     class Meta:
-        managed = False
         db_table = "emails"
 
 
@@ -349,5 +400,4 @@ class Telefone(models.Model):
     )
 
     class Meta:
-        managed = False
         db_table = "telefones"
