@@ -1,8 +1,5 @@
 """Shared fixtures for ledger, scholarship, and exercise tests."""
 
-import datetime as dt
-from decimal import Decimal as D
-
 from django.test import TestCase
 
 from despesas import services

@@ -85,6 +85,14 @@ Ou então criar uma configuração no PyCharm, adicionando a variável de ambien
 Teste a aplicação entrando na URL [http://localhost:8000/admin/](http://localhost:8000/admin/) e usando o usuário criado com o comando 
 `createsuperuser`.
 
+### Testando os modelos
+
+Você pode testar o funcionamento e consistência dos modelos da aplicação com o seguinte comando:
+
+```bash
+python backend/manage.py test_models --settings=ngo_ccsh.dev_settings
+```
+
 ## Com Docker
 
 Para executar um container em modo de desenvolvimento localmente, rode os seguintes comandos:

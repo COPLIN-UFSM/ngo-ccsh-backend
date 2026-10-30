@@ -84,10 +84,23 @@
    distribuição; eles não viram finalidades novas. O tipo de documento legado “Lista SIAFI” (ID 2) também não é
    importado como documento, pois listas têm modelo próprio. Como os CSVs não informam a permissão de transporte,
    finalidades migradas recebem `permite_transporte=False`; qualquer exceção precisa ser definida explicitamente.
-10. A API atual oferece cadastros de naturezas, grupos, finalidades, tipos de documento e empenhos; criação e consulta
-    de transações; consulta de tipos de movimento; e consulta dos documentos e lançamentos de uma transação. As
-    operações de transação são crédito, reforço, distribuição, despesa, débito administrativo e conversão de natureza.
-    A correção é registrada em `POST /despesas/transacoes/{id}/corrigir/`; não há edição ou exclusão de lançamentos.
+10. A API atual exige autenticação e oferece cadastros de naturezas, grupos, finalidades, tipos de documento e
+    empenhos; criação e consulta de transações; consulta de tipos de movimento; e consulta dos documentos e
+    lançamentos de uma transação. As operações de transação são crédito, reforço, distribuição, despesa, débito
+    administrativo e conversão de natureza. A correção é registrada em
+    `POST /despesas/transacoes/{id}/corrigir/`; não há edição ou exclusão de lançamentos.
+11. O ciclo de bolsas está disponível em `/despesas/vinculos-bolsa/`, `/despesas/parcelas-bolsa/` e
+    `/despesas/listas-siafi/`. Vínculos são criados e consultados; suas parcelas são geradas idempotentemente por
+    `POST /despesas/vinculos-bolsa/{id}/gerar-parcelas/`. Parcelas são consultadas e alteradas somente pelas ações
+    `POST .../{id}/alocar/` e `POST .../{id}/cancelar/`. Listas são criadas com centro e competência, recebem parcelas
+    alocadas em `POST /despesas/listas-siafi/{id}/itens/`, permitem remover um item enquanto estiverem em rascunho e
+    são confirmadas em `POST /despesas/listas-siafi/{id}/pagar/`, com o número SIAFI e, quando necessário, a divisão
+    do valor entre empenhos.
+12. O exercício é consultado em `GET /despesas/exercicios/pendencias/?centro={id}&ano_fiscal={ano}`. O resultado
+    informa saldos de empenhos, unidades e totais por natureza, parcelas ainda alocadas e o estado do exercício. O
+    fechamento é solicitado em `POST /despesas/exercicios/fechar/`, com centro, ano fiscal e destinos dos saldos; a
+    reabertura é solicitada em `POST /despesas/exercicios/reabrir/`, com centro, ano fiscal e justificativa. Ambas as
+    operações criam transações auditáveis no razão.
 
 ## Entidades
 

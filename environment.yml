@@ -28,3 +28,4 @@ dependencies:
     - django-filter
     - drf-nested-routers
     - django-simple-history
+    - djangorestframework-stubs

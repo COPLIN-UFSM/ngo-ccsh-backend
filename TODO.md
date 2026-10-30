@@ -1,22 +1,11 @@
 # TODO
 
-## Migração do Db2 existente
+Não há migração de banco legado a preparar: o projeto ainda está pré-deploy e não
+existe uma base Db2 em uso.
 
-- Preparar e revisar um plano de migração do schema legado em uso, com DDLs `ALTER`
-  e conversão dos dados para os modelos novos. Os scripts em
-  `backend/database/sql/create/` criam um schema vazio e não devem ser executados
-  sobre tabelas existentes. Validar o plano com uma cópia representativa do banco
-  antes da aplicação.
-  * comentário do programador chefe: não existe banco de dados legado. Nada precisa
-    ser feito, estamos em uma versão pré-deploy.
+## Antes do primeiro deploy
 
-## API de bolsas e fechamento de exercício
-
-- Definir contratos e implementar endpoints para vínculos e parcelas de bolsa,
-  incluindo geração, alocação e cancelamento de parcelas.
-- Definir contratos e implementar endpoints para criar e gerenciar Listas SIAFI,
-  incluir parcelas e confirmar pagamentos.
-- Definir contratos e implementar endpoints para consultar pendências, fechar e
-  reabrir exercícios fiscais.
-- Cobrir as novas rotas com testes de API, além dos testes de serviços que já
-  validam as regras de negócio.
+- Aplicar os DDLs em `backend/database/sql/create/` a um schema Db2 vazio de
+  homologação e validar a sintaxe, as constraints, os índices e a compatibilidade
+  com a versão de Db2 usada no ambiente de destino. Os scripts são manuais e não
+  devem ser substituídos por migrations Django.
