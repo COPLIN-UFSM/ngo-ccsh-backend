@@ -1,4 +1,4 @@
-from django_filters import BooleanFilter, CharFilter, FilterSet
+from django_filters import BooleanFilter, CharFilter, FilterSet, NumberFilter
 
 from entidades.models import Servidor, Unidade
 
@@ -13,7 +13,7 @@ class UnidadeFilterSet(FilterSet):
         field_name="situacao_unidade", lookup_expr="icontains"
     )
 
-    pode_empenhar = BooleanFilter(field_name="pode_empenhar")
+    id_unidade_pai = NumberFilter(field_name="unidade_pai_id")
 
     class Meta:
         model = Unidade

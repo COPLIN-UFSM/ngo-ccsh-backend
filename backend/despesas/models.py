@@ -82,10 +82,12 @@ class Natureza(models.Model):
     (bolsas PROGRAD, bolsas PRAE...).
     """
 
+    id_natureza = models.AutoField(primary_key=True, db_column="id_natureza")
     nome = models.CharField(max_length=256, unique=True)
     ativo = models.BooleanField(default=True)
 
     class Meta:
+        managed = False
         db_table = "naturezas"
         verbose_name_plural = "naturezas"
 
@@ -99,10 +101,14 @@ class GrupoFinalidade(models.Model):
     Serve só para relatório; não carrega regra.
     """
 
+    id_grupo_finalidade = models.AutoField(
+        primary_key=True, db_column="id_grupo_finalidade"
+    )
     nome = models.CharField(max_length=256, unique=True)
     ativo = models.BooleanField(default=True)
 
     class Meta:
+        managed = False
         db_table = "grupos_finalidades"
 
     def __str__(self) -> str:
@@ -117,9 +123,13 @@ class Finalidade(models.Model):
     o que sobra é devolvido à PROPLAN.
     """
 
+    id_finalidade = models.AutoField(primary_key=True, db_column="id_finalidade")
     nome = models.CharField(max_length=512, unique=True)
     natureza = models.ForeignKey(
-        Natureza, on_delete=models.PROTECT, related_name="finalidades"
+        Natureza,
+        on_delete=models.PROTECT,
+        related_name="finalidades",
+        db_column="id_natureza",
     )
     grupo = models.ForeignKey(
         GrupoFinalidade,
@@ -127,6 +137,7 @@ class Finalidade(models.Model):
         null=True,
         blank=True,
         related_name="finalidades",
+        db_column="id_grupo_finalidade",
     )
     permite_transporte = models.BooleanField(default=False)
     tipos_documentos = models.ManyToManyField(
@@ -139,6 +150,7 @@ class Finalidade(models.Model):
     history = _historico()
 
     class Meta:
+        managed = False
         db_table = "finalidades"
 
     def __str__(self) -> str:
@@ -156,6 +168,9 @@ class TipoDocumento(models.Model):
         DATA = "data", "Data (AAAA-MM-DD)"
         NUMERO = "numero", "Número"
 
+    id_tipo_documento = models.AutoField(
+        primary_key=True, db_column="id_tipo_documento"
+    )
     nome = models.CharField(max_length=128, unique=True)
     tipo_dado = models.CharField(
         max_length=16, choices=TipoDado.choices, default=TipoDado.TEXTO
@@ -163,6 +178,7 @@ class TipoDocumento(models.Model):
     ativo = models.BooleanField(default=True)
 
     class Meta:
+        managed = False
         db_table = "tipos_documentos"
 
     def __str__(self) -> str:
@@ -193,8 +209,15 @@ class TipoDocumento(models.Model):
 class TipoDocumentoParaFinalidade(models.Model):
     """Liga os tipos de documentos às finalidades que os exigem (ou aceitam)."""
 
-    tipo_documento = models.ForeignKey(TipoDocumento, on_delete=models.PROTECT)
-    finalidade = models.ForeignKey(Finalidade, on_delete=models.PROTECT)
+    id_tipo_documento_para_finalidade = models.AutoField(
+        primary_key=True, db_column="id_tipo_documento_para_finalidade"
+    )
+    tipo_documento = models.ForeignKey(
+        TipoDocumento, on_delete=models.PROTECT, db_column="id_tipo_documento"
+    )
+    finalidade = models.ForeignKey(
+        Finalidade, on_delete=models.PROTECT, db_column="id_finalidade"
+    )
     obrigatorio = models.BooleanField(
         default=True,
         db_comment="Se este tipo de documento é obrigatório para esta finalidade",
@@ -204,6 +227,7 @@ class TipoDocumentoParaFinalidade(models.Model):
     )
 
     class Meta:
+        managed = False
         db_table = "tipos_documentos_para_finalidades"
         constraints = [
             models.UniqueConstraint(
@@ -228,17 +252,27 @@ class Empenho(models.Model):
     partiu (regra 16).
     """
 
+    id_empenho = models.AutoField(primary_key=True, db_column="id_empenho")
     numero_empenho = models.CharField(max_length=32)
     numero_pen = models.CharField(max_length=32, unique=True, null=True, blank=True)
     centro = models.ForeignKey(
-        "entidades.Centro", on_delete=models.PROTECT, related_name="empenhos"
+        "entidades.Centro",
+        on_delete=models.PROTECT,
+        related_name="empenhos",
+        db_column="id_centro_interno",
     )
     ano_fiscal = models.PositiveSmallIntegerField()
     natureza = models.ForeignKey(
-        Natureza, on_delete=models.PROTECT, related_name="empenhos"
+        Natureza,
+        on_delete=models.PROTECT,
+        related_name="empenhos",
+        db_column="id_natureza",
     )
     finalidade = models.ForeignKey(
-        Finalidade, on_delete=models.PROTECT, related_name="empenhos"
+        Finalidade,
+        on_delete=models.PROTECT,
+        related_name="empenhos",
+        db_column="id_finalidade",
     )
     empenho_origem = models.ForeignKey(
         "self",
@@ -246,6 +280,7 @@ class Empenho(models.Model):
         null=True,
         blank=True,
         related_name="sucessores",
+        db_column="id_empenho_origem",
     )
     criado_em = models.DateTimeField(auto_now_add=True)
     ativo = models.BooleanField(default=True)
@@ -253,6 +288,7 @@ class Empenho(models.Model):
     history = _historico()
 
     class Meta:
+        managed = False
         db_table = "empenhos"
         constraints = [
             models.UniqueConstraint(
@@ -372,12 +408,16 @@ class TipoMovimento(models.Model):
         ),
     }
 
+    id_tipo_movimento = models.AutoField(
+        primary_key=True, db_column="id_tipo_movimento"
+    )
     codigo = models.CharField(max_length=48, unique=True, choices=Codigo.choices)
     nome = models.CharField(max_length=128)
     altera_total = models.BooleanField()
     conta_como_gasto = models.BooleanField(default=False)
 
     class Meta:
+        managed = False
         db_table = "tipos_movimentos"
 
     def __str__(self) -> str:
@@ -420,10 +460,14 @@ class Transacao(models.Model):
         REABERTURA = "reabertura", "Reabertura de exercício"
         CORRECAO = "correcao", "Correção"
 
+    id_transacao = models.AutoField(primary_key=True, db_column="id_transacao")
     operacao = models.CharField(max_length=32, choices=Operacao.choices)
     data = models.DateField(help_text="Data do fato registrado")
     usuario = models.ForeignKey(
-        "usuarios.Usuario", on_delete=models.PROTECT, related_name="transacoes"
+        "usuarios.Usuario",
+        on_delete=models.PROTECT,
+        related_name="transacoes",
+        db_column="id_usuario",
     )
     criada_em = models.DateTimeField(auto_now_add=True)
     justificativa = models.TextField(blank=True)
@@ -433,6 +477,7 @@ class Transacao(models.Model):
         null=True,
         blank=True,
         related_name="correcoes",
+        db_column="id_transacao_corrigida",
     )
     estimada = models.BooleanField(
         default=False,
@@ -445,9 +490,11 @@ class Transacao(models.Model):
         blank=True,
         related_name="transacoes_beneficiadas",
         help_text="Servidor, aluno, professor ou pessoa externa",
+        db_column="id_beneficiario",
     )
 
     class Meta:
+        managed = False
         db_table = "transacoes"
         indexes = [models.Index(fields=["data"])]
 
@@ -479,18 +526,31 @@ class Lancamento(models.Model):
     ``tipo_movimento.altera_total``.
     """
 
+    id_lancamento = models.AutoField(primary_key=True, db_column="id_lancamento")
     transacao = models.ForeignKey(
-        Transacao, on_delete=models.PROTECT, related_name="lancamentos"
+        Transacao,
+        on_delete=models.PROTECT,
+        related_name="lancamentos",
+        db_column="id_transacao",
     )
     tipo_movimento = models.ForeignKey(
-        TipoMovimento, on_delete=models.PROTECT, related_name="lancamentos"
+        TipoMovimento,
+        on_delete=models.PROTECT,
+        related_name="lancamentos",
+        db_column="id_tipo_movimento",
     )
     centro = models.ForeignKey(
-        "entidades.Centro", on_delete=models.PROTECT, related_name="lancamentos"
+        "entidades.Centro",
+        on_delete=models.PROTECT,
+        related_name="lancamentos",
+        db_column="id_centro_interno",
     )
     ano_fiscal = models.PositiveSmallIntegerField()
     natureza = models.ForeignKey(
-        Natureza, on_delete=models.PROTECT, related_name="lancamentos"
+        Natureza,
+        on_delete=models.PROTECT,
+        related_name="lancamentos",
+        db_column="id_natureza",
     )
     empenho = models.ForeignKey(
         Empenho,
@@ -498,6 +558,7 @@ class Lancamento(models.Model):
         null=True,
         blank=True,
         related_name="lancamentos",
+        db_column="id_empenho",
     )
     unidade = models.ForeignKey(
         "entidades.Unidade",
@@ -505,6 +566,7 @@ class Lancamento(models.Model):
         null=True,
         blank=True,
         related_name="lancamentos",
+        db_column="id_unidade_interna",
     )
     finalidade = models.ForeignKey(
         Finalidade,
@@ -513,6 +575,7 @@ class Lancamento(models.Model):
         blank=True,
         related_name="lancamentos",
         help_text="Para onde o dinheiro foi (pode diferir da finalidade principal do empenho)",
+        db_column="id_finalidade",
     )
     montante = models.DecimalField(max_digits=15, decimal_places=2)
     estorna = models.OneToOneField(
@@ -522,11 +585,13 @@ class Lancamento(models.Model):
         blank=True,
         related_name="estornado_por",
         help_text="Linha que esta linha anula",
+        db_column="id_lancamento_estornado",
     )
 
     objects = LancamentoQuerySet.as_manager()
 
     class Meta:
+        managed = False
         db_table = "lancamentos"
         constraints = [
             models.CheckConstraint(
@@ -594,14 +659,23 @@ class ValorDocumento(models.Model):
     alterações. ``ordem`` permite repetir o campo (uma passagem com vários trechos).
     """
 
-    transacao = models.ForeignKey(
-        Transacao, on_delete=models.PROTECT, related_name="documentos"
+    id_valor_documento = models.AutoField(
+        primary_key=True, db_column="id_valor_documento"
     )
-    tipo_documento = models.ForeignKey(TipoDocumento, on_delete=models.PROTECT)
+    transacao = models.ForeignKey(
+        Transacao,
+        on_delete=models.PROTECT,
+        related_name="documentos",
+        db_column="id_transacao",
+    )
+    tipo_documento = models.ForeignKey(
+        TipoDocumento, on_delete=models.PROTECT, db_column="id_tipo_documento"
+    )
     ordem = models.PositiveSmallIntegerField(default=0)
     valor = models.CharField(max_length=256)
 
     class Meta:
+        managed = False
         db_table = "valores_documentos"
         ordering = ["tipo_documento_id", "ordem"]
         constraints = [
@@ -619,8 +693,14 @@ class ExercicioCentro(models.Model):
         ABERTO = "aberto", "Aberto"
         FECHADO = "fechado", "Fechado"
 
+    id_exercicio_centro = models.AutoField(
+        primary_key=True, db_column="id_exercicio_centro"
+    )
     centro = models.ForeignKey(
-        "entidades.Centro", on_delete=models.PROTECT, related_name="exercicios"
+        "entidades.Centro",
+        on_delete=models.PROTECT,
+        related_name="exercicios",
+        db_column="id_centro_interno",
     )
     ano_fiscal = models.PositiveSmallIntegerField()
     status = models.CharField(
@@ -632,9 +712,11 @@ class ExercicioCentro(models.Model):
         null=True,
         blank=True,
         related_name="+",
+        db_column="id_transacao_fechamento",
     )
 
     class Meta:
+        managed = False
         db_table = "exercicios_centros"
         constraints = [
             models.UniqueConstraint(
@@ -654,14 +736,26 @@ class ExercicioCentro(models.Model):
 class VinculoBolsa(models.Model):
     """Vínculo de vários meses entre um bolsista e uma subunidade."""
 
+    id_vinculo_bolsa = models.AutoField(
+        primary_key=True, db_column="id_vinculo_bolsa"
+    )
     bolsista = models.ForeignKey(
-        "entidades.Pessoa", on_delete=models.PROTECT, related_name="vinculos_bolsa"
+        "entidades.Pessoa",
+        on_delete=models.PROTECT,
+        related_name="vinculos_bolsa",
+        db_column="id_pessoa_interna",
     )
     unidade = models.ForeignKey(
-        "entidades.Unidade", on_delete=models.PROTECT, related_name="vinculos_bolsa"
+        "entidades.Unidade",
+        on_delete=models.PROTECT,
+        related_name="vinculos_bolsa",
+        db_column="id_unidade_interna",
     )
     finalidade = models.ForeignKey(
-        Finalidade, on_delete=models.PROTECT, related_name="vinculos_bolsa"
+        Finalidade,
+        on_delete=models.PROTECT,
+        related_name="vinculos_bolsa",
+        db_column="id_finalidade",
     )
     valor_mensal = models.DecimalField(max_digits=15, decimal_places=2)
     inicio = models.DateField()
@@ -670,6 +764,7 @@ class VinculoBolsa(models.Model):
     history = _historico()
 
     class Meta:
+        managed = False
         db_table = "vinculos_bolsas"
         constraints = [
             models.CheckConstraint(
@@ -719,8 +814,14 @@ class ParcelaBolsa(models.Model):
         PAGA = "paga", "Paga"
         CANCELADA = "cancelada", "Cancelada"
 
+    id_parcela_bolsa = models.AutoField(
+        primary_key=True, db_column="id_parcela_bolsa"
+    )
     vinculo = models.ForeignKey(
-        VinculoBolsa, on_delete=models.PROTECT, related_name="parcelas"
+        VinculoBolsa,
+        on_delete=models.PROTECT,
+        related_name="parcelas",
+        db_column="id_vinculo_bolsa",
     )
     competencia = models.DateField(help_text="Sempre o primeiro dia do mês")
     ano_fiscal = models.PositiveSmallIntegerField(editable=False)
@@ -735,11 +836,13 @@ class ParcelaBolsa(models.Model):
         blank=True,
         related_name="parcelas_previstas",
         help_text="Empenho que deve pagar esta parcela (base do alerta de complemento)",
+        db_column="id_empenho_previsto",
     )
 
     history = _historico()
 
     class Meta:
+        managed = False
         db_table = "parcelas_bolsas"
         constraints = [
             models.UniqueConstraint(
@@ -768,8 +871,12 @@ class ListaSIAFI(models.Model):
         RASCUNHO = "rascunho", "Rascunho"
         PAGA = "paga", "Paga"
 
+    id_lista_siafi = models.AutoField(primary_key=True, db_column="id_lista_siafi")
     centro = models.ForeignKey(
-        "entidades.Centro", on_delete=models.PROTECT, related_name="listas_siafi"
+        "entidades.Centro",
+        on_delete=models.PROTECT,
+        related_name="listas_siafi",
+        db_column="id_centro_interno",
     )
     competencia = models.DateField(help_text="Sempre o primeiro dia do mês")
     ano_fiscal = models.PositiveSmallIntegerField(editable=False)
@@ -783,12 +890,14 @@ class ListaSIAFI(models.Model):
         null=True,
         blank=True,
         related_name="lista_siafi",
+        db_column="id_transacao",
     )
     criada_em = models.DateTimeField(auto_now_add=True)
 
     history = _historico()
 
     class Meta:
+        managed = False
         db_table = "listas_siafi"
 
     def __str__(self) -> str:
@@ -807,11 +916,23 @@ class ListaSIAFI(models.Model):
 class ItemListaSIAFI(models.Model):
     """Uma parcela dentro de uma Lista SIAFI (cada parcela entra em uma lista só)."""
 
-    lista = models.ForeignKey(ListaSIAFI, on_delete=models.CASCADE, related_name="itens")
+    id_item_lista_siafi = models.AutoField(
+        primary_key=True, db_column="id_item_lista_siafi"
+    )
+    lista = models.ForeignKey(
+        ListaSIAFI,
+        on_delete=models.CASCADE,
+        related_name="itens",
+        db_column="id_lista_siafi",
+    )
     parcela = models.OneToOneField(
-        ParcelaBolsa, on_delete=models.PROTECT, related_name="item_lista"
+        ParcelaBolsa,
+        on_delete=models.PROTECT,
+        related_name="item_lista",
+        db_column="id_parcela_bolsa",
     )
     valor = models.DecimalField(max_digits=15, decimal_places=2)
 
     class Meta:
+        managed = False
         db_table = "itens_listas_siafi"

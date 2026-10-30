@@ -7,10 +7,8 @@ Convenção deste módulo
   ``Curso``, ``Cargo``, ``Discente``, ``Servidor``, ...) são *views* do SIE:
   continuam ``managed = False`` e são somente leitura.
 * Os modelos internos (``Centro``, ``Unidade``, ``Pessoa``, ``Email``, ``Telefone``)
-  agora são gerenciados pelo Django (sem ``managed = False``), já que o schema
-  está sendo proposto e pode mudar. Os nomes de tabelas e colunas foram mantidos
-  para que as views do SIE (que juntam por ``id_pessoa_interna`` etc.) continuem
-  funcionando.
+  também são ``managed = False``: o schema é criado por DDL Db2 versionado, nunca
+  por migrations do Django.
 
 O que mudou em relação à versão anterior
 ----------------------------------------
@@ -63,6 +61,7 @@ class Centro(models.Model):
         null=True,
         blank=True,
         on_delete=models.DO_NOTHING,
+        db_constraint=False,
         db_column="id_centro_sie",
     )
     nome_centro = models.CharField(max_length=256, db_column="nome_centro")
@@ -74,6 +73,7 @@ class Centro(models.Model):
     )
 
     class Meta:
+        managed = False
         db_table = "centros"
 
     def __str__(self) -> str:
@@ -119,10 +119,16 @@ class UnidadeSIE(models.Model):
         Centro, models.DO_NOTHING, db_column="id_centro_sie", db_constraint=False
     )
     tipo_unidade = models.ForeignKey(
-        TipoUnidade, models.DO_NOTHING, db_column="id_tipo_unidade"
+        TipoUnidade,
+        models.DO_NOTHING,
+        db_column="id_tipo_unidade",
+        db_constraint=False,
     )
     situacao_unidade = models.ForeignKey(
-        SituacaoUnidade, models.DO_NOTHING, db_column="id_situacao_unidade"
+        SituacaoUnidade,
+        models.DO_NOTHING,
+        db_column="id_situacao_unidade",
+        db_constraint=False,
     )
 
     class Meta:
@@ -150,6 +156,7 @@ class Unidade(models.Model):
         null=True,
         blank=False,
         on_delete=models.DO_NOTHING,
+        db_constraint=False,
         db_column="id_unidade_sie",
     )
 
@@ -182,6 +189,7 @@ class Unidade(models.Model):
         blank=False,
         null=False,
         db_column="id_tipo_unidade",
+        db_constraint=False,
     )
     situacao_unidade = models.ForeignKey(
         SituacaoUnidade,
@@ -189,9 +197,11 @@ class Unidade(models.Model):
         blank=False,
         null=False,
         db_column="id_situacao_unidade",
+        db_constraint=False,
     )
 
     class Meta:
+        managed = False
         db_table = "unidades"
         constraints = [
             models.CheckConstraint(
@@ -308,6 +318,7 @@ class Pessoa(models.Model):
         on_delete=models.DO_NOTHING,
         null=True,
         blank=True,
+        db_constraint=False,
         db_column="id_pessoa_sie",
     )
     nome_pessoa = models.TextField(
@@ -321,6 +332,7 @@ class Pessoa(models.Model):
     )
 
     class Meta:
+        managed = False
         db_table = "pessoas"
 
     def __str__(self):
@@ -338,11 +350,17 @@ class Discente(models.Model):
         Pessoa,
         on_delete=models.DO_NOTHING,
         db_column="id_pessoa_interna",
+        db_constraint=False,
     )
     matricula = models.TextField(
         max_length=32, unique=True, null=False, blank=False, db_column="matricula"
     )
-    curso = models.ForeignKey(Curso, on_delete=models.DO_NOTHING, db_column="id_curso")
+    curso = models.ForeignKey(
+        Curso,
+        on_delete=models.DO_NOTHING,
+        db_column="id_curso",
+        db_constraint=False,
+    )
     ativo = models.BooleanField(
         unique=False, default=True, blank=True, db_column="ativo"
     )
@@ -363,7 +381,12 @@ class Servidor(models.Model):
     matricula = models.TextField(
         max_length=32, unique=True, null=False, blank=False, db_column="matricula"
     )
-    cargo = models.ForeignKey(Cargo, on_delete=models.DO_NOTHING, db_column="id_cargo")
+    cargo = models.ForeignKey(
+        Cargo,
+        on_delete=models.DO_NOTHING,
+        db_column="id_cargo",
+        db_constraint=False,
+    )
     ativo = models.BooleanField(
         unique=False, default=True, blank=True, db_column="ativo"
     )
@@ -374,7 +397,7 @@ class Servidor(models.Model):
 
 
 class Email(models.Model):
-    id_email = models.AutoField(primary_key=True, db_column="id_conta")
+    id_email = models.AutoField(primary_key=True, db_column="id_email")
     pessoa = models.ForeignKey(
         Pessoa, on_delete=models.DO_NOTHING, db_column="id_pessoa_interna"
     )
@@ -384,6 +407,7 @@ class Email(models.Model):
     )
 
     class Meta:
+        managed = False
         db_table = "emails"
 
 
@@ -400,4 +424,5 @@ class Telefone(models.Model):
     )
 
     class Meta:
+        managed = False
         db_table = "telefones"

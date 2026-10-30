@@ -1,63 +1,62 @@
-from django_filters import CharFilter, FilterSet
+from django_filters import CharFilter, FilterSet, NumberFilter
 
-from despesas.models import (
-    Finalidade,
-    GrupoFinalidade,
-    NaturezaFinalidade,
-    TipoDocumento,
-)
+from .models import Empenho, Finalidade, GrupoFinalidade, Natureza, TipoDocumento
 
 
-class BaseFilterSet(FilterSet):
-    def filter_ativo(self, queryset, name, value, **kwargs):
+class ActiveFilterSet(FilterSet):
+    ativo = CharFilter(method="filter_active")
+
+    def filter_active(self, queryset, name, value):
         if value == "all":
             return queryset
-        elif value == "false":
+        if value == "false":
             return queryset.filter(ativo=False)
-        return queryset.filter(ativo=True)
+        if value == "true":
+            return queryset.filter(ativo=True)
+        return queryset.none()
 
 
-class FinalidadeFilterSet(BaseFilterSet):
-    ativo = CharFilter(method="filter_ativo")
-    finalidade = CharFilter(field_name="finalidade", lookup_expr="icontains")
-    grupo_finalidade = CharFilter(
-        field_name="grupo_finalidade__grupo_finalidade", lookup_expr="icontains"
-    )
-    natureza_finalidade = CharFilter(
-        field_name="natureza_finalidade__natureza_finalidade", lookup_expr="icontains"
-    )
+class NaturezaFilterSet(ActiveFilterSet):
+    nome = CharFilter(field_name="nome", lookup_expr="icontains")
 
     class Meta:
-        model = Finalidade
+        model = Natureza
         fields = []
 
 
-class GrupoFinalidadeFilterSet(BaseFilterSet):
-    ativo = CharFilter(method="filter_ativo")
-    grupo_finalidade = CharFilter(
-        field_name="grupo_finalidade", lookup_expr="icontains"
-    )
+class GrupoFinalidadeFilterSet(ActiveFilterSet):
+    nome = CharFilter(field_name="nome", lookup_expr="icontains")
 
     class Meta:
         model = GrupoFinalidade
         fields = []
 
 
-class NaturezaFinalidadeFilterSet(BaseFilterSet):
-    ativo = CharFilter(method="filter_ativo")
-    natureza_finalidade = CharFilter(
-        field_name="natureza_finalidade", lookup_expr="icontains"
-    )
+class FinalidadeFilterSet(ActiveFilterSet):
+    nome = CharFilter(field_name="nome", lookup_expr="icontains")
+    natureza = NumberFilter(field_name="natureza_id")
+    grupo = NumberFilter(field_name="grupo_id")
 
     class Meta:
-        model = NaturezaFinalidade
+        model = Finalidade
         fields = []
 
 
-class TipoDocumentoFilterSet(BaseFilterSet):
-    ativo = CharFilter(method="filter_ativo")
-    tipo_documento = CharFilter(field_name="tipo_documento", lookup_expr="icontains")
+class TipoDocumentoFilterSet(ActiveFilterSet):
+    nome = CharFilter(field_name="nome", lookup_expr="icontains")
 
     class Meta:
         model = TipoDocumento
+        fields = []
+
+
+class EmpenhoFilterSet(ActiveFilterSet):
+    numero_empenho = CharFilter(field_name="numero_empenho", lookup_expr="icontains")
+    centro = NumberFilter(field_name="centro_id")
+    ano_fiscal = NumberFilter(field_name="ano_fiscal")
+    natureza = NumberFilter(field_name="natureza_id")
+    finalidade = NumberFilter(field_name="finalidade_id")
+
+    class Meta:
+        model = Empenho
         fields = []

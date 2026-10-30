@@ -22,8 +22,6 @@ from typing import Iterable, Sequence
 
 from django.core.exceptions import ValidationError
 from django.db import transaction
-from django.utils import timezone
-
 from entidades.models import Centro, Pessoa, Unidade
 
 from . import saldos
@@ -273,7 +271,7 @@ def _gravar(
 
     transacao = Transacao.objects.create(
         operacao=operacao,
-        data=data or timezone.localdate(),
+        data=data or dt.date.today(),
         usuario=usuario,
         justificativa=justificativa,
         corrige=corrige,

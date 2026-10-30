@@ -69,7 +69,7 @@ class UnidadeViewSet(viewsets.ModelViewSet):
     )
     http_method_names = ["get", "post", "patch"]
 
-    ordering_fields = ["id_grupo_finalidade", "grupo_finalidade"]
+    ordering_fields = ["id_unidade_interna", "nome_unidade", "cod_estruturado"]
     filter_backends = (DjangoFilterBackend, OrderingFilter)
     serializer_class = UnidadeSerializer
     filterset_class = UnidadeFilterSet

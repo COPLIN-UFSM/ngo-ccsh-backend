@@ -70,10 +70,17 @@ class UnidadeSerializer(serializers.ModelSerializer):
     id_centro = serializers.PrimaryKeyRelatedField(
         queryset=Centro.objects.all(), source="centro"
     )
+    id_unidade_pai = serializers.PrimaryKeyRelatedField(
+        queryset=Unidade.objects.all(),
+        source="unidade_pai",
+        required=False,
+        allow_null=True,
+    )
 
     tipo_unidade = serializers.StringRelatedField(read_only=True)
     situacao_unidade = serializers.StringRelatedField(read_only=True)
     centro = serializers.StringRelatedField(read_only=True)
+    unidade_pai = serializers.StringRelatedField(read_only=True)
     id_unidade_sie = serializers.PrimaryKeyRelatedField(
         read_only=True, source="unidade_sie"
     )
@@ -86,16 +93,15 @@ class UnidadeSerializer(serializers.ModelSerializer):
             "cod_estruturado",
             "id_centro",
             "centro",
+            "id_unidade_pai",
+            "unidade_pai",
             "id_tipo_unidade",
             "tipo_unidade",
             "id_situacao_unidade",
             "id_unidade_sie",
             "situacao_unidade",
-            "pode_empenhar",
-            "montante_custeio",
-            "montante_capital",
         ]
-        read_only = ["id_unidade_interna", "montante_custeio", "montante_capital"]
+        read_only_fields = ["id_unidade_interna"]
 
 
 class CursoSerializer(serializers.ModelSerializer):

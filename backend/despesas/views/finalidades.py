@@ -1,50 +1,44 @@
-from despesas.filters import (
-    FinalidadeFilterSet,
-    GrupoFinalidadeFilterSet,
-    NaturezaFinalidadeFilterSet,
-)
-from despesas.models import Finalidade, GrupoFinalidade, NaturezaFinalidade
-from despesas.serializers import (
-    FinalidadeSerializer,
-    GrupoFinalidadeSerializer,
-    NaturezaFinalidadeSerializer,
-)
-from despesas.views.ativoUtil import AtivoListDefaultMixin
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import OrderingFilter
 from rest_framework.viewsets import ModelViewSet
 
+from despesas.filters import (
+    FinalidadeFilterSet,
+    GrupoFinalidadeFilterSet,
+    NaturezaFilterSet,
+)
+from despesas.models import Finalidade, GrupoFinalidade, Natureza
+from despesas.serializers import (
+    FinalidadeSerializer,
+    GrupoFinalidadeSerializer,
+    NaturezaSerializer,
+)
+from despesas.views.ativoUtil import AtivoListDefaultMixin
 
-class NaturezaFinalidadeViewSet(AtivoListDefaultMixin, ModelViewSet):
-    queryset = NaturezaFinalidade.objects.all()
-    http_method_names = ["get", "post", "patch", "delete"]
 
-    ordering_fields = ["id_natureza_finalidade", "natureza_finalidade"]
-    ordering = ["id_natureza_finalidade"]
+class NaturezaViewSet(AtivoListDefaultMixin, ModelViewSet):
+    queryset = Natureza.objects.all().order_by("id_natureza")
+    serializer_class = NaturezaSerializer
     filter_backends = (DjangoFilterBackend, OrderingFilter)
-    serializer_class = NaturezaFinalidadeSerializer
-    filterset_class = NaturezaFinalidadeFilterSet
+    filterset_class = NaturezaFilterSet
+    ordering_fields = ["id_natureza", "nome"]
 
 
 class GrupoFinalidadeViewSet(AtivoListDefaultMixin, ModelViewSet):
-    queryset = GrupoFinalidade.objects.all()
-    http_method_names = ["get", "post", "patch", "delete"]
-    ordering_fields = ["id_grupo_finalidade", "grupo_finalidade"]
-    ordering = ["id_grupo_finalidade"]
-    filter_backends = (DjangoFilterBackend, OrderingFilter)
+    queryset = GrupoFinalidade.objects.all().order_by("id_grupo_finalidade")
     serializer_class = GrupoFinalidadeSerializer
+    filter_backends = (DjangoFilterBackend, OrderingFilter)
     filterset_class = GrupoFinalidadeFilterSet
+    ordering_fields = ["id_grupo_finalidade", "nome"]
 
 
 class FinalidadeViewSet(AtivoListDefaultMixin, ModelViewSet):
     queryset = (
-        Finalidade.objects.all().order_by("id_finalidade")
-        .select_related("natureza_finalidade", "grupo_finalidade")
-        .prefetch_related("tipodocumentoparafinalidade_set")
+        Finalidade.objects.select_related("natureza", "grupo")
+        .prefetch_related("tipodocumentoparafinalidade_set__tipo_documento")
+        .order_by("id_finalidade")
     )
-    http_method_names = ["get", "post", "patch", "delete"]
-    ordering_fields = ["id_finalidade", "finalidade"]
-    ordering = ["id_finalidade"]
-    filter_backends = (DjangoFilterBackend, OrderingFilter)
     serializer_class = FinalidadeSerializer
+    filter_backends = (DjangoFilterBackend, OrderingFilter)
     filterset_class = FinalidadeFilterSet
+    ordering_fields = ["id_finalidade", "nome"]
