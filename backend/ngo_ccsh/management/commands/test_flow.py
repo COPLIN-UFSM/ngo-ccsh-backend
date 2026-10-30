@@ -5,11 +5,11 @@ O fluxo simula a abertura de um exercício, o recebimento de orçamento, a reser
 de recursos em um empenho, a distribuição de um saldo para uma unidade, o registro
 de uma despesa e o fechamento do exercício com a devolução dos saldos restantes.
 
-Todos os dados são criados dentro de uma única transação e revertidos ao final.
+Todos os dados são criados em uma única transação e revertidos ao final.
 Assim, o comando pode ser executado para validar um banco já preparado sem deixar
 cadastros ou lançamentos de teste persistidos.
 
-Uso, a partir da pasta ``backend``:
+Uso, a partir da pasta "backend":
 
     conda run -n ngo python manage.py test_models --settings=ngo_ccsh.dev_settings
 
@@ -18,11 +18,11 @@ O exercício usado é o ano corrente. A sigla e os códigos criados para o teste
 disponíveis nas views do SIE; ele não tenta inserir dados nessas views.
 
 O banco selecionado precisa estar preparado com os DDLs da aplicação e ter as
-views do SIE acessíveis. Mesmo usando ``dev_settings``, que aponta para o SQLite
+views do SIE acessíveis. Mesmo usando "dev_settings", que aponta para o SQLite
 local persistente, nenhum dado do cenário permanece gravado.
 
 O diagrama de estados do fluxo, com os valores usados e o destino de cada saldo,
-está em ``backend/diagramas/test_models.md``.
+está em "backend/diagramas/test_flow.md".
 """
 
 from datetime import date
@@ -59,7 +59,7 @@ class Command(BaseCommand):
         """
         Roda o cenário de ponta a ponta e sempre desfaz os dados criados.
 
-        ``transaction.atomic`` garante que o cenário seja indivisível: se qualquer
+        "transaction.atomic" garante que o cenário seja indivisível: se qualquer
         passo ou conferência falhar, o banco volta ao estado anterior. No caminho de
         sucesso marcamos explicitamente a transação para rollback, pois a finalidade
         do comando é validar o modelo, não criar dados de exemplo permanentes.
@@ -83,7 +83,8 @@ class Command(BaseCommand):
             )
         )
 
-    def _criar_referencias_de_teste(self):
+    @staticmethod
+    def _criar_referencias_de_teste():
         """
         Cria as entidades internas necessárias para executar operações financeiras.
 
@@ -110,7 +111,8 @@ class Command(BaseCommand):
         ano_fiscal = date.today().year
 
         pessoa = Pessoa.objects.create(
-            nome_pessoa=f"Validação do fluxo {sufixo}",
+            # nome_pessoa=f"Validação do fluxo {sufixo}",
+            nome_pessoa=f"Joselito {sufixo}",
             cpf=cpf,
             rg=f"RG{sufixo}",
         )
@@ -120,12 +122,12 @@ class Command(BaseCommand):
             pessoa=pessoa,
         )
         centro = Centro.objects.create(
-            nome_centro=f"Centro de validação {sufixo}",
-            sigla_centro=f"TV{sufixo}",
+            nome_centro=f"CCSH ({sufixo})",
+            sigla_centro=f"CCSH ({sufixo})",
             cod_estruturado=codigo,
         )
         unidade = Unidade.objects.create(
-            nome_unidade=f"Unidade de validação {sufixo}",
+            nome_unidade=f"Curso de Administração ({sufixo})",
             cod_estruturado=codigo,
             centro=centro,
             tipo_unidade=tipo_unidade,
@@ -266,10 +268,7 @@ class Command(BaseCommand):
             saldos.nao_distribuido_centro(centro, ano_fiscal, natureza),
             credito_inicial - valor_distribuido,
         )
-        self.stdout.write(
-            f"[4/6] Distribuídos R$ {valor_distribuido:.2f} para "
-            f"{unidade.nome_unidade}."
-        )
+        self.stdout.write(f"[4/6] Distribuídos R$ {valor_distribuido:.2f} para {unidade.nome_unidade}.")
 
         # 5. A despesa debita simultaneamente o empenho, a unidade e o total do
         # centro. Isso demonstra o uso conjunto das duas dimensões do razão.
@@ -365,7 +364,8 @@ class Command(BaseCommand):
             "pendências e saldos finais zerados."
         )
 
-    def _conferir(self, descricao, valor_obtido, valor_esperado):
+    @staticmethod
+    def _conferir(descricao, valor_obtido, valor_esperado):
         """
         Interrompe o cenário com contexto se um saldo ou estado não for o esperado.
 
