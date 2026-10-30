@@ -1,5 +1,6 @@
 from django.core.exceptions import ValidationError
 from rest_framework import serializers
+from drf_spectacular.utils import extend_schema_field
 
 from entidades.models import (
     Cargo,
@@ -308,6 +309,7 @@ class DiscenteSerializer(serializers.ModelSerializer):
             "ativo",
         ]
 
+    @extend_schema_field(TelefonePessoaSerializer(many=True))
     def get_telefones(self, obj):
         if obj.pessoa:
             queryset = obj.pessoa.telefone_set.all()
@@ -316,6 +318,7 @@ class DiscenteSerializer(serializers.ModelSerializer):
             ).data
         return []
 
+    @extend_schema_field(EmailPessoaSerializer(many=True))
     def get_emails(self, obj):
         if obj.pessoa:
             queryset = obj.pessoa.email_set.all()
@@ -351,6 +354,7 @@ class ServidorSerializer(serializers.ModelSerializer):
     telefones = serializers.SerializerMethodField()
     emails = serializers.SerializerMethodField()
 
+    @extend_schema_field(TelefonePessoaSerializer(many=True))
     def get_telefones(self, obj):
         if obj.pessoa:
             queryset = obj.pessoa.telefone_set.all()
@@ -359,6 +363,7 @@ class ServidorSerializer(serializers.ModelSerializer):
             ).data
         return []
 
+    @extend_schema_field(EmailPessoaSerializer(many=True))
     def get_emails(self, obj):
         if obj.pessoa:
             queryset = obj.pessoa.email_set.all()

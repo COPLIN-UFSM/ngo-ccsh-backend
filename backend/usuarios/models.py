@@ -129,7 +129,7 @@ class Usuario(AbstractBaseUser, PermissionsMixin):
     EMAIL_FIELD = "email"
 
     @property
-    def nome_pessoa(self):
+    def nome_pessoa(self) -> str:
         return self.pessoa.nome_pessoa
 
     def __str__(self):

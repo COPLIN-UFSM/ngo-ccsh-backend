@@ -1,68 +1,79 @@
-# Sequência do fluxo de validação de despesas
+# Fluxo de validação de despesas
 
-O comando `ngo_ccsh.management.commands.test_models` percorre a sequência abaixo
-para validar os modelos e serviços de despesas. O cenário cria suas referências,
-abre o exercício, lança crédito, empenho, distribuição e despesa, e fecha o ano
-devolvendo os saldos restantes. Todas as operações são feitas dentro de uma única
-transação, revertida ao final para não deixar dados de teste persistidos.
+Este diagrama resume, em alto nível, quais entidades participam do cenário de
+`test_models` e como os saldos mudam ao longo do exercício. Os valores representam
+uma única natureza de recurso. O cenário termina com o exercício fechado e todos
+os dados de teste revertidos.
 
 ```mermaid
-sequenceDiagram
-    autonumber
-    actor Operador
-    participant Comando as test_models
-    participant SIE as Views do SIE
-    participant Servicos as Services de despesas
-    participant Saldos as Consultas de saldo
-    participant Banco as Banco de dados
+flowchart TD
+    Inicio([Início do teste])
 
-    Operador->>Comando: Executa o comando
-    Comando->>Banco: Inicia transaction.atomic()
+    subgraph Preparacao["Entidades usadas no cenário"]
+        ReferenciasSIE["Referências do SIE<br/>Tipo e situação da unidade"]
+        PessoaUsuario["Pessoa + Usuário<br/>Responsável pelas operações"]
+        CentroNatureza["Centro + Natureza<br/>Origem e classificação do recurso"]
+        UnidadeFinalidade["Unidade + Finalidade<br/>Destino e classificação da despesa"]
+        Empenho["Empenho<br/>Reserva recursos do centro"]
+        Exercicio["Exercício do centro<br/>Aberto para o ano corrente"]
+    end
 
-    Comando->>SIE: Busca tipo e situação de unidade
-    SIE-->>Comando: Retorna referências existentes
-    Comando->>Banco: Cria pessoa, usuário, centro, unidade,<br/>natureza, finalidade e empenho
+    Inicio --> ReferenciasSIE
+    Inicio --> PessoaUsuario
+    Inicio --> CentroNatureza
+    ReferenciasSIE --> UnidadeFinalidade
+    CentroNatureza --> UnidadeFinalidade
+    CentroNatureza --> Empenho
+    CentroNatureza --> Exercicio
 
-    Comando->>Banco: Cria exercício do ano corrente como aberto
-    Banco-->>Comando: Exercício aberto
+    subgraph Movimentacoes["Movimentações e saldos"]
+        Credito["Crédito recebido<br/>Total do centro: R$ 1.000<br/>Livre no centro: R$ 1.000<br/>Empenho: R$ 0 · Unidade: R$ 0"]
+        Reforco["Reserva no empenho<br/>Total do centro: R$ 1.000<br/>Livre no centro: R$ 300<br/>Empenho: R$ 700 · Unidade: R$ 0"]
+        Distribuicao["Distribuição para a unidade<br/>Total do centro: R$ 1.000<br/>Livre no centro: R$ 300<br/>Empenho: R$ 700 · Unidade: R$ 500"]
+        Despesa["Despesa paga pela unidade<br/>Total do centro: R$ 800<br/>Livre no centro: R$ 300<br/>Empenho: R$ 500 · Unidade: R$ 300"]
+    end
 
-    Comando->>Servicos: creditar(centro, ano, natureza, 1.000,00)
-    Servicos->>Banco: Registra crédito no razão
-    Servicos->>Saldos: Consulta total e recurso livre
-    Saldos-->>Servicos: Total 1.000,00; livre 1.000,00
-    Servicos-->>Comando: Crédito registrado
+    Exercicio --> Credito
+    PessoaUsuario --> Credito
+    Credito --> Reforco
+    Empenho --> Reforco
+    Reforco --> Distribuicao
+    UnidadeFinalidade --> Distribuicao
+    Distribuicao --> Despesa
+    Empenho --> Despesa
+    UnidadeFinalidade --> Despesa
 
-    Comando->>Servicos: reforcar_empenho(empenho, 700,00)
-    Servicos->>Banco: Registra reforço no razão
-    Servicos->>Saldos: Consulta saldo do empenho e recurso livre
-    Saldos-->>Servicos: Empenhado 700,00; livre 300,00
-    Servicos-->>Comando: Reforço registrado
+    Razao["Transações e lançamentos<br/>Registram todas as movimentações"]
+    Credito -.-> Razao
+    Reforco -.-> Razao
+    Distribuicao -.-> Razao
+    Despesa -.-> Razao
+    PessoaUsuario -.-> Razao
 
-    Comando->>Servicos: distribuir(centro, unidade, 500,00)
-    Servicos->>Banco: Registra distribuição no razão
-    Servicos->>Saldos: Consulta saldo da unidade e não distribuído
-    Saldos-->>Servicos: Unidade 500,00; não distribuído 500,00
-    Servicos-->>Comando: Distribuição registrada
+    subgraph Encerramento["Fechamento do exercício"]
+        DevolucaoDupla["Devolver R$ 300<br/>Debita empenho e unidade"]
+        DevolucaoEmpenho["Devolver R$ 200<br/>Zera o restante do empenho"]
+        DevolucaoCentro["Devolver R$ 300<br/>Zera o recurso não empenhado"]
+        Fechado["Exercício fechado<br/>Centro: R$ 0 · Empenho: R$ 0<br/>Unidade: R$ 0"]
+    end
 
-    Comando->>Servicos: registrar_despesa(empenho, unidade, 200,00)
-    Servicos->>Banco: Registra despesa no razão
-    Servicos->>Saldos: Consulta total, empenho e unidade
-    Saldos-->>Servicos: Centro 800,00; empenho 500,00;<br/>unidade 300,00
-    Servicos-->>Comando: Despesa registrada
+    Despesa --> DevolucaoDupla
+    DevolucaoDupla --> DevolucaoEmpenho
+    DevolucaoEmpenho --> DevolucaoCentro
+    DevolucaoCentro --> Fechado
+    Fechado -.-> Razao
+    Fechado --> Rollback["Rollback da transação de teste<br/>Nenhum dado permanece gravado"]
+    Rollback --> Fim([Fim])
 
-    Note over Comando,Servicos: O fechamento destina cada saldo remanescente sem contar o mesmo recurso duas vezes.
-    Comando->>Servicos: fechar_exercicio(centro, ano, destinos)
-    Servicos->>Banco: Devolve 300,00 debitando empenho e unidade
-    Servicos->>Banco: Devolve 200,00 debitando o restante do empenho
-    Servicos->>Banco: Devolve 300,00 do saldo não empenhado do centro
-    Servicos->>Saldos: Verifica pendências do exercício
-    Saldos->>Banco: Consulta saldos e parcelas alocadas
-    Banco-->>Saldos: Não há saldos nem parcelas pendentes
-    Saldos-->>Servicos: Fechamento sem pendências
-    Servicos->>Banco: Marca exercício como fechado e associa transação
-    Servicos-->>Comando: Transação de fechamento
-
-    Comando->>Banco: Marca a transação de teste para rollback
-    Banco-->>Comando: Reverte dados e lançamentos criados
-    Comando-->>Operador: Fluxo validado; banco sem alterações persistentes
+    classDef entidade fill:#eaf2f8,stroke:#2874a6,color:#17202a
+    classDef saldo fill:#e8f8f5,stroke:#148f77,color:#17202a
+    classDef movimento fill:#fcf3cf,stroke:#b7950b,color:#17202a
+    class PessoaUsuario,CentroNatureza,UnidadeFinalidade,Empenho,Exercicio,ReferenciasSIE entidade
+    class Credito,Reforco,Distribuicao,Despesa,Fechado saldo
+    class DevolucaoDupla,DevolucaoEmpenho,DevolucaoCentro,Razao movimento
 ```
+
+O total do centro, o saldo do empenho e o saldo da unidade são dimensões diferentes
+do mesmo razão. Por isso, no fechamento, R$ 300 são devolvidos debitando empenho e
+unidade juntos; depois são devolvidos separadamente os R$ 200 restantes do empenho
+e os R$ 300 que não foram empenhados.

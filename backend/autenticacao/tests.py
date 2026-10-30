@@ -140,6 +140,43 @@ class RecoverPasswordViewTestCase(AuthenticationBaseTestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
 
+class AuthenticationSchemaTestCase(APITestCase):
+    def test_authentication_operations_document_request_fields_and_public_access(self):
+        response = self.client.get("/schema/")
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        schema = response.data
+
+        login = schema["paths"]["/autenticacao/login/"]["post"]
+        login_request_schema = login["requestBody"]["content"]["application/json"][
+            "schema"
+        ]
+        login_request = schema["components"]["schemas"][
+            login_request_schema["$ref"].rsplit("/", 1)[-1]
+        ]
+        self.assertEqual(set(login_request["properties"]), {"cpf", "senha"})
+        self.assertNotIn("security", login)
+
+        recover = schema["paths"]["/autenticacao/recuperar-senha/"]["post"]
+        recover_request_schema = recover["requestBody"]["content"]["application/json"][
+            "schema"
+        ]
+        recover_request = schema["components"]["schemas"][
+            recover_request_schema["$ref"].rsplit("/", 1)[-1]
+        ]
+        self.assertEqual(set(recover_request["properties"]), {"email"})
+        self.assertNotIn("security", recover)
+
+        change_password = schema["paths"]["/usuarios/{id}/senha/"]["patch"]
+        password_request_schema = change_password["requestBody"]["content"][
+            "application/json"
+        ]["schema"]
+        password_request = schema["components"]["schemas"][
+            password_request_schema["$ref"].rsplit("/", 1)[-1]
+        ]
+        self.assertEqual(set(password_request["properties"]), {"senha", "senha2"})
+
+
 class TokensServiceTest(AuthenticationBaseTestCase):
     def test_token_invalid(self):
         self.assertFalse(is_token_valid("um token invalido"))

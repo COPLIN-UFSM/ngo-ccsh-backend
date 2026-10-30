@@ -1,6 +1,8 @@
 from django.core.exceptions import ValidationError as DjangoValidationError
 from django.db import transaction
 from rest_framework import serializers
+from drf_spectacular.types import OpenApiTypes
+from drf_spectacular.utils import extend_schema_field
 
 from entidades.models import Centro, Pessoa, Unidade
 
@@ -170,12 +172,15 @@ class EmpenhoSerializer(serializers.ModelSerializer):
         ]
         read_only_fields = ["id_empenho", "criado_em", "saldo", "gasto", "a_complementar"]
 
+    @extend_schema_field(OpenApiTypes.DECIMAL)
     def get_saldo(self, obj):
         return obj.saldo
 
+    @extend_schema_field(OpenApiTypes.DECIMAL)
     def get_gasto(self, obj):
         return obj.gasto
 
+    @extend_schema_field(OpenApiTypes.DECIMAL)
     def get_a_complementar(self, obj):
         return saldos.a_complementar(obj)
 

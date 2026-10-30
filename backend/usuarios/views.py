@@ -13,6 +13,7 @@ from usuarios.models import Usuario
 
 from .serializers import (
     ChangePasswordSerializer,
+    PasswordChangeResponseSerializer,
     UserDetailsSerializer,
     UserListSerializer,
 )
@@ -31,6 +32,7 @@ class UserListView(GenericAPIView):
     @extend_schema(
         summary="Lista usuários",
         description="Retorna a lista de usuários, ativos ou inativos",
+        operation_id="usuarios_list",
         responses={
             200: OpenApiResponse(description="Lista de usuários retornada com sucesso"),
             401: OpenApiResponse(description="Usuário não autenticado"),
@@ -83,6 +85,7 @@ class UserDetailsView(APIView):
     @extend_schema(
         summary="Busca usuário",
         description="Retorna os dados de um usuário pelo ID.",
+        operation_id="usuarios_retrieve_by_id",
         parameters=[
             OpenApiParameter(
                 name="id",
@@ -240,6 +243,7 @@ class ChangePasswordView(APIView):
     @extend_schema(
         summary="Altera senha",
         description="Altera a senha de um usuário autenticado por ID.",
+        request=ChangePasswordSerializer,
         parameters=[
             OpenApiParameter(
                 name="id",
@@ -250,7 +254,10 @@ class ChangePasswordView(APIView):
             )
         ],
         responses={
-            200: OpenApiResponse(description="Senha atualizada com sucesso"),
+            200: OpenApiResponse(
+                response=PasswordChangeResponseSerializer,
+                description="Senha atualizada com sucesso",
+            ),
             400: OpenApiResponse(description="Dados inválidos para alteração de senha"),
             401: OpenApiResponse(description="Senha atual incorreta"),
             403: OpenApiResponse(
