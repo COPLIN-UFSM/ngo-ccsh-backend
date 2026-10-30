@@ -7,6 +7,8 @@
   `backend/database/sql/create/` criam um schema vazio e não devem ser executados
   sobre tabelas existentes. Validar o plano com uma cópia representativa do banco
   antes da aplicação.
+  * comentário do programador chefe: não existe banco de dados legado. Nada precisa
+    ser feito, estamos em uma versão pré-deploy.
 
 ## API de bolsas e fechamento de exercício
 
