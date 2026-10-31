@@ -1,7 +1,7 @@
 # Fluxo de validação de despesas
 
 Este diagrama resume, em alto nível, quais entidades participam do cenário de
-`test_models` e como os saldos mudam ao longo do exercício. Os valores representam
+`validar_exercicio_financeiro` e como os saldos mudam ao longo do exercício. Os valores representam
 uma única natureza de recurso. O cenário termina com o exercício fechado e todos
 os dados de teste revertidos.
 

@@ -1,4 +1,4 @@
-"""
+﻿"""
 Executa um cenário completo para validar os modelos e serviços de despesas.
 
 O fluxo simula a abertura de um exercício, o recebimento de orçamento, a reserva
@@ -11,7 +11,7 @@ cadastros ou lançamentos de teste persistidos.
 
 Uso, a partir da pasta "backend":
 
-    conda run -n ngo python manage.py test_models --settings=ngo_ccsh.dev_settings
+    conda run -n ngo python manage.py validar_exercicio_financeiro --settings=ngo_ccsh.dev_settings
 
 O exercício usado é o ano corrente. A sigla e os códigos criados para o teste são
 únicos em cada execução. O comando utiliza um tipo e uma situação de unidade já
@@ -22,7 +22,7 @@ views do SIE acessíveis. Mesmo usando "dev_settings", que aponta para o SQLite
 local persistente, nenhum dado do cenário permanece gravado.
 
 O diagrama de estados do fluxo, com os valores usados e o destino de cada saldo,
-está em "backend/diagramas/test_flow.md".
+está em "backend/diagramas/validar_exercicio_financeiro.md".
 """
 
 from datetime import date
@@ -89,8 +89,7 @@ class Command(BaseCommand):
         Cria as entidades internas necessárias para executar operações financeiras.
 
         Tipo e situação da unidade são lidos das views do SIE, que são externas e
-        somente leitura. Falhar com uma mensagem explícita é preferível a criar
-        referências artificiais nessas views ou deixar uma falha de FK pouco clara.
+        somente leitura.
         """
         tipo_unidade = TipoUnidade.objects.order_by("id_tipo_unidade").first()
         situacao_unidade = SituacaoUnidade.objects.order_by(
