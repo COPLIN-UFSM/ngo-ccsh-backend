@@ -63,9 +63,11 @@ class TestFluxoBasico(BaseRazao):
         self.assertEqual(saldos.saldo_unidade(self.A, 2026, self.custeio), D("400"))
 
     def test_transferir_e_recolher(self):
-        services.transferir_entre_unidades(
+        transacao = services.transferir_entre_unidades(
             self.centro, 2026, self.custeio, self.A, self.B, 150, self.usuario
         )
+        self.assertEqual(transacao.operacao, Transacao.Operacao.TRANSFERENCIA)
+        self.assertEqual(transacao.lancamentos.count(), 2)
         self.assertEqual(saldos.saldo_unidade(self.A, 2026, self.custeio), D("250"))
         self.assertEqual(saldos.saldo_unidade(self.B, 2026, self.custeio), D("150"))
         services.recolher_de_unidade(

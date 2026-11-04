@@ -44,6 +44,31 @@ class TransactionApiTests(BaseRazao):
         self.assertEqual(response.status_code, 400)
         self.assertEqual(Transacao.objects.count(), 0)
 
+    def test_create_transfer_between_units(self):
+        self.creditar(300)
+        self.distribuir(self.A, 200)
+        response = self.api.post(
+            reverse("despesas:transacoes-list"),
+            {
+                "operacao": "transferencia",
+                "centro": self.centro.pk,
+                "ano_fiscal": 2026,
+                "natureza": self.custeio.pk,
+                "unidade_origem": self.A.pk,
+                "unidade_destino": self.B.pk,
+                "montante": "75.00",
+            },
+            format="json",
+        )
+
+        self.assertEqual(response.status_code, 201, response.data)
+        self.assertEqual(response.data["operacao"], Transacao.Operacao.TRANSFERENCIA)
+        self.assertEqual(len(response.data["lancamentos"]), 2)
+        self.assertEqual(
+            [row["montante"] for row in response.data["lancamentos"]],
+            ["-75.00", "75.00"],
+        )
+
     def test_correcting_an_expense_creates_a_new_transaction(self):
         empenho = self.novo_empenho("001", self.bolsa2a)
         self.creditar(500)

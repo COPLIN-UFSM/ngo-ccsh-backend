@@ -453,7 +453,7 @@ def transferir_entre_unidades(
         LinhaSpec(Codigo.DISTRIBUICAO, centro, ano_fiscal, natureza, valor, unidade=destino),
     ]
     return _gravar(
-        operacao=Operacao.DISTRIBUICAO,
+        operacao=Operacao.TRANSFERENCIA,
         usuario=usuario,
         linhas=linhas,
         data=data,

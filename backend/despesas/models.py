@@ -451,7 +451,8 @@ class Transacao(models.Model):
     class Operacao(models.TextChoices):
         CREDITO = "credito", "Crédito"
         REFORCO = "reforco", "Reforço de empenho"
-        DISTRIBUICAO = "distribuicao", "Distribuição entre unidades"
+        DISTRIBUICAO = "distribuicao", "Distribuição do centro para unidade"
+        TRANSFERENCIA = "transferencia", "Transferência entre unidades"
         DESPESA = "despesa", "Despesa"
         DEBITO_ADMINISTRATIVO = "debito_administrativo", "Débito administrativo"
         CONVERSAO = "conversao", "Conversão de natureza"
@@ -823,6 +824,7 @@ class ParcelaBolsa(models.Model):
         related_name="parcelas",
         db_column="id_vinculo_bolsa",
     )
+    # TODO nem sempre é o primeiro dia do mês!
     competencia = models.DateField(help_text="Sempre o primeiro dia do mês")
     ano_fiscal = models.PositiveSmallIntegerField(editable=False)
     valor = models.DecimalField(max_digits=15, decimal_places=2)

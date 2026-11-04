@@ -258,7 +258,8 @@ class TransacaoOperationSerializer(serializers.Serializer):
     SUPPORTED_OPERATIONS = [
         (Transacao.Operacao.CREDITO, "Crédito"),
         (Transacao.Operacao.REFORCO, "Reforço de empenho"),
-        (Transacao.Operacao.DISTRIBUICAO, "Distribuição"),
+        (Transacao.Operacao.DISTRIBUICAO, "Distribuição do centro para unidade"),
+        (Transacao.Operacao.TRANSFERENCIA, "Transferência entre unidades"),
         (Transacao.Operacao.DESPESA, "Despesa"),
         (Transacao.Operacao.DEBITO_ADMINISTRATIVO, "Débito administrativo"),
         (Transacao.Operacao.CONVERSAO, "Conversão de natureza"),
@@ -286,6 +287,12 @@ class TransacaoOperationSerializer(serializers.Serializer):
     unidade = serializers.PrimaryKeyRelatedField(
         queryset=Unidade.objects.all(), required=False, allow_null=True
     )
+    unidade_origem = serializers.PrimaryKeyRelatedField(
+        queryset=Unidade.objects.all(), required=False
+    )
+    unidade_destino = serializers.PrimaryKeyRelatedField(
+        queryset=Unidade.objects.all(), required=False
+    )
     finalidade = serializers.PrimaryKeyRelatedField(
         queryset=Finalidade.objects.all(), required=False
     )
@@ -307,6 +314,14 @@ class TransacaoOperationSerializer(serializers.Serializer):
                 "ano_fiscal",
                 "natureza",
                 "unidade",
+                "montante",
+            ),
+            Transacao.Operacao.TRANSFERENCIA: (
+                "centro",
+                "ano_fiscal",
+                "natureza",
+                "unidade_origem",
+                "unidade_destino",
                 "montante",
             ),
             Transacao.Operacao.DESPESA: ("empenho", "finalidade", "montante"),
@@ -364,6 +379,16 @@ class TransacaoOperationSerializer(serializers.Serializer):
                     validated_data["ano_fiscal"],
                     validated_data["natureza"],
                     validated_data["unidade"],
+                    validated_data["montante"],
+                    **kwargs,
+                )
+            if operation == Transacao.Operacao.TRANSFERENCIA:
+                return services.transferir_entre_unidades(
+                    validated_data["centro"],
+                    validated_data["ano_fiscal"],
+                    validated_data["natureza"],
+                    validated_data["unidade_origem"],
+                    validated_data["unidade_destino"],
                     validated_data["montante"],
                     **kwargs,
                 )
