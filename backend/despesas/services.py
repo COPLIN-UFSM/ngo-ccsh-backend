@@ -29,7 +29,6 @@ from .models import (
     ExercicioCentro,
     Empenho,
     Finalidade,
-    ItemListaSIAFI,
     Lancamento,
     ListaSIAFI,
     Natureza,
@@ -915,12 +914,16 @@ def alocar_parcela(parcela: ParcelaBolsa, empenho_previsto: Empenho | None = Non
 def cancelar_parcela(parcela: ParcelaBolsa) -> ParcelaBolsa:
     """Cancela a parcela (bolsa cancelada, por exemplo), liberando a reserva."""
     _travar_centros([parcela.vinculo.unidade.centro_id])
-    parcela.refresh_from_db()
+    parcela = ParcelaBolsa.objects.select_for_update().select_related("lista").get(
+        pk=parcela.pk
+    )
     if parcela.status == ParcelaBolsa.Status.PAGA:
         raise RegraDeNegocio("Parcela já paga: corrija o pagamento, não cancele.")
-    ItemListaSIAFI.objects.filter(
-        parcela=parcela, lista__status=ListaSIAFI.Status.RASCUNHO
-    ).delete()
+    if (
+        parcela.lista_id is not None
+        and parcela.lista.status == ListaSIAFI.Status.RASCUNHO
+    ):
+        parcela.lista = None
     parcela.status = ParcelaBolsa.Status.CANCELADA
     parcela.save()
     return parcela
@@ -931,14 +934,20 @@ def criar_lista(centro: Centro, competencia: dt.date) -> ListaSIAFI:
 
 
 @transaction.atomic
-def incluir_parcelas(lista: ListaSIAFI, parcelas: Iterable[ParcelaBolsa]) -> list[ItemListaSIAFI]:
+def incluir_parcelas(
+    lista: ListaSIAFI, parcelas: Iterable[ParcelaBolsa]
+) -> list[ParcelaBolsa]:
     """Coloca parcelas ALOCADAS da competência da lista em uma Lista SIAFI (rascunho)."""
-    lista.refresh_from_db()
+    lista = ListaSIAFI.objects.select_for_update().get(pk=lista.pk)
     if lista.status != ListaSIAFI.Status.RASCUNHO:
         raise RegraDeNegocio("A lista já foi paga.")
-    itens = []
+    adicionadas = []
     for parcela in parcelas:
-        parcela.refresh_from_db()
+        parcela = (
+            ParcelaBolsa.objects.select_for_update()
+            .select_related("vinculo__unidade")
+            .get(pk=parcela.pk)
+        )
         if parcela.status != ParcelaBolsa.Status.ALOCADA:
             raise RegraDeNegocio(
                 f"A parcela {parcela} precisa estar alocada para entrar em uma lista."
@@ -947,12 +956,24 @@ def incluir_parcelas(lista: ListaSIAFI, parcelas: Iterable[ParcelaBolsa]) -> lis
             raise ValidationError("A parcela é de outra competência.")
         if parcela.vinculo.unidade.centro_id != lista.centro_id:
             raise ValidationError("A parcela é de uma unidade de outro centro.")
-        if hasattr(parcela, "item_lista"):
+        if parcela.lista_id is not None:
             raise RegraDeNegocio("A parcela já está em uma lista.")
-        itens.append(
-            ItemListaSIAFI.objects.create(lista=lista, parcela=parcela, valor=parcela.valor)
-        )
-    return itens
+        parcela.lista = lista
+        parcela.save(update_fields=["lista"])
+        adicionadas.append(parcela)
+    return adicionadas
+
+
+@transaction.atomic
+def remover_parcela_da_lista(lista: ListaSIAFI, parcela: ParcelaBolsa) -> None:
+    lista = ListaSIAFI.objects.select_for_update().get(pk=lista.pk)
+    if lista.status != ListaSIAFI.Status.RASCUNHO:
+        raise RegraDeNegocio("Não é possível alterar uma lista já paga.")
+    parcela = ParcelaBolsa.objects.select_for_update().get(
+        pk=parcela.pk, lista=lista
+    )
+    parcela.lista = None
+    parcela.save(update_fields=["lista"])
 
 
 @transaction.atomic
@@ -968,48 +989,52 @@ def pagar_lista(
     Registra a Lista SIAFI como paga (o pagamento de fato aconteceu em outro sistema) e
     gera todos os lançamentos de uma vez.
 
-    Por padrão cada item sai do ``empenho_previsto`` da sua parcela. Para completar
-    com outro empenho (fim de ano), passe ``divisoes={item.pk: [(empenho, valor), ...]}``;
-    a soma das partes precisa ser igual ao valor do item. ``numero_siafi`` é a chave
+    Por padrão cada parcela sai do ``empenho_previsto``. Para completar com outro
+    empenho (fim de ano), passe ``divisoes={parcela.pk: [(empenho, valor), ...]}``;
+    a soma das partes precisa ser igual ao valor da parcela. ``numero_siafi`` é a chave
     de conciliação com o outro sistema e é obrigatório.
     """
     numero = (numero_siafi or "").strip()
     if not numero:
         raise ValidationError("Informe o número da Lista no SIAFI para confirmar.")
     _travar_centros([lista.centro_id])
-    lista = ListaSIAFI.objects.get(pk=lista.pk)
+    lista = ListaSIAFI.objects.select_for_update().get(pk=lista.pk)
     if lista.status != ListaSIAFI.Status.RASCUNHO:
         raise RegraDeNegocio("A lista já foi paga.")
 
-    itens = list(
-        lista.itens.select_related(
-            "parcela__vinculo__unidade",
-            "parcela__vinculo__finalidade__natureza",
-            "parcela__empenho_previsto",
+    parcelas = list(
+        lista.parcelas.select_related(
+            "vinculo__unidade",
+            "vinculo__finalidade__natureza",
+            "empenho_previsto",
         )
     )
-    if not itens:
+    if not parcelas:
         raise RegraDeNegocio("A lista está vazia.")
 
     divisoes = divisoes or {}
     linhas: list[LinhaSpec] = []
-    for item in itens:
-        parcela = item.parcela
+    for parcela in parcelas:
         if parcela.status != ParcelaBolsa.Status.ALOCADA:
             raise RegraDeNegocio(f"A parcela {parcela} não está alocada.")
-        partes = divisoes.get(item.pk)
+        if parcela.lista_id != lista.pk:
+            raise RegraDeNegocio(f"A parcela {parcela} não pertence a esta lista.")
+        partes = divisoes.get(parcela.pk)
         if partes is None:
             if parcela.empenho_previsto is None:
                 raise RegraDeNegocio(
                     f"Informe de qual empenho sai a parcela de {parcela.vinculo.bolsista}."
                 )
-            partes = [(parcela.empenho_previsto, item.valor)]
-        if sum((_dinheiro(v) for _, v in partes), ZERO) != item.valor:
+            partes = [(parcela.empenho_previsto, parcela.valor)]
+        if sum((_dinheiro(v) for _, v in partes), ZERO) != parcela.valor:
             raise ValidationError(
-                f"As partes da parcela de {parcela.vinculo.bolsista} não somam {item.valor}."
+                f"As partes da parcela de {parcela.vinculo.bolsista} não somam {parcela.valor}."
             )
         for empenho, valor in partes:
-            if empenho.centro_id != lista.centro_id or empenho.ano_fiscal != lista.ano_fiscal:
+            if (
+                empenho.centro_id != lista.centro_id
+                or empenho.ano_fiscal != lista.ano_fiscal
+            ):
                 raise ValidationError(
                     f"O empenho {empenho} não é do centro/ano fiscal desta lista."
                 )
@@ -1028,9 +1053,9 @@ def pagar_lista(
 
     # As parcelas deixam de contar como "alocadas" antes de conferir os saldos: o
     # saldo da unidade e o alocado caem juntos, então o disponível não muda.
-    for item in itens:
-        item.parcela.status = ParcelaBolsa.Status.PAGA
-        item.parcela.save()
+    for parcela in parcelas:
+        parcela.status = ParcelaBolsa.Status.PAGA
+        parcela.save(update_fields=["status"])
 
     transacao = _gravar(
         operacao=Operacao.LISTA_SIAFI,

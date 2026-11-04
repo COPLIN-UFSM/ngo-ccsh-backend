@@ -91,8 +91,14 @@ class TestBolsas(BaseRazao):
         services.gerar_parcelas(self.vinculo)
         p = self.parcelas(2026)[0]
         services.alocar_parcela(p, self.e1)
+        lista = services.criar_lista(self.centro, p.competencia)
+        services.incluir_parcelas(lista, [p])
+        self.assertEqual(lista.total, D("100"))
         self.assertEqual(saldos.disponivel_unidade(self.A, 2026, self.custeio), D("500"))
         services.cancelar_parcela(p)
+        p.refresh_from_db()
+        self.assertIsNone(p.lista_id)
+        self.assertEqual(lista.total, D("0"))
         self.assertEqual(saldos.disponivel_unidade(self.A, 2026, self.custeio), D("600"))
 
     def test_debito_administrativo_so_pega_o_disponivel(self):
@@ -151,14 +157,22 @@ class TestBolsas(BaseRazao):
         ago = self.parcelas(2026)[1]
         services.alocar_parcela(ago, self.e1)
         lista = services.criar_lista(self.centro, dt.date(2026, 8, 1))
-        (item,) = services.incluir_parcelas(lista, [ago])
+        (parcela,) = services.incluir_parcelas(lista, [ago])
 
-        with self.assertRaises(ValidationError):  # partes não somam o item
+        with self.assertRaises(ValidationError):  # partes não somam a parcela
             services.pagar_lista(
-                lista, self.usuario, "L1", divisoes={item.pk: [(self.e1, D("60")), (e2, D("30"))]}
+                lista,
+                self.usuario,
+                "L1",
+                divisoes={
+                    parcela.pk: [(self.e1, D("60")), (e2, D("30"))]
+                },
             )
         services.pagar_lista(
-            lista, self.usuario, "L1", divisoes={item.pk: [(self.e1, D("60")), (e2, D("40"))]}
+            lista,
+            self.usuario,
+            "L1",
+            divisoes={parcela.pk: [(self.e1, D("60")), (e2, D("40"))]},
         )
         self.assertEqual(self.e1.saldo, D("240"))
         self.assertEqual(e2.saldo, D("10"))
@@ -189,4 +203,21 @@ class TestBolsas(BaseRazao):
             services.incluir_parcelas(lista, [ago])
         prevista = self.parcelas(2026)[2]
         with self.assertRaises(RegraDeNegocio):
-            services.incluir_parcelas(services.criar_lista(self.centro, dt.date(2026, 9, 1)), [prevista])
+            services.incluir_parcelas(
+                services.criar_lista(self.centro, dt.date(2026, 9, 1)),
+                [prevista],
+            )
+
+    def test_parcela_nao_pode_ser_associada_a_duas_listas(self):
+        services.gerar_parcelas(self.vinculo)
+        parcela = self.parcelas(2026)[0]
+        services.alocar_parcela(parcela, self.e1)
+        primeira = services.criar_lista(self.centro, parcela.competencia)
+        segunda = services.criar_lista(self.centro, parcela.competencia)
+
+        services.incluir_parcelas(primeira, [parcela])
+        with self.assertRaises(RegraDeNegocio):
+            services.incluir_parcelas(segunda, [parcela])
+
+        parcela.refresh_from_db()
+        self.assertEqual(parcela.lista_id, primeira.pk)

@@ -37,7 +37,7 @@ class TestModelsCommandTests(TestCase):
         }
         output = StringIO()
 
-        call_command("test_models", stdout=output)
+        call_command("validar_exercicio_financeiro", stdout=output)
 
         self.assertIn("[1/6] Exercício", output.getvalue())
         self.assertIn("[6/6] Exercício fechado", output.getvalue())

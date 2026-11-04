@@ -840,6 +840,14 @@ class ParcelaBolsa(models.Model):
         help_text="Empenho que deve pagar esta parcela (base do alerta de complemento)",
         db_column="id_empenho_previsto",
     )
+    lista = models.ForeignKey(
+        "ListaSIAFI",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="parcelas",
+        db_column="id_lista_siafi",
+    )
 
     history = _historico()
 
@@ -912,29 +920,4 @@ class ListaSIAFI(models.Model):
 
     @property
     def total(self) -> Decimal:
-        return self.itens.aggregate(t=Sum("valor"))["t"] or ZERO
-
-
-class ItemListaSIAFI(models.Model):
-    """Uma parcela dentro de uma Lista SIAFI (cada parcela entra em uma lista só)."""
-
-    id_item_lista_siafi = models.AutoField(
-        primary_key=True, db_column="id_item_lista_siafi"
-    )
-    lista = models.ForeignKey(
-        ListaSIAFI,
-        on_delete=models.CASCADE,
-        related_name="itens",
-        db_column="id_lista_siafi",
-    )
-    parcela = models.OneToOneField(
-        ParcelaBolsa,
-        on_delete=models.PROTECT,
-        related_name="item_lista",
-        db_column="id_parcela_bolsa",
-    )
-    valor = models.DecimalField(max_digits=15, decimal_places=2)
-
-    class Meta:
-        managed = False
-        db_table = "itens_listas_siafi"
+        return self.parcelas.aggregate(t=Sum("valor"))["t"] or ZERO

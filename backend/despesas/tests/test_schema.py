@@ -9,7 +9,6 @@ from despesas.models import (
     ExercicioCentro,
     Finalidade,
     GrupoFinalidade,
-    ItemListaSIAFI,
     Lancamento,
     ListaSIAFI,
     Natureza,
@@ -47,7 +46,6 @@ MODELS = (
     VinculoBolsa,
     ParcelaBolsa,
     ListaSIAFI,
-    ItemListaSIAFI,
 )
 MODELS += tuple(
     model

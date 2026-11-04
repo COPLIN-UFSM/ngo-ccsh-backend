@@ -10,8 +10,7 @@ estrangeiras entre si:
 4. `finalidades.sql`, `tipos_documentos_para_finalidades.sql`
 5. `tipos_movimentos.sql`, `empenhos.sql`, `transacoes.sql`
 6. `lancamentos.sql`, `valores_documentos.sql`, `exercicios_centros.sql`
-7. `vinculos_bolsas.sql`, `parcelas_bolsas.sql`, `listas_siafi.sql`,
-   `itens_listas_siafi.sql`
+7. `vinculos_bolsas.sql`, `listas_siafi.sql`, `parcelas_bolsas.sql`
 8. As cinco tabelas `despesas_historical*.sql`
 
 Os arquivos não são um script de alteração para um banco existente. A conversão

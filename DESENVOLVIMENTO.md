@@ -87,10 +87,11 @@ Teste a aplicação entrando na URL [http://localhost:8000/admin/](http://localh
 
 ### Testando os modelos
 
-Você pode testar o funcionamento e consistência dos modelos da aplicação com o seguinte comando:
+Você pode testar o funcionamento e consistência dos modelos da aplicação com os seguintes comandos:
 
 ```bash
-python backend/manage.py test_models --settings=ngo_ccsh.dev_settings
+python backend/manage.py validar_exercicio_financeiro --settings=ngo_ccsh.dev_settings
+python backend/manage.py validar_pagamento_bolsas --settings=ngo_ccsh.dev_settings
 ```
 
 ## Com Docker

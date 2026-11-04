@@ -268,8 +268,8 @@ class Command(BaseCommand):
         """Cria e paga uma Lista SIAFI por competência."""
         for parcela in parcelas:
             lista = services.criar_lista(base["centro"], parcela.competencia)
-            (item,) = services.incluir_parcelas(lista, [parcela])
-            divisoes = {item.pk: divisao(item)} if divisao else None
+            (parcela,) = services.incluir_parcelas(lista, [parcela])
+            divisoes = {parcela.pk: divisao(parcela)} if divisao else None
             services.pagar_lista(
                 lista,
                 base["usuario"],

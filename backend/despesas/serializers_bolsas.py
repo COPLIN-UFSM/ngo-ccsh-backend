@@ -5,7 +5,6 @@ from despesas import services
 from despesas.models import (
     Empenho,
     Finalidade,
-    ItemListaSIAFI,
     ListaSIAFI,
     Natureza,
     ParcelaBolsa,
@@ -55,6 +54,7 @@ class VinculoBolsaSerializer(serializers.ModelSerializer):
 
 class ParcelaBolsaSerializer(serializers.ModelSerializer):
     id_vinculo_bolsa = serializers.IntegerField(source="vinculo_id", read_only=True)
+    id_lista_siafi = serializers.IntegerField(source="lista_id", read_only=True)
     empenho_previsto = serializers.IntegerField(
         source="empenho_previsto_id", read_only=True
     )
@@ -64,6 +64,7 @@ class ParcelaBolsaSerializer(serializers.ModelSerializer):
         fields = [
             "id_parcela_bolsa",
             "id_vinculo_bolsa",
+            "id_lista_siafi",
             "competencia",
             "ano_fiscal",
             "valor",
@@ -88,16 +89,14 @@ class ParcelaAlocacaoSerializer(serializers.Serializer):
             raise serializers.ValidationError(detail) from exc
 
 
-class ItemListaSIAFISerializer(serializers.ModelSerializer):
-    parcela = serializers.IntegerField(source="parcela_id", read_only=True)
+class ParcelaListaSIAFISerializer(serializers.ModelSerializer):
     bolsista = serializers.CharField(
-        source="parcela.vinculo.bolsista.nome_pessoa", read_only=True
+        source="vinculo.bolsista.nome_pessoa", read_only=True
     )
-    competencia = serializers.DateField(source="parcela.competencia", read_only=True)
 
     class Meta:
-        model = ItemListaSIAFI
-        fields = ["id_item_lista_siafi", "parcela", "bolsista", "competencia", "valor"]
+        model = ParcelaBolsa
+        fields = ["id_parcela_bolsa", "bolsista", "competencia", "valor"]
         read_only_fields = fields
 
 
@@ -105,7 +104,7 @@ class ListaSIAFIReadSerializer(serializers.ModelSerializer):
     centro = serializers.IntegerField(source="centro_id", read_only=True)
     transacao = serializers.IntegerField(source="transacao_id", read_only=True)
     total = serializers.DecimalField(max_digits=15, decimal_places=2, read_only=True)
-    itens = ItemListaSIAFISerializer(many=True, read_only=True)
+    parcelas = ParcelaListaSIAFISerializer(many=True, read_only=True)
 
     class Meta:
         model = ListaSIAFI
@@ -119,7 +118,7 @@ class ListaSIAFIReadSerializer(serializers.ModelSerializer):
             "transacao",
             "criada_em",
             "total",
-            "itens",
+            "parcelas",
         ]
         read_only_fields = fields
 
@@ -151,7 +150,7 @@ class DivisaoEmpenhoSerializer(serializers.Serializer):
 
 
 class DivisaoParcelaSerializer(serializers.Serializer):
-    item = serializers.PrimaryKeyRelatedField(queryset=ItemListaSIAFI.objects.all())
+    parcela = serializers.PrimaryKeyRelatedField(queryset=ParcelaBolsa.objects.all())
     partes = DivisaoEmpenhoSerializer(many=True, allow_empty=False)
 
 
@@ -162,16 +161,16 @@ class ListaSIAFIPagamentoSerializer(serializers.Serializer):
     def save(self, *, lista, usuario):
         divisoes = {}
         for entry in self.validated_data.get("divisoes", []):
-            item = entry["item"]
-            if item.lista_id != lista.pk:
+            parcela = entry["parcela"]
+            if parcela.lista_id != lista.pk:
                 raise serializers.ValidationError(
-                    {"divisoes": f"O item {item.pk} não pertence a esta lista."}
+                    {"divisoes": f"A parcela {parcela.pk} não pertence a esta lista."}
                 )
-            if item.pk in divisoes:
+            if parcela.pk in divisoes:
                 raise serializers.ValidationError(
-                    {"divisoes": f"O item {item.pk} foi informado mais de uma vez."}
+                    {"divisoes": f"A parcela {parcela.pk} foi informada mais de uma vez."}
                 )
-            divisoes[item.pk] = [
+            divisoes[parcela.pk] = [
                 (parte["empenho"], parte["valor"]) for parte in entry["partes"]
             ]
         try:

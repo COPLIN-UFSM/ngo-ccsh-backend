@@ -8,7 +8,7 @@ from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
 
 from despesas import services
-from despesas.models import ItemListaSIAFI, ListaSIAFI, ParcelaBolsa, VinculoBolsa
+from despesas.models import ListaSIAFI, ParcelaBolsa, VinculoBolsa
 from despesas.serializers import TransacaoReadSerializer
 from despesas.serializers_bolsas import (
     ListaSIAFICreateSerializer,
@@ -74,9 +74,11 @@ class ListaSIAFIViewSet(
     mixins.RetrieveModelMixin,
     viewsets.GenericViewSet,
 ):
-    queryset = ListaSIAFI.objects.select_related("centro", "transacao").prefetch_related(
-        "itens__parcela__vinculo__bolsista"
-    ).order_by("-competencia", "id_lista_siafi")
+    queryset = (
+        ListaSIAFI.objects.select_related("centro", "transacao")
+        .prefetch_related("parcelas__vinculo__bolsista")
+        .order_by("-competencia", "id_lista_siafi")
+    )
     serializer_class = ListaSIAFIReadSerializer
     filterset_fields = ["centro", "ano_fiscal", "competencia", "status"]
     http_method_names = ["get", "post", "delete"]
@@ -91,21 +93,22 @@ class ListaSIAFIViewSet(
             headers=self.get_success_headers(serializer.data),
         )
 
-    @action(detail=True, methods=["post"], url_path="itens")
-    def incluir_itens(self, request, pk=None):
+    @action(detail=True, methods=["post"], url_path="parcelas")
+    def incluir_parcelas(self, request, pk=None):
         lista = self.get_object()
         serializer = ListaSIAFIIncluirParcelasSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        itens = serializer.save(lista=lista)
+        parcelas = serializer.save(lista=lista)
+        lista = self.get_queryset().get(pk=lista.pk)
         return Response(
             self.get_serializer(lista).data,
-            status=status.HTTP_201_CREATED if itens else status.HTTP_200_OK,
+            status=status.HTTP_201_CREATED if parcelas else status.HTTP_200_OK,
         )
 
     @extend_schema(
         parameters=[
             OpenApiParameter(
-                name="item_id",
+                name="parcela_id",
                 type=OpenApiTypes.INT,
                 location=OpenApiParameter.PATH,
             )
@@ -114,14 +117,15 @@ class ListaSIAFIViewSet(
     @action(
         detail=True,
         methods=["delete"],
-        url_path=r"itens/(?P<item_id>[^/.]+)",
+        url_path=r"parcelas/(?P<parcela_id>[^/.]+)",
     )
-    def remover_item(self, request, pk=None, item_id=None):
+    def remover_parcela(self, request, pk=None, parcela_id=None):
         lista = self.get_object()
-        if lista.status != ListaSIAFI.Status.RASCUNHO:
-            raise ValidationError("Não é possível alterar uma lista já paga.")
-        item = get_object_or_404(ItemListaSIAFI, pk=item_id, lista=lista)
-        item.delete()
+        parcela = get_object_or_404(ParcelaBolsa, pk=parcela_id, lista=lista)
+        try:
+            services.remover_parcela_da_lista(lista, parcela)
+        except services.RegraDeNegocio as exc:
+            raise ValidationError(str(exc)) from exc
         return Response(status=status.HTTP_204_NO_CONTENT)
 
     @action(detail=True, methods=["post"])

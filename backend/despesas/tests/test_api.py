@@ -208,12 +208,13 @@ class TransactionApiTests(BaseRazao):
         self.assertEqual(created.data["competencia"], "2026-07-01")
 
         included = self.api.post(
-            reverse("despesas:listas-siafi-incluir-itens", args=[lista_id]),
+            reverse("despesas:listas-siafi-incluir-parcelas", args=[lista_id]),
             {"parcelas": [parcela.pk]},
             format="json",
         )
         self.assertEqual(included.status_code, 201, included.data)
-        self.assertEqual(len(included.data["itens"]), 1)
+        self.assertEqual(len(included.data["parcelas"]), 1)
+        self.assertEqual(included.data["total"], "100.00")
 
         paid = self.api.post(
             reverse("despesas:listas-siafi-pagar", args=[lista_id]),
@@ -221,7 +222,7 @@ class TransactionApiTests(BaseRazao):
                 "numero_siafi": "2026LS000123",
                 "divisoes": [
                     {
-                        "item": included.data["itens"][0]["id_item_lista_siafi"],
+                        "parcela": included.data["parcelas"][0]["id_parcela_bolsa"],
                         "partes": [
                             {"empenho": empenho.pk, "valor": "60.00"},
                             {"empenho": empenho_adicional.pk, "valor": "40.00"},
@@ -263,25 +264,23 @@ class TransactionApiTests(BaseRazao):
         self.assertEqual(lista_response.status_code, 201, lista_response.data)
         lista_id = lista_response.data["id_lista_siafi"]
         included = self.api.post(
-            reverse("despesas:listas-siafi-incluir-itens", args=[lista_id]),
+            reverse("despesas:listas-siafi-incluir-parcelas", args=[lista_id]),
             {"parcelas": [parcela.pk]},
             format="json",
         )
         self.assertEqual(included.status_code, 201, included.data)
-        item_id = included.data["itens"][0]["id_item_lista_siafi"]
+        parcela_id = included.data["parcelas"][0]["id_parcela_bolsa"]
 
         removed = self.api.delete(
             reverse(
-                "despesas:listas-siafi-remover-item",
-                args=[lista_id, item_id],
+                "despesas:listas-siafi-remover-parcela",
+                args=[lista_id, parcela_id],
             )
         )
         self.assertEqual(removed.status_code, 204)
-        self.assertFalse(
-            ListaSIAFI.objects.get(pk=lista_id).itens.filter(pk=item_id).exists()
-        )
         parcela.refresh_from_db()
         self.assertEqual(parcela.status, ParcelaBolsa.Status.ALOCADA)
+        self.assertIsNone(parcela.lista_id)
 
     def test_exercise_pending_close_and_reopen_endpoints(self):
         self.creditar(100)
