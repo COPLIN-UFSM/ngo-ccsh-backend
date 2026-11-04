@@ -349,7 +349,8 @@ class Discente(models.Model):
     pessoa = models.ForeignKey(
         Pessoa,
         on_delete=models.DO_NOTHING,
-        db_column="id_pessoa_interna",
+        to_field="pessoa_sie",
+        db_column="id_pessoa_sie",
         db_constraint=False,
     )
     matricula = models.TextField(
@@ -375,7 +376,8 @@ class Servidor(models.Model):
     pessoa = models.ForeignKey(
         Pessoa,
         on_delete=models.DO_NOTHING,
-        db_column="id_pessoa_interna",
+        to_field="pessoa_sie",
+        db_column="id_pessoa_sie",
         db_constraint=False,
     )
     matricula = models.TextField(

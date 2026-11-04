@@ -1,6 +1,6 @@
 from django.core import mail
 from django.urls import reverse
-from entidades.models import Cargo, Pessoa, Servidor
+from entidades.models import Cargo, Pessoa, PessoaSIE, Servidor
 from ngo_ccsh import settings
 from rest_framework import status
 from rest_framework.test import APITestCase
@@ -17,11 +17,23 @@ from autenticacao.services import (
 class AuthenticationBaseTestCase(APITestCase):
     def setUp(self):
         self.cargo_professor = Cargo.objects.create(cargo="Professor")
-        self.pessoa_ativa = Pessoa.objects.create(
+        pessoa_ativa_sie = PessoaSIE.objects.create(
             nome_pessoa="Loki", cpf="00000000000", rg="00000000000"
         )
-        self.pessoa_inativa = Pessoa.objects.create(
+        self.pessoa_ativa = Pessoa.objects.create(
+            nome_pessoa="Loki",
+            cpf="00000000000",
+            rg="00000000000",
+            pessoa_sie=pessoa_ativa_sie,
+        )
+        pessoa_inativa_sie = PessoaSIE.objects.create(
             nome_pessoa="Odin", cpf="00000000001", rg="00000000001"
+        )
+        self.pessoa_inativa = Pessoa.objects.create(
+            nome_pessoa="Odin",
+            cpf="00000000001",
+            rg="00000000001",
+            pessoa_sie=pessoa_inativa_sie,
         )
         self.servidor_ativo_1 = Servidor.objects.create(
             pessoa=self.pessoa_ativa,

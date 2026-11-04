@@ -2,7 +2,7 @@ create view orcamento.v_sie_pessoas as (
     select
         pessoas.ID_PESSOA ID_PESSOA_SIE,
         strip(NOME_PESSOA) as NOME_PESSOA,
-        upper(strip(doc_cpf.NUMERO_DOCUMENTO)) as CPF,
+        replace(replace(strip(doc_cpf.NUMERO_DOCUMENTO), '.', ''), '-', '') as CPF,
         upper(strip(doc_rg.NUMERO_DOCUMENTO)) as RG
     from PESSOAS
     inner join DOC_PESSOAS doc_cpf on pessoas.ID_PESSOA = doc_cpf.ID_PESSOA
