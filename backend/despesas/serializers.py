@@ -53,9 +53,7 @@ class TipoDocumentoParaFinalidadeSerializer(serializers.ModelSerializer):
     id_tipo_documento = serializers.PrimaryKeyRelatedField(
         queryset=TipoDocumento.objects.all(), source="tipo_documento"
     )
-    tipo_documento = serializers.CharField(
-        source="tipo_documento.nome", read_only=True
-    )
+    tipo_documento = serializers.CharField(source="tipo_documento.nome", read_only=True)
 
     class Meta:
         model = TipoDocumentoParaFinalidade
@@ -170,7 +168,13 @@ class EmpenhoSerializer(serializers.ModelSerializer):
             "gasto",
             "a_complementar",
         ]
-        read_only_fields = ["id_empenho", "criado_em", "saldo", "gasto", "a_complementar"]
+        read_only_fields = [
+            "id_empenho",
+            "criado_em",
+            "saldo",
+            "gasto",
+            "a_complementar",
+        ]
 
     @extend_schema_field(OpenApiTypes.DECIMAL)
     def get_saldo(self, obj):
@@ -216,14 +220,18 @@ class ValorDocumentoSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ValorDocumento
-        fields = ["id_valor_documento", "id_tipo_documento", "tipo_documento", "ordem", "valor"]
+        fields = [
+            "id_valor_documento",
+            "id_tipo_documento",
+            "tipo_documento",
+            "ordem",
+            "valor",
+        ]
 
 
 class TransacaoReadSerializer(serializers.ModelSerializer):
     id_usuario = serializers.IntegerField(source="usuario_id", read_only=True)
-    id_beneficiario = serializers.IntegerField(
-        source="beneficiario_id", read_only=True
-    )
+    id_beneficiario = serializers.IntegerField(source="beneficiario_id", read_only=True)
     id_transacao_corrigida = serializers.IntegerField(
         source="corrige_id", read_only=True
     )
@@ -307,7 +315,12 @@ class TransacaoOperationSerializer(serializers.Serializer):
     def validate(self, attrs):
         operacao = attrs["operacao"]
         required_by_operation = {
-            Transacao.Operacao.CREDITO: ("centro", "ano_fiscal", "natureza", "montante"),
+            Transacao.Operacao.CREDITO: (
+                "centro",
+                "ano_fiscal",
+                "natureza",
+                "montante",
+            ),
             Transacao.Operacao.REFORCO: ("empenho", "montante"),
             Transacao.Operacao.DISTRIBUICAO: (
                 "centro",
@@ -343,7 +356,10 @@ class TransacaoOperationSerializer(serializers.Serializer):
         ]
         if missing:
             raise serializers.ValidationError(
-                {field: "Este campo é obrigatório para esta operação." for field in missing}
+                {
+                    field: "Este campo é obrigatório para esta operação."
+                    for field in missing
+                }
             )
         return attrs
 
@@ -417,7 +433,9 @@ class TransacaoOperationSerializer(serializers.Serializer):
                 **kwargs,
             )
         except (DjangoValidationError, services.RegraDeNegocio) as exc:
-            detail = exc.messages if isinstance(exc, DjangoValidationError) else str(exc)
+            detail = (
+                exc.messages if isinstance(exc, DjangoValidationError) else str(exc)
+            )
             raise serializers.ValidationError(detail) from exc
 
 
@@ -478,5 +496,7 @@ class TransacaoCorrecaoSerializer(serializers.Serializer):
                 **correction_args,
             )
         except (DjangoValidationError, services.RegraDeNegocio) as exc:
-            detail = exc.messages if isinstance(exc, DjangoValidationError) else str(exc)
+            detail = (
+                exc.messages if isinstance(exc, DjangoValidationError) else str(exc)
+            )
             raise serializers.ValidationError(detail) from exc

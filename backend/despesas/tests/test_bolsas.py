@@ -6,7 +6,14 @@ from decimal import Decimal as D
 from django.core.exceptions import ValidationError
 
 from despesas import saldos, services
-from despesas.models import Empenho, Finalidade, ListaSIAFI, ParcelaBolsa, Transacao, VinculoBolsa
+from despesas.models import (
+    Empenho,
+    Finalidade,
+    ListaSIAFI,
+    ParcelaBolsa,
+    Transacao,
+    VinculoBolsa,
+)
 from despesas.services import RegraDeNegocio, SaldoInsuficiente
 from despesas.tests.helpers import BaseRazao
 from entidades.models import Pessoa, PessoaSIE
@@ -30,23 +37,35 @@ class TestBolsas(BaseRazao):
         )
 
     def parcelas(self, ano):
-        return list(self.vinculo.parcelas.filter(ano_fiscal=ano).order_by("competencia"))
+        return list(
+            self.vinculo.parcelas.filter(ano_fiscal=ano).order_by("competencia")
+        )
 
     def test_so_pessoas_do_sie_sao_bolsistas(self):
         externa = Pessoa.objects.create(nome_pessoa="Zé", cpf="9", rg="9")
         with self.assertRaises(ValidationError):
             VinculoBolsa.objects.create(
-                bolsista=externa, unidade=self.A, finalidade=self.bolsa2a,
-                valor_mensal=D("100"), inicio=dt.date(2026, 1, 1), fim=dt.date(2026, 12, 1),
+                bolsista=externa,
+                unidade=self.A,
+                finalidade=self.bolsa2a,
+                valor_mensal=D("100"),
+                inicio=dt.date(2026, 1, 1),
+                fim=dt.date(2026, 12, 1),
             )
         sem_vinculo = Pessoa.objects.create(
             pessoa_sie=PessoaSIE.objects.create(nome_pessoa="Cid", cpf="8", rg="8"),
-            nome_pessoa="Cid", cpf="8", rg="8",
+            nome_pessoa="Cid",
+            cpf="8",
+            rg="8",
         )
         with self.assertRaises(ValidationError):
             VinculoBolsa.objects.create(
-                bolsista=sem_vinculo, unidade=self.A, finalidade=self.bolsa2a,
-                valor_mensal=D("100"), inicio=dt.date(2026, 1, 1), fim=dt.date(2026, 12, 1),
+                bolsista=sem_vinculo,
+                unidade=self.A,
+                finalidade=self.bolsa2a,
+                valor_mensal=D("100"),
+                inicio=dt.date(2026, 1, 1),
+                fim=dt.date(2026, 12, 1),
             )
 
     def test_parcelas_atravessam_o_ano_fiscal(self):
@@ -62,10 +81,14 @@ class TestBolsas(BaseRazao):
             services.alocar_parcela(p, empenho_previsto=self.e1)
 
         n = self.custeio
-        self.assertEqual(saldos.saldo_unidade(self.A, 2026, n), D("600"))  # razão intacto
+        self.assertEqual(
+            saldos.saldo_unidade(self.A, 2026, n), D("600")
+        )  # razão intacto
         self.assertEqual(saldos.alocado_unidade(self.A, 2026, n), D("600"))
         self.assertEqual(saldos.disponivel_unidade(self.A, 2026, n), D("0"))
-        self.assertEqual(self.e1.saldo, D("300"))  # empenho não mudou (alocar != empenhar)
+        self.assertEqual(
+            self.e1.saldo, D("300")
+        )  # empenho não mudou (alocar != empenhar)
 
         # 2027 ainda não tem orçamento: continua prevista, sem reserva
         p27 = self.parcelas(2027)[0]
@@ -94,12 +117,16 @@ class TestBolsas(BaseRazao):
         lista = services.criar_lista(self.centro, p.competencia)
         services.incluir_parcelas(lista, [p])
         self.assertEqual(lista.total, D("100"))
-        self.assertEqual(saldos.disponivel_unidade(self.A, 2026, self.custeio), D("500"))
+        self.assertEqual(
+            saldos.disponivel_unidade(self.A, 2026, self.custeio), D("500")
+        )
         services.cancelar_parcela(p)
         p.refresh_from_db()
         self.assertIsNone(p.lista_id)
         self.assertEqual(lista.total, D("0"))
-        self.assertEqual(saldos.disponivel_unidade(self.A, 2026, self.custeio), D("600"))
+        self.assertEqual(
+            saldos.disponivel_unidade(self.A, 2026, self.custeio), D("600")
+        )
 
     def test_debito_administrativo_so_pega_o_disponivel(self):
         services.gerar_parcelas(self.vinculo)
@@ -110,12 +137,22 @@ class TestBolsas(BaseRazao):
         services.reforcar_empenho(e2, 400, self.usuario)
         with self.assertRaises(SaldoInsuficiente):
             services.registrar_despesa(
-                e2, self.A, obra, 101, self.usuario,
-                administrativo=True, justificativa="subunidade parada",
+                e2,
+                self.A,
+                obra,
+                101,
+                self.usuario,
+                administrativo=True,
+                justificativa="subunidade parada",
             )
         services.registrar_despesa(
-            e2, self.A, obra, 100, self.usuario,
-            administrativo=True, justificativa="subunidade parada",
+            e2,
+            self.A,
+            obra,
+            100,
+            self.usuario,
+            administrativo=True,
+            justificativa="subunidade parada",
         )
 
     def test_pagar_lista(self):
@@ -150,7 +187,9 @@ class TestBolsas(BaseRazao):
             services.pagar_lista(lista, self.usuario, "outra")
 
     def test_lista_completada_com_outro_empenho_no_fim_do_ano(self):
-        monitoria = Finalidade.objects.create(nome="Bolsa Monitoria", natureza=self.custeio)
+        monitoria = Finalidade.objects.create(
+            nome="Bolsa Monitoria", natureza=self.custeio
+        )
         e2 = self.novo_empenho("002", monitoria)
         services.reforcar_empenho(e2, 50, self.usuario)
         services.gerar_parcelas(self.vinculo)
@@ -164,9 +203,7 @@ class TestBolsas(BaseRazao):
                 lista,
                 self.usuario,
                 "L1",
-                divisoes={
-                    parcela.pk: [(self.e1, D("60")), (e2, D("30"))]
-                },
+                divisoes={parcela.pk: [(self.e1, D("60")), (e2, D("30"))]},
             )
         services.pagar_lista(
             lista,

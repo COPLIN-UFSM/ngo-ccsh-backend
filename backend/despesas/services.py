@@ -220,7 +220,9 @@ def _verificar_invariantes(lancamentos: Sequence[Lancamento]) -> None:
         total = saldos.total_centro(centro_id, ano, natureza_id)
         contexto = f"(centro {centro_id}, ano {ano}, natureza {natureza_id})"
         if total < 0:
-            raise SaldoInsuficiente(f"O centro ficaria com recurso negativo {contexto}.")
+            raise SaldoInsuficiente(
+                f"O centro ficaria com recurso negativo {contexto}."
+            )
         if saldos.empenhado_centro(centro_id, ano, natureza_id) > total:
             raise SaldoInsuficiente(
                 f"Não há recurso livre suficiente para empenhar {contexto}."
@@ -448,8 +450,12 @@ def transferir_entre_unidades(
 ) -> Transacao:
     valor = _positivo(montante)
     linhas = [
-        LinhaSpec(Codigo.DISTRIBUICAO, centro, ano_fiscal, natureza, -valor, unidade=origem),
-        LinhaSpec(Codigo.DISTRIBUICAO, centro, ano_fiscal, natureza, valor, unidade=destino),
+        LinhaSpec(
+            Codigo.DISTRIBUICAO, centro, ano_fiscal, natureza, -valor, unidade=origem
+        ),
+        LinhaSpec(
+            Codigo.DISTRIBUICAO, centro, ano_fiscal, natureza, valor, unidade=destino
+        ),
     ]
     return _gravar(
         operacao=Operacao.TRANSFERENCIA,
@@ -623,9 +629,11 @@ def corrigir_transacao(
             "tipo_movimento", "centro", "natureza", "empenho", "unidade", "finalidade"
         )
     )
-    novas = list(linhas) if linhas is not None else [
-        LinhaSpec.de_lancamento(l) for l in vigentes
-    ]
+    novas = (
+        list(linhas)
+        if linhas is not None
+        else [LinhaSpec.de_lancamento(l) for l in vigentes]
+    )
     estimada_final = transacao.estimada if estimada is None else estimada
     beneficiario_final = (
         transacao.beneficiario if beneficiario is _MANTER else beneficiario
@@ -633,7 +641,8 @@ def corrigir_transacao(
 
     if documentos is None:
         documentos = [
-            (v.tipo_documento, v.valor) for v in transacao.documentos.select_related("tipo_documento")
+            (v.tipo_documento, v.valor)
+            for v in transacao.documentos.select_related("tipo_documento")
         ]
     docs = _validar_documentos(
         _finalidade_unica(novas), documentos, exigir_obrigatorios=not estimada_final
@@ -680,7 +689,12 @@ class DestinoSaldo:
 
 @transaction.atomic
 def fechar_exercicio(
-    centro: Centro, ano_fiscal: int, usuario, destinos: Sequence[DestinoSaldo], *, data=None
+    centro: Centro,
+    ano_fiscal: int,
+    usuario,
+    destinos: Sequence[DestinoSaldo],
+    *,
+    data=None,
 ) -> Transacao:
     """
     Fecha o ano fiscal de um centro. Cada empenho com saldo precisa de um destino
@@ -825,9 +839,7 @@ def reabrir_exercicio(
         raise RegraDeNegocio("O exercício não está fechado.")
 
     fechamento = exercicio.transacao_fechamento
-    estornos = list(
-        fechamento.lancamentos_vigentes().select_related("tipo_movimento")
-    )
+    estornos = list(fechamento.lancamentos_vigentes().select_related("tipo_movimento"))
     transacao = _gravar(
         operacao=Operacao.REABERTURA,
         usuario=usuario,
@@ -870,7 +882,9 @@ def gerar_parcelas(vinculo: VinculoBolsa) -> list[ParcelaBolsa]:
 
 
 @transaction.atomic
-def alocar_parcela(parcela: ParcelaBolsa, empenho_previsto: Empenho | None = None) -> ParcelaBolsa:
+def alocar_parcela(
+    parcela: ParcelaBolsa, empenho_previsto: Empenho | None = None
+) -> ParcelaBolsa:
     """
     Reserva o valor da parcela no saldo da subunidade (plano, fora do razão). Só
     funciona se a subunidade tiver saldo *disponível* naquele ano e natureza; caso
@@ -914,8 +928,10 @@ def alocar_parcela(parcela: ParcelaBolsa, empenho_previsto: Empenho | None = Non
 def cancelar_parcela(parcela: ParcelaBolsa) -> ParcelaBolsa:
     """Cancela a parcela (bolsa cancelada, por exemplo), liberando a reserva."""
     _travar_centros([parcela.vinculo.unidade.centro_id])
-    parcela = ParcelaBolsa.objects.select_for_update().select_related("lista").get(
-        pk=parcela.pk
+    parcela = (
+        ParcelaBolsa.objects.select_for_update()
+        .select_related("lista")
+        .get(pk=parcela.pk)
     )
     if parcela.status == ParcelaBolsa.Status.PAGA:
         raise RegraDeNegocio("Parcela já paga: corrija o pagamento, não cancele.")
@@ -969,9 +985,7 @@ def remover_parcela_da_lista(lista: ListaSIAFI, parcela: ParcelaBolsa) -> None:
     lista = ListaSIAFI.objects.select_for_update().get(pk=lista.pk)
     if lista.status != ListaSIAFI.Status.RASCUNHO:
         raise RegraDeNegocio("Não é possível alterar uma lista já paga.")
-    parcela = ParcelaBolsa.objects.select_for_update().get(
-        pk=parcela.pk, lista=lista
-    )
+    parcela = ParcelaBolsa.objects.select_for_update().get(pk=parcela.pk, lista=lista)
     parcela.lista = None
     parcela.save(update_fields=["lista"])
 

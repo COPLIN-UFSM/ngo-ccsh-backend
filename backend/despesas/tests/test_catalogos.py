@@ -30,7 +30,12 @@ class TestRegrasDoCatalogo(BaseRazao):
         self.creditar(100)
         services.reforcar_empenho(e1, 100, self.usuario)
         services.registrar_despesa(
-            e1, None, self.passagens, 10, self.usuario, documentos=[(self.nota_fiscal, "NF-1")]
+            e1,
+            None,
+            self.passagens,
+            10,
+            self.usuario,
+            documentos=[(self.nota_fiscal, "NF-1")],
         )
         self.assertEqual(e1.saldo, D("90"))
 
@@ -69,7 +74,9 @@ class TestRegrasDoCatalogo(BaseRazao):
         sub = self.nova_unidade("A1", "11.01.01", pai=self.A)
         self.assertEqual(sub.ancestrais(), [self.A])
         self.assertEqual(list(self.A.subunidades.all()), [sub])
-        outro = Centro.objects.create(nome_centro="CT", sigla_centro="CT", cod_estruturado="12")
+        outro = Centro.objects.create(
+            nome_centro="CT", sigla_centro="CT", cod_estruturado="12"
+        )
         with self.assertRaises(ValidationError):
             self.nova_unidade("X", "12.01", pai=self.A, centro=outro)
 
@@ -80,13 +87,25 @@ class TestRegrasDoCatalogo(BaseRazao):
         self.creditar(100)
         services.reforcar_empenho(e1, 100, self.usuario)
         t = services.registrar_despesa(
-            e1, None, self.passagens, 50, self.usuario,
+            e1,
+            None,
+            self.passagens,
+            50,
+            self.usuario,
             beneficiario=externa,
-            documentos=[(self.nota_fiscal, "NF-1"), (self.trecho, "SMA-POA"), (self.trecho, "POA-SMA")],
+            documentos=[
+                (self.nota_fiscal, "NF-1"),
+                (self.trecho, "SMA-POA"),
+                (self.trecho, "POA-SMA"),
+            ],
         )
         self.assertEqual(t.beneficiario, externa)
         self.assertEqual(
-            list(t.documentos.filter(tipo_documento=self.trecho).values_list("ordem", "valor")),
+            list(
+                t.documentos.filter(tipo_documento=self.trecho).values_list(
+                    "ordem", "valor"
+                )
+            ),
             [(0, "SMA-POA"), (1, "POA-SMA")],
         )
 
@@ -98,7 +117,12 @@ class TestRegrasDoCatalogo(BaseRazao):
             services.registrar_despesa(e1, None, self.passagens, 10, self.usuario)
         with self.assertRaises(ValidationError):  # campo não aceito na finalidade
             services.registrar_despesa(
-                e1, None, self.bolsa2a, 10, self.usuario, documentos=[(self.trecho, "x")]
+                e1,
+                None,
+                self.bolsa2a,
+                10,
+                self.usuario,
+                documentos=[(self.trecho, "x")],
             )
 
     def test_tipo_dado_do_documento(self):

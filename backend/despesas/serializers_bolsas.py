@@ -85,7 +85,9 @@ class ParcelaAlocacaoSerializer(serializers.Serializer):
                 parcela, self.validated_data.get("empenho_previsto")
             )
         except (DjangoValidationError, services.RegraDeNegocio) as exc:
-            detail = exc.messages if isinstance(exc, DjangoValidationError) else str(exc)
+            detail = (
+                exc.messages if isinstance(exc, DjangoValidationError) else str(exc)
+            )
             raise serializers.ValidationError(detail) from exc
 
 
@@ -140,7 +142,9 @@ class ListaSIAFIIncluirParcelasSerializer(serializers.Serializer):
         try:
             return services.incluir_parcelas(lista, self.validated_data["parcelas"])
         except (DjangoValidationError, services.RegraDeNegocio) as exc:
-            detail = exc.messages if isinstance(exc, DjangoValidationError) else str(exc)
+            detail = (
+                exc.messages if isinstance(exc, DjangoValidationError) else str(exc)
+            )
             raise serializers.ValidationError(detail) from exc
 
 
@@ -168,7 +172,9 @@ class ListaSIAFIPagamentoSerializer(serializers.Serializer):
                 )
             if parcela.pk in divisoes:
                 raise serializers.ValidationError(
-                    {"divisoes": f"A parcela {parcela.pk} foi informada mais de uma vez."}
+                    {
+                        "divisoes": f"A parcela {parcela.pk} foi informada mais de uma vez."
+                    }
                 )
             divisoes[parcela.pk] = [
                 (parte["empenho"], parte["valor"]) for parte in entry["partes"]
@@ -181,7 +187,9 @@ class ListaSIAFIPagamentoSerializer(serializers.Serializer):
                 divisoes=divisoes,
             )
         except (DjangoValidationError, services.RegraDeNegocio) as exc:
-            detail = exc.messages if isinstance(exc, DjangoValidationError) else str(exc)
+            detail = (
+                exc.messages if isinstance(exc, DjangoValidationError) else str(exc)
+            )
             raise serializers.ValidationError(detail) from exc
 
 

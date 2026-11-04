@@ -219,9 +219,7 @@ class Command(BaseCommand):
             saldos.livre_centro(centro, ano_fiscal, natureza),
             credito_inicial,
         )
-        self.stdout.write(
-            f"[2/6] Crédito registrado: R$ {credito_inicial:.2f}."
-        )
+        self.stdout.write(f"[2/6] Crédito registrado: R$ {credito_inicial:.2f}.")
 
         # 3. O reforço reserva parte do recurso livre para o empenho; não altera o
         # total recebido pelo centro.
@@ -267,7 +265,9 @@ class Command(BaseCommand):
             saldos.nao_distribuido_centro(centro, ano_fiscal, natureza),
             credito_inicial - valor_distribuido,
         )
-        self.stdout.write(f"[4/6] Distribuídos R$ {valor_distribuido:.2f} para {unidade.nome_unidade}.")
+        self.stdout.write(
+            f"[4/6] Distribuídos R$ {valor_distribuido:.2f} para {unidade.nome_unidade}."
+        )
 
         # 5. A despesa debita simultaneamente o empenho, a unidade e o total do
         # centro. Isso demonstra o uso conjunto das duas dimensões do razão.

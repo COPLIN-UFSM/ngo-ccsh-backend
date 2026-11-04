@@ -49,7 +49,11 @@ class TestCorrecoes(BaseRazao):
 
     def test_corrigir_definitiva_exige_justificativa_e_documentos(self):
         t = services.registrar_despesa(
-            self.e1, self.A, self.passagens, 100, self.usuario,
+            self.e1,
+            self.A,
+            self.passagens,
+            100,
+            self.usuario,
             documentos=[(self.nota_fiscal, "NF-1")],
         )
         novas = [l.com(montante=D("-120")) for l in services.linhas_vigentes(t)]
@@ -84,8 +88,11 @@ class TestCorrecoes(BaseRazao):
         antes = Lancamento.objects.count()
         with self.assertRaises(SaldoInsuficiente):
             services.corrigir_transacao(
-                t, self.usuario,
-                linhas=[l.com(montante=D("-1001")) for l in services.linhas_vigentes(t)],
+                t,
+                self.usuario,
+                linhas=[
+                    l.com(montante=D("-1001")) for l in services.linhas_vigentes(t)
+                ],
             )
         self.assertEqual(Lancamento.objects.count(), antes)
 
@@ -94,7 +101,9 @@ class TestCorrecoes(BaseRazao):
             self.e1, self.A, self.passagens, 100, self.usuario, estimada=True
         )
         t2 = services.corrigir_transacao(
-            t, self.usuario, estimada=True,
+            t,
+            self.usuario,
+            estimada=True,
             linhas=[l.com(montante=D("-130")) for l in services.linhas_vigentes(t)],
         )
         self.assertTrue(t2.estimada)

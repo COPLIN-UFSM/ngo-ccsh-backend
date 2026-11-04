@@ -156,7 +156,9 @@ def compromisso_futuro(centro=None) -> dict:
     if centro is not None:
         parcelas = parcelas.filter(vinculo__unidade__centro=centro)
     linhas = parcelas.values("ano_fiscal").annotate(total=Sum("valor"))
-    return {linha["ano_fiscal"]: linha["total"] for linha in linhas.order_by("ano_fiscal")}
+    return {
+        linha["ano_fiscal"]: linha["total"] for linha in linhas.order_by("ano_fiscal")
+    }
 
 
 # --- fechamento ---------------------------------------------------------------
@@ -173,9 +175,7 @@ def pendencias_fechamento(centro, ano_fiscal) -> dict:
     base = Lancamento.objects.filter(centro=centro, ano_fiscal=ano_fiscal)
 
     por_empenho = (
-        base.filter(empenho__isnull=False)
-        .values("empenho")
-        .annotate(s=Sum("montante"))
+        base.filter(empenho__isnull=False).values("empenho").annotate(s=Sum("montante"))
     )
     saldos_empenho = {l["empenho"]: l["s"] for l in por_empenho if l["s"] != 0}
     empenhos = Empenho.objects.in_bulk(list(saldos_empenho))
@@ -210,7 +210,5 @@ def pendencias_fechamento(centro, ano_fiscal) -> dict:
         "totais": totais,
         "parcelas_alocadas": parcelas,
     }
-    resultado["ok"] = not (
-        resultado["empenhos"] or unidades or totais or parcelas
-    )
+    resultado["ok"] = not (resultado["empenhos"] or unidades or totais or parcelas)
     return resultado

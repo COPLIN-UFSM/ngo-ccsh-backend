@@ -51,9 +51,7 @@ def _serialize_pendencias(result):
 
 
 class ExercicioCentroViewSet(viewsets.GenericViewSet):
-    queryset = ExercicioCentro.objects.select_related(
-        "centro", "transacao_fechamento"
-    )
+    queryset = ExercicioCentro.objects.select_related("centro", "transacao_fechamento")
     serializer_class = FecharExercicioSerializer
     http_method_names = ["get", "post"]
 
@@ -64,9 +62,11 @@ class ExercicioCentroViewSet(viewsets.GenericViewSet):
         centro_id = query.validated_data["centro"].pk
         ano_fiscal = query.validated_data["ano_fiscal"]
         resultado = saldos.pendencias_fechamento(centro_id, ano_fiscal)
-        exercicio = self.get_queryset().filter(
-            centro_id=centro_id, ano_fiscal=ano_fiscal
-        ).first()
+        exercicio = (
+            self.get_queryset()
+            .filter(centro_id=centro_id, ano_fiscal=ano_fiscal)
+            .first()
+        )
         return Response(
             {
                 "centro": centro_id,
@@ -77,9 +77,7 @@ class ExercicioCentroViewSet(viewsets.GenericViewSet):
                     else ExercicioCentro.Status.ABERTO
                 ),
                 "id_transacao_fechamento": (
-                    exercicio.transacao_fechamento_id
-                    if exercicio is not None
-                    else None
+                    exercicio.transacao_fechamento_id if exercicio is not None else None
                 ),
                 **_serialize_pendencias(resultado),
             }
@@ -90,10 +88,7 @@ class ExercicioCentroViewSet(viewsets.GenericViewSet):
         serializer = FecharExercicioSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         data = serializer.validated_data
-        destinos = [
-            services.DestinoSaldo(**destino)
-            for destino in data["destinos"]
-        ]
+        destinos = [services.DestinoSaldo(**destino) for destino in data["destinos"]]
         try:
             transacao = services.fechar_exercicio(
                 data["centro"],

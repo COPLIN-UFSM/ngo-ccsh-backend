@@ -613,13 +613,17 @@ class Lancamento(models.Model):
             raise ValidationError("Lançamento com montante zero não faz sentido.")
         definicao = TipoMovimento.definicao(self.tipo_movimento.codigo)
         for nome, valor, regra in (
-                ("empenho", self.empenho_id, definicao.empenho),
-                ("unidade", self.unidade_id, definicao.unidade),
+            ("empenho", self.empenho_id, definicao.empenho),
+            ("unidade", self.unidade_id, definicao.unidade),
         ):
             if regra == "obrigatorio" and valor is None:
                 raise ValidationError(
                     f"'{definicao.nome}' exige {nome}"
-                    + (" (toda despesa precisa de empenho)." if nome == "empenho" else ".")
+                    + (
+                        " (toda despesa precisa de empenho)."
+                        if nome == "empenho"
+                        else "."
+                    )
                 )
             if regra == "proibido" and valor is not None:
                 raise ValidationError(f"'{definicao.nome}' não pode ter {nome}.")
@@ -737,9 +741,7 @@ class ExercicioCentro(models.Model):
 class VinculoBolsa(models.Model):
     """Vínculo de vários meses entre um bolsista e uma subunidade."""
 
-    id_vinculo_bolsa = models.AutoField(
-        primary_key=True, db_column="id_vinculo_bolsa"
-    )
+    id_vinculo_bolsa = models.AutoField(primary_key=True, db_column="id_vinculo_bolsa")
     bolsista = models.ForeignKey(
         "entidades.Pessoa",
         on_delete=models.PROTECT,
@@ -769,7 +771,8 @@ class VinculoBolsa(models.Model):
         db_table = "vinculos_bolsas"
         constraints = [
             models.CheckConstraint(
-                condition=Q(fim__gte=models.F("inicio")), name="ck_vinculo_fim_apos_inicio"
+                condition=Q(fim__gte=models.F("inicio")),
+                name="ck_vinculo_fim_apos_inicio",
             ),
             models.CheckConstraint(
                 condition=Q(valor_mensal__gt=0), name="ck_vinculo_valor_positivo"
@@ -786,8 +789,8 @@ class VinculoBolsa(models.Model):
                 "Apenas pessoas que já existem no SIE podem ser bolsistas."
             )
         if not (
-                Servidor.objects.filter(pessoa=pessoa).exists()
-                or Discente.objects.filter(pessoa=pessoa).exists()
+            Servidor.objects.filter(pessoa=pessoa).exists()
+            or Discente.objects.filter(pessoa=pessoa).exists()
         ):
             raise ValidationError(
                 "Apenas servidores, professores e alunos do SIE podem ser bolsistas."
@@ -815,9 +818,7 @@ class ParcelaBolsa(models.Model):
         PAGA = "paga", "Paga"
         CANCELADA = "cancelada", "Cancelada"
 
-    id_parcela_bolsa = models.AutoField(
-        primary_key=True, db_column="id_parcela_bolsa"
-    )
+    id_parcela_bolsa = models.AutoField(primary_key=True, db_column="id_parcela_bolsa")
     vinculo = models.ForeignKey(
         VinculoBolsa,
         on_delete=models.PROTECT,

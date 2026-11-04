@@ -18,7 +18,9 @@ class ResolveFromSIETestCase(TestCase):
         self.assertEqual(Centro.objects.count(), 1)
 
     def test_lookup_com_sufixo(self):
-        self.assertEqual(Centro.objects.filter(nome_centro__icontains="entro").count(), 1)
+        self.assertEqual(
+            Centro.objects.filter(nome_centro__icontains="entro").count(), 1
+        )
 
     def test_get_or_create_nao_duplica(self):
         centro, created = Centro.objects.get_or_create(

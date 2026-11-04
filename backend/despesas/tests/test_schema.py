@@ -23,7 +23,6 @@ from despesas.models import (
 from entidades.models import Centro, Email, Pessoa, Telefone, Unidade
 from usuarios.models import Usuario
 
-
 DDL_DIRECTORY = Path(__file__).parents[2] / "database" / "sql" / "create"
 MODELS = (
     Centro,
@@ -80,6 +79,8 @@ class Db2SchemaTests(SimpleTestCase):
                 continue
             for field in model._meta.local_concrete_fields:
                 if field.column.casefold() not in columns:
-                    missing.append(f"{model.__name__}.{field.name}: coluna {field.column}")
+                    missing.append(
+                        f"{model.__name__}.{field.name}: coluna {field.column}"
+                    )
 
         self.assertEqual(missing, [])

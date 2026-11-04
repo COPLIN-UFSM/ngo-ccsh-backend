@@ -49,7 +49,7 @@ def send_email_reset_password(user, token):
         to=[user.email],
         headers={
             "List-Unsubscribe": f"<mailto:{settings.DEFAULT_FROM_EMAIL}>",
-        }
+        },
     )
     msg.attach_alternative(html_content, "text/html")
     msg.send()

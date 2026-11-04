@@ -26,10 +26,14 @@ app_name = "despesas"
 router = DefaultRouter()
 
 router.register("finalidades/naturezas", NaturezaViewSet, basename="naturezas")
-router.register("finalidades/grupos", GrupoFinalidadeViewSet, basename="grupos_finalidades")
+router.register(
+    "finalidades/grupos", GrupoFinalidadeViewSet, basename="grupos_finalidades"
+)
 router.register("finalidades", FinalidadeViewSet, basename="finalidades")
 router.register("documentos/tipos", TipoDocumentoViewSet, basename="tipos_documentos")
-router.register("transacoes/tipos-movimento", TipoMovimentoViewSet, basename="tipos_movimento")
+router.register(
+    "transacoes/tipos-movimento", TipoMovimentoViewSet, basename="tipos_movimento"
+)
 router.register("transacoes", TransacoesViewSet, basename="transacoes")
 router.register("empenhos", EmpenhoViewSet, basename="empenhos")
 router.register("vinculos-bolsa", VinculoBolsaViewSet, basename="vinculos-bolsa")
@@ -38,6 +42,10 @@ router.register("listas-siafi", ListaSIAFIViewSet, basename="listas-siafi")
 router.register("exercicios", ExercicioCentroViewSet, basename="exercicios")
 
 transacao_router = routers.NestedSimpleRouter(router, r"transacoes", lookup="transacao")
-transacao_router.register(r"documentos", ValorDocumentoViewSet, basename="transacao-documentos")
-transacao_router.register(r"lancamentos", LancamentoViewSet, basename="transacao-lancamentos")
+transacao_router.register(
+    r"documentos", ValorDocumentoViewSet, basename="transacao-documentos"
+)
+transacao_router.register(
+    r"lancamentos", LancamentoViewSet, basename="transacao-lancamentos"
+)
 urlpatterns = [path("", include(router.urls)), path("", include(transacao_router.urls))]
