@@ -52,7 +52,15 @@ jobs:
           cd /home/coplin/ngo-ccsh-backend
           git pull origin main
 
-          docker compose build
+          for attempt in 1 2 3 4 5; do
+            docker compose build && break
+            if [ "$attempt" -eq 5 ]; then
+              echo "docker compose build failed after $attempt attempts"
+              exit 1
+            fi
+            echo "docker compose build failed (attempt $attempt), retrying in 15s..."
+            sleep 15
+          done
 
           docker compose run --rm web python manage.py migrate
           docker compose run --rm web python manage.py collectstatic --noinput
