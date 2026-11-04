@@ -7,3 +7,7 @@ CREATE TABLE ORCAMENTO.PESSOAS (
 );
 
 COMMENT ON TABLE ORCAMENTO.PESSOAS IS 'Pessoas internas e beneficiários externos.';
+
+-- Vínculo um-para-um com o SIE; NULL (pessoa externa ao SIE) pode repetir.
+CREATE UNIQUE INDEX ORCAMENTO.UX_PESSOAS_PESSOA_SIE
+    ON ORCAMENTO.PESSOAS (ID_PESSOA_SIE) EXCLUDE NULL KEYS;

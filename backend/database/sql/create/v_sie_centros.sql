@@ -1,4 +1,4 @@
-create view ORCAMENTO.V_CENTROS_SIE as (
+create view ORCAMENTO.V_SIE_CENTROS as (
     select
         id_centro as ID_CENTRO_SIE,
         cod_estruturado,
@@ -8,5 +8,5 @@ create view ORCAMENTO.V_CENTROS_SIE as (
     where ID_CENTRO not in (121, 2021) -- poli e ctism (antigos)
 );
 
-comment on table ORCAMENTO.V_CENTROS_SIE is 'Gerada a partir de bee.NAV_CENTROS';
+comment on table ORCAMENTO.V_SIE_CENTROS is 'Gerada a partir de bee.NAV_CENTROS';
 

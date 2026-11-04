@@ -16,3 +16,9 @@ CREATE TABLE ORCAMENTO.UNIDADES (
 );
 
 COMMENT ON TABLE ORCAMENTO.UNIDADES IS 'Unidades internas e hierarquia de unidades.';
+COMMENT ON COLUMN ORCAMENTO.UNIDADES.ID_UNIDADE_PAI
+    IS 'Unidade imediatamente acima na hierarquia; nulo para unidades de topo do centro';
+
+-- Vínculo um-para-um com o SIE; NULL (unidade fora do SIE) pode repetir.
+CREATE UNIQUE INDEX ORCAMENTO.UX_UNIDADES_UNIDADE_SIE
+    ON ORCAMENTO.UNIDADES (ID_UNIDADE_SIE) EXCLUDE NULL KEYS;

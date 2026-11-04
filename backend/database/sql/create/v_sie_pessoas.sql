@@ -1,4 +1,4 @@
-create view orcamento.v_pessoas_sie as (
+create view orcamento.v_sie_pessoas as (
     select
         pessoas.ID_PESSOA ID_PESSOA_SIE,
         strip(NOME_PESSOA) as NOME_PESSOA,
@@ -13,4 +13,4 @@ create view orcamento.v_pessoas_sie as (
         and doc_rg.ID_TDOC_PESSOA = 3 -- rg
 );
 
-comment on table orcamento.v_pessoas_sie is 'View criada a partir da tabela PESSOAS e DOC_PESSOAS.';
+comment on table orcamento.v_sie_pessoas is 'View criada a partir da tabela PESSOAS e DOC_PESSOAS.';

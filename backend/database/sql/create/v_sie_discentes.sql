@@ -1,4 +1,4 @@
-create view orcamento.v_discentes as (
+create view orcamento.v_sie_discentes as (
     select
         caa.ID_CURSO_ALUNO,
         caa.id_pessoa as ID_PESSOA_SIE,
@@ -10,4 +10,4 @@ create view orcamento.v_discentes as (
     inner join ACAD_NIVEL_CURSOS anc on ac.ID_NIVEL = anc.ID_NIVEL
 );
 
-comment on table orcamento.v_discentes is 'View criada a partir das tabelas CURSOS_ALUNOS_ATZ';
+comment on table orcamento.v_sie_discentes is 'View criada a partir das tabelas CURSOS_ALUNOS_ATZ';

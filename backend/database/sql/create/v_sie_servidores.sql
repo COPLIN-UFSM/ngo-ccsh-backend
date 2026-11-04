@@ -1,4 +1,4 @@
-create view orcamento.v_servidores as (
+create view orcamento.v_sie_servidores as (
     select
         gsu.id_contrato_rh,
         gsu.id_pessoa as ID_PESSOA_SIE,
@@ -12,4 +12,4 @@ create view orcamento.v_servidores as (
     from GERAL_SERVIDORES_UFSM gsu
 );
 
-comment on table orcamento.v_servidores is 'View criada a partir das tabelas GERAL_SERVIDORES_UFSM';
+comment on table orcamento.v_sie_servidores is 'View criada a partir das tabelas GERAL_SERVIDORES_UFSM';

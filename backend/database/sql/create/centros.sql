@@ -7,3 +7,7 @@ CREATE TABLE ORCAMENTO.CENTROS (
 );
 
 COMMENT ON TABLE ORCAMENTO.CENTROS IS 'Centros internos do sistema financeiro.';
+
+-- Vínculo um-para-um com o SIE; NULL (centro fora do SIE) pode repetir.
+CREATE UNIQUE INDEX ORCAMENTO.UX_CENTROS_CENTRO_SIE
+    ON ORCAMENTO.CENTROS (ID_CENTRO_SIE) EXCLUDE NULL KEYS;

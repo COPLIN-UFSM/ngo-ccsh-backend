@@ -1,4 +1,4 @@
-create view orcamento.V_UNIDADES_SIE as (
+create view orcamento.V_SIE_UNIDADES as (
     select
         ID_UNIDADE AS ID_UNIDADE_SIE,
         STRIP(NOME_UNIDADE) NOME_UNIDADE,
@@ -10,4 +10,4 @@ create view orcamento.V_UNIDADES_SIE as (
     where ID_CENTRO not in (121, 2021) -- poli e ctism (antigos e desativados)
 );
 
-comment on table orcamento.V_UNIDADES_SIE is 'Criada a partir de bee.nav_unidades.';
+comment on table orcamento.V_SIE_UNIDADES is 'Criada a partir de bee.nav_unidades.';

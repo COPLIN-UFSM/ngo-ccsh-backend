@@ -98,7 +98,7 @@ class Command(BaseCommand):
         if tipo_unidade is None or situacao_unidade is None:
             raise CommandError(
                 "Não há tipo e situação de unidade disponíveis nas views do SIE. "
-                "Verifique se as views v_tipos_unidades e v_situacoes_unidades "
+                "Verifique se as views v_sie_tipos_unidades e v_sie_situacoes_unidades "
                 "estão acessíveis e possuem registros."
             )
 

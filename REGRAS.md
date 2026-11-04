@@ -52,7 +52,7 @@
 ## Detalhes da implementação de despesas
 
 1. As tabelas internas da aplicação são `managed=False`: o Django não cria nem altera essas tabelas. A estrutura é
-   mantida em DDL Db2 versionado em `backend/database/sql/create/`, aplicado manualmente. As views `v_*` são do SIE
+   mantida em DDL Db2 versionado em `backend/database/sql/create/`, aplicado manualmente. As views `v_sie_*` são do SIE
    e permanecem somente leitura. Os DDLs dessa pasta são para criar um schema vazio; não substituem um plano de
    migração de um banco legado.
 2. O saldo não é armazenado em empenhos ou unidades. Ele é calculado a partir do razão (`Lancamento`), que é

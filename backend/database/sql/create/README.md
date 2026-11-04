@@ -13,7 +13,10 @@ estrangeiras entre si:
 7. `vinculos_bolsas.sql`, `listas_siafi.sql`, `parcelas_bolsas.sql`
 8. As cinco tabelas `despesas_historical*.sql`
 
+Os arquivos `v_sie_*.sql` criam as **views** do SIE (`v_sie_*`), contrapartidas somente
+leitura das entidades internas, lidas do banco `bee`. Execute-os antes de tudo, pois
+os modelos internos os consultam; eles não dependem das tabelas abaixo.
+
 Os arquivos não são um script de alteração para um banco existente. A conversão
 de um schema legado em uso exige um plano `ALTER`/migração de dados revisado para
-aquele banco; não execute estes `CREATE TABLE` sobre tabelas existentes. As views
-`v_*` do SIE são dependências externas e não são criadas por estes DDLs.
+aquele banco; não execute estes `CREATE TABLE` sobre tabelas existentes.

@@ -3,7 +3,7 @@ Entidades: centros, unidades, pessoas e vínculos.
 
 Convenção deste módulo
 ----------------------
-* Modelos com prefixo/tabela ``v_*`` (``CentroSIE``, ``UnidadeSIE``, ``PessoaSIE``,
+* Modelos com tabela ``v_sie_*`` (``CentroSIE``, ``UnidadeSIE``, ``PessoaSIE``,
   ``Curso``, ``Cargo``, ``Discente``, ``Servidor``, ...) são *views* do SIE:
   continuam ``managed = False`` e são somente leitura.
 * Os modelos internos (``Centro``, ``Unidade``, ``Pessoa``, ``Email``, ``Telefone``)
@@ -38,7 +38,7 @@ class CentroSIE(models.Model):
 
     class Meta:
         managed = False
-        db_table = "v_centros_sie"
+        db_table = "v_sie_centros"
 
     def __str__(self) -> str:
         return self.nome_centro
@@ -88,7 +88,7 @@ class SituacaoUnidade(models.Model):
 
     class Meta:
         managed = False
-        db_table = "v_situacoes_unidades"
+        db_table = "v_sie_situacoes_unidades"
 
     def __str__(self):
         return self.situacao_unidade
@@ -100,7 +100,7 @@ class TipoUnidade(models.Model):
 
     class Meta:
         managed = False
-        db_table = "v_tipos_unidades"
+        db_table = "v_sie_tipos_unidades"
 
     def __str__(self):
         return self.tipo_unidade
@@ -133,7 +133,7 @@ class UnidadeSIE(models.Model):
 
     class Meta:
         managed = False
-        db_table = "v_unidades_sie"
+        db_table = "v_sie_unidades"
 
 
 class Unidade(models.Model):
@@ -267,7 +267,7 @@ class Curso(models.Model):
 
     class Meta:
         managed = False
-        db_table = "v_cursos"
+        db_table = "v_sie_cursos"
 
 
 class Cargo(models.Model):
@@ -278,7 +278,7 @@ class Cargo(models.Model):
 
     class Meta:
         managed = False
-        db_table = "v_cargos"
+        db_table = "v_sie_cargos"
 
     def __str__(self):
         return self.cargo
@@ -298,7 +298,7 @@ class PessoaSIE(models.Model):
 
     class Meta:
         managed = False
-        db_table = "v_pessoas_sie"
+        db_table = "v_sie_pessoas"
 
 
 class Pessoa(models.Model):
@@ -367,7 +367,7 @@ class Discente(models.Model):
 
     class Meta:
         managed = False
-        db_table = "v_discentes"
+        db_table = "v_sie_discentes"
 
 
 class Servidor(models.Model):
@@ -393,7 +393,7 @@ class Servidor(models.Model):
 
     class Meta:
         managed = False
-        db_table = "v_servidores"
+        db_table = "v_sie_servidores"
 
 
 class Email(models.Model):
