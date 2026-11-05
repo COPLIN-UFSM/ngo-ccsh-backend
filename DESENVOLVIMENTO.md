@@ -129,6 +129,7 @@ EMAIL_HOST_PASSWORD = "aaaa bbbb cccc dddd"
 DEFAULT_FROM_EMAIL = "Núcleo de Gestão Orçamentária <henry.cagnini@ufsm.br>"
 DJANGO_SECRET_KEY = "alguma_string_com_pelo_menos_32_caracteres"
 JWT_SIGNING_KEY = "alguma_OUTRA_string_com_pelo_menos_32_caracteres"
+SCRIPT_PREFIX = ""
 ```
 
 O `EMAIL_HOST_PASSWORD` deve ser obtido a partir

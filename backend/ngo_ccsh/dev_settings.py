@@ -25,4 +25,7 @@ REST_FRAMEWORK["DEFAULT_AUTHENTICATION_CLASSES"] += [
 # remove configurações do servidor de produção
 STATIC_URL = "/static/"
 
+# Swagger deve chamar a API na raiz (sem o prefixo do servidor de produção)
+SPECTACULAR_SETTINGS = {**SPECTACULAR_SETTINGS, "SERVERS": [{"url": "/"}]}  # noqa: F405
+
 DEBUG = True
