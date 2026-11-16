@@ -1,11 +1,11 @@
 from django_filters.rest_framework import DjangoFilterBackend
 from drf_spectacular.utils import OpenApiParameter, OpenApiResponse, extend_schema
 from rest_framework import status
-from rest_framework.filters import OrderingFilter
 from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from utils import response
+from utils.filters import AliasOrderingFilter
 from utils.pagination import PaginationWithSize
 
 from usuarios.filters import UserFilterSet
@@ -24,10 +24,22 @@ class UserListView(GenericAPIView):
     View para listar usuários e criar um novo usuário
     """
 
-    filter_backends = (DjangoFilterBackend, OrderingFilter)
+    filter_backends = (DjangoFilterBackend, AliasOrderingFilter)
     serializer_class = UserListSerializer
     filterset_class = UserFilterSet
-    ordering_fields = ["id", "data_criacao", "nome_pessoa"]
+    ordering_fields = [
+        "id",
+        "cpf",
+        "email",
+        "data_criacao",
+        "nome_pessoa",
+        "administrador",
+        "ativo",
+    ]
+    ordering_aliases = {
+        "nome_pessoa": "pessoa__nome_pessoa",
+        "administrador": "is_superuser",
+    }
 
     @extend_schema(
         summary="Lista usuários",

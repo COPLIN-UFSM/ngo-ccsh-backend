@@ -1,12 +1,16 @@
+from despesas.filters import LancamentoFilterSet, TipoDocumentoFilterSet
+from despesas.models import Lancamento, TipoDocumento, Transacao, ValorDocumento
+from despesas.serializers import (
+    LancamentoSerializer,
+    TipoDocumentoSerializer,
+    ValorDocumentoSerializer,
+)
+from despesas.views.ativoUtil import AtivoListDefaultMixin
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import viewsets
 from rest_framework.exceptions import NotFound
 from rest_framework.filters import OrderingFilter
-
-from despesas.filters import TipoDocumentoFilterSet
-from despesas.models import Lancamento, TipoDocumento, Transacao, ValorDocumento
-from despesas.serializers import LancamentoSerializer, TipoDocumentoSerializer, ValorDocumentoSerializer
-from despesas.views.ativoUtil import AtivoListDefaultMixin
+from utils.filters import AliasOrderingFilter
 
 
 class TipoDocumentoViewSet(AtivoListDefaultMixin, viewsets.ModelViewSet):
@@ -34,6 +38,25 @@ class LancamentoViewSet(viewsets.ReadOnlyModelViewSet):
         "tipo_movimento", "natureza", "finalidade"
     )
     serializer_class = LancamentoSerializer
+    filter_backends = (DjangoFilterBackend, AliasOrderingFilter)
+    filterset_class = LancamentoFilterSet
+    ordering_fields = [
+        "id_lancamento",
+        "id_empenho",
+        "id_unidade",
+        "ano_fiscal",
+        "natureza",
+        "tipo_movimento",
+        "finalidade",
+        "montante",
+    ]
+    ordering_aliases = {
+        "id_empenho": "empenho_id",
+        "id_unidade": "unidade_id",
+        "natureza": "natureza__nome",
+        "tipo_movimento": "tipo_movimento__nome",
+        "finalidade": "finalidade__nome",
+    }
 
     def get_queryset(self):
         transacao_id = self.kwargs.get("transacao_pk")

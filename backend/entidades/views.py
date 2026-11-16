@@ -1,8 +1,9 @@
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import status, viewsets
 from rest_framework.exceptions import MethodNotAllowed
-from rest_framework.filters import OrderingFilter
+from rest_framework.filters import SearchFilter
 from rest_framework.response import Response
+from utils.filters import AliasOrderingFilter
 
 from entidades.filters import ServidorFilterSet, UnidadeFilterSet
 from entidades.models import (
@@ -70,8 +71,20 @@ class UnidadeViewSet(viewsets.ModelViewSet):
 
     http_method_names = ["get", "post", "patch"]
 
-    ordering_fields = ["id_unidade_interna", "nome_unidade", "cod_estruturado"]
-    filter_backends = (DjangoFilterBackend, OrderingFilter)
+    ordering_fields = [
+        "id_unidade_interna",
+        "nome_unidade",
+        "cod_estruturado",
+        "centro",
+        "tipo_unidade",
+        "situacao_unidade",
+    ]
+    ordering_aliases = {
+        "centro": "centro__nome_centro",
+        "tipo_unidade": "tipo_unidade__tipo_unidade",
+        "situacao_unidade": "situacao_unidade__situacao_unidade",
+    }
+    filter_backends = (DjangoFilterBackend, AliasOrderingFilter)
     serializer_class = UnidadeSerializer
     filterset_class = UnidadeFilterSet
 
@@ -113,6 +126,7 @@ class CursoViewSet(viewsets.ModelViewSet):
     http_method_names = ["get"]
 
     search_fields = ["nome_curso"]
+    filter_backends = (SearchFilter,)
 
 
 class PessoaViewSet(viewsets.ModelViewSet):

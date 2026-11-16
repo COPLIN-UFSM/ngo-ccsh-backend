@@ -1,4 +1,4 @@
-from django_filters import CharFilter, FilterSet
+from django_filters import BooleanFilter, CharFilter, FilterSet
 
 from usuarios.models import Usuario
 
@@ -14,6 +14,7 @@ class BaseFilterSet(FilterSet):
 
 class UserFilterSet(BaseFilterSet):
     ativo = CharFilter(method="filter_ativo")
+    administrador = BooleanFilter(field_name="is_superuser")
     cpf = CharFilter(field_name="cpf", lookup_expr="icontains")
     email = CharFilter(field_name="email", lookup_expr="icontains")
     nome_pessoa = CharFilter(field_name="pessoa__nome_pessoa", lookup_expr="icontains")

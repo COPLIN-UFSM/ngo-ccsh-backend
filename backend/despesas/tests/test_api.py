@@ -2,6 +2,7 @@ import datetime as dt
 from decimal import Decimal
 
 from django.urls import reverse
+from django.utils import timezone
 from entidades.models import Centro
 from rest_framework.test import APIClient
 
@@ -11,6 +12,7 @@ from despesas.models import (
     GrupoFinalidade,
     ListaSIAFI,
     ParcelaBolsa,
+    TipoDocumento,
     Transacao,
     VinculoBolsa,
 )
@@ -72,6 +74,148 @@ class TransactionApiTests(BaseRazao):
         ]
         self.assertEqual(grupo_names, ["Alfa", "Zeta"])
 
+    def test_finalidades_filter_by_multiple_names_and_related_labels(self):
+        grupo_zeta = GrupoFinalidade.objects.create(nome="Zeta")
+        grupo_alfa = GrupoFinalidade.objects.create(nome="Alfa")
+        Finalidade.objects.create(
+            nome="Grupo Zeta", natureza=self.custeio, grupo=grupo_zeta
+        )
+        Finalidade.objects.create(
+            nome="Grupo Alfa", natureza=self.custeio, grupo=grupo_alfa
+        )
+        url = reverse("despesas:finalidades-list")
+
+        names = self.api.get(url, {"nome": "Bolsa 2A,Passagens"})
+        self.assertEqual(names.status_code, 200, names.data)
+        self.assertEqual(
+            {row["nome"] for row in names.data["data"]},
+            {"Bolsa 2A", "Passagens"},
+        )
+
+        naturezas = self.api.get(url, {"natureza": "Custeio,Capital"})
+        self.assertEqual(naturezas.status_code, 200, naturezas.data)
+        self.assertEqual(naturezas.data["count"], 5)
+
+        grupos = self.api.get(url, {"grupo": "Alfa,Zeta"})
+        self.assertEqual(grupos.status_code, 200, grupos.data)
+        self.assertEqual(
+            {row["grupo"] for row in grupos.data["data"]},
+            {"Alfa", "Zeta"},
+        )
+
+    def test_empenhos_filter_and_order_by_supported_fields(self):
+        matching = self.novo_empenho("2026-002", self.bolsa2a)
+        self.novo_empenho("2025-001", self.obra, ano=2025)
+
+        url = reverse("despesas:empenhos-list")
+        filtered = self.api.get(
+            url,
+            {
+                "numero_empenho": "2026",
+                "centro": self.centro.pk,
+                "ano_fiscal": 2026,
+                "natureza": self.custeio.pk,
+                "finalidade": self.bolsa2a.pk,
+            },
+        )
+        self.assertEqual(filtered.status_code, 200, filtered.data)
+        self.assertEqual(
+            [row["id_empenho"] for row in filtered.data["data"]], [matching.pk]
+        )
+
+        ordered = self.api.get(url, {"ordering": "numero_empenho"})
+        self.assertEqual(ordered.status_code, 200, ordered.data)
+        self.assertEqual(
+            [row["numero_empenho"] for row in ordered.data["data"]],
+            ["2025-001", "2026-002"],
+        )
+
+    def test_tipo_documento_filter_and_order_by_name(self):
+        TipoDocumento.objects.create(nome="Nota antecipada")
+        inactive = TipoDocumento.objects.create(
+            nome="Nota complementar", ativo=False
+        )
+        url = reverse("despesas:tipos_documentos-list")
+
+        filtered = self.api.get(url, {"nome": "nota", "ordering": "nome"})
+        self.assertEqual(filtered.status_code, 200, filtered.data)
+        self.assertEqual(
+            [row["nome"] for row in filtered.data["data"]],
+            ["Nota antecipada", "Nota fiscal"],
+        )
+
+        include_inactive = self.api.get(
+            url, {"nome": "nota", "ativo": "false"}
+        )
+        self.assertEqual(include_inactive.status_code, 200, include_inactive.data)
+        self.assertEqual(
+            [row["id_tipo_documento"] for row in include_inactive.data["data"]],
+            [inactive.pk],
+        )
+
+    def test_scholarship_endpoints_filter_by_scalar_fields(self):
+        bolsista = self.bolsista()
+        vinculo = VinculoBolsa.objects.create(
+            bolsista=bolsista,
+            unidade=self.A,
+            finalidade=self.bolsa2a,
+            valor_mensal=Decimal("100.00"),
+            inicio=dt.date(2026, 1, 1),
+            fim=dt.date(2026, 2, 1),
+        )
+        parcela = ParcelaBolsa.objects.create(
+            vinculo=vinculo,
+            competencia=dt.date(2026, 1, 1),
+            valor=Decimal("100.00"),
+            status=ParcelaBolsa.Status.ALOCADA,
+        )
+        lista = ListaSIAFI.objects.create(
+            centro=self.centro, competencia=dt.date(2026, 1, 1)
+        )
+
+        vinculos = self.api.get(
+            reverse("despesas:vinculos-bolsa-list"),
+            {
+                "bolsista": bolsista.pk,
+                "unidade": self.A.pk,
+                "finalidade": self.bolsa2a.pk,
+            },
+        )
+        self.assertEqual(vinculos.status_code, 200, vinculos.data)
+        self.assertEqual(
+            [row["id_vinculo_bolsa"] for row in vinculos.data["data"]],
+            [vinculo.pk],
+        )
+
+        parcelas = self.api.get(
+            reverse("despesas:parcelas-bolsa-list"),
+            {
+                "vinculo": vinculo.pk,
+                "ano_fiscal": 2026,
+                "status": ParcelaBolsa.Status.ALOCADA,
+                "competencia": "2026-01-01",
+            },
+        )
+        self.assertEqual(parcelas.status_code, 200, parcelas.data)
+        self.assertEqual(
+            [row["id_parcela_bolsa"] for row in parcelas.data["data"]],
+            [parcela.pk],
+        )
+
+        listas = self.api.get(
+            reverse("despesas:listas-siafi-list"),
+            {
+                "centro": self.centro.pk,
+                "ano_fiscal": 2026,
+                "competencia": "2026-01-01",
+                "status": ListaSIAFI.Status.RASCUNHO,
+            },
+        )
+        self.assertEqual(listas.status_code, 200, listas.data)
+        self.assertEqual(
+            [row["id_lista_siafi"] for row in listas.data["data"]], [lista.pk]
+        )
+
     def test_unit_balances_require_a_year_or_unit_and_support_history(self):
         self.creditar(100, ano=2026)
         self.distribuir(self.A, 100, ano=2026)
@@ -129,6 +273,84 @@ class TransactionApiTests(BaseRazao):
         self.assertEqual(
             {row["id_unidade_interna"] for row in response.data["data"]},
             {self.A.pk, self.B.pk},
+        )
+
+    def test_transactions_filter_by_center_amount_operation_and_dates(self):
+        today = dt.date.today()
+        credit = services.creditar(
+            self.centro, 2026, self.custeio, 100, self.usuario, data=today
+        )
+        distribution = services.distribuir(
+            self.centro,
+            2026,
+            self.custeio,
+            self.A,
+            40,
+            self.usuario,
+            data=today,
+        )
+        day_start = timezone.make_aware(dt.datetime.combine(today, dt.time.min))
+        date_bound = day_start.isoformat()
+
+        response = self.api.get(
+            reverse("despesas:transacoes-list"),
+            {
+                "centro": self.centro.pk,
+                "operacao": "credito,distribuicao",
+                "data_after": date_bound,
+                "data_before": date_bound,
+                "criada_em_after": date_bound,
+                "criada_em_before": date_bound,
+                "id_transacao_min": min(credit.pk, distribution.pk),
+                "id_transacao_max": max(credit.pk, distribution.pk),
+            },
+        )
+
+        self.assertEqual(response.status_code, 200, response.data)
+        self.assertEqual(
+            {row["id_transacao"] for row in response.data["data"]},
+            {credit.pk, distribution.pk},
+        )
+
+        by_amount = self.api.get(
+            reverse("despesas:transacoes-list"),
+            {"montante_min": "100", "montante_max": "100"},
+        )
+        self.assertEqual(by_amount.status_code, 200, by_amount.data)
+        self.assertEqual(
+            {row["id_transacao"] for row in by_amount.data["data"]},
+            {credit.pk},
+        )
+
+    def test_nested_lancamentos_support_range_category_and_ordering(self):
+        credit = services.creditar(
+            self.centro, 2026, self.custeio, 100, self.usuario
+        )
+        lancamento = credit.lancamentos.get()
+        url = reverse(
+            "despesas:transacao-lancamentos-list",
+            kwargs={"transacao_pk": credit.pk},
+        )
+
+        response = self.api.get(
+            url,
+            {
+                "id_lancamento_min": lancamento.pk,
+                "id_lancamento_max": lancamento.pk,
+                "id_unidade": "null",
+                "natureza": "Custeio",
+                "tipo_movimento": "Crédito ordinário",
+                "finalidade": "null",
+                "montante_min": "100",
+                "montante_max": "100",
+                "ordering": "tipo_movimento",
+            },
+        )
+
+        self.assertEqual(response.status_code, 200, response.data)
+        self.assertEqual(response.data["count"], 1)
+        self.assertEqual(
+            response.data["data"][0]["id_lancamento"], lancamento.pk
         )
 
     def test_unit_balances_include_spent_and_allocated_amounts(self):

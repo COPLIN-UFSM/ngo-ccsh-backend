@@ -1,9 +1,6 @@
-from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import status, viewsets
-from rest_framework.decorators import action
-from rest_framework.filters import OrderingFilter
-from rest_framework.response import Response
+from decimal import Decimal
 
+from despesas.filters import TransacaoFilterSet
 from despesas.models import TipoMovimento, Transacao
 from despesas.serializers import (
     TipoMovimentoSerializer,
@@ -11,16 +8,29 @@ from despesas.serializers import (
     TransacaoOperationSerializer,
     TransacaoReadSerializer,
 )
+from django.db.models import DecimalField, Sum, Value
+from django.db.models.functions import Coalesce
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import status, viewsets
+from rest_framework.decorators import action
+from rest_framework.filters import OrderingFilter
+from rest_framework.response import Response
 
 
 class TransacoesViewSet(viewsets.ModelViewSet):
     queryset = Transacao.objects.select_related(
         "usuario", "beneficiario", "corrige"
-    ).prefetch_related("lancamentos", "documentos")
+    ).prefetch_related("lancamentos", "documentos").annotate(
+        montante=Coalesce(
+            Sum("lancamentos__montante"),
+            Value(Decimal("0.00")),
+            output_field=DecimalField(max_digits=15, decimal_places=2),
+        )
+    )
     serializer_class = TransacaoReadSerializer
     http_method_names = ["get", "post"]
     filter_backends = (DjangoFilterBackend, OrderingFilter)
-    filterset_fields = ["operacao", "data", "usuario", "beneficiario"]
+    filterset_class = TransacaoFilterSet
     ordering_fields = ["id_transacao", "data", "criada_em"]
     ordering = ["-data", "-id_transacao"]
 

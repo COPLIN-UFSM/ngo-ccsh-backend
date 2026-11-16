@@ -134,6 +134,29 @@ class UserListViewTestCase(UserTestCase):
         response = self.client.get(self.url, format="json")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
+    def test_user_list_filters_administrator_and_orders_by_name(self):
+        self.authenticate(self.user_admin)
+
+        admins = self.client.get(
+            self.url,
+            {"ativo": "all", "administrador": "true"},
+        )
+        self.assertEqual(admins.status_code, status.HTTP_200_OK, admins.data)
+        self.assertEqual(
+            [user["nome_pessoa"] for user in admins.data["data"]],
+            ["Loki"],
+        )
+
+        ordered = self.client.get(
+            self.url,
+            {"ativo": "all", "ordering": "nome_pessoa"},
+        )
+        self.assertEqual(ordered.status_code, status.HTTP_200_OK, ordered.data)
+        self.assertEqual(
+            [user["nome_pessoa"] for user in ordered.data["data"]],
+            ["Loki", "Odin", "Thor"],
+        )
+
     def test_register_user_while_not_authenticated(self):
         response = self.client.post(self.url, self.new_user_data)
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
