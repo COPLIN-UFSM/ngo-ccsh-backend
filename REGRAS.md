@@ -89,6 +89,12 @@
     lançamentos de uma transação. As operações de transação são crédito, reforço, distribuição, despesa, débito
     administrativo e conversão de natureza. A correção é registrada em
     `POST /despesas/transacoes/{id}/corrigir/`; não há edição ou exclusão de lançamentos.
+    Os saldos por natureza e ano fiscal são consultados em
+    `GET /despesas/centros/?ano_fiscal={ano}` e `GET /despesas/unidades/?ano_fiscal={ano}`.
+    Nas unidades, `saldo` representa o valor restante; `entrada` representa o valor
+    recebido diretamente do centro, enquanto `recebido` e `transferido` representam
+    somente transferências entre unidades. `disponivel` continua sendo um cálculo
+    interno para reservas de bolsas e não é o saldo exposto pelo endpoint.
 11. O ciclo de bolsas está disponível em `/despesas/vinculos-bolsa/`, `/despesas/parcelas-bolsa/` e
     `/despesas/listas-siafi/`. Vínculos são criados e consultados; suas parcelas são geradas idempotentemente por
     `POST /despesas/vinculos-bolsa/{id}/gerar-parcelas/`. Parcelas são consultadas e alteradas somente pelas ações

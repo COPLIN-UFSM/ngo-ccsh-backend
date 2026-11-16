@@ -311,36 +311,42 @@ class TransacaoOperationSerializer(serializers.Serializer):
     operacao = serializers.ChoiceField(choices=SUPPORTED_OPERATIONS)
     data = serializers.DateField(required=False)
     justificativa = serializers.CharField(required=False, allow_blank=True)
-    centro = serializers.PrimaryKeyRelatedField(
-        queryset=Centro.objects.all(), required=False
+    id_centro = serializers.PrimaryKeyRelatedField(
+        queryset=Centro.objects.all(), required=False, source="centro"
     )
     ano_fiscal = serializers.IntegerField(required=False, min_value=1)
-    natureza = serializers.PrimaryKeyRelatedField(
-        queryset=Natureza.objects.all(), required=False
+    id_natureza = serializers.PrimaryKeyRelatedField(
+        queryset=Natureza.objects.all(), required=False, source="natureza"
     )
-    empenho = serializers.PrimaryKeyRelatedField(
-        queryset=Empenho.objects.all(), required=False
+    id_empenho = serializers.PrimaryKeyRelatedField(
+        queryset=Empenho.objects.all(), required=False, source="empenho"
     )
-    empenho_origem = serializers.PrimaryKeyRelatedField(
-        queryset=Empenho.objects.all(), required=False
+    id_empenho_origem = serializers.PrimaryKeyRelatedField(
+        queryset=Empenho.objects.all(), required=False, source="empenho_origem"
     )
-    empenho_destino = serializers.PrimaryKeyRelatedField(
-        queryset=Empenho.objects.all(), required=False
+    id_empenho_destino = serializers.PrimaryKeyRelatedField(
+        queryset=Empenho.objects.all(), required=False, source="empenho_destino"
     )
-    unidade = serializers.PrimaryKeyRelatedField(
-        queryset=Unidade.objects.all(), required=False, allow_null=True
+    id_unidade = serializers.PrimaryKeyRelatedField(
+        queryset=Unidade.objects.all(),
+        required=False,
+        allow_null=True,
+        source="unidade",
     )
-    unidade_origem = serializers.PrimaryKeyRelatedField(
-        queryset=Unidade.objects.all(), required=False
+    id_unidade_origem = serializers.PrimaryKeyRelatedField(
+        queryset=Unidade.objects.all(), required=False, source="unidade_origem"
     )
-    unidade_destino = serializers.PrimaryKeyRelatedField(
-        queryset=Unidade.objects.all(), required=False
+    id_unidade_destino = serializers.PrimaryKeyRelatedField(
+        queryset=Unidade.objects.all(), required=False, source="unidade_destino"
     )
-    finalidade = serializers.PrimaryKeyRelatedField(
-        queryset=Finalidade.objects.all(), required=False
+    id_finalidade = serializers.PrimaryKeyRelatedField(
+        queryset=Finalidade.objects.all(), required=False, source="finalidade"
     )
-    beneficiario = serializers.PrimaryKeyRelatedField(
-        queryset=Pessoa.objects.all(), required=False, allow_null=True
+    id_beneficiario = serializers.PrimaryKeyRelatedField(
+        queryset=Pessoa.objects.all(),
+        required=False,
+        allow_null=True,
+        source="beneficiario",
     )
     montante = serializers.DecimalField(max_digits=15, decimal_places=2, required=False)
     extraordinario = serializers.BooleanField(required=False, default=False)

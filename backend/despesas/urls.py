@@ -7,6 +7,7 @@ from despesas.views.bolsas import (
     ParcelaBolsaViewSet,
     VinculoBolsaViewSet,
 )
+from despesas.views.centros import CentroSaldoViewSet, UnidadeSaldoViewSet
 from despesas.views.documentos import (
     LancamentoViewSet,
     TipoDadoDocumentoViewSet,
@@ -45,6 +46,8 @@ router.register(
 
 router.register("transacoes", TransacoesViewSet, basename="transacoes")
 router.register("empenhos", EmpenhoViewSet, basename="empenhos")
+router.register("centros", CentroSaldoViewSet, basename="centros")
+router.register("unidades", UnidadeSaldoViewSet, basename="unidades")
 router.register("vinculos-bolsa", VinculoBolsaViewSet, basename="vinculos-bolsa")  # OK
 router.register("parcelas-bolsa", ParcelaBolsaViewSet, basename="parcelas-bolsa")  # OK
 router.register("listas-siafi", ListaSIAFIViewSet, basename="listas-siafi")

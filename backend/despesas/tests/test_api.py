@@ -34,6 +34,67 @@ class TransactionApiTests(BaseRazao):
         self.assertEqual(len(response.data["lancamentos"]), 1)
         self.assertEqual(response.data["lancamentos"][0]["montante"], "500.00")
 
+    def test_unit_and_center_balance_endpoints_separate_distribution_and_transfer(self):
+        self.creditar(300)
+        self.distribuir(self.A, 200)
+        services.transferir_entre_unidades(
+            self.centro,
+            2026,
+            self.custeio,
+            self.A,
+            self.B,
+            50,
+            self.usuario,
+        )
+
+        units = self.api.get(
+            reverse("despesas:unidades-list"), {"ano_fiscal": 2026}
+        )
+        self.assertEqual(units.status_code, 200, units.data)
+        unit_rows = (
+            units.data["data"]
+            if isinstance(units.data, dict)
+            else units.data
+        )
+        by_id = {
+            row["id_unidade_interna"]: row for row in unit_rows
+        }
+        a_balance = next(
+            item for item in by_id[self.A.pk]["saldos"]
+            if item["id_natureza"] == self.custeio.pk
+        )
+        b_balance = next(
+            item for item in by_id[self.B.pk]["saldos"]
+            if item["id_natureza"] == self.custeio.pk
+        )
+        self.assertEqual(a_balance["entrada"], "200.00")
+        self.assertEqual(a_balance["recebido"], "0.00")
+        self.assertEqual(a_balance["transferido"], "50.00")
+        self.assertEqual(a_balance["saldo"], "150.00")
+        self.assertEqual(b_balance["entrada"], "0.00")
+        self.assertEqual(b_balance["recebido"], "50.00")
+        self.assertEqual(b_balance["transferido"], "0.00")
+        self.assertEqual(b_balance["saldo"], "50.00")
+
+        centers = self.api.get(
+            reverse("despesas:centros-list"), {"ano_fiscal": 2026}
+        )
+        self.assertEqual(centers.status_code, 200, centers.data)
+        center_rows = (
+            centers.data["data"]
+            if isinstance(centers.data, dict)
+            else centers.data
+        )
+        center_balance = next(
+            item for item in center_rows[0]["saldos"]
+            if item["id_natureza"] == self.custeio.pk
+        )
+        self.assertEqual(center_balance["saldo"], "300.00")
+
+    def test_balance_endpoints_require_fiscal_year(self):
+        response = self.api.get(reverse("despesas:unidades-list"))
+        self.assertEqual(response.status_code, 400)
+
     def test_invalid_operation_does_not_create_transaction(self):
         response = self.api.post(
             reverse("despesas:transacoes-list"),

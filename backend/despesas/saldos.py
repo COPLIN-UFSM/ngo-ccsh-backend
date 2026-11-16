@@ -20,13 +20,14 @@ from __future__ import annotations
 from collections import defaultdict
 from decimal import Decimal
 
-from django.db.models import Sum
+from django.db.models import Q, Sum
 
 from .models import (
     ZERO,
     Empenho,
     Lancamento,
     ParcelaBolsa,
+    Transacao,
 )
 
 
@@ -57,6 +58,58 @@ def saldo_unidade(unidade, ano_fiscal, natureza) -> Decimal:
     )
 
 
+def distribuido_unidade(unidade, ano_fiscal, natureza) -> Decimal:
+    return _soma(
+        Lancamento.objects.filter(
+            unidade=unidade,
+            ano_fiscal=ano_fiscal,
+            natureza=natureza,
+        ).filter(
+            Q(transacao__operacao=Transacao.Operacao.DISTRIBUICAO)
+            | Q(estorna__transacao__operacao=Transacao.Operacao.DISTRIBUICAO)
+        )
+    )
+
+
+def recebido_unidade(unidade, ano_fiscal, natureza) -> Decimal:
+    return _soma(
+        Lancamento.objects.filter(
+            unidade=unidade,
+            ano_fiscal=ano_fiscal,
+            natureza=natureza,
+            montante__gt=0,
+        ).filter(
+            Q(transacao__operacao=Transacao.Operacao.TRANSFERENCIA)
+            | Q(estorna__transacao__operacao=Transacao.Operacao.TRANSFERENCIA)
+        )
+    )
+
+
+def transferido_unidade(unidade, ano_fiscal, natureza) -> Decimal:
+    return -_soma(
+        Lancamento.objects.filter(
+            unidade=unidade,
+            ano_fiscal=ano_fiscal,
+            natureza=natureza,
+            montante__lt=0,
+        ).filter(
+            Q(transacao__operacao=Transacao.Operacao.TRANSFERENCIA)
+            | Q(estorna__transacao__operacao=Transacao.Operacao.TRANSFERENCIA)
+        )
+    )
+
+
+def gasto_unidade(unidade, ano_fiscal, natureza) -> Decimal:
+    return -_soma(
+        Lancamento.objects.filter(
+            unidade=unidade,
+            ano_fiscal=ano_fiscal,
+            natureza=natureza,
+            tipo_movimento__conta_como_gasto=True,
+        )
+    )
+
+
 def total_centro(centro, ano_fiscal, natureza) -> Decimal:
     return _soma(
         Lancamento.objects.filter(
@@ -64,6 +117,31 @@ def total_centro(centro, ano_fiscal, natureza) -> Decimal:
             ano_fiscal=ano_fiscal,
             natureza=natureza,
             tipo_movimento__altera_total=True,
+        )
+    )
+
+
+def recebido_centro(centro, ano_fiscal, natureza) -> Decimal:
+    return _soma(
+        Lancamento.objects.filter(
+            centro=centro,
+            ano_fiscal=ano_fiscal,
+            natureza=natureza,
+            tipo_movimento__codigo__in=[
+                "credito_ordinario",
+                "credito_extraordinario",
+            ],
+        )
+    )
+
+
+def gasto_centro(centro, ano_fiscal, natureza) -> Decimal:
+    return -_soma(
+        Lancamento.objects.filter(
+            centro=centro,
+            ano_fiscal=ano_fiscal,
+            natureza=natureza,
+            tipo_movimento__conta_como_gasto=True,
         )
     )
 
