@@ -17,8 +17,7 @@ from rest_framework.views import APIView
 
 class TipoDadoDocumentoViewSet(APIView):
     def get(self, request):
-        serializer = TipoDadoDocumentoSerializer(data={})
-        serializer.is_valid(raise_exception=True)
+        serializer = TipoDadoDocumentoSerializer(instance={})
         return Response(serializer.data)
 
 

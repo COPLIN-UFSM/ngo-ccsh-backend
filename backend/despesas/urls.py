@@ -30,21 +30,23 @@ app_name = "despesas"
 
 router = DefaultRouter()
 
-router.register("finalidades/naturezas", NaturezaViewSet, basename="naturezas")
+router.register("finalidades/naturezas", NaturezaViewSet, basename="naturezas")  # OK
 router.register(
     "finalidades/grupos", GrupoFinalidadeViewSet, basename="grupos_finalidades"
-)
-router.register("finalidades", FinalidadeViewSet, basename="finalidades")
-router.register("tipos-documentos", TipoDocumentoViewSet, basename="tipos_documentos")
-
+)  # OK
+router.register("finalidades", FinalidadeViewSet, basename="finalidades")  # OK
+router.register(
+    "tipos-documentos", TipoDocumentoViewSet, basename="tipos_documentos"
+)  # OK
 
 router.register(
     "transacoes/tipos-movimento", TipoMovimentoViewSet, basename="tipos_movimento"
-)
+)  # OK
+
 router.register("transacoes", TransacoesViewSet, basename="transacoes")
 router.register("empenhos", EmpenhoViewSet, basename="empenhos")
-router.register("vinculos-bolsa", VinculoBolsaViewSet, basename="vinculos-bolsa")
-router.register("parcelas-bolsa", ParcelaBolsaViewSet, basename="parcelas-bolsa")
+router.register("vinculos-bolsa", VinculoBolsaViewSet, basename="vinculos-bolsa")  # OK
+router.register("parcelas-bolsa", ParcelaBolsaViewSet, basename="parcelas-bolsa")  # OK
 router.register("listas-siafi", ListaSIAFIViewSet, basename="listas-siafi")
 router.register("exercicios", ExercicioCentroViewSet, basename="exercicios")
 
@@ -57,15 +59,15 @@ transacao_router.register(
 )
 urlpatterns = [
     path(
-        "tipos-documentos/formato/",
+        "tipos-documentos/tipos-dados/",
         TipoDadoDocumentoViewSet.as_view(),
-        name="tipos_dado",
-    ),
+        name="tipos_dados",
+    ),  # OK
     path(
         "transacoes/operacoes/",
         TransacaoOperationViewSet.as_view(),
         name="tipos_dado",
-    ),
+    ),  # OK
     path("", include(router.urls)),
     path("", include(transacao_router.urls)),
 ]

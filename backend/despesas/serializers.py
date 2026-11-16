@@ -42,12 +42,13 @@ class TipoDocumentoSerializer(serializers.ModelSerializer):
 
 
 class TipoDadoDocumentoSerializer(serializers.Serializer):
-    default = serializers.ReadOnlyField(
-        default=[
-            {"id_tipo_dado": index, "rotulo": item[1], "valor": item[0]}
-            for index, item in enumerate(TipoDocumento.TipoDado.choices)
-        ]
-    )
+    def to_representation(self, instance):
+        return {
+            "data": [
+                {"id_tipo_dado": index, "rotulo": item[1], "valor": item[0]}
+                for index, item in enumerate(TipoDocumento.TipoDado.choices)
+            ]
+        }
 
 
 class TipoMovimentoSerializer(serializers.ModelSerializer):
@@ -255,7 +256,7 @@ class ValorDocumentoSerializer(serializers.ModelSerializer):
 
 
 class OperationTransacaoDataSerializer(serializers.Serializer):
-    tipos_operacao = serializers.ReadOnlyField(
+    data = serializers.ReadOnlyField(
         default=[
             {"id_operacao": index, "rotulo": item[1], "valor": item[0]}
             for index, item in enumerate(Transacao.Operacao.choices)
