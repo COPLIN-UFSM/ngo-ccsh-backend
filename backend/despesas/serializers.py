@@ -186,6 +186,7 @@ class EmpenhoSerializer(serializers.ModelSerializer):
 
 class LancamentoSerializer(serializers.ModelSerializer):
     tipo_movimento = serializers.CharField(source="tipo_movimento.nome", read_only=True)
+    id_centro = serializers.IntegerField(source="centro_id", read_only=True)
     natureza = serializers.CharField(source="natureza.nome", read_only=True)
     finalidade = serializers.CharField(source="finalidade.nome", read_only=True)
     id_empenho = serializers.IntegerField(source="empenho_id", read_only=True)
@@ -198,6 +199,7 @@ class LancamentoSerializer(serializers.ModelSerializer):
         model = Lancamento
         fields = [
             "id_lancamento",
+            "id_centro",
             "tipo_movimento",
             "ano_fiscal",
             "natureza",

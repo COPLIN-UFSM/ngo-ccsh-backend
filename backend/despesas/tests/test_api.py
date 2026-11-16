@@ -2,6 +2,7 @@ import datetime as dt
 from decimal import Decimal
 
 from django.urls import reverse
+from entidades.models import Centro
 from rest_framework.test import APIClient
 
 from despesas import services
@@ -39,6 +40,9 @@ class TransactionApiTests(BaseRazao):
         self.assertEqual(response.data["operacao"], Transacao.Operacao.CREDITO)
         self.assertEqual(response.data["id_usuario"], self.usuario.pk)
         self.assertEqual(len(response.data["lancamentos"]), 1)
+        self.assertEqual(
+            response.data["lancamentos"][0]["id_centro"], self.centro.pk
+        )
         self.assertEqual(response.data["lancamentos"][0]["montante"], "500.00")
 
     def test_finalidades_can_be_ordered_by_natureza_and_grupo_names(self):
@@ -108,6 +112,23 @@ class TransactionApiTests(BaseRazao):
                 row["id_unidade_interna"] == self.A.pk
                 for row in history.data["data"]
             )
+        )
+
+    def test_unit_balances_can_be_limited_by_centro(self):
+        other_center = Centro.objects.create(
+            nome_centro="Outro centro", sigla_centro="OUT", cod_estruturado="12"
+        )
+        self.nova_unidade("Outra unidade", "12.01", centro=other_center)
+
+        response = self.api.get(
+            reverse("despesas:unidades-list"),
+            {"ano_fiscal": 2026, "centro": self.centro.pk},
+        )
+
+        self.assertEqual(response.status_code, 200, response.data)
+        self.assertEqual(
+            {row["id_unidade_interna"] for row in response.data["data"]},
+            {self.A.pk, self.B.pk},
         )
 
     def test_unit_balances_include_spent_and_allocated_amounts(self):

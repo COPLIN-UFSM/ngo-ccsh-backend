@@ -2,7 +2,7 @@ from despesas.models import ZERO, Lancamento, Natureza, TipoMovimento
 from despesas.serializers import UnidadeSaldoSerializer
 from django.db.models import Q, Sum
 from drf_spectacular.utils import extend_schema
-from entidades.models import Unidade
+from entidades.models import Centro, Unidade
 from rest_framework import serializers, viewsets
 from rest_framework.response import Response
 
@@ -19,17 +19,25 @@ class UnidadeSaldoQuerySerializer(serializers.Serializer):
         required=False,
         allow_empty=False,
     )
+    centro = serializers.PrimaryKeyRelatedField(
+        queryset=Centro.objects.all(), required=False
+    )
 
     def validate(self, attrs):
         if not any(
             field in attrs
-            for field in ("ano_fiscal", "id_unidade_interna", "id_unidades")
+            for field in (
+                "ano_fiscal",
+                "id_unidade_interna",
+                "id_unidades",
+                "centro",
+            )
         ):
             raise serializers.ValidationError(
                 {
                     "ano_fiscal": (
-                        "Informe ano_fiscal ou id_unidade_interna para limitar "
-                        "a consulta."
+                        "Informe ano_fiscal, id_unidade_interna, id_unidades ou "
+                        "centro para limitar a consulta."
                     )
                 }
             )
@@ -59,6 +67,8 @@ class UnidadeSaldoViewSet(viewsets.GenericViewSet):
             )
         if "id_unidades" in filters:
             lancamentos = lancamentos.filter(unidade__in=filters["id_unidades"])
+        if "centro" in filters:
+            lancamentos = lancamentos.filter(centro=filters["centro"])
 
         saldos = list(
             lancamentos.values(
@@ -105,7 +115,10 @@ class UnidadeSaldoViewSet(viewsets.GenericViewSet):
                 (row["unidade_id"], row["natureza_id"]): row
                 for row in saldos
             }
-            unidades = Unidade.objects.order_by("cod_estruturado").values(
+            unidades_query = Unidade.objects.order_by("cod_estruturado")
+            if "centro" in filters:
+                unidades_query = unidades_query.filter(centro=filters["centro"])
+            unidades = unidades_query.values(
                 "id_unidade_interna", "nome_unidade", "cod_estruturado"
             )
             naturezas = Natureza.objects.order_by("id_natureza").values(
