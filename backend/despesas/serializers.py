@@ -1,10 +1,9 @@
 from django.core.exceptions import ValidationError as DjangoValidationError
 from django.db import transaction
-from rest_framework import serializers
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import extend_schema_field
-
 from entidades.models import Centro, Pessoa, Unidade
+from rest_framework import serializers
 
 from . import saldos, services
 from .models import (
@@ -208,6 +207,16 @@ class LancamentoSerializer(serializers.ModelSerializer):
             "montante",
             "id_lancamento_estornado",
         ]
+
+
+class UnidadeSaldoSerializer(serializers.Serializer):
+    id_unidade_interna = serializers.IntegerField(source="unidade_id")
+    nome_unidade = serializers.CharField(source="unidade__nome_unidade")
+    cod_estruturado = serializers.CharField(source="unidade__cod_estruturado")
+    ano_fiscal = serializers.IntegerField()
+    id_natureza = serializers.IntegerField(source="natureza_id")
+    natureza = serializers.CharField(source="natureza__nome")
+    saldo = serializers.DecimalField(max_digits=15, decimal_places=2)
 
 
 class ValorDocumentoSerializer(serializers.ModelSerializer):

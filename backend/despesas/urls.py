@@ -2,14 +2,17 @@ from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 from rest_framework_nested import routers
 
-from despesas.views.documentos import TipoDocumentoViewSet, ValorDocumentoViewSet
-from despesas.views.documentos import LancamentoViewSet
-from despesas.views.empenhos import EmpenhoViewSet
 from despesas.views.bolsas import (
     ListaSIAFIViewSet,
     ParcelaBolsaViewSet,
     VinculoBolsaViewSet,
 )
+from despesas.views.documentos import (
+    LancamentoViewSet,
+    TipoDocumentoViewSet,
+    ValorDocumentoViewSet,
+)
+from despesas.views.empenhos import EmpenhoViewSet
 from despesas.views.exercicios import ExercicioCentroViewSet
 from despesas.views.finalidades import (
     FinalidadeViewSet,
@@ -20,6 +23,7 @@ from despesas.views.transacoes import (
     TipoMovimentoViewSet,
     TransacoesViewSet,
 )
+from despesas.views.unidades import UnidadeSaldoViewSet
 
 app_name = "despesas"
 
@@ -32,6 +36,7 @@ router.register("documentos/tipos", TipoDocumentoViewSet, basename="tipos_docume
 router.register("transacoes/tipos-movimento", TipoMovimentoViewSet, basename="tipos_movimento")
 router.register("transacoes", TransacoesViewSet, basename="transacoes")
 router.register("empenhos", EmpenhoViewSet, basename="empenhos")
+router.register("unidades", UnidadeSaldoViewSet, basename="unidades")
 router.register("vinculos-bolsa", VinculoBolsaViewSet, basename="vinculos-bolsa")
 router.register("parcelas-bolsa", ParcelaBolsaViewSet, basename="parcelas-bolsa")
 router.register("listas-siafi", ListaSIAFIViewSet, basename="listas-siafi")

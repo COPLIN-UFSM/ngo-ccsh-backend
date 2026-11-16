@@ -101,6 +101,10 @@
     fechamento é solicitado em `POST /despesas/exercicios/fechar/`, com centro, ano fiscal e destinos dos saldos; a
     reabertura é solicitada em `POST /despesas/exercicios/reabrir/`, com centro, ano fiscal e justificativa. Ambas as
     operações criam transações auditáveis no razão.
+13. Os saldos das unidades são consultados em `GET /despesas/unidades/?ano_fiscal={ano}`, agrupados por unidade e
+    natureza. Para consultar o histórico de uma unidade, use `GET /despesas/unidades/?id_unidade_interna={id}`;
+    também é possível informar ambos os parâmetros. Pelo menos um deles é obrigatório para evitar uma consulta sem
+    limite de ano ou unidade.
 
 ## Entidades
 

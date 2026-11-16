@@ -34,6 +34,48 @@ class TransactionApiTests(BaseRazao):
         self.assertEqual(len(response.data["lancamentos"]), 1)
         self.assertEqual(response.data["lancamentos"][0]["montante"], "500.00")
 
+    def test_unit_balances_require_a_year_or_unit_and_support_history(self):
+        self.creditar(100, ano=2026)
+        self.distribuir(self.A, 100, ano=2026)
+        self.creditar(50, ano=2025)
+        self.distribuir(self.A, 50, ano=2025)
+        self.creditar(75, ano=2025)
+        self.distribuir(self.B, 75, ano=2025)
+
+        url = reverse("despesas:unidades-list")
+        unfiltered = self.api.get(url)
+        self.assertEqual(unfiltered.status_code, 400)
+
+        by_year = self.api.get(url, {"ano_fiscal": 2026})
+        self.assertEqual(by_year.status_code, 200, by_year.data)
+        by_year_balances = {
+            (row["id_unidade_interna"], row["id_natureza"]): row["saldo"]
+            for row in by_year.data["data"]
+        }
+        self.assertEqual(
+            by_year_balances[(self.A.pk, self.custeio.pk)], "100.00"
+        )
+        self.assertEqual(by_year_balances[(self.B.pk, self.custeio.pk)], "0.00")
+        self.assertEqual(
+            {row["id_unidade_interna"] for row in by_year.data["data"]},
+            {self.A.pk, self.B.pk},
+        )
+
+        history = self.api.get(url, {"id_unidade_interna": self.A.pk})
+        self.assertEqual(history.status_code, 200, history.data)
+        self.assertEqual(
+            [row["ano_fiscal"] for row in history.data["data"]], [2025, 2026]
+        )
+        self.assertEqual(
+            [row["saldo"] for row in history.data["data"]], ["50.00", "100.00"]
+        )
+        self.assertTrue(
+            all(
+                row["id_unidade_interna"] == self.A.pk
+                for row in history.data["data"]
+            )
+        )
+
     def test_invalid_operation_does_not_create_transaction(self):
         response = self.api.post(
             reverse("despesas:transacoes-list"),
