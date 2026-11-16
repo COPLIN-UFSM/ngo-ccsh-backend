@@ -5,7 +5,14 @@ from django.urls import reverse
 from rest_framework.test import APIClient
 
 from despesas import services
-from despesas.models import ListaSIAFI, ParcelaBolsa, Transacao, VinculoBolsa
+from despesas.models import (
+    Finalidade,
+    GrupoFinalidade,
+    ListaSIAFI,
+    ParcelaBolsa,
+    Transacao,
+    VinculoBolsa,
+)
 from despesas.tests.helpers import BaseRazao
 
 
@@ -33,6 +40,33 @@ class TransactionApiTests(BaseRazao):
         self.assertEqual(response.data["id_usuario"], self.usuario.pk)
         self.assertEqual(len(response.data["lancamentos"]), 1)
         self.assertEqual(response.data["lancamentos"][0]["montante"], "500.00")
+
+    def test_finalidades_can_be_ordered_by_natureza_and_grupo_names(self):
+        grupo_zeta = GrupoFinalidade.objects.create(nome="Zeta")
+        grupo_alfa = GrupoFinalidade.objects.create(nome="Alfa")
+        Finalidade.objects.create(
+            nome="Grupo Zeta", natureza=self.custeio, grupo=grupo_zeta
+        )
+        Finalidade.objects.create(
+            nome="Grupo Alfa", natureza=self.custeio, grupo=grupo_alfa
+        )
+
+        url = reverse("despesas:finalidades-list")
+        natureza_response = self.api.get(url, {"ordering": "natureza"})
+        self.assertEqual(natureza_response.status_code, 200, natureza_response.data)
+        self.assertEqual(
+            natureza_response.data["data"][0]["natureza"],
+            "Capital",
+        )
+
+        grupo_response = self.api.get(url, {"ordering": "grupo"})
+        self.assertEqual(grupo_response.status_code, 200, grupo_response.data)
+        grupo_names = [
+            row.get("grupo")
+            for row in grupo_response.data["data"]
+            if row.get("grupo") in {"Alfa", "Zeta"}
+        ]
+        self.assertEqual(grupo_names, ["Alfa", "Zeta"])
 
     def test_unit_balances_require_a_year_or_unit_and_support_history(self):
         self.creditar(100, ano=2026)
