@@ -76,6 +76,27 @@ class TransactionApiTests(BaseRazao):
             )
         )
 
+    def test_unit_balances_include_spent_and_allocated_amounts(self):
+        self.creditar(200)
+        empenho = self.novo_empenho("001", self.bolsa2a)
+        services.reforcar_empenho(empenho, 100, self.usuario)
+        self.distribuir(self.A, 100)
+        services.registrar_despesa(
+            empenho, self.A, self.bolsa2a, 40, self.usuario
+        )
+
+        response = self.api.get(
+            reverse("despesas:unidades-list"),
+            {"ano_fiscal": 2026, "id_unidades": [self.A.pk]},
+        )
+
+        self.assertEqual(response.status_code, 200, response.data)
+        self.assertEqual(len(response.data["data"]), 1)
+        row = response.data["data"][0]
+        self.assertEqual(row["saldo"], "60.00")
+        self.assertEqual(row["gasto"], "40.00")
+        self.assertEqual(row["orcamento"], "100.00")
+
     def test_invalid_operation_does_not_create_transaction(self):
         response = self.api.post(
             reverse("despesas:transacoes-list"),

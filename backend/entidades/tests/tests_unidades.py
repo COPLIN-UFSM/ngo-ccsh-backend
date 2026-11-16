@@ -41,6 +41,29 @@ class UnidadeViewTestCase(BaseAuthenticatedUserTestCase):
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
+    def test_categorical_filters_match_related_fields_and_multiple_values(self):
+        Unidade.objects.create(
+            nome_unidade="Departamento B",
+            cod_estruturado="DEPTO2",
+            centro=self.centro,
+            tipo_unidade=self.tipo_unidade,
+            situacao_unidade=self.situacao_unidade,
+        )
+        self.authentication(self.user_data_adm)
+
+        response = self.client.get(
+            self.url,
+            {
+                "nome_unidade": "Departamento A,Departamento B",
+                "centro": "Curso X",
+                "tipo_unidade": "TOP",
+                "situacao_unidade": "MUITO BOA",
+            },
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data["count"], 2)
+
     def test_create_unidade_(self):
         self.authentication(self.user_data_adm)
         response = self.client.post(self.url, data=self.unidade_data, format="json")

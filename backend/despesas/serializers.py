@@ -217,6 +217,8 @@ class UnidadeSaldoSerializer(serializers.Serializer):
     id_natureza = serializers.IntegerField(source="natureza_id")
     natureza = serializers.CharField(source="natureza__nome")
     saldo = serializers.DecimalField(max_digits=15, decimal_places=2)
+    gasto = serializers.DecimalField(max_digits=15, decimal_places=2)
+    orcamento = serializers.DecimalField(max_digits=15, decimal_places=2)
 
 
 class ValorDocumentoSerializer(serializers.ModelSerializer):

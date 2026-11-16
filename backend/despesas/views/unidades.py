@@ -1,6 +1,6 @@
-from despesas.models import ZERO, Lancamento, Natureza
+from despesas.models import ZERO, Lancamento, Natureza, TipoMovimento
 from despesas.serializers import UnidadeSaldoSerializer
-from django.db.models import Sum
+from django.db.models import Q, Sum
 from drf_spectacular.utils import extend_schema
 from entidades.models import Unidade
 from rest_framework import serializers, viewsets
@@ -14,9 +14,17 @@ class UnidadeSaldoQuerySerializer(serializers.Serializer):
     id_unidade_interna = serializers.PrimaryKeyRelatedField(
         queryset=Unidade.objects.all(), required=False
     )
+    id_unidades = serializers.ListField(
+        child=serializers.PrimaryKeyRelatedField(queryset=Unidade.objects.all()),
+        required=False,
+        allow_empty=False,
+    )
 
     def validate(self, attrs):
-        if "ano_fiscal" not in attrs and "id_unidade_interna" not in attrs:
+        if not any(
+            field in attrs
+            for field in ("ano_fiscal", "id_unidade_interna", "id_unidades")
+        ):
             raise serializers.ValidationError(
                 {
                     "ano_fiscal": (
@@ -49,8 +57,10 @@ class UnidadeSaldoViewSet(viewsets.GenericViewSet):
             lancamentos = lancamentos.filter(
                 unidade=filters["id_unidade_interna"]
             )
+        if "id_unidades" in filters:
+            lancamentos = lancamentos.filter(unidade__in=filters["id_unidades"])
 
-        saldos = (
+        saldos = list(
             lancamentos.values(
                 "unidade_id",
                 "unidade__nome_unidade",
@@ -59,13 +69,40 @@ class UnidadeSaldoViewSet(viewsets.GenericViewSet):
                 "natureza_id",
                 "natureza__nome",
             )
-            .annotate(saldo=Sum("montante"))
+            .annotate(
+                saldo=Sum("montante"),
+                gasto_lancamentos=Sum(
+                    "montante",
+                    filter=Q(tipo_movimento__conta_como_gasto=True),
+                ),
+                orcamento=Sum(
+                    "montante",
+                    filter=Q(
+                        tipo_movimento__codigo=TipoMovimento.Codigo.DISTRIBUICAO,
+                        montante__gt=0,
+                    ),
+                ),
+            )
             .order_by("unidade__cod_estruturado", "ano_fiscal", "natureza_id")
         )
 
-        if "ano_fiscal" in filters and "id_unidade_interna" not in filters:
+        def amounts(row):
+            return {
+                **row,
+                "saldo": row["saldo"] or ZERO,
+                "gasto": -(row["gasto_lancamentos"] or ZERO),
+                "orcamento": row["orcamento"] or ZERO,
+            }
+
+        saldos = [amounts(row) for row in saldos]
+
+        if (
+            "ano_fiscal" in filters
+            and "id_unidade_interna" not in filters
+            and "id_unidades" not in filters
+        ):
             saldos_por_unidade_natureza = {
-                (row["unidade_id"], row["natureza_id"]): row["saldo"]
+                (row["unidade_id"], row["natureza_id"]): row
                 for row in saldos
             }
             unidades = Unidade.objects.order_by("cod_estruturado").values(
@@ -82,10 +119,13 @@ class UnidadeSaldoViewSet(viewsets.GenericViewSet):
                     "ano_fiscal": filters["ano_fiscal"],
                     "natureza_id": natureza["id_natureza"],
                     "natureza__nome": natureza["nome"],
-                    "saldo": saldos_por_unidade_natureza.get(
-                        (unidade["id_unidade_interna"], natureza["id_natureza"]),
-                        ZERO,
-                    ),
+                    **{
+                        key: saldos_por_unidade_natureza.get(
+                            (unidade["id_unidade_interna"], natureza["id_natureza"]),
+                            {},
+                        ).get(key, ZERO)
+                        for key in ("saldo", "gasto", "orcamento")
+                    },
                 }
                 for unidade in unidades
                 for natureza in naturezas
