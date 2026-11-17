@@ -23,7 +23,7 @@ class FinalidadeOrderingFilter(AliasOrderingFilter):
 
 
 class NaturezaViewSet(AtivoListDefaultMixin, ModelViewSet):
-    queryset = Natureza.objects.all().order_by("id_natureza")
+    queryset = Natureza.objects.all().order_by("nome")
     serializer_class = NaturezaSerializer
     filter_backends = (DjangoFilterBackend, FinalidadeOrderingFilter)
     filterset_class = NaturezaFilterSet
@@ -31,7 +31,7 @@ class NaturezaViewSet(AtivoListDefaultMixin, ModelViewSet):
 
 
 class GrupoFinalidadeViewSet(AtivoListDefaultMixin, ModelViewSet):
-    queryset = GrupoFinalidade.objects.all().order_by("id_grupo_finalidade")
+    queryset = GrupoFinalidade.objects.all().order_by("nome")
     serializer_class = GrupoFinalidadeSerializer
     filter_backends = (DjangoFilterBackend, FinalidadeOrderingFilter)
     filterset_class = GrupoFinalidadeFilterSet
@@ -42,7 +42,7 @@ class FinalidadeViewSet(AtivoListDefaultMixin, ModelViewSet):
     queryset = (
         Finalidade.objects.select_related("natureza", "grupo")
         .prefetch_related("tipodocumentoparafinalidade_set__tipo_documento")
-        .order_by("id_finalidade")
+        .order_by("nome")
     )
     serializer_class = FinalidadeSerializer
     filter_backends = (DjangoFilterBackend, FinalidadeOrderingFilter)

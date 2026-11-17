@@ -47,7 +47,7 @@ class SituacaoUnidadeViewSet(viewsets.ModelViewSet):
 
 
 class CentroViewSet(viewsets.ModelViewSet):
-    queryset = Centro.objects.all().order_by("id_centro_interno")
+    queryset = Centro.objects.all().order_by("nome_centro")
     serializer_class = CentroSerializer
     http_method_names = ["get", "post", "patch"]
 
@@ -67,7 +67,7 @@ class CentroViewSet(viewsets.ModelViewSet):
 class UnidadeViewSet(viewsets.ModelViewSet):
     queryset = Unidade.objects.all().select_related(
         "centro", "tipo_unidade", "situacao_unidade"
-    ).order_by("id_unidade_interna")
+    ).order_by("nome_unidade")
 
     http_method_names = ["get", "post", "patch"]
 
