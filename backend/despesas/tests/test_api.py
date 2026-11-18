@@ -95,6 +95,34 @@ class TransactionApiTests(BaseRazao):
         response = self.api.get(reverse("despesas:unidades-list"))
         self.assertEqual(response.status_code, 400)
 
+    def test_balance_endpoints_filter_by_minimum_balance(self):
+        self.creditar(300)
+        self.distribuir(self.A, 200)
+
+        units = self.api.get(
+            reverse("despesas:unidades-list"),
+            {"ano_fiscal": 2026, "saldo_minimo": "150.00"},
+        )
+        self.assertEqual(units.status_code, 200, units.data)
+        unit_rows = units.data["data"] if isinstance(units.data, dict) else units.data
+        self.assertEqual(
+            [row["id_unidade_interna"] for row in unit_rows],
+            [self.A.pk],
+        )
+
+        centers = self.api.get(
+            reverse("despesas:centros-list"),
+            {"ano_fiscal": 2026, "saldo_minimo": "250.00"},
+        )
+        self.assertEqual(centers.status_code, 200, centers.data)
+        center_rows = (
+            centers.data["data"] if isinstance(centers.data, dict) else centers.data
+        )
+        self.assertEqual(
+            [row["id_centro_interno"] for row in center_rows],
+            [self.centro.pk],
+        )
+
     def test_invalid_operation_does_not_create_transaction(self):
         response = self.api.post(
             reverse("despesas:transacoes-list"),

@@ -45,7 +45,7 @@ class TipoDadoDocumentoSerializer(serializers.Serializer):
     def to_representation(self, instance):
         return {
             "data": [
-                {"id_tipo_dado": index, "rotulo": item[1], "valor": item[0]}
+                {"nome": item[1], "codigo": item[0]}
                 for index, item in enumerate(TipoDocumento.TipoDado.choices)
             ]
         }
@@ -173,6 +173,10 @@ class EmpenhoSerializer(serializers.ModelSerializer):
         required=False,
         allow_null=True,
     )
+    centro = serializers.StringRelatedField(read_only=True)
+    natureza = serializers.StringRelatedField(read_only=True)
+    finalidade = serializers.StringRelatedField(read_only=True)
+
     saldo = serializers.SerializerMethodField()
     gasto = serializers.SerializerMethodField()
     a_complementar = serializers.SerializerMethodField()
@@ -184,9 +188,12 @@ class EmpenhoSerializer(serializers.ModelSerializer):
             "numero_empenho",
             "numero_pen",
             "id_centro",
+            "centro",
             "ano_fiscal",
             "id_natureza",
+            "natureza",
             "id_finalidade",
+            "finalidade",
             "id_empenho_origem",
             "criado_em",
             "ativo",
@@ -219,6 +226,7 @@ class LancamentoSerializer(serializers.ModelSerializer):
     tipo_movimento = serializers.CharField(source="tipo_movimento.nome", read_only=True)
     natureza = serializers.CharField(source="natureza.nome", read_only=True)
     finalidade = serializers.CharField(source="finalidade.nome", read_only=True)
+
     id_empenho = serializers.IntegerField(source="empenho_id", read_only=True)
     id_unidade = serializers.IntegerField(source="unidade_id", read_only=True)
     id_lancamento_estornado = serializers.IntegerField(
@@ -258,7 +266,7 @@ class ValorDocumentoSerializer(serializers.ModelSerializer):
 class OperationTransacaoDataSerializer(serializers.Serializer):
     data = serializers.ReadOnlyField(
         default=[
-            {"id_operacao": index, "rotulo": item[1], "valor": item[0]}
+            {"nome": item[1], "codigo": item[0]}
             for index, item in enumerate(Transacao.Operacao.choices)
         ]
     )
@@ -348,6 +356,7 @@ class TransacaoOperationSerializer(serializers.Serializer):
         allow_null=True,
         source="beneficiario",
     )
+
     montante = serializers.DecimalField(max_digits=15, decimal_places=2, required=False)
     extraordinario = serializers.BooleanField(required=False, default=False)
     estimada = serializers.BooleanField(required=False, default=False)
@@ -378,7 +387,12 @@ class TransacaoOperationSerializer(serializers.Serializer):
                 "unidade_destino",
                 "montante",
             ),
-            Transacao.Operacao.DESPESA: ("empenho", "finalidade", "montante"),
+            Transacao.Operacao.DESPESA: (
+                "empenho",
+                "finalidade",
+                "montante",
+                "unidade",
+            ),
             Transacao.Operacao.DEBITO_ADMINISTRATIVO: (
                 "empenho",
                 "unidade",
@@ -475,7 +489,9 @@ class TransacaoOperationSerializer(serializers.Serializer):
             )
         except (DjangoValidationError, services.RegraDeNegocio) as exc:
             detail = (
-                exc.messages if isinstance(exc, DjangoValidationError) else str(exc)
+                services.detalhe_validacao(exc)
+                if isinstance(exc, DjangoValidationError)
+                else str(exc)
             )
             raise serializers.ValidationError(detail) from exc
 
@@ -538,6 +554,8 @@ class TransacaoCorrecaoSerializer(serializers.Serializer):
             )
         except (DjangoValidationError, services.RegraDeNegocio) as exc:
             detail = (
-                exc.messages if isinstance(exc, DjangoValidationError) else str(exc)
+                services.detalhe_validacao(exc)
+                if isinstance(exc, DjangoValidationError)
+                else str(exc)
             )
             raise serializers.ValidationError(detail) from exc

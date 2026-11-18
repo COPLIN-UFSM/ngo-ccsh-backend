@@ -20,7 +20,7 @@ class PendenciasQuerySerializer(serializers.Serializer):
 
 
 def _validation_detail(exc):
-    return exc.messages if isinstance(exc, DjangoValidationError) else str(exc)
+    return services.detalhe_validacao(exc) if isinstance(exc, DjangoValidationError) else str(exc)
 
 
 def _serialize_pendencias(result):

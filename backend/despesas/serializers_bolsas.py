@@ -99,7 +99,9 @@ class ParcelaAlocacaoSerializer(serializers.Serializer):
             )
         except (DjangoValidationError, services.RegraDeNegocio) as exc:
             detail = (
-                exc.messages if isinstance(exc, DjangoValidationError) else str(exc)
+                services.detalhe_validacao(exc)
+                if isinstance(exc, DjangoValidationError)
+                else str(exc)
             )
             raise serializers.ValidationError(detail) from exc
 
@@ -156,7 +158,9 @@ class ListaSIAFIIncluirParcelasSerializer(serializers.Serializer):
             return services.incluir_parcelas(lista, self.validated_data["parcelas"])
         except (DjangoValidationError, services.RegraDeNegocio) as exc:
             detail = (
-                exc.messages if isinstance(exc, DjangoValidationError) else str(exc)
+                services.detalhe_validacao(exc)
+                if isinstance(exc, DjangoValidationError)
+                else str(exc)
             )
             raise serializers.ValidationError(detail) from exc
 
@@ -201,7 +205,9 @@ class ListaSIAFIPagamentoSerializer(serializers.Serializer):
             )
         except (DjangoValidationError, services.RegraDeNegocio) as exc:
             detail = (
-                exc.messages if isinstance(exc, DjangoValidationError) else str(exc)
+                services.detalhe_validacao(exc)
+                if isinstance(exc, DjangoValidationError)
+                else str(exc)
             )
             raise serializers.ValidationError(detail) from exc
 

@@ -94,12 +94,34 @@ class TestRegrasDoCatalogo(BaseRazao):
         e1 = self.novo_empenho("001", self.passagens)
         self.creditar(100)
         services.reforcar_empenho(e1, 100, self.usuario)
-        with self.assertRaises(ValidationError):  # falta a nota fiscal
+        with self.assertRaises(ValidationError) as contexto_obrigatorio:  # falta a nota fiscal
             services.registrar_despesa(e1, None, self.passagens, 10, self.usuario)
-        with self.assertRaises(ValidationError):  # campo não aceito na finalidade
+        self.assertEqual(
+            services.detalhe_validacao(contexto_obrigatorio.exception),
+            {
+                "documentos": [
+                    {
+                        "id_tipo_documento":
+                        f"O tipo documento com id {self.nota_fiscal.pk} é obrigatório para finalidade '{self.passagens.nome}'"
+                    }
+                ]
+            },
+        )
+        with self.assertRaises(ValidationError) as contexto_documento:  # campo não aceito na finalidade
             services.registrar_despesa(
                 e1, None, self.bolsa2a, 10, self.usuario, documentos=[(self.trecho, "x")]
             )
+        self.assertEqual(
+            services.detalhe_validacao(contexto_documento.exception),
+            {
+                "documentos": [
+                    {
+                        self.trecho.pk:
+                        f"O campo 'Trecho' não é aceito na finalidade '{self.bolsa2a.nome}'."
+                    }
+                ]
+            },
+        )
 
     def test_tipo_dado_do_documento(self):
         data = TipoDocumento.objects.create(nome="Data da viagem", tipo_dado="data")

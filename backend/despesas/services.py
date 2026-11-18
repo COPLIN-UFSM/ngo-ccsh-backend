@@ -67,6 +67,26 @@ class SaldoInsuficiente(RegraDeNegocio):
     """A operação deixaria algum saldo negativo."""
 
 
+class ErroValidacaoDocumentos(ValidationError):
+    """Erros de documentos que precisam manter a identificação de cada campo."""
+
+    def __init__(self, erros):
+        super().__init__({"documentos": [str(e) for e in erros]})
+        self.detalhe = {"documentos": erros}
+
+
+def detalhe_validacao(exc: ValidationError) -> dict | list:
+    """Converte um ValidationError sem perder a estrutura dos erros de documentos."""
+    if isinstance(exc, ErroValidacaoDocumentos):
+        return exc.detalhe
+    if hasattr(exc, "error_dict"):
+        return {
+            campo: [mensagem.message for mensagem in mensagens]
+            for campo, mensagens in exc.error_dict.items()
+        }
+    return exc.messages
+
+
 # ---------------------------------------------------------------------------
 # Utilidades
 # ---------------------------------------------------------------------------
@@ -176,25 +196,31 @@ def _validar_documentos(finalidade, documentos, exigir_obrigatorios):
     }
     ordem = defaultdict(int)
     normalizados = []
+    erros_validacao = []
+
     for tipo, valor in documentos:
         if tipo.pk not in ligacoes:
-            raise ValidationError(
-                f"O campo '{tipo.nome}' não é aceito na finalidade '{finalidade.nome}'."
+            erros_validacao.append(
+                {
+                    "id_tipo_documento": f"O campo '{tipo.nome}({tipo.pk})' não é aceito na finalidade '{finalidade.nome}'."
+                }
             )
-        normalizados.append((tipo, tipo.validar_valor(valor), ordem[tipo.pk]))
-        ordem[tipo.pk] += 1
+        else:
+            normalizados.append((tipo, tipo.validar_valor(valor), ordem[tipo.pk]))
+            ordem[tipo.pk] += 1
 
     if exigir_obrigatorios:
         faltando = [
-            l.tipo_documento.nome
-            for l in ligacoes.values()
+            {
+                "id_tipo_documento": f"O campo '{l.tipo_documento}({l.tipo_documento_id})' é obrigatório para finalidade '{finalidade.nome}'"
+            }
+            for index, l in ligacoes.items()
             if l.obrigatorio and l.tipo_documento_id not in ordem
         ]
         if faltando:
-            raise ValidationError(
-                "Faltam campos obrigatórios para a finalidade "
-                f"'{finalidade.nome}': {', '.join(sorted(faltando))}."
-            )
+            erros_validacao += faltando
+    if erros_validacao:
+        raise ErroValidacaoDocumentos(erros_validacao)
     return normalizados
 
 
