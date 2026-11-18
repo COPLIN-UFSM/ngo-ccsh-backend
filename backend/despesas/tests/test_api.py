@@ -47,6 +47,21 @@ class TransactionApiTests(BaseRazao):
         )
         self.assertEqual(response.data["lancamentos"][0]["montante"], "500.00")
 
+    def test_transactions_filter_by_ledger_fiscal_year(self):
+        matching = self.creditar(100, ano=2026)
+        self.creditar(200, ano=2025)
+
+        response = self.api.get(
+            reverse("despesas:transacoes-list"),
+            {"centro": self.centro.pk, "ano_fiscal": 2026},
+        )
+
+        self.assertEqual(response.status_code, 200, response.data)
+        self.assertEqual(
+            [row["id_transacao"] for row in response.data["data"]],
+            [matching.pk],
+        )
+
     def test_finalidades_can_be_ordered_by_natureza_and_grupo_names(self):
         grupo_zeta = GrupoFinalidade.objects.create(nome="Zeta")
         grupo_alfa = GrupoFinalidade.objects.create(nome="Alfa")
@@ -172,6 +187,22 @@ class TransactionApiTests(BaseRazao):
         lista = ListaSIAFI.objects.create(
             centro=self.centro, competencia=dt.date(2026, 1, 1)
         )
+        outro_centro = Centro.objects.create(
+            nome_centro="Outro centro",
+            sigla_centro="OUTRO",
+            cod_estruturado="22",
+        )
+        outra_unidade = self.nova_unidade(
+            "Outra unidade", "22.01", centro=outro_centro
+        )
+        outro_vinculo = VinculoBolsa.objects.create(
+            bolsista=self.bolsista("Bia 2", "2"),
+            unidade=outra_unidade,
+            finalidade=self.bolsa2a,
+            valor_mensal=Decimal("100.00"),
+            inicio=dt.date(2027, 1, 1),
+            fim=dt.date(2027, 2, 1),
+        )
 
         vinculos = self.api.get(
             reverse("despesas:vinculos-bolsa-list"),
@@ -187,10 +218,21 @@ class TransactionApiTests(BaseRazao):
             [vinculo.pk],
         )
 
+        scoped_vinculos = self.api.get(
+            reverse("despesas:vinculos-bolsa-list"),
+            {"centro": outro_centro.pk, "ano_fiscal": 2027},
+        )
+        self.assertEqual(scoped_vinculos.status_code, 200, scoped_vinculos.data)
+        self.assertEqual(
+            [row["id_vinculo_bolsa"] for row in scoped_vinculos.data["data"]],
+            [outro_vinculo.pk],
+        )
+
         parcelas = self.api.get(
             reverse("despesas:parcelas-bolsa-list"),
             {
                 "vinculo": vinculo.pk,
+                "centro": self.centro.pk,
                 "ano_fiscal": 2026,
                 "status": ParcelaBolsa.Status.ALOCADA,
                 "competencia": "2026-01-01",
@@ -201,6 +243,13 @@ class TransactionApiTests(BaseRazao):
             [row["id_parcela_bolsa"] for row in parcelas.data["data"]],
             [parcela.pk],
         )
+
+        other_center_parcels = self.api.get(
+            reverse("despesas:parcelas-bolsa-list"),
+            {"centro": outro_centro.pk, "ano_fiscal": 2026},
+        )
+        self.assertEqual(other_center_parcels.status_code, 200, other_center_parcels.data)
+        self.assertEqual(other_center_parcels.data["count"], 0)
 
         listas = self.api.get(
             reverse("despesas:listas-siafi-list"),

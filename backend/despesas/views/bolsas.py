@@ -1,13 +1,5 @@
-from django.core.exceptions import ValidationError as DjangoValidationError
-from django.shortcuts import get_object_or_404
-from drf_spectacular.types import OpenApiTypes
-from drf_spectacular.utils import OpenApiParameter, extend_schema
-from rest_framework import mixins, status, viewsets
-from rest_framework.decorators import action
-from rest_framework.exceptions import ValidationError
-from rest_framework.response import Response
-
 from despesas import services
+from despesas.filters import ParcelaBolsaFilterSet, VinculoBolsaFilterSet
 from despesas.models import ListaSIAFI, ParcelaBolsa, VinculoBolsa
 from despesas.serializers import TransacaoReadSerializer
 from despesas.serializers_bolsas import (
@@ -19,6 +11,15 @@ from despesas.serializers_bolsas import (
     ParcelaBolsaSerializer,
     VinculoBolsaSerializer,
 )
+from django.core.exceptions import ValidationError as DjangoValidationError
+from django.shortcuts import get_object_or_404
+from django_filters.rest_framework import DjangoFilterBackend
+from drf_spectacular.types import OpenApiTypes
+from drf_spectacular.utils import OpenApiParameter, extend_schema
+from rest_framework import mixins, status, viewsets
+from rest_framework.decorators import action
+from rest_framework.exceptions import ValidationError
+from rest_framework.response import Response
 
 
 def _validation_detail(exc):
@@ -31,7 +32,8 @@ class VinculoBolsaViewSet(viewsets.ModelViewSet):
     ).order_by("-inicio", "id_vinculo_bolsa")
     serializer_class = VinculoBolsaSerializer
     http_method_names = ["get", "post"]
-    filterset_fields = ["bolsista", "unidade", "finalidade"]
+    filter_backends = (DjangoFilterBackend,)
+    filterset_class = VinculoBolsaFilterSet
 
     @action(detail=True, methods=["post"], url_path="gerar-parcelas")
     def gerar_parcelas(self, request, pk=None):
@@ -48,7 +50,8 @@ class ParcelaBolsaViewSet(viewsets.ReadOnlyModelViewSet):
         "vinculo", "vinculo__bolsista", "vinculo__unidade", "empenho_previsto"
     ).order_by("competencia", "id_parcela_bolsa")
     serializer_class = ParcelaBolsaSerializer
-    filterset_fields = ["vinculo", "ano_fiscal", "status", "competencia"]
+    filter_backends = (DjangoFilterBackend,)
+    filterset_class = ParcelaBolsaFilterSet
 
     @action(detail=True, methods=["post"])
     def alocar(self, request, pk=None):

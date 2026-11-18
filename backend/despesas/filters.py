@@ -14,8 +14,10 @@ from .models import (
     GrupoFinalidade,
     Lancamento,
     Natureza,
+    ParcelaBolsa,
     TipoDocumento,
     Transacao,
+    VinculoBolsa,
 )
 
 
@@ -176,6 +178,7 @@ class TransacaoFilterSet(FilterSet):
     usuario = NumberFilter(field_name="usuario_id")
     beneficiario = NumberFilter(field_name="beneficiario_id")
     centro = NumberFilter(method="filter_centro")
+    ano_fiscal = NumberFilter(method="filter_ano_fiscal")
 
     def filter_operacao(self, queryset, name, value):
         return _filter_text_choices(queryset, name, value)
@@ -186,8 +189,45 @@ class TransacaoFilterSet(FilterSet):
         )
         return queryset.filter(Exists(linhas_do_centro))
 
+    def filter_ano_fiscal(self, queryset, name, value):
+        linhas_do_ano = Lancamento.objects.filter(
+            transacao_id=OuterRef("pk"), ano_fiscal=value
+        )
+        return queryset.filter(Exists(linhas_do_ano))
+
     class Meta:
         model = Transacao
+        fields = []
+
+
+class VinculoBolsaFilterSet(FilterSet):
+    bolsista = NumberFilter(field_name="bolsista_id")
+    unidade = NumberFilter(field_name="unidade_id")
+    finalidade = NumberFilter(field_name="finalidade_id")
+    centro = NumberFilter(field_name="unidade__centro_id")
+    ano_fiscal = NumberFilter(method="filter_ano_fiscal")
+
+    def filter_ano_fiscal(self, queryset, name, value):
+        return queryset.filter(
+            inicio__year__lte=value,
+            fim__year__gte=value,
+        )
+
+    class Meta:
+        model = VinculoBolsa
+        fields = []
+
+
+class ParcelaBolsaFilterSet(FilterSet):
+    vinculo = NumberFilter(field_name="vinculo_id")
+    ano_fiscal = NumberFilter(field_name="ano_fiscal")
+    status = CharFilter(field_name="status")
+    competencia = CharFilter(field_name="competencia")
+    lista = NumberFilter(field_name="lista_id")
+    centro = NumberFilter(field_name="vinculo__unidade__centro_id")
+
+    class Meta:
+        model = ParcelaBolsa
         fields = []
 
 
