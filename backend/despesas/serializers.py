@@ -273,15 +273,17 @@ class OperationTransacaoDataSerializer(serializers.Serializer):
 
 
 class TransacaoReadSerializer(serializers.ModelSerializer):
-    id_usuario = serializers.IntegerField(source="usuario_id", read_only=True)
-    id_beneficiario = serializers.IntegerField(source="beneficiario_id", read_only=True)
+    id_usuario = serializers.IntegerField(source="usuario.pk", read_only=True)
+    id_beneficiario = serializers.IntegerField(source="beneficiario.pk", read_only=True)
     id_transacao_corrigida = serializers.IntegerField(
         source="corrige_id", read_only=True
     )
-    usuario = serializers.StringRelatedField(read_only=True, source="usuario_id__nome")
+    usuario = serializers.StringRelatedField(
+        read_only=True, source="usuario.pessoa.nome_pessoa"
+    )
 
     beneficiario = serializers.StringRelatedField(
-        read_only=True, source="beneficiario_id__nome"
+        read_only=True, source="beneficiario.pessoa.nome_pessoa"
     )
 
     lancamentos = LancamentoSerializer(many=True, read_only=True)
