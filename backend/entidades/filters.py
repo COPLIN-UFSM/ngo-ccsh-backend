@@ -1,3 +1,4 @@
+from django.db.models import Q
 from django_filters import BooleanFilter, CharFilter, FilterSet, NumberFilter
 
 from entidades.models import Servidor, Unidade
@@ -19,6 +20,16 @@ class UnidadeFilterSet(FilterSet):
     id_centro = NumberFilter(field_name="centro_id")
     id_tipo_unidade = NumberFilter(field_name="tipo_unidade_id")
     id_situacao_unidade = NumberFilter(field_name="situacao_unidade_id")
+
+    def filter_categories(self, queryset, name, value):
+        categories = [category.strip() for category in value.split(",") if category.strip()]
+        if not categories:
+            return queryset
+
+        condition = Q()
+        for category in categories:
+            condition |= Q(**{f"{name}__iexact": category})
+        return queryset.filter(condition)
 
     class Meta:
         model = Unidade

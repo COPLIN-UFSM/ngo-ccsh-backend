@@ -2,7 +2,15 @@ import datetime as dt
 from decimal import Decimal
 
 from despesas import services
-from despesas.models import ListaSIAFI, ParcelaBolsa, Transacao, VinculoBolsa
+from despesas.models import (
+    Finalidade,
+    GrupoFinalidade,
+    ListaSIAFI,
+    ParcelaBolsa,
+    TipoDocumento,
+    Transacao,
+    VinculoBolsa,
+)
 from despesas.tests.helpers import BaseRazao
 from django.urls import reverse
 from rest_framework.test import APIClient
@@ -31,6 +39,9 @@ class TransactionApiTests(BaseRazao):
         self.assertEqual(response.data["operacao"], Transacao.Operacao.CREDITO)
         self.assertEqual(response.data["id_usuario"], self.usuario.pk)
         self.assertEqual(len(response.data["lancamentos"]), 1)
+        self.assertEqual(
+            response.data["lancamentos"][0]["id_centro"], self.centro.pk
+        )
         self.assertEqual(response.data["lancamentos"][0]["montante"], "500.00")
 
     def test_unit_and_center_balance_endpoints_separate_distribution_and_transfer(self):

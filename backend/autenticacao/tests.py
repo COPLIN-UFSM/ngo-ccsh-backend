@@ -120,6 +120,32 @@ class LoginViewTestCase(AuthenticationBaseTestCase):
         self.assertIn("refresh", response.data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
+    def test_refresh_reuses_refresh_token_without_rotation(self):
+        login = self.client.post(
+            self.url,
+            data={
+                "cpf": self.usuario_ativo.pessoa.cpf,
+                "senha": self.usuario_ativo_raw_password,
+            },
+        )
+
+        response = self.client.post(
+            reverse("autenticacao:token_refresh"),
+            data={"refresh": login.data["refresh"]},
+            format="json",
+        )
+        self.assertEqual(response.status_code, status.HTTP_200_OK, response.data)
+        self.assertIn("access", response.data)
+        self.assertIn("access", response.data)
+        self.assertNotIn("refresh", response.data)
+
+        reused = self.client.post(
+            reverse("autenticacao:token_refresh"),
+            data={"refresh": login.data["refresh"]},
+            format="json",
+        )
+        self.assertEqual(reused.status_code, status.HTTP_200_OK, reused.data)
+
     def test_login_unauthorized_methods(self):
         response_get = self.client.get(self.url)
         response_patch = self.client.patch(self.url)

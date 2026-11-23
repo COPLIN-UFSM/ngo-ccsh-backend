@@ -17,11 +17,17 @@ from rest_framework.views import APIView
 class TransacoesViewSet(viewsets.ModelViewSet):
     queryset = Transacao.objects.select_related(
         "usuario", "beneficiario", "corrige"
-    ).prefetch_related("lancamentos", "documentos")
+    ).prefetch_related("lancamentos", "documentos").annotate(
+        montante=Coalesce(
+            Sum("lancamentos__montante"),
+            Value(Decimal("0.00")),
+            output_field=DecimalField(max_digits=15, decimal_places=2),
+        )
+    )
     serializer_class = TransacaoReadSerializer
     http_method_names = ["get", "post"]
     filter_backends = (DjangoFilterBackend, OrderingFilter)
-    filterset_fields = ["operacao", "data", "usuario", "beneficiario"]
+    filterset_class = TransacaoFilterSet
     ordering_fields = ["id_transacao", "data", "criada_em"]
     ordering = ["-data", "-id_transacao"]
 
