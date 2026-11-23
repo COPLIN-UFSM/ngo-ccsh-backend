@@ -1,15 +1,19 @@
 # Desenvolvimento
 
-Esse capítulo explica como configurar o ambiente de desenvolvimento para a aplicação, e como rodar os testes.
+Esse documento explica como configurar o ambiente de desenvolvimento para a aplicação.
 
 ## Sumário
 
 * [Onde fazer commits](#onde-fazer-commits)
-* [Sem Docker](#sem-docker)
-* [Com Docker](#com-docker)
+* [Configuração sem Docker](#configuração-sem-docker)
+  * [Rodando a aplicação em ambiente de desenvolvimento](#rodando-a-aplicação-em-ambiente-de-desenvolvimento)
+  * [Usando ferramentas de análise de qualidade de código (linters)](#usando-ferramentas-de-análise-de-qualidade-de-código-linters)
+  * [Testando os modelos](#testando-os-modelos)
+* [Configuração com Docker](#configuração-com-docker)
 * [Variáveis de ambiente](#variáveis-de-ambiente)
 * [Integração contínua](#integração-contínua)
 * [Gerar diagramas do banco de dados](#gerar-diagramas-do-banco-de-dados)
+* [Contrato da API](#contrato-da-api)
 
 ## Onde fazer commits
 
@@ -40,9 +44,7 @@ gitGraph
     merge dev
 ```
 
-## Sem Docker
-
-### Configuração do ambiente
+## Configuração sem Docker
 
 Para desenvolvimento, recomenda-se utilizar o gerenciador de pacotes [conda](https://docs.conda.io/en/latest/), 
 e criar um ambiente virtual para a aplicação:
@@ -80,10 +82,27 @@ python backend/manage.py runserver --settings=ngo_ccsh.dev_settings
 Ou então criar uma configuração no PyCharm, adicionando a variável de ambiente `DJANGO_SETTINGS_MODULE` com o valor 
 `ngo_ccsh.dev_settings`:
 
-[![Configuração do PyCharm](imagens/configuração_desenvolvimento.png)](imagens/configuração_desenvolvimento.png)
+![Configuração do PyCharm](imagens/configuração_desenvolvimento.png)
 
 Teste a aplicação entrando na URL [http://localhost:8000/admin/](http://localhost:8000/admin/) e usando o usuário criado com o comando 
 `createsuperuser`.
+
+### Usando ferramentas de análise de qualidade de código (linters)
+
+Execute estes comandos antes de dar commit, pois são os mesmos do workflow [lint.yml](.github/workflows/lint.yml):
+
+```bash
+black --check .  # garante estilo do código consistente
+ruff check .  # verifica erros de programação 
+pylint --recursive=y --errors-only --django-settings-module=ngo_ccsh.test_settings .  # verifica erros de programação
+```
+
+Caso encontre erros, você pode corrigir a maioria deles usando os mesmos pacotes:
+
+```bash
+black .
+ruff check . --fix
+```
 
 ### Testando os modelos
 
@@ -94,7 +113,7 @@ python backend/manage.py validar_exercicio_financeiro --settings=ngo_ccsh.dev_se
 python backend/manage.py validar_pagamento_bolsas --settings=ngo_ccsh.dev_settings
 ```
 
-## Com Docker
+## Configuração com Docker
 
 Para executar um container em modo de desenvolvimento localmente, rode os seguintes comandos:
    
@@ -113,28 +132,11 @@ docker compose -f docker-compose.dev.yml exec web python manage.py createsuperus
 
 ## Variáveis de ambiente
 
-Crie um arquivo `.env` na raiz do projeto, e adicione as seguintes variáveis de ambiente:
-
-```python
-DEBUG = True
-APP_FULL_NAME = "Sistema de Gerenciamento de Gastos Acadêmicos da UFSM"
-APP_SHORT_NAME = "SIGGA"
-FRONTEND_URL = "http://localhost:5173"
-EMAIL_HOST = "smtp.gmail.com"
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_USE_SSL = False
-EMAIL_HOST_USER = "henry.cagnini@ufsm.br"
-EMAIL_HOST_PASSWORD = "aaaa bbbb cccc dddd"
-DEFAULT_FROM_EMAIL = "Núcleo de Gestão Orçamentária <henry.cagnini@ufsm.br>"
-DJANGO_SECRET_KEY = "alguma_string_com_pelo_menos_32_caracteres"
-JWT_SIGNING_KEY = "alguma_OUTRA_string_com_pelo_menos_32_caracteres"
-SCRIPT_PREFIX = ""
-```
+Crie uma cópia do arquivo [.env.example](.env.example) com o nome `.env`, e preencha os campos de maneira apropriada.
 
 O `EMAIL_HOST_PASSWORD` deve ser obtido a partir
-do [painel de controle de segurança do Google](https://myaccount.google.com/u/0/apppasswords), criando uma **senha de App** 
-para o email.
+do [painel de controle de segurança do Google](https://myaccount.google.com/u/0/apppasswords), criando uma 
+**senha de App** para o email.
 
 ## Integração contínua
 
@@ -151,7 +153,6 @@ As variáveis sensíveis usadas pelos testes (chaves de assinatura, credenciais 
 como **GitHub Secrets** no repositório (`Settings > Secrets and variables > Actions`), nunca direto no arquivo do
 workflow.
 
-
 ## Gerar diagramas do banco de dados
 
 Para gerar diagramas do banco de dados, use o seguinte comando:
@@ -160,7 +161,10 @@ Para gerar diagramas do banco de dados, use o seguinte comando:
 python .\backend\manage.py graph_models -a -g -o instance/models.png --settings=ngo_ccsh.dev_settings
 ```
 
-## Postman
+## Contrato da API
 
-Para ver o contrato de interface da API, use o Postman. O arquivo de configuração do Postman está em `postman/api.postman_collection.json`.
+Você pode verificar o contrato da API ao executar o backend e acessar o endereço `http://localhost:8000`:
 
+```bash
+python backend\manage.py runserver --settings=ngo_ccsh.dev_settings
+```

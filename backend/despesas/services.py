@@ -157,7 +157,7 @@ def linhas_vigentes(transacao: Transacao) -> list[LinhaSpec]:
     lancamentos = transacao.lancamentos_vigentes().select_related(
         "tipo_movimento", "centro", "natureza", "empenho", "unidade", "finalidade"
     )
-    return [LinhaSpec.de_lancamento(l) for l in lancamentos.order_by("pk")]
+    return [LinhaSpec.de_lancamento(item) for item in lancamentos.order_by("pk")]
 
 
 def transacao_vigente(transacao: Transacao) -> Transacao:
@@ -189,8 +189,8 @@ def _validar_documentos(finalidade, documentos, exigir_obrigatorios):
         return []
 
     ligacoes = {
-        l.tipo_documento_id: l
-        for l in finalidade.tipodocumentoparafinalidade_set.filter(
+        item.tipo_documento_id: item
+        for item in finalidade.tipodocumentoparafinalidade_set.filter(
             ativo=True, tipo_documento__ativo=True
         )
     }
@@ -212,10 +212,11 @@ def _validar_documentos(finalidade, documentos, exigir_obrigatorios):
     if exigir_obrigatorios:
         faltando = [
             {
-                "id_tipo_documento": f"O campo '{l.tipo_documento}({l.tipo_documento_id})' é obrigatório para finalidade '{finalidade.nome}'"
+                "id_tipo_documento": f"O campo "
+                f"'{item.tipo_documento}({item.tipo_documento_id})' é obrigatório para finalidade '{finalidade.nome}'"
             }
-            for index, l in ligacoes.items()
-            if l.obrigatorio and l.tipo_documento_id not in ordem
+            for index, item in ligacoes.items()
+            if item.obrigatorio and item.tipo_documento_id not in ordem
         ]
         if faltando:
             erros_validacao += faltando
@@ -225,7 +226,7 @@ def _validar_documentos(finalidade, documentos, exigir_obrigatorios):
 
 
 def _finalidade_unica(linhas: Sequence[LinhaSpec]):
-    finalidades = {l.finalidade.pk: l.finalidade for l in linhas if l.finalidade}
+    finalidades = {item.finalidade.pk: item.finalidade for item in linhas if item.finalidade}
     if len(finalidades) > 1:
         raise ValidationError(
             "Uma despesa comum só pode ter uma finalidade (para a Lista SIAFI, use "
@@ -241,7 +242,7 @@ def _finalidade_unica(linhas: Sequence[LinhaSpec]):
 
 def _verificar_invariantes(lancamentos: Sequence[Lancamento]) -> None:
     """Confere os saldos tocados pelas linhas recém gravadas (dentro da transação)."""
-    chaves = {(l.centro_id, l.ano_fiscal, l.natureza_id) for l in lancamentos}
+    chaves = {(item.centro_id, item.ano_fiscal, item.natureza_id) for item in lancamentos}
     for centro_id, ano, natureza_id in chaves:
         total = saldos.total_centro(centro_id, ano, natureza_id)
         contexto = f"(centro {centro_id}, ano {ano}, natureza {natureza_id})"
@@ -258,12 +259,12 @@ def _verificar_invariantes(lancamentos: Sequence[Lancamento]) -> None:
                 f"O centro não tem recurso suficiente para distribuir {contexto}."
             )
 
-    for empenho in {l.empenho for l in lancamentos if l.empenho_id}:
+    for empenho in {item.empenho for item in lancamentos if item.empenho_id}:
         if saldos.saldo_empenho(empenho) < 0:
             raise SaldoInsuficiente(f"O empenho {empenho} ficaria com saldo negativo.")
 
     unidades = {
-        (l.unidade, l.ano_fiscal, l.natureza) for l in lancamentos if l.unidade_id
+        (item.unidade, item.ano_fiscal, item.natureza) for item in lancamentos if item.unidade_id
     }
     for unidade, ano, natureza in unidades:
         if saldos.saldo_unidade(unidade, ano, natureza) < 0:
@@ -293,7 +294,7 @@ def _gravar(
     documentos: Sequence[tuple[TipoDocumento, str, int]] = (),
     ignorar_exercicio: frozenset = frozenset(),
 ) -> Transacao:
-    centros = {l.centro.pk for l in linhas} | {e.centro_id for e in estornos}
+    centros = {item.centro.pk for item in linhas} | {e.centro_id for e in estornos}
     _travar_centros(centros)
 
     transacao = Transacao.objects.create(
@@ -337,7 +338,7 @@ def _gravar(
             )
         )
 
-    for chave in {(l.centro_id, l.ano_fiscal) for l in novos}:
+    for chave in {(item.centro_id, item.ano_fiscal) for item in novos}:
         if chave not in ignorar_exercicio:
             _exigir_exercicio_aberto(*chave)
 
@@ -397,6 +398,27 @@ def reforcar_empenho(
     )
     return _gravar(
         operacao=Operacao.REFORCO,
+        usuario=usuario,
+        linhas=[linha],
+        data=data,
+        justificativa=justificativa,
+    )
+
+
+def anular_empenho(
+    empenho: Empenho, montante, usuario, *, data=None, justificativa: str = ""
+) -> Transacao:
+    """Devolve ao centro parte do saldo disponível de um empenho."""
+    linha = LinhaSpec(
+        Codigo.ANULACAO,
+        empenho.centro,
+        empenho.ano_fiscal,
+        empenho.natureza,
+        -_positivo(montante),
+        empenho=empenho,
+    )
+    return _gravar(
+        operacao=Operacao.ANULACAO,
         usuario=usuario,
         linhas=[linha],
         data=data,
@@ -471,17 +493,19 @@ def transferir_entre_unidades(
     montante,
     usuario,
     *,
+    involuntaria: bool = False,
     data=None,
     justificativa: str = "",
 ) -> Transacao:
     valor = _positivo(montante)
+    tipo = (
+        Codigo.TRANSFERENCIA_INVOLUNTARIA
+        if involuntaria
+        else Codigo.TRANSFERENCIA_VOLUNTARIA
+    )
     linhas = [
-        LinhaSpec(
-            Codigo.DISTRIBUICAO, centro, ano_fiscal, natureza, -valor, unidade=origem
-        ),
-        LinhaSpec(
-            Codigo.DISTRIBUICAO, centro, ano_fiscal, natureza, valor, unidade=destino
-        ),
+        LinhaSpec(tipo, centro, ano_fiscal, natureza, -valor, unidade=origem),
+        LinhaSpec(tipo, centro, ano_fiscal, natureza, valor, unidade=destino),
     ]
     return _gravar(
         operacao=Operacao.TRANSFERENCIA,
@@ -507,7 +531,6 @@ def registrar_despesa(
     beneficiario: Pessoa | None = None,
     documentos: Sequence[tuple[TipoDocumento, str]] = (),
     estimada: bool = False,
-    administrativo: bool = False,
     data=None,
     justificativa: str = "",
 ) -> Transacao:
@@ -518,21 +541,9 @@ def registrar_despesa(
     ``estimada=True`` registra já o compromisso mesmo sem todos os documentos
     obrigatórios (diárias antes das notas fiscais, por exemplo); a correção posterior
     troca o valor e marca como definitiva.
-
-    ``administrativo=True`` é o centro debitando o saldo de uma subunidade que não o
-    usou (ex.: obra emergencial); exige unidade e justificativa.
     """
-    if administrativo:
-        if unidade is None:
-            raise ValidationError("Um débito administrativo precisa de uma unidade.")
-        if not justificativa.strip():
-            raise ValidationError("Um débito administrativo exige justificativa.")
-        tipo, operacao = Codigo.DEBITO_ADMINISTRATIVO, Operacao.DEBITO_ADMINISTRATIVO
-    else:
-        tipo, operacao = Codigo.PAGAMENTO, Operacao.DESPESA
-
     linha = LinhaSpec(
-        tipo,
+        Codigo.PAGAMENTO,
         empenho.centro,
         empenho.ano_fiscal,
         empenho.natureza,
@@ -543,7 +554,7 @@ def registrar_despesa(
     )
     docs = _validar_documentos(finalidade, documentos, exigir_obrigatorios=not estimada)
     return _gravar(
-        operacao=operacao,
+        operacao=Operacao.DESPESA,
         usuario=usuario,
         linhas=[linha],
         data=data,
@@ -658,7 +669,7 @@ def corrigir_transacao(
     novas = (
         list(linhas)
         if linhas is not None
-        else [LinhaSpec.de_lancamento(l) for l in vigentes]
+        else [LinhaSpec.de_lancamento(item) for item in vigentes]
     )
     estimada_final = transacao.estimada if estimada is None else estimada
     beneficiario_final = (
@@ -766,7 +777,7 @@ def fechar_exercicio(
         if destino.acao == DEVOLVER:
             linhas.append(
                 LinhaSpec(
-                    Codigo.DEVOLUCAO_PROPLAN,
+                    Codigo.DEVOLUCAO,
                     centro,
                     ano_fiscal,
                     natureza,

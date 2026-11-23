@@ -3,16 +3,18 @@ name: Lint
 on:
   pull_request:
     branches: [main, dev]
+  push:
+    branches: [main]
 
 jobs:
   lint:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout código
+      - name: Faz checkout do repositório
         uses: actions/checkout@v4
 
-      - name: Configurar Python
+      - name: Configura Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
@@ -22,19 +24,18 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Instalar ferramentas de lint
-        run: pip install pylint pylint-django flake8 black
+      - name: Configurar variáveis de ambiente
+        run: cp .env.example .env
 
-      - name: Rodar black --check
+      - name: Verifica qualidade do código com black
         run: black --check .
 
-      - name: Rodar flake8
-        run: flake8 . --select=E9,F63,F7,F82 --extend-ignore=F821
+      - name: Verifica qualidade do código com Ruff
+        run: ruff check . --output-format=github
 
-      - name: Rodar pylint
+      - name: Verifica qualidade do código com pylint
         env:
           DJANGO_SETTINGS_MODULE: ngo_ccsh.test_settings
           DJANGO_SECRET_KEY: lint-secret-key
           JWT_SIGNING_KEY: lint-secret-key
-        run: |
-          find . -name "*.py" -not -path "*/migrations/*" -not -path "*/venv/*" | xargs pylint --errors-only
+        run: pylint --recursive=y --errors-only --django-settings-module=ngo_ccsh.test_settings .

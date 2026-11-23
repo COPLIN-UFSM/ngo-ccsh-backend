@@ -1,11 +1,10 @@
-from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import viewsets
-from rest_framework.filters import OrderingFilter
-
 from despesas.filters import EmpenhoFilterSet
 from despesas.models import Empenho
 from despesas.serializers import EmpenhoSerializer
 from despesas.views.ativoUtil import AtivoListDefaultMixin
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import viewsets
+from rest_framework.filters import OrderingFilter
 
 
 class EmpenhoViewSet(AtivoListDefaultMixin, viewsets.ModelViewSet):

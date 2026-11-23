@@ -14,6 +14,18 @@ Codigo = TipoMovimento.Codigo
 
 
 class TestRegrasDoCatalogo(BaseRazao):
+    def test_obter_sincroniza_nome_do_tipo_de_movimento(self):
+        TipoMovimento.objects.create(
+            codigo=Codigo.DISTRIBUICAO,
+            nome="Distribuição para unidade",
+            altera_total=False,
+            conta_como_gasto=False,
+        )
+
+        tipo = TipoMovimento.obter(Codigo.DISTRIBUICAO)
+
+        self.assertEqual(tipo.nome, "Distribuição")
+
     def test_empenho_precisa_ter_natureza_da_finalidade(self):
         with self.assertRaises(ValidationError):
             self.novo_empenho("001", self.bolsa2a, natureza=self.capital)

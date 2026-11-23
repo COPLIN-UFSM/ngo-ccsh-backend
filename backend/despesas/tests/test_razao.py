@@ -5,7 +5,13 @@ from decimal import Decimal as D
 from django.core.exceptions import ValidationError
 
 from despesas import saldos, services
-from despesas.models import Finalidade, ImutavelError, Lancamento, Transacao
+from despesas.models import (
+    Finalidade,
+    ImutavelError,
+    Lancamento,
+    TipoMovimento,
+    Transacao,
+)
 from despesas.services import SaldoInsuficiente
 from despesas.tests.helpers import BaseRazao
 
@@ -81,34 +87,36 @@ class TestFluxoBasico(BaseRazao):
                 self.centro, 2026, self.custeio, self.B, 1, self.usuario
             )
 
-    def test_debito_administrativo(self):
+    def test_anulacao_devolve_saldo_do_empenho_ao_centro(self):
+        transacao = services.anular_empenho(self.e1, 200, self.usuario)
+
+        self.assertEqual(transacao.operacao, Transacao.Operacao.ANULACAO)
+        lancamento = transacao.lancamentos.get()
+        self.assertEqual(
+            lancamento.tipo_movimento.codigo, TipoMovimento.Codigo.ANULACAO
+        )
+        self.assertEqual(lancamento.montante, D("-200"))
+        self.assertEqual(self.e1.saldo, D("400"))
+        self.assertEqual(self.e1.gasto, D("0"))
+        self.assertEqual(
+            saldos.total_centro(self.centro, 2026, self.custeio), D("1000")
+        )
+        self.assertEqual(saldos.livre_centro(self.centro, 2026, self.custeio), D("600"))
+
+        antes = (Lancamento.objects.count(), Transacao.objects.count())
+        with self.assertRaises(SaldoInsuficiente):
+            services.anular_empenho(self.e1, 401, self.usuario)
+        self.assertEqual((Lancamento.objects.count(), Transacao.objects.count()), antes)
+
+    def test_despesa_de_unidade_usa_pagamento(self):
         obra_custeio = Finalidade.objects.create(nome="Reforma", natureza=self.custeio)
         e2 = self.novo_empenho("002", obra_custeio)
         services.reforcar_empenho(e2, 300, self.usuario)
-        with self.assertRaises(ValidationError):  # sem justificativa
-            services.registrar_despesa(
-                e2, self.A, obra_custeio, 300, self.usuario, administrativo=True
-            )
-        with self.assertRaises(ValidationError):  # sem unidade
-            services.registrar_despesa(
-                e2,
-                None,
-                obra_custeio,
-                300,
-                self.usuario,
-                administrativo=True,
-                justificativa="obra emergencial",
-            )
-        t = services.registrar_despesa(
-            e2,
-            self.A,
-            obra_custeio,
-            300,
-            self.usuario,
-            administrativo=True,
-            justificativa="obra emergencial",
+        t = services.registrar_despesa(e2, self.A, obra_custeio, 300, self.usuario)
+        self.assertEqual(t.operacao, Transacao.Operacao.DESPESA)
+        self.assertEqual(
+            t.lancamentos.get().tipo_movimento.codigo, TipoMovimento.Codigo.PAGAMENTO
         )
-        self.assertEqual(t.operacao, Transacao.Operacao.DEBITO_ADMINISTRATIVO)
         self.assertEqual(saldos.saldo_unidade(self.A, 2026, self.custeio), D("100"))
 
     def test_conversao_de_natureza(self):

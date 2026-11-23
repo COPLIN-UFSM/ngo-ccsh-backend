@@ -336,7 +336,7 @@ class TransacaoOperationSerializer(serializers.Serializer):
         (Transacao.Operacao.DISTRIBUICAO, "Distribuição do centro para unidade"),
         (Transacao.Operacao.TRANSFERENCIA, "Transferência entre unidades"),
         (Transacao.Operacao.DESPESA, "Despesa"),
-        (Transacao.Operacao.DEBITO_ADMINISTRATIVO, "Débito administrativo"),
+        (Transacao.Operacao.ANULACAO, "Anulação"),
         (Transacao.Operacao.CONVERSAO, "Conversão de natureza"),
     ]
 
@@ -383,6 +383,7 @@ class TransacaoOperationSerializer(serializers.Serializer):
 
     montante = serializers.DecimalField(max_digits=15, decimal_places=2, required=False)
     extraordinario = serializers.BooleanField(required=False, default=False)
+    involuntaria = serializers.BooleanField(required=False, default=False)
     estimada = serializers.BooleanField(required=False, default=False)
     documentos = DocumentoInputSerializer(many=True, required=False)
 
@@ -415,15 +416,8 @@ class TransacaoOperationSerializer(serializers.Serializer):
                 "empenho",
                 "finalidade",
                 "montante",
-                "unidade",
             ),
-            Transacao.Operacao.DEBITO_ADMINISTRATIVO: (
-                "empenho",
-                "unidade",
-                "finalidade",
-                "montante",
-                "justificativa",
-            ),
+            Transacao.Operacao.ANULACAO: ("empenho", "montante"),
             Transacao.Operacao.CONVERSAO: (
                 "empenho_origem",
                 "empenho_destino",
@@ -485,12 +479,14 @@ class TransacaoOperationSerializer(serializers.Serializer):
                     validated_data["unidade_origem"],
                     validated_data["unidade_destino"],
                     validated_data["montante"],
+                    involuntaria=validated_data["involuntaria"],
                     **kwargs,
                 )
-            if operation in (
-                Transacao.Operacao.DESPESA,
-                Transacao.Operacao.DEBITO_ADMINISTRATIVO,
-            ):
+            if operation == Transacao.Operacao.ANULACAO:
+                return services.anular_empenho(
+                    validated_data["empenho"], validated_data["montante"], **kwargs
+                )
+            if operation == Transacao.Operacao.DESPESA:
                 return services.registrar_despesa(
                     validated_data["empenho"],
                     validated_data.get("unidade"),
@@ -499,9 +495,6 @@ class TransacaoOperationSerializer(serializers.Serializer):
                     beneficiario=validated_data.get("beneficiario"),
                     documentos=documents,
                     estimada=validated_data["estimada"],
-                    administrativo=(
-                        operation == Transacao.Operacao.DEBITO_ADMINISTRATIVO
-                    ),
                     **kwargs,
                 )
             return services.converter_natureza(

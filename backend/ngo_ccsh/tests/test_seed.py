@@ -1,10 +1,10 @@
 from io import StringIO
 
+from despesas.models import Finalidade, Natureza, TipoMovimento
 from django.core.management import call_command
 from django.test import TestCase
-
-from despesas.models import Finalidade, Natureza, TipoMovimento
 from entidades.models import Unidade
+
 from ngo_ccsh.management.commands.seed_dev_database import mapear_unidade_pai
 
 
@@ -65,7 +65,7 @@ class LegacyDatabaseSeedTests(TestCase):
         )
         self.assertTrue(Natureza.objects.exists())
         self.assertTrue(Finalidade.objects.exists())
-        self.assertEqual(TipoMovimento.objects.count(), 10)
+        self.assertEqual(TipoMovimento.objects.count(), 12)
         self.assertFalse(
             Finalidade.objects.filter(pk__in=[36, 37, 39, 40, 41, 42, 43, 44]).exists()
         )

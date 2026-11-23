@@ -72,7 +72,9 @@ def _filter_nullable_ids(queryset, field_name, value):
         try:
             ids.append(int(selected))
         except ValueError as exc:
-            raise ValidationError(f"Valor inválido para {field_name}: {selected}") from exc
+            raise ValidationError(
+                f"Valor inválido para {field_name}: {selected}"
+            ) from exc
 
     condition = Q()
     if ids:
@@ -126,9 +128,7 @@ class FinalidadeFilterSet(ActiveFilterSet):
         return _filter_text_choices(queryset, name, value, contains=True)
 
     def filter_natureza(self, queryset, name, value):
-        return _filter_related_choices(
-            queryset, "natureza", "natureza_id", value
-        )
+        return _filter_related_choices(queryset, "natureza", "natureza_id", value)
 
     def filter_grupo(self, queryset, name, value):
         return _filter_related_choices(

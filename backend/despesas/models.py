@@ -365,14 +365,22 @@ class TipoMovimento(models.Model):
     class Codigo(models.TextChoices):
         CREDITO_ORDINARIO = "credito_ordinario", "Crédito ordinário"
         CREDITO_EXTRAORDINARIO = "credito_extraordinario", "Crédito extraordinário"
-        REFORCO_EMPENHO = "reforco_empenho", "Reforço de empenho"
-        DISTRIBUICAO = "distribuicao", "Distribuição para unidade"
-        PAGAMENTO = "pagamento", "Pagamento de despesa"
-        DEBITO_ADMINISTRATIVO = "debito_administrativo", "Débito administrativo"
-        CONVERSAO_NATUREZA = "conversao_natureza", "Conversão de natureza"
-        TRANSPORTE_SAIDA = "transporte_saida", "Transporte de saldo (saída)"
-        TRANSPORTE_ENTRADA = "transporte_entrada", "Transporte de saldo (entrada)"
-        DEVOLUCAO_PROPLAN = "devolucao_proplan", "Devolução à PROPLAN"
+        REFORCO_EMPENHO = "reforco_empenho", "Reforço"
+        DISTRIBUICAO = "distribuicao", "Distribuição"
+        TRANSFERENCIA_VOLUNTARIA = (
+            "transferencia_voluntaria",
+            "Transferência voluntária",
+        )
+        TRANSFERENCIA_INVOLUNTARIA = (
+            "transferencia_involuntaria",
+            "Transferência involuntária",
+        )
+        PAGAMENTO = "pagamento", "Pagamento"
+        CONVERSAO_NATUREZA = "conversao_natureza", "Conversão"
+        TRANSPORTE_SAIDA = "transporte_saida", "Transporte saída"
+        TRANSPORTE_ENTRADA = "transporte_entrada", "Transporte entrada"
+        DEVOLUCAO = "devolucao", "Devolução"
+        ANULACAO = "anulacao", "Anulação"
 
     DEFINICOES = {
         Codigo.CREDITO_ORDINARIO: _Definicao(
@@ -382,28 +390,30 @@ class TipoMovimento(models.Model):
             "Crédito extraordinário", True, False, "proibido", "proibido"
         ),
         Codigo.REFORCO_EMPENHO: _Definicao(
-            "Reforço de empenho", False, False, "obrigatorio", "proibido"
+            "Reforço", False, False, "obrigatorio", "proibido"
         ),
         Codigo.DISTRIBUICAO: _Definicao(
-            "Distribuição para unidade", False, False, "proibido", "obrigatorio"
+            "Distribuição", False, False, "proibido", "obrigatorio"
         ),
-        Codigo.PAGAMENTO: _Definicao(
-            "Pagamento de despesa", True, True, "obrigatorio", "livre"
+        Codigo.TRANSFERENCIA_VOLUNTARIA: _Definicao(
+            "Transferência voluntária", False, False, "proibido", "obrigatorio"
         ),
-        Codigo.DEBITO_ADMINISTRATIVO: _Definicao(
-            "Débito administrativo", True, True, "obrigatorio", "obrigatorio"
+        Codigo.TRANSFERENCIA_INVOLUNTARIA: _Definicao(
+            "Transferência involuntária", False, False, "proibido", "obrigatorio"
         ),
+        Codigo.PAGAMENTO: _Definicao("Pagamento", True, True, "obrigatorio", "livre"),
         Codigo.CONVERSAO_NATUREZA: _Definicao(
-            "Conversão de natureza", True, False, "obrigatorio", "livre"
+            "Conversão", True, False, "obrigatorio", "livre"
         ),
         Codigo.TRANSPORTE_SAIDA: _Definicao(
-            "Transporte de saldo (saída)", True, False, "obrigatorio", "livre"
+            "Transporte saída", True, False, "obrigatorio", "livre"
         ),
         Codigo.TRANSPORTE_ENTRADA: _Definicao(
-            "Transporte de saldo (entrada)", True, False, "obrigatorio", "proibido"
+            "Transporte entrada", True, False, "obrigatorio", "proibido"
         ),
-        Codigo.DEVOLUCAO_PROPLAN: _Definicao(
-            "Devolução à PROPLAN", True, True, "livre", "livre"
+        Codigo.DEVOLUCAO: _Definicao("Devolução", True, True, "livre", "livre"),
+        Codigo.ANULACAO: _Definicao(
+            "Anulação", False, False, "obrigatorio", "proibido"
         ),
     }
 
@@ -429,14 +439,22 @@ class TipoMovimento(models.Model):
     @classmethod
     def obter(cls, codigo: str) -> "TipoMovimento":
         definicao = cls.definicao(codigo)
+        defaults = {
+            "nome": definicao.nome,
+            "altera_total": definicao.altera_total,
+            "conta_como_gasto": definicao.conta_como_gasto,
+        }
         tipo, _ = cls.objects.get_or_create(
             codigo=str(codigo),
-            defaults={
-                "nome": definicao.nome,
-                "altera_total": definicao.altera_total,
-                "conta_como_gasto": definicao.conta_como_gasto,
-            },
+            defaults=defaults,
         )
+        alterados = [
+            field for field, value in defaults.items() if getattr(tipo, field) != value
+        ]
+        if alterados:
+            for field in alterados:
+                setattr(tipo, field, defaults[field])
+            tipo.save(update_fields=alterados)
         return tipo
 
 
@@ -453,7 +471,7 @@ class Transacao(models.Model):
         DISTRIBUICAO = "distribuicao", "Distribuição do centro para unidade"
         TRANSFERENCIA = "transferencia", "Transferência entre unidades"
         DESPESA = "despesa", "Despesa"
-        DEBITO_ADMINISTRATIVO = "debito_administrativo", "Débito administrativo"
+        ANULACAO = "anulacao", "Anulação"
         CONVERSAO = "conversao", "Conversão de natureza"
         LISTA_SIAFI = "lista_siafi", "Pagamento de Lista SIAFI"
         FECHAMENTO = "fechamento", "Fechamento de exercício"

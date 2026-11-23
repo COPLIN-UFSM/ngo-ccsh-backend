@@ -1,6 +1,8 @@
 [MASTER]
 load-plugins=pylint_django
 django-settings-module=ngo_ccsh.settings
+init-hook='import os; os.environ["DJANGO_SETTINGS_MODULE"] = "ngo_ccsh.settings"'
+ignore=migrations,venv
 
 [MESSAGES CONTROL]
 disable=
@@ -11,4 +13,4 @@ disable=
     line-too-long,
 
 [FORMAT]
-max-line-length=88
+max-line-length=120

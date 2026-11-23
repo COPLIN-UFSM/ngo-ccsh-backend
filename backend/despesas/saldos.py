@@ -255,7 +255,7 @@ def pendencias_fechamento(centro, ano_fiscal) -> dict:
     por_empenho = (
         base.filter(empenho__isnull=False).values("empenho").annotate(s=Sum("montante"))
     )
-    saldos_empenho = {l["empenho"]: l["s"] for l in por_empenho if l["s"] != 0}
+    saldos_empenho = {item["empenho"]: item["s"] for item in por_empenho if item["s"] != 0}
     empenhos = Empenho.objects.in_bulk(list(saldos_empenho))
 
     por_unidade = (
@@ -264,16 +264,16 @@ def pendencias_fechamento(centro, ano_fiscal) -> dict:
         .annotate(s=Sum("montante"))
     )
     unidades = [
-        (l["unidade"], l["natureza"], l["s"]) for l in por_unidade if l["s"] != 0
+        (item["unidade"], item["natureza"], item["s"]) for item in por_unidade if item["s"] != 0
     ]
 
     totais = defaultdict(lambda: ZERO)
-    for l in (
+    for item in (
         base.filter(tipo_movimento__altera_total=True)
         .values("natureza")
         .annotate(s=Sum("montante"))
     ):
-        totais[l["natureza"]] += l["s"]
+        totais[item["natureza"]] += item["s"]
     totais = [(n, t) for n, t in totais.items() if t != 0]
 
     parcelas = ParcelaBolsa.objects.filter(

@@ -22,13 +22,13 @@ O fluxograma está em "backend/diagramas/validar_pagamento_bolsas.md".
 import datetime as dt
 from decimal import Decimal
 
-from django.core.management.base import BaseCommand, CommandError
-from django.db import transaction
-
 from despesas import saldos, services
 from despesas.models import Empenho, Finalidade, ParcelaBolsa, VinculoBolsa
 from despesas.services import SaldoInsuficiente
+from django.core.management.base import BaseCommand, CommandError
+from django.db import transaction
 from entidades.models import Cargo, Pessoa, PessoaSIE, Servidor
+
 from ngo_ccsh.management.commands.validar_exercicio_financeiro import (
     Command as ComandoExercicio,
 )

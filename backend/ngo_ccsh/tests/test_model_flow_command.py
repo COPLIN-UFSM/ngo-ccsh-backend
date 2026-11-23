@@ -1,8 +1,5 @@
 from io import StringIO
 
-from django.core.management import call_command
-from django.test import TestCase
-
 from despesas.models import (
     Empenho,
     ExercicioCentro,
@@ -11,6 +8,8 @@ from despesas.models import (
     Natureza,
     Transacao,
 )
+from django.core.management import call_command
+from django.test import TestCase
 from entidades.models import Centro, Pessoa, SituacaoUnidade, TipoUnidade, Unidade
 from usuarios.models import Usuario
 

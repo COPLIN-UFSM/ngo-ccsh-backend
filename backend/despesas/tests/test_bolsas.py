@@ -4,10 +4,10 @@ import datetime as dt
 from decimal import Decimal as D
 
 from django.core.exceptions import ValidationError
+from entidades.models import Pessoa, PessoaSIE
 
 from despesas import saldos, services
 from despesas.models import (
-    Empenho,
     Finalidade,
     ListaSIAFI,
     ParcelaBolsa,
@@ -16,7 +16,6 @@ from despesas.models import (
 )
 from despesas.services import RegraDeNegocio, SaldoInsuficiente
 from despesas.tests.helpers import BaseRazao
-from entidades.models import Pessoa, PessoaSIE
 
 
 class TestBolsas(BaseRazao):
@@ -128,7 +127,7 @@ class TestBolsas(BaseRazao):
             saldos.disponivel_unidade(self.A, 2026, self.custeio), D("600")
         )
 
-    def test_debito_administrativo_so_pega_o_disponivel(self):
+    def test_pagamento_de_unidade_so_pega_o_disponivel(self):
         services.gerar_parcelas(self.vinculo)
         for p in self.parcelas(2026)[:5]:  # 500 alocados, 100 disponível
             services.alocar_parcela(p, self.e1)
@@ -142,8 +141,6 @@ class TestBolsas(BaseRazao):
                 obra,
                 101,
                 self.usuario,
-                administrativo=True,
-                justificativa="subunidade parada",
             )
         services.registrar_despesa(
             e2,
@@ -151,8 +148,6 @@ class TestBolsas(BaseRazao):
             obra,
             100,
             self.usuario,
-            administrativo=True,
-            justificativa="subunidade parada",
         )
 
     def test_pagar_lista(self):

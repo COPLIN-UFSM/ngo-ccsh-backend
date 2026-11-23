@@ -1,19 +1,17 @@
 import datetime as dt
 from decimal import Decimal
 
+from django.urls import reverse
+from rest_framework.test import APIClient
+
 from despesas import services
 from despesas.models import (
-    Finalidade,
-    GrupoFinalidade,
     ListaSIAFI,
     ParcelaBolsa,
-    TipoDocumento,
     Transacao,
     VinculoBolsa,
 )
 from despesas.tests.helpers import BaseRazao
-from django.urls import reverse
-from rest_framework.test import APIClient
 
 
 class TransactionApiTests(BaseRazao):
@@ -39,9 +37,7 @@ class TransactionApiTests(BaseRazao):
         self.assertEqual(response.data["operacao"], Transacao.Operacao.CREDITO)
         self.assertEqual(response.data["id_usuario"], self.usuario.pk)
         self.assertEqual(len(response.data["lancamentos"]), 1)
-        self.assertEqual(
-            response.data["lancamentos"][0]["id_centro"], self.centro.pk
-        )
+        self.assertEqual(response.data["lancamentos"][0]["id_centro"], self.centro.pk)
         self.assertEqual(response.data["lancamentos"][0]["montante"], "500.00")
 
     def test_unit_and_center_balance_endpoints_separate_distribution_and_transfer(self):
@@ -125,13 +121,13 @@ class TransactionApiTests(BaseRazao):
         )
 
     def test_invalid_operation_does_not_create_transaction(self):
-        response = self.api.post(
-            reverse("despesas:transacoes-list"),
-            {"operacao": "not-supported"},
-            format="json",
-        )
-
-        self.assertEqual(response.status_code, 400)
+        for operacao in ("not-supported", "debito_administrativo"):
+            response = self.api.post(
+                reverse("despesas:transacoes-list"),
+                {"operacao": operacao},
+                format="json",
+            )
+            self.assertEqual(response.status_code, 400)
         self.assertEqual(Transacao.objects.count(), 0)
 
     def test_create_transfer_between_units(self):
@@ -155,9 +151,96 @@ class TransactionApiTests(BaseRazao):
         self.assertEqual(response.data["operacao"], Transacao.Operacao.TRANSFERENCIA)
         self.assertEqual(len(response.data["lancamentos"]), 2)
         self.assertEqual(
+            [row["tipo_movimento"] for row in response.data["lancamentos"]],
+            ["Transferência voluntária", "Transferência voluntária"],
+        )
+        self.assertEqual(
             [row["montante"] for row in response.data["lancamentos"]],
             ["-75.00", "75.00"],
         )
+
+    def test_create_involuntary_transfer_between_units(self):
+        self.creditar(300)
+        self.distribuir(self.A, 200)
+        response = self.api.post(
+            reverse("despesas:transacoes-list"),
+            {
+                "operacao": "transferencia",
+                "id_centro": self.centro.pk,
+                "ano_fiscal": 2026,
+                "id_natureza": self.custeio.pk,
+                "id_unidade_origem": self.A.pk,
+                "id_unidade_destino": self.B.pk,
+                "montante": "75.00",
+                "involuntaria": True,
+            },
+            format="json",
+        )
+
+        self.assertEqual(response.status_code, 201, response.data)
+        self.assertEqual(
+            [row["tipo_movimento"] for row in response.data["lancamentos"]],
+            ["Transferência involuntária", "Transferência involuntária"],
+        )
+
+    def test_create_expense_with_unit_uses_payment(self):
+        empenho = self.novo_empenho("001", self.bolsa2a)
+        self.creditar(500)
+        services.reforcar_empenho(empenho, 500, self.usuario)
+        self.distribuir(self.A, 200)
+        response = self.api.post(
+            reverse("despesas:transacoes-list"),
+            {
+                "operacao": "despesa",
+                "id_empenho": empenho.pk,
+                "id_finalidade": self.bolsa2a.pk,
+                "id_unidade": self.A.pk,
+                "montante": "50.00",
+            },
+            format="json",
+        )
+
+        self.assertEqual(response.status_code, 201, response.data)
+        self.assertEqual(response.data["operacao"], Transacao.Operacao.DESPESA)
+        self.assertEqual(response.data["lancamentos"][0]["tipo_movimento"], "Pagamento")
+
+    def test_create_expense_without_unit(self):
+        empenho = self.novo_empenho("001", self.bolsa2a)
+        self.creditar(500)
+        services.reforcar_empenho(empenho, 500, self.usuario)
+        response = self.api.post(
+            reverse("despesas:transacoes-list"),
+            {
+                "operacao": "despesa",
+                "id_empenho": empenho.pk,
+                "id_finalidade": self.bolsa2a.pk,
+                "montante": "50.00",
+            },
+            format="json",
+        )
+
+        self.assertEqual(response.status_code, 201, response.data)
+        self.assertEqual(response.data["lancamentos"][0]["tipo_movimento"], "Pagamento")
+        self.assertIsNone(response.data["lancamentos"][0]["id_unidade"])
+
+    def test_create_empenho_annulment(self):
+        empenho = self.novo_empenho("001", self.bolsa2a)
+        self.creditar(500)
+        services.reforcar_empenho(empenho, 500, self.usuario)
+        response = self.api.post(
+            reverse("despesas:transacoes-list"),
+            {
+                "operacao": "anulacao",
+                "id_empenho": empenho.pk,
+                "montante": "125.00",
+            },
+            format="json",
+        )
+
+        self.assertEqual(response.status_code, 201, response.data)
+        self.assertEqual(response.data["operacao"], Transacao.Operacao.ANULACAO)
+        self.assertEqual(response.data["lancamentos"][0]["tipo_movimento"], "Anulação")
+        self.assertEqual(response.data["lancamentos"][0]["montante"], "-125.00")
 
     def test_correcting_an_expense_creates_a_new_transaction(self):
         empenho = self.novo_empenho("001", self.bolsa2a)

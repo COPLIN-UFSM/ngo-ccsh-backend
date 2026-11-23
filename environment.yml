@@ -29,3 +29,7 @@ dependencies:
     - drf-nested-routers
     - django-simple-history
     - djangorestframework-stubs
+    - pylint
+    - pylint-django
+    - ruff
+    - black

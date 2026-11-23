@@ -20,13 +20,15 @@ from rest_framework.views import APIView
 
 
 class TransacoesViewSet(viewsets.ModelViewSet):
-    queryset = Transacao.objects.select_related(
-        "usuario", "beneficiario", "corrige"
-    ).prefetch_related("lancamentos", "documentos").annotate(
-        montante=Coalesce(
-            Sum("lancamentos__montante"),
-            Value(Decimal("0.00")),
-            output_field=DecimalField(max_digits=15, decimal_places=2),
+    queryset = (
+        Transacao.objects.select_related("usuario", "beneficiario", "corrige")
+        .prefetch_related("lancamentos", "documentos")
+        .annotate(
+            montante=Coalesce(
+                Sum("lancamentos__montante"),
+                Value(Decimal("0.00")),
+                output_field=DecimalField(max_digits=15, decimal_places=2),
+            )
         )
     )
     serializer_class = TransacaoReadSerializer

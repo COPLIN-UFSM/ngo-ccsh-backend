@@ -6,7 +6,7 @@ from decimal import Decimal as D
 from django.core.exceptions import ValidationError
 
 from despesas import saldos, services
-from despesas.models import Lancamento, Transacao
+from despesas.models import Lancamento
 from despesas.services import RegraDeNegocio, SaldoInsuficiente
 from despesas.tests.helpers import BaseRazao
 
@@ -30,7 +30,7 @@ class TestCorrecoes(BaseRazao):
         t2 = services.corrigir_transacao(
             t,
             self.usuario,
-            linhas=[l.com(montante=D("-150")) for l in services.linhas_vigentes(t)],
+            linhas=[item.com(montante=D("-150")) for item in services.linhas_vigentes(t)],
             documentos=[(self.nota_fiscal, "NF-1")],
             estimada=False,
         )
@@ -56,7 +56,7 @@ class TestCorrecoes(BaseRazao):
             self.usuario,
             documentos=[(self.nota_fiscal, "NF-1")],
         )
-        novas = [l.com(montante=D("-120")) for l in services.linhas_vigentes(t)]
+        novas = [item.com(montante=D("-120")) for item in services.linhas_vigentes(t)]
         with self.assertRaises(ValidationError):
             services.corrigir_transacao(t, self.usuario, linhas=novas)
         t2 = services.corrigir_transacao(
@@ -91,7 +91,7 @@ class TestCorrecoes(BaseRazao):
                 t,
                 self.usuario,
                 linhas=[
-                    l.com(montante=D("-1001")) for l in services.linhas_vigentes(t)
+                    item.com(montante=D("-1001")) for item in services.linhas_vigentes(t)
                 ],
             )
         self.assertEqual(Lancamento.objects.count(), antes)
@@ -104,7 +104,7 @@ class TestCorrecoes(BaseRazao):
             t,
             self.usuario,
             estimada=True,
-            linhas=[l.com(montante=D("-130")) for l in services.linhas_vigentes(t)],
+            linhas=[item.com(montante=D("-130")) for item in services.linhas_vigentes(t)],
         )
         self.assertTrue(t2.estimada)
         self.assertEqual(self.e1.saldo, D("870"))

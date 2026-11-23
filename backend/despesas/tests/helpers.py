@@ -1,15 +1,6 @@
 """Shared fixtures for ledger, scholarship, and exercise tests."""
 
 from django.test import TestCase
-
-from despesas import services
-from despesas.models import (
-    Empenho,
-    Finalidade,
-    Natureza,
-    TipoDocumento,
-    TipoDocumentoParaFinalidade,
-)
 from entidades.models import (
     Cargo,
     Centro,
@@ -21,6 +12,15 @@ from entidades.models import (
     Unidade,
 )
 from usuarios.models import Usuario
+
+from despesas import services
+from despesas.models import (
+    Empenho,
+    Finalidade,
+    Natureza,
+    TipoDocumento,
+    TipoDocumentoParaFinalidade,
+)
 
 
 class BaseRazao(TestCase):

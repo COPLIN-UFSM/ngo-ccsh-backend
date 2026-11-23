@@ -1,9 +1,9 @@
+from entidades.models import Centro, Unidade
+from entidades.serializers import CentroSerializer, UnidadeSerializer
 from rest_framework import serializers
 
 from despesas import saldos
 from despesas.models import Natureza
-from entidades.models import Centro, Unidade
-from entidades.serializers import CentroSerializer, UnidadeSerializer
 
 
 def _valor(value):

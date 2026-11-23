@@ -2,11 +2,6 @@ import csv
 from decimal import Decimal
 from pathlib import Path
 
-from django.conf import settings
-from django.core.management.base import BaseCommand, CommandError
-from django.db import connection, models, transaction
-from tqdm import tqdm
-
 from despesas.models import (
     Finalidade,
     GrupoFinalidade,
@@ -15,6 +10,9 @@ from despesas.models import (
     TipoDocumentoParaFinalidade,
     TipoMovimento,
 )
+from django.conf import settings
+from django.core.management.base import BaseCommand, CommandError
+from django.db import connection, models, transaction
 from entidades.models import (
     Cargo,
     Centro,
@@ -29,6 +27,7 @@ from entidades.models import (
     Unidade,
     UnidadeSIE,
 )
+from tqdm import tqdm
 
 LEGACY_MOVEMENTS = {
     36: TipoMovimento.Codigo.REFORCO_EMPENHO,

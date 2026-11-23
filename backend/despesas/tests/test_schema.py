@@ -3,6 +3,8 @@ from pathlib import Path
 
 from django.apps import apps
 from django.test import SimpleTestCase
+from entidades.models import Centro, Email, Pessoa, Telefone, Unidade
+from usuarios.models import Usuario
 
 from despesas.models import (
     Empenho,
@@ -20,8 +22,6 @@ from despesas.models import (
     ValorDocumento,
     VinculoBolsa,
 )
-from entidades.models import Centro, Email, Pessoa, Telefone, Unidade
-from usuarios.models import Usuario
 
 DDL_DIRECTORY = Path(__file__).parents[2] / "database" / "sql" / "create"
 MODELS = (

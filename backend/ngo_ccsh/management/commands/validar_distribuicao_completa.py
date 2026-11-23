@@ -28,10 +28,6 @@ Uso, a partir da pasta "backend":
 from datetime import date
 from decimal import Decimal
 
-from django.core.management.base import BaseCommand, CommandError
-from django.db import transaction
-from django.utils.crypto import get_random_string
-
 from despesas import saldos, services
 from despesas.models import (
     Empenho,
@@ -39,6 +35,9 @@ from despesas.models import (
     Finalidade,
     Natureza,
 )
+from django.core.management.base import BaseCommand, CommandError
+from django.db import transaction
+from django.utils.crypto import get_random_string
 from entidades.models import (
     Centro,
     Pessoa,
