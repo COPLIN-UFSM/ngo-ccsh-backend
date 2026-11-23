@@ -4,11 +4,11 @@ import datetime as dt
 from decimal import Decimal as D
 
 from django.core.exceptions import ValidationError
+from entidades.models import Centro, Pessoa
 
 from despesas import services
 from despesas.models import Lancamento, TipoDocumento, TipoMovimento, Transacao
 from despesas.tests.helpers import BaseRazao
-from entidades.models import Centro, Pessoa
 
 Codigo = TipoMovimento.Codigo
 
@@ -30,7 +30,12 @@ class TestRegrasDoCatalogo(BaseRazao):
         self.creditar(100)
         services.reforcar_empenho(e1, 100, self.usuario)
         services.registrar_despesa(
-            e1, None, self.passagens, 10, self.usuario, documentos=[(self.nota_fiscal, "NF-1")]
+            e1,
+            None,
+            self.passagens,
+            10,
+            self.usuario,
+            documentos=[(self.nota_fiscal, "NF-1")],
         )
         self.assertEqual(e1.saldo, D("90"))
 
@@ -69,7 +74,9 @@ class TestRegrasDoCatalogo(BaseRazao):
         sub = self.nova_unidade("A1", "11.01.01", pai=self.A)
         self.assertEqual(sub.ancestrais(), [self.A])
         self.assertEqual(list(self.A.subunidades.all()), [sub])
-        outro = Centro.objects.create(nome_centro="CT", sigla_centro="CT", cod_estruturado="12")
+        outro = Centro.objects.create(
+            nome_centro="CT", sigla_centro="CT", cod_estruturado="12"
+        )
         with self.assertRaises(ValidationError):
             self.nova_unidade("X", "12.01", pai=self.A, centro=outro)
 
@@ -80,13 +87,25 @@ class TestRegrasDoCatalogo(BaseRazao):
         self.creditar(100)
         services.reforcar_empenho(e1, 100, self.usuario)
         t = services.registrar_despesa(
-            e1, None, self.passagens, 50, self.usuario,
+            e1,
+            None,
+            self.passagens,
+            50,
+            self.usuario,
             beneficiario=externa,
-            documentos=[(self.nota_fiscal, "NF-1"), (self.trecho, "SMA-POA"), (self.trecho, "POA-SMA")],
+            documentos=[
+                (self.nota_fiscal, "NF-1"),
+                (self.trecho, "SMA-POA"),
+                (self.trecho, "POA-SMA"),
+            ],
         )
         self.assertEqual(t.beneficiario, externa)
         self.assertEqual(
-            list(t.documentos.filter(tipo_documento=self.trecho).values_list("ordem", "valor")),
+            list(
+                t.documentos.filter(tipo_documento=self.trecho).values_list(
+                    "ordem", "valor"
+                )
+            ),
             [(0, "SMA-POA"), (1, "POA-SMA")],
         )
 
@@ -94,30 +113,37 @@ class TestRegrasDoCatalogo(BaseRazao):
         e1 = self.novo_empenho("001", self.passagens)
         self.creditar(100)
         services.reforcar_empenho(e1, 100, self.usuario)
-        with self.assertRaises(ValidationError) as contexto_obrigatorio:  # falta a nota fiscal
+        with self.assertRaises(
+            ValidationError
+        ) as contexto_obrigatorio:  # falta a nota fiscal
             services.registrar_despesa(e1, None, self.passagens, 10, self.usuario)
         self.assertEqual(
             services.detalhe_validacao(contexto_obrigatorio.exception),
             {
                 "documentos": [
                     {
-                        "id_tipo_documento":
-                        f"O tipo documento com id {self.nota_fiscal.pk} é obrigatório para finalidade '{self.passagens.nome}'"
+                        "id_tipo_documento": f"O campo '{self.nota_fiscal.nome}({self.nota_fiscal.pk})' é obrigatório para finalidade '{self.passagens.nome}'"
                     }
                 ]
             },
         )
-        with self.assertRaises(ValidationError) as contexto_documento:  # campo não aceito na finalidade
+        with self.assertRaises(
+            ValidationError
+        ) as contexto_documento:  # campo não aceito na finalidade
             services.registrar_despesa(
-                e1, None, self.bolsa2a, 10, self.usuario, documentos=[(self.trecho, "x")]
+                e1,
+                None,
+                self.bolsa2a,
+                10,
+                self.usuario,
+                documentos=[(self.trecho, "x")],
             )
         self.assertEqual(
             services.detalhe_validacao(contexto_documento.exception),
             {
                 "documentos": [
                     {
-                        self.trecho.pk:
-                        f"O campo 'Trecho' não é aceito na finalidade '{self.bolsa2a.nome}'."
+                        "id_tipo_documento": f"O campo 'Trecho({self.trecho.pk})' não é aceito na finalidade '{self.bolsa2a.nome}'."
                     }
                 ]
             },

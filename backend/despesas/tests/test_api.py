@@ -1,12 +1,11 @@
 import datetime as dt
 from decimal import Decimal
 
-from django.urls import reverse
-from rest_framework.test import APIClient
-
 from despesas import services
 from despesas.models import ListaSIAFI, ParcelaBolsa, Transacao, VinculoBolsa
 from despesas.tests.helpers import BaseRazao
+from django.urls import reverse
+from rest_framework.test import APIClient
 
 
 class TransactionApiTests(BaseRazao):
@@ -20,9 +19,9 @@ class TransactionApiTests(BaseRazao):
             reverse("despesas:transacoes-list"),
             {
                 "operacao": "credito",
-                "centro": self.centro.pk,
+                "id_centro": self.centro.pk,
                 "ano_fiscal": 2026,
-                "natureza": self.custeio.pk,
+                "id_natureza": self.custeio.pk,
                 "montante": "500.00",
             },
             format="json",
@@ -47,24 +46,18 @@ class TransactionApiTests(BaseRazao):
             self.usuario,
         )
 
-        units = self.api.get(
-            reverse("despesas:unidades-list"), {"ano_fiscal": 2026}
-        )
+        units = self.api.get(reverse("despesas:unidades-list"), {"ano_fiscal": 2026})
         self.assertEqual(units.status_code, 200, units.data)
-        unit_rows = (
-            units.data["data"]
-            if isinstance(units.data, dict)
-            else units.data
-        )
-        by_id = {
-            row["id_unidade_interna"]: row for row in unit_rows
-        }
+        unit_rows = units.data["data"] if isinstance(units.data, dict) else units.data
+        by_id = {row["id_unidade_interna"]: row for row in unit_rows}
         a_balance = next(
-            item for item in by_id[self.A.pk]["saldos"]
+            item
+            for item in by_id[self.A.pk]["saldos"]
             if item["id_natureza"] == self.custeio.pk
         )
         b_balance = next(
-            item for item in by_id[self.B.pk]["saldos"]
+            item
+            for item in by_id[self.B.pk]["saldos"]
             if item["id_natureza"] == self.custeio.pk
         )
         self.assertEqual(a_balance["entrada"], "200.00")
@@ -76,17 +69,14 @@ class TransactionApiTests(BaseRazao):
         self.assertEqual(b_balance["transferido"], "0.00")
         self.assertEqual(b_balance["saldo"], "50.00")
 
-        centers = self.api.get(
-            reverse("despesas:centros-list"), {"ano_fiscal": 2026}
-        )
+        centers = self.api.get(reverse("despesas:centros-list"), {"ano_fiscal": 2026})
         self.assertEqual(centers.status_code, 200, centers.data)
         center_rows = (
-            centers.data["data"]
-            if isinstance(centers.data, dict)
-            else centers.data
+            centers.data["data"] if isinstance(centers.data, dict) else centers.data
         )
         center_balance = next(
-            item for item in center_rows[0]["saldos"]
+            item
+            for item in center_rows[0]["saldos"]
             if item["id_natureza"] == self.custeio.pk
         )
         self.assertEqual(center_balance["saldo"], "300.00")
@@ -140,11 +130,11 @@ class TransactionApiTests(BaseRazao):
             reverse("despesas:transacoes-list"),
             {
                 "operacao": "transferencia",
-                "centro": self.centro.pk,
+                "id_centro": self.centro.pk,
                 "ano_fiscal": 2026,
-                "natureza": self.custeio.pk,
-                "unidade_origem": self.A.pk,
-                "unidade_destino": self.B.pk,
+                "id_natureza": self.custeio.pk,
+                "id_unidade_origem": self.A.pk,
+                "id_unidade_destino": self.B.pk,
                 "montante": "75.00",
             },
             format="json",
@@ -199,9 +189,9 @@ class TransactionApiTests(BaseRazao):
         response = self.api.post(
             reverse("despesas:vinculos-bolsa-list"),
             {
-                "bolsista": bolsista.pk,
-                "unidade": self.A.pk,
-                "finalidade": self.bolsa2a.pk,
+                "id_bolsista": bolsista.pk,
+                "id_unidade": self.A.pk,
+                "id_finalidade": self.bolsa2a.pk,
                 "valor_mensal": "100.00",
                 "inicio": "2026-07-14",
                 "fim": "2026-08-31",

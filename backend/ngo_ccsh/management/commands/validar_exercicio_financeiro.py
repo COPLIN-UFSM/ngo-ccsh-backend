@@ -183,8 +183,8 @@ class Command(BaseCommand):
         200,00 debitam apenas o empenho e 300,00 debitam apenas o centro.
         """
         credito_inicial = Decimal("1000.00")
-        valor_empenhado = Decimal("800.00")
-        valor_distribuido = Decimal("800.00")
+        valor_empenhado = Decimal("700.00")
+        valor_distribuido = Decimal("500.00")
         valor_despesa = Decimal("200.00")
 
         # 1. A abertura é explícita: o centro passa a ter um exercício em estado
