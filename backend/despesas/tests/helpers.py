@@ -3,8 +3,23 @@
 from django.test import TestCase
 
 from despesas import services
-from despesas.models import Empenho, Finalidade, Natureza, TipoDocumento, TipoDocumentoParaFinalidade
-from entidades.models import Cargo, Centro, Pessoa, PessoaSIE, Servidor, SituacaoUnidade, TipoUnidade, Unidade
+from despesas.models import (
+    Empenho,
+    Finalidade,
+    Natureza,
+    TipoDocumento,
+    TipoDocumentoParaFinalidade,
+)
+from entidades.models import (
+    Cargo,
+    Centro,
+    Pessoa,
+    PessoaSIE,
+    Servidor,
+    SituacaoUnidade,
+    TipoUnidade,
+    Unidade,
+)
 from usuarios.models import Usuario
 
 

@@ -27,9 +27,7 @@ class TestFluxoBasico(BaseRazao):
         self.assertEqual(saldos.nao_distribuido_centro(c, 2026, n), D("600"))
 
     def test_despesa_debita_as_duas_dimensoes(self):
-        services.registrar_despesa(
-            self.e1, self.A, self.bolsa2a, 100, self.usuario
-        )
+        services.registrar_despesa(self.e1, self.A, self.bolsa2a, 100, self.usuario)
         c, n = self.centro, self.custeio
         self.assertEqual(self.e1.saldo, D("500"))
         self.assertEqual(self.e1.gasto, D("100"))
@@ -59,7 +57,9 @@ class TestFluxoBasico(BaseRazao):
 
     def test_centro_paga_com_recurso_proprio(self):
         services.registrar_despesa(self.e1, None, self.bolsa2a, 100, self.usuario)
-        self.assertEqual(saldos.nao_distribuido_centro(self.centro, 2026, self.custeio), D("500"))
+        self.assertEqual(
+            saldos.nao_distribuido_centro(self.centro, 2026, self.custeio), D("500")
+        )
         self.assertEqual(saldos.saldo_unidade(self.A, 2026, self.custeio), D("400"))
 
     def test_transferir_e_recolher(self):
@@ -73,7 +73,9 @@ class TestFluxoBasico(BaseRazao):
         services.recolher_de_unidade(
             self.centro, 2026, self.custeio, self.B, 150, self.usuario
         )
-        self.assertEqual(saldos.nao_distribuido_centro(self.centro, 2026, self.custeio), D("750"))
+        self.assertEqual(
+            saldos.nao_distribuido_centro(self.centro, 2026, self.custeio), D("750")
+        )
         with self.assertRaises(SaldoInsuficiente):
             services.recolher_de_unidade(
                 self.centro, 2026, self.custeio, self.B, 1, self.usuario
@@ -89,12 +91,22 @@ class TestFluxoBasico(BaseRazao):
             )
         with self.assertRaises(ValidationError):  # sem unidade
             services.registrar_despesa(
-                e2, None, obra_custeio, 300, self.usuario,
-                administrativo=True, justificativa="obra emergencial",
+                e2,
+                None,
+                obra_custeio,
+                300,
+                self.usuario,
+                administrativo=True,
+                justificativa="obra emergencial",
             )
         t = services.registrar_despesa(
-            e2, self.A, obra_custeio, 300, self.usuario,
-            administrativo=True, justificativa="obra emergencial",
+            e2,
+            self.A,
+            obra_custeio,
+            300,
+            self.usuario,
+            administrativo=True,
+            justificativa="obra emergencial",
         )
         self.assertEqual(t.operacao, Transacao.Operacao.DEBITO_ADMINISTRATIVO)
         self.assertEqual(saldos.saldo_unidade(self.A, 2026, self.custeio), D("100"))
@@ -109,7 +121,10 @@ class TestFluxoBasico(BaseRazao):
         self.assertEqual(saldos.saldo_unidade(self.A, 2026, self.custeio), D("200"))
         self.assertEqual(saldos.saldo_unidade(self.A, 2026, self.capital), D("200"))
         with self.assertRaises(ValidationError):  # mesma natureza
-            services.converter_natureza(self.e1, self.novo_empenho("004", self.bolsa2a), 10, self.usuario)
+            services.converter_natureza(
+                self.e1, self.novo_empenho("004", self.bolsa2a), 10, self.usuario
+            )
+
 
 class TestImutabilidade(BaseRazao):
     def test_razao_nao_edita_nem_apaga(self):

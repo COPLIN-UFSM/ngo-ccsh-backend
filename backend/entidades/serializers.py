@@ -145,7 +145,9 @@ class TelefoneSerializer(serializers.ModelSerializer):
 
 
 class EmailSerializer(serializers.ModelSerializer):
-    id_pessoa_interna = serializers.PrimaryKeyRelatedField(queryset=Pessoa.objects.all(), source="pessoa")
+    id_pessoa_interna = serializers.PrimaryKeyRelatedField(
+        queryset=Pessoa.objects.all(), source="pessoa"
+    )
     nome_pessoa = serializers.CharField(source="pessoa.nome_pessoa", read_only=True)
 
     class Meta:

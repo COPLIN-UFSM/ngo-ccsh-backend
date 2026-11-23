@@ -34,13 +34,13 @@ detailNotAllowed = "Método não permitido para elementos cadastrados no SIE."
 
 
 class TipoUnidadeViewSet(viewsets.ModelViewSet):
-    queryset = TipoUnidade.objects.all().order_by('id_tipo_unidade')
+    queryset = TipoUnidade.objects.all().order_by("id_tipo_unidade")
     serializer_class = TipoUnidadeSerializer
     http_method_names = ["get"]
 
 
 class SituacaoUnidadeViewSet(viewsets.ModelViewSet):
-    queryset = SituacaoUnidade.objects.all().order_by('id_situacao_unidade')
+    queryset = SituacaoUnidade.objects.all().order_by("id_situacao_unidade")
     serializer_class = SituacaoUnidadeSerializer
     http_method_names = ["get"]
 
@@ -64,9 +64,11 @@ class CentroViewSet(viewsets.ModelViewSet):
 
 
 class UnidadeViewSet(viewsets.ModelViewSet):
-    queryset = Unidade.objects.all().select_related(
-        "centro", "tipo_unidade", "situacao_unidade"
-    ).order_by("id_unidade_interna")
+    queryset = (
+        Unidade.objects.all()
+        .select_related("centro", "tipo_unidade", "situacao_unidade")
+        .order_by("id_unidade_interna")
+    )
 
     http_method_names = ["get", "post", "patch"]
 
@@ -137,13 +139,21 @@ class PessoaViewSet(viewsets.ModelViewSet):
 
 
 class DiscenteViewSet(viewsets.ModelViewSet):
-    queryset = Discente.objects.all().select_related("pessoa", "curso").order_by("pessoa__id_pessoa_interna")
+    queryset = (
+        Discente.objects.all()
+        .select_related("pessoa", "curso")
+        .order_by("pessoa__id_pessoa_interna")
+    )
     serializer_class = DiscenteSerializer
     http_method_names = ["get"]
 
 
 class ServidorViewSet(viewsets.ModelViewSet):
-    queryset = Servidor.objects.all().select_related("pessoa", "cargo").order_by("pessoa__id_pessoa_interna")
+    queryset = (
+        Servidor.objects.all()
+        .select_related("pessoa", "cargo")
+        .order_by("pessoa__id_pessoa_interna")
+    )
     serializer_class = ServidorSerializer
     http_method_names = ["get"]
     filter_backends = (DjangoFilterBackend,)
