@@ -1,4 +1,7 @@
 from django.core.exceptions import ValidationError
+from drf_spectacular.utils import extend_schema_field
+from rest_framework import serializers
+
 from entidades.models import (
     Cargo,
     Centro,
@@ -12,7 +15,6 @@ from entidades.models import (
     TipoUnidade,
     Unidade,
 )
-from rest_framework import serializers
 
 
 class CentroSerializer(serializers.ModelSerializer):
@@ -69,10 +71,17 @@ class UnidadeSerializer(serializers.ModelSerializer):
     id_centro = serializers.PrimaryKeyRelatedField(
         queryset=Centro.objects.all(), source="centro"
     )
+    id_unidade_pai = serializers.PrimaryKeyRelatedField(
+        queryset=Unidade.objects.all(),
+        source="unidade_pai",
+        required=False,
+        allow_null=True,
+    )
 
     tipo_unidade = serializers.StringRelatedField(read_only=True)
     situacao_unidade = serializers.StringRelatedField(read_only=True)
     centro = serializers.StringRelatedField(read_only=True)
+    unidade_pai = serializers.StringRelatedField(read_only=True)
     id_unidade_sie = serializers.PrimaryKeyRelatedField(
         read_only=True, source="unidade_sie"
     )
@@ -81,18 +90,19 @@ class UnidadeSerializer(serializers.ModelSerializer):
         model = Unidade
         fields = [
             "id_unidade_interna",
-            "id_unidade_sie",
             "nome_unidade",
             "cod_estruturado",
             "id_centro",
             "centro",
+            "id_unidade_pai",
+            "unidade_pai",
             "id_tipo_unidade",
             "tipo_unidade",
             "id_situacao_unidade",
+            "id_unidade_sie",
             "situacao_unidade",
-            "pode_empenhar",
         ]
-        read_only = ["id_unidade_interna"]
+        read_only_fields = ["id_unidade_interna"]
 
 
 class CursoSerializer(serializers.ModelSerializer):
@@ -135,9 +145,12 @@ class TelefoneSerializer(serializers.ModelSerializer):
 
 
 class EmailSerializer(serializers.ModelSerializer):
+    id_pessoa_interna = serializers.PrimaryKeyRelatedField(queryset=Pessoa.objects.all(), source="pessoa")
+    nome_pessoa = serializers.CharField(source="pessoa.nome_pessoa", read_only=True)
+
     class Meta:
         model = Email
-        fields = "__all__"
+        fields = ["id_email", "id_pessoa_interna", "nome_pessoa", "email"]
 
 
 class TelefonePessoaSerializer(serializers.ModelSerializer):
@@ -299,6 +312,7 @@ class DiscenteSerializer(serializers.ModelSerializer):
             "ativo",
         ]
 
+    @extend_schema_field(TelefonePessoaSerializer(many=True))
     def get_telefones(self, obj):
         if obj.pessoa:
             queryset = obj.pessoa.telefone_set.all()
@@ -307,6 +321,7 @@ class DiscenteSerializer(serializers.ModelSerializer):
             ).data
         return []
 
+    @extend_schema_field(EmailPessoaSerializer(many=True))
     def get_emails(self, obj):
         if obj.pessoa:
             queryset = obj.pessoa.email_set.all()
@@ -342,6 +357,7 @@ class ServidorSerializer(serializers.ModelSerializer):
     telefones = serializers.SerializerMethodField()
     emails = serializers.SerializerMethodField()
 
+    @extend_schema_field(TelefonePessoaSerializer(many=True))
     def get_telefones(self, obj):
         if obj.pessoa:
             queryset = obj.pessoa.telefone_set.all()
@@ -350,6 +366,7 @@ class ServidorSerializer(serializers.ModelSerializer):
             ).data
         return []
 
+    @extend_schema_field(EmailPessoaSerializer(many=True))
     def get_emails(self, obj):
         if obj.pessoa:
             queryset = obj.pessoa.email_set.all()

@@ -85,6 +85,15 @@ Ou então criar uma configuração no PyCharm, adicionando a variável de ambien
 Teste a aplicação entrando na URL [http://localhost:8000/admin/](http://localhost:8000/admin/) e usando o usuário criado com o comando 
 `createsuperuser`.
 
+### Testando os modelos
+
+Você pode testar o funcionamento e consistência dos modelos da aplicação com os seguintes comandos:
+
+```bash
+python backend/manage.py validar_exercicio_financeiro --settings=ngo_ccsh.dev_settings
+python backend/manage.py validar_pagamento_bolsas --settings=ngo_ccsh.dev_settings
+```
+
 ## Com Docker
 
 Para executar um container em modo de desenvolvimento localmente, rode os seguintes comandos:
@@ -111,11 +120,16 @@ DEBUG = True
 APP_FULL_NAME = "Sistema de Gerenciamento de Gastos Acadêmicos da UFSM"
 APP_SHORT_NAME = "SIGGA"
 FRONTEND_URL = "http://localhost:5173"
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
 EMAIL_HOST_USER = "henry.cagnini@ufsm.br"
 EMAIL_HOST_PASSWORD = "aaaa bbbb cccc dddd"
 DEFAULT_FROM_EMAIL = "Núcleo de Gestão Orçamentária <henry.cagnini@ufsm.br>"
 DJANGO_SECRET_KEY = "alguma_string_com_pelo_menos_32_caracteres"
 JWT_SIGNING_KEY = "alguma_OUTRA_string_com_pelo_menos_32_caracteres"
+SCRIPT_PREFIX = ""
 ```
 
 O `EMAIL_HOST_PASSWORD` deve ser obtido a partir
@@ -145,3 +159,8 @@ Para gerar diagramas do banco de dados, use o seguinte comando:
 ```bash
 python .\backend\manage.py graph_models -a -g -o instance/models.png --settings=ngo_ccsh.dev_settings
 ```
+
+## Postman
+
+Para ver o contrato de interface da API, use o Postman. O arquivo de configuração do Postman está em `postman/api.postman_collection.json`.
+

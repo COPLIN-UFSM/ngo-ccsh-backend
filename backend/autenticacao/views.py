@@ -9,6 +9,12 @@ from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
 from usuarios.models import Usuario
 
+from autenticacao.serializers import (
+    DetailResponseSerializer,
+    EmailRequestSerializer,
+    LoginRequestSerializer,
+    LoginResponseSerializer,
+)
 from autenticacao.services import trigger_password_reset_flow
 
 
@@ -18,11 +24,22 @@ class LoginView(APIView):
     @extend_schema(
         summary="Login",
         description="Autentica o usuário e retorna os tokens JWT de acesso e atualização.",
+        request=LoginRequestSerializer,
         responses={
-            200: OpenApiResponse(description="Login realizado com sucesso"),
-            400: OpenApiResponse(description="Usuário e senha são obrigatórios"),
-            401: OpenApiResponse(description="Credenciais inválidas"),
+            200: OpenApiResponse(
+                response=LoginResponseSerializer,
+                description="Login realizado com sucesso.",
+            ),
+            400: OpenApiResponse(
+                response=DetailResponseSerializer,
+                description="CPF ou senha não informados.",
+            ),
+            401: OpenApiResponse(
+                response=DetailResponseSerializer,
+                description="Credenciais inválidas ou usuário inativo.",
+            ),
         },
+        auth=[],
         tags=["autenticacao"],
     )
     def post(self, request):
@@ -76,11 +93,26 @@ class RecoverPasswordView(APIView):
     @extend_schema(
         summary="Recupera senha",
         description="Inicia o fluxo de recuperação de senha via email.",
+        request=EmailRequestSerializer,
         responses={
-            200: OpenApiResponse(description="Link de recuperação enviado ao email"),
-            400: OpenApiResponse(description="Email não informado"),
-            404: OpenApiResponse(description="Email não encontrado"),
+            200: OpenApiResponse(
+                response=DetailResponseSerializer,
+                description="Link de recuperação enviado ao email.",
+            ),
+            400: OpenApiResponse(
+                response=DetailResponseSerializer,
+                description="Email não informado.",
+            ),
+            401: OpenApiResponse(
+                response=DetailResponseSerializer,
+                description="Usuário inativo.",
+            ),
+            404: OpenApiResponse(
+                response=DetailResponseSerializer,
+                description="Email não encontrado.",
+            ),
         },
+        auth=[],
         tags=["autenticacao"],
     )
     def post(self, request):

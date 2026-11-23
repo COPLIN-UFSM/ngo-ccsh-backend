@@ -67,7 +67,10 @@ SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv("DEBUG", "False") == "True"
 
-FORCE_SCRIPT_NAME = "/ngo-ccsh-backend"
+# Prefixo da URL sob o qual a aplicação é servida (ex.: atrás do nginx em /ngo-ccsh-backend).
+# Vazio significa sem prefixo.
+SCRIPT_PREFIX = os.getenv("SCRIPT_PREFIX", "/ngo-ccsh-backend").rstrip("/")
+FORCE_SCRIPT_NAME = SCRIPT_PREFIX or None
 
 ALLOWED_HOSTS = ["proplan.ufsm.br", "localhost", "127.0.0.1"]
 
@@ -200,7 +203,7 @@ SPECTACULAR_SETTINGS = {
     "VERSION": "0.1",
     "SERVE_INCLUDE_SCHEMA": False,
     "GET_LIB_DOC_EXCLUDES": "drf_spectacular.plumbing.get_lib_doc_excludes",
-    # OTHER SETTINGS
+    "SERVERS": [{"url": SCRIPT_PREFIX or "/"}],
 }
 
 # Internationalization
@@ -212,20 +215,20 @@ TIME_ZONE = "America/Sao_Paulo"
 
 USE_TZ = False  # precisa ser falso para usar ibm db2
 
-STATIC_URL = "/ngo-ccsh-backend/static/"
+STATIC_URL = f"{SCRIPT_PREFIX}/static/"
 STATICFILES_DIRS = [BASE_DIR / "static"]
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-EMAIL_HOST = "smtp.gmail.com"
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-
+EMAIL_HOST = os.getenv("EMAIL_HOST")
+EMAIL_PORT = int(os.getenv("EMAIL_PORT", "587"))
+EMAIL_USE_TLS = os.getenv("EMAIL_USE_TLS", "True").lower() == "true"
+EMAIL_USE_SSL = os.getenv("EMAIL_USE_SSL", "False").lower() == "true"
 EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
 DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL")
 
-APP_FULL_NAME = os.getenv("APP_FULL_NAME") or "Portal Transparência CCSH"
+APP_FULL_NAME = os.getenv("APP_FULL_NAME")
 APP_SHORT_NAME = os.getenv("APP_SHORT_NAME")
 
 FRONTEND_URL = os.getenv("FRONTEND_URL")

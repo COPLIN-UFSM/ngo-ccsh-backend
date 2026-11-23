@@ -18,3 +18,5 @@ django-extensions
 django-filter
 drf-nested-routers
 pygraphviz
+django-simple-history
+djangorestframework-stubs

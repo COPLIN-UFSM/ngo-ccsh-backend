@@ -1,5 +1,5 @@
 from django.urls import reverse
-from entidades.models import Cargo, Pessoa, Servidor
+from entidades.models import Cargo, Pessoa, PessoaSIE, Servidor
 from rest_framework.test import APITestCase
 from usuarios.models import Usuario
 
@@ -12,26 +12,55 @@ class BaseServidorTestCase(APITestCase):
     @classmethod
     def setUpTestData(cls):
         cls.cargo_professor = Cargo.objects.create(cargo="Professor")
-        cls.pessoa_ativa = Pessoa.objects.create(
+        pessoa_ativa_sie = PessoaSIE.objects.create(
             nome_pessoa="Loki", cpf="00000000000", rg="00000000000"
         )
-        cls.pessoa_inativa = Pessoa.objects.create(
+        cls.pessoa_ativa = Pessoa.objects.create(
+            nome_pessoa="Loki",
+            cpf="00000000000",
+            rg="00000000000",
+            pessoa_sie=pessoa_ativa_sie,
+        )
+        pessoa_inativa_sie = PessoaSIE.objects.create(
             nome_pessoa="Odin", cpf="00000000001", rg="00000000001"
         )
-
-        cls.pessoa_outra = Pessoa.objects.create(
+        cls.pessoa_inativa = Pessoa.objects.create(
+            nome_pessoa="Odin",
+            cpf="00000000001",
+            rg="00000000001",
+            pessoa_sie=pessoa_inativa_sie,
+        )
+        pessoa_outra_sie = PessoaSIE.objects.create(
             nome_pessoa="Thor", cpf="00000000002", rg="00000000002"
         )
 
+        cls.pessoa_outra = Pessoa.objects.create(
+            nome_pessoa="Thor",
+            cpf="00000000002",
+            rg="00000000002",
+            pessoa_sie=pessoa_outra_sie,
+        )
         cls.pessoa_nao_servidora = Pessoa.objects.create(
             nome_pessoa="Valkyria", cpf="00000000003", rg="00000000003"
         )
-        cls.pessoa_superusuaria = Pessoa.objects.create(
+        pessoa_superusuaria_sie = PessoaSIE.objects.create(
             nome_pessoa="Baldur", cpf="00000000004", rg="00000000004"
+        )
+        cls.pessoa_superusuaria = Pessoa.objects.create(
+            nome_pessoa="Baldur",
+            cpf="00000000004",
+            rg="00000000004",
+            pessoa_sie=pessoa_superusuaria_sie,
+        )
+        pessoa_outra_inativa_sie = PessoaSIE.objects.create(
+            nome_pessoa="Freyr", cpf="00000000005", rg="00000000005"
         )
 
         cls.pessoa_outra_inativa = Pessoa.objects.create(
-            nome_pessoa="Freyr", cpf="00000000005", rg="00000000005"
+            nome_pessoa="Freyr",
+            cpf="00000000005",
+            rg="00000000005",
+            pessoa_sie=pessoa_outra_inativa_sie,
         )
 
         cls.servidor_ativo = Servidor.objects.create(
