@@ -1,6 +1,6 @@
 from django.core import mail
 from django.urls import reverse
-from entidades.models import Cargo, Pessoa, Servidor
+from entidades.models import Cargo, Pessoa, PessoaSIE, Servidor
 from ngo_ccsh import settings
 from rest_framework import status
 from rest_framework.test import APITestCase
@@ -17,11 +17,23 @@ from autenticacao.services import (
 class AuthenticationBaseTestCase(APITestCase):
     def setUp(self):
         self.cargo_professor = Cargo.objects.create(cargo="Professor")
-        self.pessoa_ativa = Pessoa.objects.create(
+        pessoa_ativa_sie = PessoaSIE.objects.create(
             nome_pessoa="Loki", cpf="00000000000", rg="00000000000"
         )
-        self.pessoa_inativa = Pessoa.objects.create(
+        self.pessoa_ativa = Pessoa.objects.create(
+            nome_pessoa="Loki",
+            cpf="00000000000",
+            rg="00000000000",
+            pessoa_sie=pessoa_ativa_sie,
+        )
+        pessoa_inativa_sie = PessoaSIE.objects.create(
             nome_pessoa="Odin", cpf="00000000001", rg="00000000001"
+        )
+        self.pessoa_inativa = Pessoa.objects.create(
+            nome_pessoa="Odin",
+            cpf="00000000001",
+            rg="00000000001",
+            pessoa_sie=pessoa_inativa_sie,
         )
         self.servidor_ativo_1 = Servidor.objects.create(
             pessoa=self.pessoa_ativa,
@@ -138,6 +150,43 @@ class RecoverPasswordViewTestCase(AuthenticationBaseTestCase):
     def test_recover_password_with_valid_email(self):
         response = self.client.post(self.url, data={"email": self.usuario_ativo.email})
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+
+class AuthenticationSchemaTestCase(APITestCase):
+    def test_authentication_operations_document_request_fields_and_public_access(self):
+        response = self.client.get("/schema/")
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        schema = response.data
+
+        login = schema["paths"]["/autenticacao/login/"]["post"]
+        login_request_schema = login["requestBody"]["content"]["application/json"][
+            "schema"
+        ]
+        login_request = schema["components"]["schemas"][
+            login_request_schema["$ref"].rsplit("/", 1)[-1]
+        ]
+        self.assertEqual(set(login_request["properties"]), {"cpf", "senha"})
+        self.assertNotIn("security", login)
+
+        recover = schema["paths"]["/autenticacao/recuperar-senha/"]["post"]
+        recover_request_schema = recover["requestBody"]["content"]["application/json"][
+            "schema"
+        ]
+        recover_request = schema["components"]["schemas"][
+            recover_request_schema["$ref"].rsplit("/", 1)[-1]
+        ]
+        self.assertEqual(set(recover_request["properties"]), {"email"})
+        self.assertNotIn("security", recover)
+
+        change_password = schema["paths"]["/usuarios/{id}/senha/"]["patch"]
+        password_request_schema = change_password["requestBody"]["content"][
+            "application/json"
+        ]["schema"]
+        password_request = schema["components"]["schemas"][
+            password_request_schema["$ref"].rsplit("/", 1)[-1]
+        ]
+        self.assertEqual(set(password_request["properties"]), {"senha", "senha2"})
 
 
 class TokensServiceTest(AuthenticationBaseTestCase):

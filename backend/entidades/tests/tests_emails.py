@@ -11,7 +11,10 @@ class EmailViewSetTestCase(BaseAuthenticatedUserTestCase):
         self.email = Email.objects.create(
             email="morfeu@olimpo.com", pessoa=self.pessoa_ativa
         )
-        self.data = {"email": "apolo@olimpo.com", "pessoa": self.pessoa_ativa.pk}
+        self.data = {
+            "email": "apolo@olimpo.com",
+            "id_pessoa_interna": self.pessoa_ativa.pk,
+        }
 
     def test_get_emails(self):
         self.authentication(self.user_data_adm)

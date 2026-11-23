@@ -1,6 +1,6 @@
 from autenticacao.services import create_token_with_allow_password_change
 from django.urls import reverse
-from entidades.models import Cargo, Pessoa, Servidor
+from entidades.models import Cargo, Pessoa, PessoaSIE, Servidor
 from rest_framework import status
 from rest_framework.test import APITestCase
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -14,17 +14,41 @@ class UserTestCase(APITestCase):
         Cria usuários para testes.
         """
         self.cargo_analista = Cargo.objects.create(cargo="Analista")
-        self.pessoa_1 = Pessoa.objects.create(
+        pessoa_1_sie = PessoaSIE.objects.create(
             nome_pessoa="Loki", cpf="00000000000", rg="00000000000"
         )
-        self.pessoa_2 = Pessoa.objects.create(
+        self.pessoa_1 = Pessoa.objects.create(
+            nome_pessoa="Loki",
+            cpf="00000000000",
+            rg="00000000000",
+            pessoa_sie=pessoa_1_sie,
+        )
+        pessoa_2_sie = PessoaSIE.objects.create(
             nome_pessoa="Odin", cpf="00000000001", rg="00000000001"
         )
-        self.pessoa_3 = Pessoa.objects.create(
+        self.pessoa_2 = Pessoa.objects.create(
+            nome_pessoa="Odin",
+            cpf="00000000001",
+            rg="00000000001",
+            pessoa_sie=pessoa_2_sie,
+        )
+        pessoa_3_sie = PessoaSIE.objects.create(
             nome_pessoa="Thor", cpf="00000000002", rg="00000000002"
         )
-        self.pessoa_4 = Pessoa.objects.create(
+        self.pessoa_3 = Pessoa.objects.create(
+            nome_pessoa="Thor",
+            cpf="00000000002",
+            rg="00000000002",
+            pessoa_sie=pessoa_3_sie,
+        )
+        pessoa_4_sie = PessoaSIE.objects.create(
             nome_pessoa="Valkyrie", cpf="00000000003", rg="00000000003"
+        )
+        self.pessoa_4 = Pessoa.objects.create(
+            nome_pessoa="Valkyrie",
+            cpf="00000000003",
+            rg="00000000003",
+            pessoa_sie=pessoa_4_sie,
         )
         self.servidor_1 = Servidor.objects.create(
             pessoa=self.pessoa_1,

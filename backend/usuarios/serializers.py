@@ -97,3 +97,9 @@ class ChangePasswordSerializer(serializers.Serializer):
             raise serializers.ValidationError({"senha": passwordWeak.messages})
 
         return attrs
+
+
+class PasswordChangeResponseSerializer(serializers.Serializer):
+    """Mensagem retornada quando a senha é alterada com sucesso."""
+
+    detail = serializers.CharField()

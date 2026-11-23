@@ -133,8 +133,17 @@ class SinglePessoaViewTestCase(BaseAuthenticatedUserTestCase):
         self.assertEqual("Leandro", response.data["nome_pessoa"])
 
     def test_get_single_pessoa_only_registered_in_sie(self):
+        from entidades.models import Pessoa
+
         self.authentication(self.user_data_adm)
+        # o id do SIE nunca é aceito na rota, que usa somente o id interno
         url = reverse(self.urlPrefix, kwargs={"pk": self.pessoa2SIE.id_pessoa_sie})
+        response = self.client.get(url)
+        self.assertEqual(status.HTTP_404_NOT_FOUND, response.status_code)
+
+        # uma busca por campo importa a cópia interna, acessível pelo id interno
+        pessoa = Pessoa.objects.get(cpf=self.pessoa2SIE.cpf)
+        url = reverse(self.urlPrefix, kwargs={"pk": pessoa.id_pessoa_interna})
         response = self.client.get(url)
         self.assertEqual(status.HTTP_200_OK, response.status_code)
         self.assertEqual(
@@ -166,8 +175,11 @@ class SinglePessoaViewTestCase(BaseAuthenticatedUserTestCase):
         # self.assertJSONEqual("55991738312", response.data["telefones"][0]["telefone"])
 
     def test_patch_pessoa_only_registered_in_sie(self):
+        from entidades.models import Pessoa
+
         self.authentication(self.user_data_adm)
-        url = reverse(self.urlPrefix, kwargs={"pk": self.pessoa2SIE.id_pessoa_sie})
+        pessoa = Pessoa.objects.get(cpf=self.pessoa2SIE.cpf)
+        url = reverse(self.urlPrefix, kwargs={"pk": pessoa.id_pessoa_interna})
         response = self.client.patch(
             self.url, data={"rg": "05100000000"}, format="json"
         )
@@ -176,7 +188,7 @@ class SinglePessoaViewTestCase(BaseAuthenticatedUserTestCase):
         response = self.client.get(url)
         self.assertEqual(
             {
-                "id_pessoa_interna": 8,
+                "id_pessoa_interna": pessoa.id_pessoa_interna,
                 "nome_pessoa": "Shintaro Yamazaki",
                 "rg": "22200000000",
                 "cpf": "22200000000",

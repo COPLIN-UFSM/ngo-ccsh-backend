@@ -1,9 +1,27 @@
-from decimal import Decimal
+"""
+Entidades: centros, unidades, pessoas e vínculos.
 
-from despesas.models import VersaoTransacao
+Convenção deste módulo
+----------------------
+* Modelos com tabela ``v_sie_*`` (``CentroSIE``, ``UnidadeSIE``, ``PessoaSIE``,
+  ``Curso``, ``Cargo``, ``Discente``, ``Servidor``, ...) são *views* do SIE:
+  continuam ``managed = False`` e são somente leitura.
+* Os modelos internos (``Centro``, ``Unidade``, ``Pessoa``, ``Email``, ``Telefone``)
+  também são ``managed = False``: o schema é criado por DDL Db2 versionado, nunca
+  por migrations do Django.
+
+O que mudou em relação à versão anterior
+----------------------------------------
+* ``Unidade`` ganhou ``unidade_pai`` (hierarquia real, via FK) e perdeu
+  ``pode_empenhar`` (quem empenha é sempre o ``Centro``).
+* ``Unidade.__montante_calc__`` / ``montante_custeio`` / ``montante_capital`` saíram:
+  os saldos agora são calculados a partir do razão, em ``despesas.saldos``.
+* Não há mais import de ``despesas`` aqui (evita dependência circular).
+"""
+
+from django.core.exceptions import ValidationError
 from django.db import models
-from django.db.models import Case, DecimalField, F, Sum, When
-from ngo_ccsh.constrains import CAPITAL, CUSTEIO
+from django.db.models import F, Q
 
 from entidades.managers import CentroManager, PessoaManager, UnidadeManager
 
@@ -20,24 +38,30 @@ class CentroSIE(models.Model):
 
     class Meta:
         managed = False
-        db_table = "v_centros_sie"
+        db_table = "v_sie_centros"
 
     def __str__(self) -> str:
         return self.nome_centro
 
 
 class Centro(models.Model):
+    """
+    Um centro (CCSH, CT, CCS...) recebe os recursos da PROPLAN e os mantém sob sua
+    tutela. É o centro quem empenha e quem paga de fato.
+    """
+
     objects = CentroManager()
 
     id_centro_interno = models.AutoField(
         primary_key=True, db_column="id_centro_interno"
     )
-    # Pode ser null pelo fato de que existem tabelas que não estão cadastradas no sie
+    # Pode ser null pelo fato de que existem centros que não estão cadastrados no SIE
     centro_sie = models.OneToOneField(
         CentroSIE,
         null=True,
         blank=True,
         on_delete=models.DO_NOTHING,
+        db_constraint=False,
         db_column="id_centro_sie",
     )
     nome_centro = models.CharField(max_length=256, db_column="nome_centro")
@@ -64,7 +88,7 @@ class SituacaoUnidade(models.Model):
 
     class Meta:
         managed = False
-        db_table = "v_situacoes_unidades"
+        db_table = "v_sie_situacoes_unidades"
 
     def __str__(self):
         return self.situacao_unidade
@@ -76,7 +100,7 @@ class TipoUnidade(models.Model):
 
     class Meta:
         managed = False
-        db_table = "v_tipos_unidades"
+        db_table = "v_sie_tipos_unidades"
 
     def __str__(self):
         return self.tipo_unidade
@@ -95,18 +119,33 @@ class UnidadeSIE(models.Model):
         Centro, models.DO_NOTHING, db_column="id_centro_sie", db_constraint=False
     )
     tipo_unidade = models.ForeignKey(
-        TipoUnidade, models.DO_NOTHING, db_column="id_tipo_unidade"
+        TipoUnidade,
+        models.DO_NOTHING,
+        db_column="id_tipo_unidade",
+        db_constraint=False,
     )
     situacao_unidade = models.ForeignKey(
-        SituacaoUnidade, models.DO_NOTHING, db_column="id_situacao_unidade"
+        SituacaoUnidade,
+        models.DO_NOTHING,
+        db_column="id_situacao_unidade",
+        db_constraint=False,
     )
 
     class Meta:
         managed = False
-        db_table = "v_unidades_sie"
+        db_table = "v_sie_unidades"
 
 
 class Unidade(models.Model):
+    """
+    Uma unidade pertence a um centro. A hierarquia (centro -> subunidades -> ...) é
+    dada por ``unidade_pai``. O ``cod_estruturado`` continua existindo como dado de
+    origem (vem do SIE), mas a árvore é consultada pela FK, não pela string.
+
+    As subunidades não recebem dinheiro de fato: recebem um "cheque" (saldo no razão,
+    ver ``despesas.models.Lancamento``) e pedem ao centro que pague suas despesas.
+    """
+
     objects = UnidadeManager()
 
     id_unidade_interna = models.AutoField(
@@ -117,6 +156,7 @@ class Unidade(models.Model):
         null=True,
         blank=False,
         on_delete=models.DO_NOTHING,
+        db_constraint=False,
         db_column="id_unidade_sie",
     )
 
@@ -134,12 +174,22 @@ class Unidade(models.Model):
         null=False,
         db_column="id_centro_interno",
     )
+    unidade_pai = models.ForeignKey(
+        "self",
+        models.PROTECT,
+        null=True,
+        blank=True,
+        related_name="subunidades",
+        db_column="id_unidade_pai",
+        db_comment="Unidade imediatamente acima na hierarquia; nulo para unidades de topo do centro",
+    )
     tipo_unidade = models.ForeignKey(
         TipoUnidade,
         models.DO_NOTHING,
         blank=False,
         null=False,
         db_column="id_tipo_unidade",
+        db_constraint=False,
     )
     situacao_unidade = models.ForeignKey(
         SituacaoUnidade,
@@ -147,41 +197,43 @@ class Unidade(models.Model):
         blank=False,
         null=False,
         db_column="id_situacao_unidade",
-    )
-    pode_empenhar = models.BooleanField(
-        models.DO_NOTHING, blank=True, default=False, db_comment="pode_emepenhar"
+        db_constraint=False,
     )
 
     class Meta:
         managed = False
         db_table = "unidades"
+        constraints = [
+            models.CheckConstraint(
+                condition=~Q(unidade_pai=F("id_unidade_interna")),
+                name="ck_unidade_nao_e_pai_de_si_mesma",
+            )
+        ]
 
     def __str__(self) -> str:
         return self.nome_unidade
 
-    def __montante_calc__(self, finalidade):
-        transactions = VersaoTransacao.objects.filter(
-            transacao__versao_transacao=F("id_versao_transacao"),
-            finalidade__natureza_finalidade=finalidade,
-        ).aggregate(
-            montante=Sum(
-                Case(
-                    When(unidade_receptora=self, then=F("montante")),
-                    When(unidade_executora=self, then=-F("montante")),
-                    default=Decimal("0.00"),
-                ),
-                output_field=DecimalField(),
-            )
-        )
-        return transactions["montante"] or Decimal("0.00")
+    def clean(self):
+        if self.unidade_pai_id:
+            if self.unidade_pai_id == self.pk:
+                raise ValidationError("Uma unidade não pode ser pai de si mesma.")
+            if self.unidade_pai.centro_id != self.centro_id:
+                raise ValidationError(
+                    "A unidade pai precisa pertencer ao mesmo centro da unidade."
+                )
 
-    @property
-    def montante_custeio(self):
-        return self.__montante_calc__(CUSTEIO)
+    def save(self, *args, **kwargs):
+        self.clean()
+        super().save(*args, **kwargs)
 
-    @property
-    def montante_capital(self):
-        return self.__montante_calc__(CAPITAL)
+    def ancestrais(self):
+        """Do pai imediato até o topo da árvore."""
+        resultado = []
+        atual = self.unidade_pai
+        while atual is not None:
+            resultado.append(atual)
+            atual = atual.unidade_pai
+        return resultado
 
 
 class Curso(models.Model):
@@ -215,7 +267,7 @@ class Curso(models.Model):
 
     class Meta:
         managed = False
-        db_table = "v_cursos"
+        db_table = "v_sie_cursos"
 
 
 class Cargo(models.Model):
@@ -226,7 +278,7 @@ class Cargo(models.Model):
 
     class Meta:
         managed = False
-        db_table = "v_cargos"
+        db_table = "v_sie_cargos"
 
     def __str__(self):
         return self.cargo
@@ -246,10 +298,16 @@ class PessoaSIE(models.Model):
 
     class Meta:
         managed = False
-        db_table = "v_pessoas_sie"
+        db_table = "v_sie_pessoas"
 
 
 class Pessoa(models.Model):
+    """
+    Pessoa interna. Quando existe no SIE, ``pessoa_sie`` aponta para o registro de
+    origem; pessoas externas (que podem ser beneficiárias de um pagamento) não têm
+    correspondente no SIE e ficam com ``pessoa_sie`` nulo.
+    """
+
     objects = PessoaManager()
 
     id_pessoa_interna = models.AutoField(
@@ -260,6 +318,7 @@ class Pessoa(models.Model):
         on_delete=models.DO_NOTHING,
         null=True,
         blank=True,
+        db_constraint=False,
         db_column="id_pessoa_sie",
     )
     nome_pessoa = models.TextField(
@@ -279,25 +338,37 @@ class Pessoa(models.Model):
     def __str__(self):
         return self.nome_pessoa
 
+    @property
+    def externa(self) -> bool:
+        """Pessoa sem correspondente no SIE (não pode ser bolsista)."""
+        return self.pessoa_sie_id is None
+
 
 class Discente(models.Model):
     id_curso_aluno = models.AutoField(primary_key=True, db_column="id_curso_aluno")
     pessoa = models.ForeignKey(
         Pessoa,
         on_delete=models.DO_NOTHING,
-        db_column="id_pessoa_interna",
+        to_field="pessoa_sie",
+        db_column="id_pessoa_sie",
+        db_constraint=False,
     )
     matricula = models.TextField(
         max_length=32, unique=True, null=False, blank=False, db_column="matricula"
     )
-    curso = models.ForeignKey(Curso, on_delete=models.DO_NOTHING, db_column="id_curso")
+    curso = models.ForeignKey(
+        Curso,
+        on_delete=models.DO_NOTHING,
+        db_column="id_curso",
+        db_constraint=False,
+    )
     ativo = models.BooleanField(
         unique=False, default=True, blank=True, db_column="ativo"
     )
 
     class Meta:
         managed = False
-        db_table = "v_discentes"
+        db_table = "v_sie_discentes"
 
 
 class Servidor(models.Model):
@@ -305,24 +376,30 @@ class Servidor(models.Model):
     pessoa = models.ForeignKey(
         Pessoa,
         on_delete=models.DO_NOTHING,
-        db_column="id_pessoa_interna",
+        to_field="pessoa_sie",
+        db_column="id_pessoa_sie",
         db_constraint=False,
     )
     matricula = models.TextField(
         max_length=32, unique=True, null=False, blank=False, db_column="matricula"
     )
-    cargo = models.ForeignKey(Cargo, on_delete=models.DO_NOTHING, db_column="id_cargo")
+    cargo = models.ForeignKey(
+        Cargo,
+        on_delete=models.DO_NOTHING,
+        db_column="id_cargo",
+        db_constraint=False,
+    )
     ativo = models.BooleanField(
         unique=False, default=True, blank=True, db_column="ativo"
     )
 
     class Meta:
         managed = False
-        db_table = "v_servidores"
+        db_table = "v_sie_servidores"
 
 
 class Email(models.Model):
-    id_email = models.AutoField(primary_key=True, db_column="id_conta")
+    id_email = models.AutoField(primary_key=True, db_column="id_email")
     pessoa = models.ForeignKey(
         Pessoa, on_delete=models.DO_NOTHING, db_column="id_pessoa_interna"
     )
