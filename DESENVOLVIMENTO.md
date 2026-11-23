@@ -5,11 +5,10 @@ Esse documento explica como configurar o ambiente de desenvolvimento para a apli
 ## Sumário
 
 * [Onde fazer commits](#onde-fazer-commits)
-* [Configuração sem Docker](#configuração-sem-docker)
+* [Configuração](#configuração)
   * [Rodando a aplicação em ambiente de desenvolvimento](#rodando-a-aplicação-em-ambiente-de-desenvolvimento)
   * [Usando ferramentas de análise de qualidade de código (linters)](#usando-ferramentas-de-análise-de-qualidade-de-código-linters)
   * [Testando os modelos](#testando-os-modelos)
-* [Configuração com Docker](#configuração-com-docker)
 * [Variáveis de ambiente](#variáveis-de-ambiente)
 * [Integração contínua](#integração-contínua)
 * [Gerar diagramas do banco de dados](#gerar-diagramas-do-banco-de-dados)
@@ -44,7 +43,7 @@ gitGraph
     merge dev
 ```
 
-## Configuração sem Docker
+## Configuração
 
 Para desenvolvimento, recomenda-se utilizar o gerenciador de pacotes [conda](https://docs.conda.io/en/latest/), 
 e criar um ambiente virtual para a aplicação:
@@ -113,23 +112,6 @@ python backend/manage.py validar_exercicio_financeiro --settings=ngo_ccsh.dev_se
 python backend/manage.py validar_pagamento_bolsas --settings=ngo_ccsh.dev_settings
 ```
 
-## Configuração com Docker
-
-Para executar um container em modo de desenvolvimento localmente, rode os seguintes comandos:
-   
-```bash
-docker compose -f docker-compose.dev.yml build
-docker compose -f docker-compose.dev.yml up -d
-```
-
-Isso executará o backend e exporá na porta `8001`: [http://localhost:8001/](http://localhost:8001/)
-
-Depois, com o container rodando, crie o super usuário:
-
-```bash
-docker compose -f docker-compose.dev.yml exec web python manage.py createsuperuser
-```
-
 ## Variáveis de ambiente
 
 Crie uma cópia do arquivo [.env.example](.env.example) com o nome `.env`, e preencha os campos de maneira apropriada.
@@ -145,7 +127,7 @@ O repositório usa dois workflows do GitHub Actions, em `.github/workflows/`:
 * **`lint.yml`**: roda em todo Pull Request para a `main`. Verifica formatação (`black --check`), estilo (`flake8`) e
   qualidade de código (`pylint`). Se alguma checagem falhar, o PR fica bloqueado até ser corrigido — não há correção
   automática.
-* **`main.yml`**: roda a cada push na `main`. Primeiro constrói a imagem Docker e roda os testes 
+* **`ci_cd.yml`**: roda a cada push na `main`. Primeiro constrói a imagem Docker e roda os testes 
   (`python manage.py test`) com `ngo_ccsh.test_settings`; se os testes passarem, faz o deploy no servidor 
   (`git pull` + rebuild + migrate + collectstatic + restart dos containers).
 

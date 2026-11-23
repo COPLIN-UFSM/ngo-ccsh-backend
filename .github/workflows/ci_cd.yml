@@ -1,0 +1,107 @@
+name: CI/CD
+
+on:
+  push:
+    branches:
+      - main
+      - dev
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Faz checkout do repositório
+        uses: actions/checkout@v4
+
+      - name: Constrói imagem do docker
+        run: docker build -t ngo-ccsh-backend .
+
+      - name: Criar arquivo .env para os testes
+        run: cp .env.example .env
+
+      - name: Executa testes dentro do container do docker
+        run: |
+          docker run \
+            -e DJANGO_SETTINGS_MODULE=ngo_ccsh.test_settings \
+            --env-file .env \
+            ngo-ccsh-backend \
+            python manage.py test
+
+      - name: Remover .env
+        if: always()
+        run: rm -f .env
+
+  deploy:
+    if: github.ref == 'refs/heads/main'
+    needs: test
+    runs-on: [self-hosted, Linux, X64]
+
+    steps:
+      - name: Configura variáveis de ambiente
+        env:
+          DB_HOST: ${{ secrets.DB_HOST }}
+          DB_DATABASE: ${{ secrets.DB_DATABASE }}
+          DB_SCHEMA: ${{ secrets.DB_SCHEMA }}
+          DB_PORT: ${{ secrets.DB_PORT }}
+          DB_USERNAME: ${{ secrets.DB_USERNAME }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          DEPLOY_SERVER_REPO_PATH: ${{ secrets.DEPLOY_SERVER_REPO_PATH }}
+          DJANGO_SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
+          JWT_SIGNING_KEY: ${{ secrets.JWT_SIGNING_KEY }}
+          EMAIL_HOST_PASSWORD: ${{ secrets.EMAIL_HOST_PASSWORD }}
+          EMAIL_HOST_USER: ${{ vars.EMAIL_HOST_USER }}
+          DEFAULT_FROM_EMAIL: ${{ vars.DEFAULT_FROM_EMAIL }}
+          APP_FULL_NAME: ${{ vars.APP_FULL_NAME }}
+          APP_SHORT_NAME: ${{ vars.APP_SHORT_NAME }}
+          FRONTEND_URL: ${{ vars.FRONTEND_URL }}
+          SCRIPT_PREFIX: ${{ vars.SCRIPT_PREFIX }}
+
+        run: |
+          if [ -z "$DEPLOY_SERVER_REPO_PATH" ]; then
+            echo "Configure segredos e variáveis no repositório do GitHub deste projeto. Confira o arquivo PRODUÇÃO.md"
+            exit 1
+          fi
+          
+          cd "$DEPLOY_SERVER_REPO_PATH"
+          
+          umask 077
+          
+          cat <<EOF > .env
+          DEBUG=False
+          APP_FULL_NAME="$APP_FULL_NAME"
+          APP_SHORT_NAME="$APP_SHORT_NAME"
+          FRONTEND_URL="$FRONTEND_URL"
+          SCRIPT_PREFIX="$SCRIPT_PREFIX"
+          EMAIL_HOST_USER="$EMAIL_HOST_USER"
+          EMAIL_HOST_PASSWORD="$EMAIL_HOST_PASSWORD"
+          DEFAULT_FROM_EMAIL="$DEFAULT_FROM_EMAIL"
+          DJANGO_SECRET_KEY="$DJANGO_SECRET_KEY"
+          JWT_SIGNING_KEY="$JWT_SIGNING_KEY"
+          DB_USERNAME="$DB_USERNAME"
+          DB_PASSWORD="$DB_PASSWORD"
+          DB_HOST="$DB_HOST"
+          DB_PORT=$DB_PORT
+          DB_DATABASE="$DB_DATABASE"
+          DB_SCHEMA="$DB_SCHEMA"
+          EOF
+          
+          chmod 600 .env
+      - name: Faz deploy do servidor de produção
+        env:
+          DEPLOY_SERVER_REPO_PATH: ${{ secrets.DEPLOY_SERVER_REPO_PATH }}
+        run: |
+          if [ -z "$DEPLOY_SERVER_REPO_PATH" ]; then
+            echo "Adicione um segredo de repositório de nome DEPLOY_SERVER_REPO_PATH a este repositório"
+            exit 1
+          fi
+          
+          cd "$DEPLOY_SERVER_REPO_PATH"
+          git pull origin main
+          
+          docker compose build
+          
+          docker compose run --rm web python manage.py migrate
+          docker compose run --rm web python manage.py collectstatic --noinput
+          
+          docker compose up -d
