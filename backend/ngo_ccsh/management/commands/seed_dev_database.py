@@ -30,14 +30,10 @@ from entidades.models import (
     UnidadeSIE,
 )
 
-
 LEGACY_MOVEMENTS = {
     36: TipoMovimento.Codigo.REFORCO_EMPENHO,
     37: TipoMovimento.Codigo.REFORCO_EMPENHO,
-    **{
-        legacy_id: TipoMovimento.Codigo.DISTRIBUICAO
-        for legacy_id in range(39, 45)
-    },
+    **{legacy_id: TipoMovimento.Codigo.DISTRIBUICAO for legacy_id in range(39, 45)},
 }
 
 
@@ -84,10 +80,13 @@ class Command(BaseCommand):
             return None
         if isinstance(field, models.BooleanField):
             return value.strip().upper() in ("TRUE", "1", "YES")
-        if isinstance(
-            field,
-            (models.IntegerField, models.AutoField, models.BigIntegerField),
-        ) or field.is_relation:
+        if (
+            isinstance(
+                field,
+                (models.IntegerField, models.AutoField, models.BigIntegerField),
+            )
+            or field.is_relation
+        ):
             return int(value)
         if isinstance(field, models.DecimalField):
             return Decimal(value)
@@ -141,8 +140,7 @@ class Command(BaseCommand):
             ready = [
                 (unit_id, row)
                 for unit_id, row in pending.items()
-                if parent_ids[unit_id] is None
-                or parent_ids[unit_id] in inserted
+                if parent_ids[unit_id] is None or parent_ids[unit_id] in inserted
             ]
             if not ready:
                 raise CommandError(
@@ -160,7 +158,9 @@ class Command(BaseCommand):
                 Unidade._base_manager.update_or_create(pk=unit_id, defaults=data)
                 inserted.add(unit_id)
                 del pending[unit_id]
-        return len(rows), sum(parent_id is not None for parent_id in parent_ids.values())
+        return len(rows), sum(
+            parent_id is not None for parent_id in parent_ids.values()
+        )
 
     def load_naturezas(self, csv_path):
         rows = self.read_csv(csv_path / "NATUREZAS_FINALIDADES.csv")
@@ -169,9 +169,7 @@ class Command(BaseCommand):
                 pk=int(row["ID_NATUREZA_FINALIDADE"]),
                 defaults={
                     "nome": row["NATUREZA_FINALIDADE"],
-                    "ativo": self.convert_value(
-                        models.BooleanField(), row["ATIVO"]
-                    ),
+                    "ativo": self.convert_value(models.BooleanField(), row["ATIVO"]),
                 },
             )
         return len(rows)
@@ -183,9 +181,7 @@ class Command(BaseCommand):
                 pk=int(row["ID_GRUPO_FINALIDADE"]),
                 defaults={
                     "nome": row["GRUPO_FINALIDADE"],
-                    "ativo": self.convert_value(
-                        models.BooleanField(), row["ATIVO"]
-                    ),
+                    "ativo": self.convert_value(models.BooleanField(), row["ATIVO"]),
                 },
             )
         return len(rows)
@@ -274,23 +270,63 @@ class Command(BaseCommand):
 
         csv_path = Path(settings.BASE_DIR) / "database" / "csv"
         loaders = [
-            ("V_CENTROS_SIE.csv", lambda: self.load_model_csv(csv_path, "V_CENTROS_SIE.csv", CentroSIE)),
-            ("CENTROS.csv", lambda: self.load_model_csv(csv_path, "CENTROS.csv", Centro)),
-            ("V_TIPOS_UNIDADES.csv", lambda: self.load_model_csv(csv_path, "V_TIPOS_UNIDADES.csv", TipoUnidade)),
-            ("V_SITUACOES_UNIDADES.csv", lambda: self.load_model_csv(csv_path, "V_SITUACOES_UNIDADES.csv", SituacaoUnidade)),
-            ("V_UNIDADES_SIE.csv", lambda: self.load_model_csv(csv_path, "V_UNIDADES_SIE.csv", UnidadeSIE)),
+            (
+                "V_CENTROS_SIE.csv",
+                lambda: self.load_model_csv(csv_path, "V_CENTROS_SIE.csv", CentroSIE),
+            ),
+            (
+                "CENTROS.csv",
+                lambda: self.load_model_csv(csv_path, "CENTROS.csv", Centro),
+            ),
+            (
+                "V_TIPOS_UNIDADES.csv",
+                lambda: self.load_model_csv(
+                    csv_path, "V_TIPOS_UNIDADES.csv", TipoUnidade
+                ),
+            ),
+            (
+                "V_SITUACOES_UNIDADES.csv",
+                lambda: self.load_model_csv(
+                    csv_path, "V_SITUACOES_UNIDADES.csv", SituacaoUnidade
+                ),
+            ),
+            (
+                "V_UNIDADES_SIE.csv",
+                lambda: self.load_model_csv(csv_path, "V_UNIDADES_SIE.csv", UnidadeSIE),
+            ),
             ("UNIDADES.csv", lambda: self.load_units(csv_path)[0]),
-            ("V_CURSOS.csv", lambda: self.load_model_csv(csv_path, "V_CURSOS.csv", Curso)),
-            ("V_CARGOS.csv", lambda: self.load_model_csv(csv_path, "V_CARGOS.csv", Cargo)),
-            ("V_PESSOAS_SIE.csv", lambda: self.load_model_csv(csv_path, "V_PESSOAS_SIE.csv", PessoaSIE)),
-            ("PESSOAS.csv", lambda: self.load_model_csv(csv_path, "PESSOAS.csv", Pessoa)),
-            ("V_SERVIDORES.csv", lambda: self.load_model_csv(csv_path, "V_SERVIDORES.csv", Servidor)),
-            ("V_DISCENTES.csv", lambda: self.load_model_csv(csv_path, "V_DISCENTES.csv", Discente)),
+            (
+                "V_CURSOS.csv",
+                lambda: self.load_model_csv(csv_path, "V_CURSOS.csv", Curso),
+            ),
+            (
+                "V_CARGOS.csv",
+                lambda: self.load_model_csv(csv_path, "V_CARGOS.csv", Cargo),
+            ),
+            (
+                "V_PESSOAS_SIE.csv",
+                lambda: self.load_model_csv(csv_path, "V_PESSOAS_SIE.csv", PessoaSIE),
+            ),
+            (
+                "PESSOAS.csv",
+                lambda: self.load_model_csv(csv_path, "PESSOAS.csv", Pessoa),
+            ),
+            (
+                "V_SERVIDORES.csv",
+                lambda: self.load_model_csv(csv_path, "V_SERVIDORES.csv", Servidor),
+            ),
+            (
+                "V_DISCENTES.csv",
+                lambda: self.load_model_csv(csv_path, "V_DISCENTES.csv", Discente),
+            ),
             ("NATUREZAS_FINALIDADES.csv", lambda: self.load_naturezas(csv_path)),
             ("GRUPOS_FINALIDADES.csv", lambda: self.load_grupos(csv_path)),
             ("FINALIDADES.csv", lambda: self.load_finalidades(csv_path)),
             ("TIPOS_DOCUMENTOS.csv", lambda: self.load_document_types(csv_path)),
-            ("TIPOS_DOCUMENTOS_PARA_FINALIDADES.csv", lambda: self.load_document_links(csv_path)),
+            (
+                "TIPOS_DOCUMENTOS_PARA_FINALIDADES.csv",
+                lambda: self.load_document_links(csv_path),
+            ),
         ]
         with tqdm(total=len(loaders), desc="Carregando dados iniciais") as progress:
             for label, load in loaders:
@@ -313,4 +349,6 @@ class Command(BaseCommand):
     def load_units_counts(self, csv_path):
         rows = self.read_csv(csv_path / "UNIDADES.csv")
         parent_ids = mapear_unidade_pai(rows)
-        return len(rows), sum(parent_id is not None for parent_id in parent_ids.values())
+        return len(rows), sum(
+            parent_id is not None for parent_id in parent_ids.values()
+        )

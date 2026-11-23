@@ -7,7 +7,7 @@ from despesas.views.bolsas import (
     ParcelaBolsaViewSet,
     VinculoBolsaViewSet,
 )
-from despesas.views.centros import CentroSaldoViewSet, UnidadeSaldoViewSet
+from despesas.views.centros import CentroSaldoViewSet
 from despesas.views.documentos import (
     LancamentoViewSet,
     TipoDadoDocumentoViewSet,
@@ -26,6 +26,7 @@ from despesas.views.transacoes import (
     TransacaoOperationViewSet,
     TransacoesViewSet,
 )
+from despesas.views.unidades import UnidadeSaldoViewSet
 
 app_name = "despesas"
 

@@ -1,20 +1,26 @@
-from despesas.serializers import (
-    UnidadeSerializer,
-)
-from django_filters.rest_framework import DjangoFilterBackend
-from entidades.filters import UnidadeFilterSet
+from despesas import saldos
+from despesas.serializers_saldos import UnidadeComSaldoSerializer
+from despesas.views.centros import _SaldoViewSetMixin
 from entidades.models import Unidade
 from rest_framework import viewsets
-from rest_framework.filters import OrderingFilter
 
 
-class UnidadeViewSet(viewsets.ModelViewSet):
-    queryset = Unidade.objects.all().select_related(
-        "centro", "tipo_unidade", "situacao_unidade"
+class UnidadeSaldoViewSet(_SaldoViewSetMixin, viewsets.ReadOnlyModelViewSet):
+    queryset = (
+        Unidade.objects.all()
+        .select_related("centro", "tipo_unidade", "situacao_unidade")
+        .order_by("id_unidade_interna")
     )
-    http_method_names = ["get"]
+    serializer_class = UnidadeComSaldoSerializer
 
-    ordering_fields = ["tipo_unidade"]
-    filter_backends = (DjangoFilterBackend, OrderingFilter)
-    serializer_class = UnidadeSerializer
-    filterset_class = UnidadeFilterSet
+    def _tem_saldo_maior_que(
+        self,
+        unidade_id,
+        ano_fiscal,
+        saldo_minimo,
+        naturezas,
+    ):
+        return any(
+            saldos.saldo_unidade(unidade_id, ano_fiscal, natureza_id) > saldo_minimo
+            for natureza_id in naturezas
+        )

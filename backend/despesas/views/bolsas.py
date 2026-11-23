@@ -22,7 +22,11 @@ from despesas.serializers_bolsas import (
 
 
 def _validation_detail(exc):
-    return services.detalhe_validacao(exc) if isinstance(exc, DjangoValidationError) else str(exc)
+    return (
+        services.detalhe_validacao(exc)
+        if isinstance(exc, DjangoValidationError)
+        else str(exc)
+    )
 
 
 class VinculoBolsaViewSet(viewsets.ModelViewSet):

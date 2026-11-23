@@ -92,16 +92,12 @@ def _saldos_centro(centro: Centro, ano_fiscal: int):
             "empenhado": _valor(
                 saldos.empenhado_centro(centro.pk, ano_fiscal, natureza.pk)
             ),
-            "livre": _valor(
-                saldos.livre_centro(centro.pk, ano_fiscal, natureza.pk)
-            ),
+            "livre": _valor(saldos.livre_centro(centro.pk, ano_fiscal, natureza.pk)),
             "distribuido": _valor(
                 saldos.distribuido_centro(centro.pk, ano_fiscal, natureza.pk)
             ),
             "nao_distribuido": _valor(
-                saldos.nao_distribuido_centro(
-                    centro.pk, ano_fiscal, natureza.pk
-                )
+                saldos.nao_distribuido_centro(centro.pk, ano_fiscal, natureza.pk)
             ),
         }
         for natureza in _naturezas()

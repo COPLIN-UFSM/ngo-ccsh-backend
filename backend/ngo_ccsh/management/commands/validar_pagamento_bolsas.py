@@ -29,7 +29,9 @@ from despesas import saldos, services
 from despesas.models import Empenho, Finalidade, ParcelaBolsa, VinculoBolsa
 from despesas.services import SaldoInsuficiente
 from entidades.models import Cargo, Pessoa, PessoaSIE, Servidor
-from ngo_ccsh.management.commands.validar_exercicio_financeiro import Command as ComandoExercicio
+from ngo_ccsh.management.commands.validar_exercicio_financeiro import (
+    Command as ComandoExercicio,
+)
 
 MENSALIDADE = Decimal("700.00")
 
@@ -81,22 +83,40 @@ class Command(BaseCommand):
         usuario = base["usuario"]
         sufixo = base["sufixo"]
 
-        base["finalidade_bolsa_2a"] = Finalidade.objects.create(nome=f"Bolsa 2A {sufixo}", natureza=natureza)
-        base["finalidade_monitoria"] = Finalidade.objects.create(nome=f"Bolsa Monitoria {sufixo}", natureza=natureza)
-        base["finalidade_extensao"] = Finalidade.objects.create(nome=f"Bolsa Extensão {sufixo}", natureza=natureza)
+        base["finalidade_bolsa_2a"] = Finalidade.objects.create(
+            nome=f"Bolsa 2A {sufixo}", natureza=natureza
+        )
+        base["finalidade_monitoria"] = Finalidade.objects.create(
+            nome=f"Bolsa Monitoria {sufixo}", natureza=natureza
+        )
+        base["finalidade_extensao"] = Finalidade.objects.create(
+            nome=f"Bolsa Extensão {sufixo}", natureza=natureza
+        )
 
         orcamento_ano = Decimal("14700.00")
 
         services.creditar(centro, ano, natureza, orcamento_ano, usuario)
 
-        base["empenho_1"] = self._empenho(base, "1", base["finalidade_bolsa_2a"], ano, 8400)
-        base["empenho_2"] = self._empenho(base, "2", base["finalidade_bolsa_2a"], ano, 4200)
-        base["empenho_3"] = self._empenho(base, "3", base["finalidade_monitoria"], ano, 1260)
-        base["empenho_4"] = self._empenho(base, "4", base["finalidade_extensao"], ano, 840)
+        base["empenho_1"] = self._empenho(
+            base, "1", base["finalidade_bolsa_2a"], ano, 8400
+        )
+        base["empenho_2"] = self._empenho(
+            base, "2", base["finalidade_bolsa_2a"], ano, 4200
+        )
+        base["empenho_3"] = self._empenho(
+            base, "3", base["finalidade_monitoria"], ano, 1260
+        )
+        base["empenho_4"] = self._empenho(
+            base, "4", base["finalidade_extensao"], ano, 840
+        )
 
-        services.distribuir(centro, ano, natureza, base["unidade"], orcamento_ano, usuario)
+        services.distribuir(
+            centro, ano, natureza, base["unidade"], orcamento_ano, usuario
+        )
 
-        self.stdout.write(f"[preparo] {ano}: R$ {orcamento_ano} creditados, empenhados e distribuídos.")
+        self.stdout.write(
+            f"[preparo] {ano}: R$ {orcamento_ano} creditados, empenhados e distribuídos."
+        )
 
     @staticmethod
     def _empenho(base, numero, finalidade, ano, valor):
@@ -149,7 +169,7 @@ class Command(BaseCommand):
             1,
             finalidade=base["finalidade_bolsa_2a"],
             inicio=dt.date(ano, 1, 1),
-            fim=dt.date(ano, 12, 31)
+            fim=dt.date(ano, 12, 31),
         )
         self._conferir("parcelas do caso 1", len(parcelas), 12)
         self._conferir(
@@ -173,7 +193,11 @@ class Command(BaseCommand):
         ano = base["ano_fiscal"]
         proximo = ano + 1
         vinculo, parcelas = self._criar_vinculo(
-            base, 2, base["finalidade_bolsa_2a"], dt.date(ano, 7, 1), dt.date(proximo, 6, 30)
+            base,
+            2,
+            base["finalidade_bolsa_2a"],
+            dt.date(ano, 7, 1),
+            dt.date(proximo, 6, 30),
         )
         deste_ano = [p for p in parcelas if p.ano_fiscal == ano]
         do_proximo = [p for p in parcelas if p.ano_fiscal == proximo]
@@ -188,7 +212,9 @@ class Command(BaseCommand):
         try:
             services.alocar_parcela(do_proximo[0])
         except SaldoInsuficiente as erro:
-            self.stdout.write(f"[caso 2] {proximo} sem orçamento, como esperado: {erro}")
+            self.stdout.write(
+                f"[caso 2] {proximo} sem orçamento, como esperado: {erro}"
+            )
         else:
             raise CommandError(
                 f"A parcela de {proximo} foi alocada, mas não havia orçamento."
@@ -211,9 +237,15 @@ class Command(BaseCommand):
 
         # Chega o orçamento do ano seguinte e as parcelas previstas podem ser pagas.
         services.creditar(
-            base["centro"], proximo, base["natureza"], Decimal("4200.00"), base["usuario"]
+            base["centro"],
+            proximo,
+            base["natureza"],
+            Decimal("4200.00"),
+            base["usuario"],
         )
-        empenho_proximo = self._empenho(base, "5", base["finalidade_bolsa_2a"], proximo, 4200)
+        empenho_proximo = self._empenho(
+            base, "5", base["finalidade_bolsa_2a"], proximo, 4200
+        )
         services.distribuir(
             base["centro"],
             proximo,
@@ -225,10 +257,16 @@ class Command(BaseCommand):
         for parcela in do_proximo:
             services.alocar_parcela(parcela, empenho_proximo)
         self._conferir(
-            "compromisso futuro após o orçamento", saldos.compromisso_futuro(base["centro"]), {}
+            "compromisso futuro após o orçamento",
+            saldos.compromisso_futuro(base["centro"]),
+            {},
         )
         self._pagar_mensalmente(base, do_proximo)
-        self._conferir("saldo do empenho de " + str(proximo), empenho_proximo.saldo, Decimal("0.00"))
+        self._conferir(
+            "saldo do empenho de " + str(proximo),
+            empenho_proximo.saldo,
+            Decimal("0.00"),
+        )
         self.stdout.write(
             f"[caso 2] orçamento de {proximo} recebido: 6 parcelas alocadas e pagas."
         )
@@ -242,7 +280,11 @@ class Command(BaseCommand):
         """
         ano = base["ano_fiscal"]
         vinculo, parcelas = self._criar_vinculo(
-            base, 3, base["finalidade_monitoria"], dt.date(ano, 10, 1), dt.date(ano, 12, 31)
+            base,
+            3,
+            base["finalidade_monitoria"],
+            dt.date(ano, 10, 1),
+            dt.date(ano, 12, 31),
         )
         self._conferir("parcelas do caso 3", len(parcelas), 3)
         for parcela in parcelas:

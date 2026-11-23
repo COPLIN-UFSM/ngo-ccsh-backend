@@ -11,11 +11,31 @@ from ngo_ccsh.management.commands.seed_dev_database import mapear_unidade_pai
 class UnitHierarchyMappingTests(TestCase):
     def test_finds_nearest_same_center_parent_preserving_segment_widths(self):
         rows = [
-            {"ID_UNIDADE_INTERNA": "1", "ID_CENTRO_INTERNO": "10", "COD_ESTRUTURADO": "01.00.00.00.0.0"},
-            {"ID_UNIDADE_INTERNA": "2", "ID_CENTRO_INTERNO": "10", "COD_ESTRUTURADO": "01.31.00.00.0.0"},
-            {"ID_UNIDADE_INTERNA": "3", "ID_CENTRO_INTERNO": "10", "COD_ESTRUTURADO": "01.31.00.01.0.0"},
-            {"ID_UNIDADE_INTERNA": "4", "ID_CENTRO_INTERNO": "20", "COD_ESTRUTURADO": "02.31.00.00.0.0"},
-            {"ID_UNIDADE_INTERNA": "5", "ID_CENTRO_INTERNO": "21", "COD_ESTRUTURADO": "02.31.00.01.0.0"},
+            {
+                "ID_UNIDADE_INTERNA": "1",
+                "ID_CENTRO_INTERNO": "10",
+                "COD_ESTRUTURADO": "01.00.00.00.0.0",
+            },
+            {
+                "ID_UNIDADE_INTERNA": "2",
+                "ID_CENTRO_INTERNO": "10",
+                "COD_ESTRUTURADO": "01.31.00.00.0.0",
+            },
+            {
+                "ID_UNIDADE_INTERNA": "3",
+                "ID_CENTRO_INTERNO": "10",
+                "COD_ESTRUTURADO": "01.31.00.01.0.0",
+            },
+            {
+                "ID_UNIDADE_INTERNA": "4",
+                "ID_CENTRO_INTERNO": "20",
+                "COD_ESTRUTURADO": "02.31.00.00.0.0",
+            },
+            {
+                "ID_UNIDADE_INTERNA": "5",
+                "ID_CENTRO_INTERNO": "21",
+                "COD_ESTRUTURADO": "02.31.00.01.0.0",
+            },
         ]
 
         self.assertEqual(

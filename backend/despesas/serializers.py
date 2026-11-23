@@ -278,6 +278,12 @@ class TransacaoReadSerializer(serializers.ModelSerializer):
     id_transacao_corrigida = serializers.IntegerField(
         source="corrige_id", read_only=True
     )
+    usuario = serializers.StringRelatedField(read_only=True, source="usuario_id__nome")
+
+    beneficiario = serializers.StringRelatedField(
+        read_only=True, source="beneficiario_id__nome"
+    )
+
     lancamentos = LancamentoSerializer(many=True, read_only=True)
     documentos = ValorDocumentoSerializer(many=True, read_only=True)
 
@@ -289,10 +295,12 @@ class TransacaoReadSerializer(serializers.ModelSerializer):
             "data",
             "criada_em",
             "id_usuario",
+            "usuario",
             "justificativa",
             "id_transacao_corrigida",
             "estimada",
             "id_beneficiario",
+            "beneficiario",
             "lancamentos",
             "documentos",
         ]

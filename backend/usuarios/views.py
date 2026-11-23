@@ -267,7 +267,6 @@ class ChangePasswordView(APIView):
         },
         tags=["usuários"],
     )
-
     def patch(self, request, *args, **kwargs):
         id_usuario = kwargs["id"]
 
