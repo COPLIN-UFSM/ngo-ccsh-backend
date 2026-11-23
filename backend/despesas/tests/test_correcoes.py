@@ -30,7 +30,9 @@ class TestCorrecoes(BaseRazao):
         t2 = services.corrigir_transacao(
             t,
             self.usuario,
-            linhas=[item.com(montante=D("-150")) for item in services.linhas_vigentes(t)],
+            linhas=[
+                item.com(montante=D("-150")) for item in services.linhas_vigentes(t)
+            ],
             documentos=[(self.nota_fiscal, "NF-1")],
             estimada=False,
         )
@@ -91,7 +93,8 @@ class TestCorrecoes(BaseRazao):
                 t,
                 self.usuario,
                 linhas=[
-                    item.com(montante=D("-1001")) for item in services.linhas_vigentes(t)
+                    item.com(montante=D("-1001"))
+                    for item in services.linhas_vigentes(t)
                 ],
             )
         self.assertEqual(Lancamento.objects.count(), antes)
@@ -104,7 +107,9 @@ class TestCorrecoes(BaseRazao):
             t,
             self.usuario,
             estimada=True,
-            linhas=[item.com(montante=D("-130")) for item in services.linhas_vigentes(t)],
+            linhas=[
+                item.com(montante=D("-130")) for item in services.linhas_vigentes(t)
+            ],
         )
         self.assertTrue(t2.estimada)
         self.assertEqual(self.e1.saldo, D("870"))

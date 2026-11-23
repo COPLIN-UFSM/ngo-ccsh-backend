@@ -226,7 +226,9 @@ def _validar_documentos(finalidade, documentos, exigir_obrigatorios):
 
 
 def _finalidade_unica(linhas: Sequence[LinhaSpec]):
-    finalidades = {item.finalidade.pk: item.finalidade for item in linhas if item.finalidade}
+    finalidades = {
+        item.finalidade.pk: item.finalidade for item in linhas if item.finalidade
+    }
     if len(finalidades) > 1:
         raise ValidationError(
             "Uma despesa comum só pode ter uma finalidade (para a Lista SIAFI, use "
@@ -242,7 +244,9 @@ def _finalidade_unica(linhas: Sequence[LinhaSpec]):
 
 def _verificar_invariantes(lancamentos: Sequence[Lancamento]) -> None:
     """Confere os saldos tocados pelas linhas recém gravadas (dentro da transação)."""
-    chaves = {(item.centro_id, item.ano_fiscal, item.natureza_id) for item in lancamentos}
+    chaves = {
+        (item.centro_id, item.ano_fiscal, item.natureza_id) for item in lancamentos
+    }
     for centro_id, ano, natureza_id in chaves:
         total = saldos.total_centro(centro_id, ano, natureza_id)
         contexto = f"(centro {centro_id}, ano {ano}, natureza {natureza_id})"
@@ -264,7 +268,9 @@ def _verificar_invariantes(lancamentos: Sequence[Lancamento]) -> None:
             raise SaldoInsuficiente(f"O empenho {empenho} ficaria com saldo negativo.")
 
     unidades = {
-        (item.unidade, item.ano_fiscal, item.natureza) for item in lancamentos if item.unidade_id
+        (item.unidade, item.ano_fiscal, item.natureza)
+        for item in lancamentos
+        if item.unidade_id
     }
     for unidade, ano, natureza in unidades:
         if saldos.saldo_unidade(unidade, ano, natureza) < 0:

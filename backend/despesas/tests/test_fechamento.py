@@ -142,7 +142,8 @@ class TestFechamento(BaseRazao):
             self.usuario,
             justificativa="era 50",
             linhas=[
-                item.com(montante=D("-50")) for item in services.linhas_vigentes(despesa)
+                item.com(montante=D("-50"))
+                for item in services.linhas_vigentes(despesa)
             ],
         )
         destinos = [
