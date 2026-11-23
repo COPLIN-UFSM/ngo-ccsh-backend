@@ -36,6 +36,22 @@ class CursoViewTestCase(BaseAuthenticatedUserTestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data["count"], 1)
 
+    def test_search_cursos_by_name(self):
+        self.authentication(self.user_data_adm)
+        Curso.objects.create(
+            centro=self.centro,
+            nome_curso="Outro curso",
+            nivel_curso="Bacharelado",
+            modalidade_curso="Presencial",
+            classificacao_curso="Graduação",
+        )
+
+        response = self.client.get(self.url, {"search": "Curso A"})
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK, response.data)
+        self.assertEqual(response.data["count"], 1)
+        self.assertEqual(response.data["data"][0]["nome_curso"], "Curso A")
+
     def test_create_curso(self):
         self.authentication(self.user_data_adm)
         response = self.client.post(self.url, data=self.curso_data, format="json")

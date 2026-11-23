@@ -46,6 +46,25 @@ class LancamentoViewSet(viewsets.ReadOnlyModelViewSet):
         "tipo_movimento", "natureza", "finalidade"
     )
     serializer_class = LancamentoSerializer
+    filter_backends = (DjangoFilterBackend, AliasOrderingFilter)
+    filterset_class = LancamentoFilterSet
+    ordering_fields = [
+        "id_lancamento",
+        "id_empenho",
+        "id_unidade",
+        "ano_fiscal",
+        "natureza",
+        "tipo_movimento",
+        "finalidade",
+        "montante",
+    ]
+    ordering_aliases = {
+        "id_empenho": "empenho_id",
+        "id_unidade": "unidade_id",
+        "natureza": "natureza__nome",
+        "tipo_movimento": "tipo_movimento__nome",
+        "finalidade": "finalidade__nome",
+    }
 
     def get_queryset(self):
         transacao_id = self.kwargs.get("transacao_pk")

@@ -224,6 +224,7 @@ class EmpenhoSerializer(serializers.ModelSerializer):
 
 class LancamentoSerializer(serializers.ModelSerializer):
     tipo_movimento = serializers.CharField(source="tipo_movimento.nome", read_only=True)
+    id_centro = serializers.IntegerField(source="centro_id", read_only=True)
     natureza = serializers.CharField(source="natureza.nome", read_only=True)
     finalidade = serializers.CharField(source="finalidade.nome", read_only=True)
 
@@ -237,6 +238,7 @@ class LancamentoSerializer(serializers.ModelSerializer):
         model = Lancamento
         fields = [
             "id_lancamento",
+            "id_centro",
             "tipo_movimento",
             "ano_fiscal",
             "natureza",
@@ -246,6 +248,18 @@ class LancamentoSerializer(serializers.ModelSerializer):
             "montante",
             "id_lancamento_estornado",
         ]
+
+
+class UnidadeSaldoSerializer(serializers.Serializer):
+    id_unidade_interna = serializers.IntegerField(source="unidade_id")
+    nome_unidade = serializers.CharField(source="unidade__nome_unidade")
+    cod_estruturado = serializers.CharField(source="unidade__cod_estruturado")
+    ano_fiscal = serializers.IntegerField()
+    id_natureza = serializers.IntegerField(source="natureza_id")
+    natureza = serializers.CharField(source="natureza__nome")
+    saldo = serializers.DecimalField(max_digits=15, decimal_places=2)
+    gasto = serializers.DecimalField(max_digits=15, decimal_places=2)
+    orcamento = serializers.DecimalField(max_digits=15, decimal_places=2)
 
 
 class ValorDocumentoSerializer(serializers.ModelSerializer):

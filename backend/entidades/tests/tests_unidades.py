@@ -41,6 +41,52 @@ class UnidadeViewTestCase(BaseAuthenticatedUserTestCase):
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
+    def test_categorical_filters_match_related_fields_and_multiple_values(self):
+        Unidade.objects.create(
+            nome_unidade="Departamento B",
+            cod_estruturado="DEPTO2",
+            centro=self.centro,
+            tipo_unidade=self.tipo_unidade,
+            situacao_unidade=self.situacao_unidade,
+        )
+        self.authentication(self.user_data_adm)
+
+        response = self.client.get(
+            self.url,
+            {
+                "nome_unidade": "Departamento A,Departamento B",
+                "centro": "Curso X",
+                "tipo_unidade": "TOP",
+                "situacao_unidade": "MUITO BOA",
+            },
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data["count"], 2)
+
+    def test_units_can_be_ordered_by_related_center_name(self):
+        outro_centro = Centro.objects.create(
+            nome_centro="A Centro",
+            sigla_centro="AC",
+            cod_estruturado="A",
+        )
+        Unidade.objects.create(
+            nome_unidade="Departamento B",
+            cod_estruturado="DEPTO2",
+            centro=outro_centro,
+            tipo_unidade=self.tipo_unidade,
+            situacao_unidade=self.situacao_unidade,
+        )
+        self.authentication(self.user_data_adm)
+
+        response = self.client.get(self.url, {"ordering": "centro"})
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK, response.data)
+        self.assertEqual(
+            [unidade["centro"] for unidade in response.data["data"]],
+            ["A Centro", "Curso X"],
+        )
+
     def test_create_unidade_(self):
         self.authentication(self.user_data_adm)
         response = self.client.post(self.url, data=self.unidade_data, format="json")
