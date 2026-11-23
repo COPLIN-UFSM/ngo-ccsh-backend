@@ -1,4 +1,4 @@
-from despesas.filters import TipoDocumentoFilterSet
+from despesas.filters import LancamentoFilterSet, TipoDocumentoFilterSet
 from despesas.models import Lancamento, TipoDocumento, Transacao, ValorDocumento
 from despesas.serializers import (
     LancamentoSerializer,
@@ -13,6 +13,7 @@ from rest_framework.exceptions import NotFound
 from rest_framework.filters import OrderingFilter
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from utils.filters import AliasOrderingFilter
 
 
 class TipoDadoDocumentoViewSet(APIView):

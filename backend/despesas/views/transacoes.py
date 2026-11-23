@@ -1,3 +1,6 @@
+from decimal import Decimal
+
+from despesas.filters import TransacaoFilterSet
 from despesas.models import TipoMovimento, Transacao
 from despesas.serializers import (
     OperationTransacaoDataSerializer,
@@ -6,6 +9,8 @@ from despesas.serializers import (
     TransacaoOperationSerializer,
     TransacaoReadSerializer,
 )
+from django.db.models import DecimalField, Sum, Value
+from django.db.models.functions import Coalesce
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import status, viewsets
 from rest_framework.decorators import action

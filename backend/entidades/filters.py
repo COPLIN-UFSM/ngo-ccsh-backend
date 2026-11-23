@@ -5,18 +5,25 @@ from entidades.models import Servidor, Unidade
 
 
 class UnidadeFilterSet(FilterSet):
-    nome_unidade = CharFilter(field_name="nome_unidade", lookup_expr="icontains")
-    cod_estruturado = CharFilter(field_name="cod_estruturado", lookup_expr="icontains")
-    tipo_unidade = CharFilter(
-        field_name="tipo_unidade__tipo_unidade", lookup_expr="icontains"
+    nome_unidade = CharFilter(
+        field_name="nome_unidade", method="filter_categories"
     )
-    centro = CharFilter(field_name="centro__nome_centro", lookup_expr="icontains")
+    cod_estruturado = CharFilter(
+        field_name="cod_estruturado", method="filter_categories"
+    )
+    tipo_unidade = CharFilter(
+        field_name="tipo_unidade__tipo_unidade", method="filter_categories"
+    )
+    centro = CharFilter(
+        field_name="centro__nome_centro", method="filter_categories"
+    )
 
     situacao_unidade = CharFilter(
-        field_name="situacao_unidade__situacao_unidade", lookup_expr="icontains"
+        field_name="situacao_unidade__situacao_unidade",
+        method="filter_categories",
     )
 
-    id_unidade_pai = NumberFilter(field_name="id_unidade_pai")
+    id_unidade_pai = NumberFilter(field_name="unidade_pai_id")
     id_centro = NumberFilter(field_name="centro_id")
     id_tipo_unidade = NumberFilter(field_name="tipo_unidade_id")
     id_situacao_unidade = NumberFilter(field_name="situacao_unidade_id")
