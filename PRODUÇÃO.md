@@ -85,7 +85,8 @@ docker compose -f docker-compose.yml exec web python manage.py createsuperuser
 
 ### Nginx
 
-Configure também o roteamento do nginx no servidor:
+Configure também o roteamento do nginx no servidor no arquivo `/etc/nginx/sites-available/default` 
+(ou outro arquivo de configuração do nginx):
 
 ```text
 location /ngo-ccsh-backend/ {
@@ -95,15 +96,14 @@ location /ngo-ccsh-backend/ {
      proxy_set_header    X-Forwarded-For      $proxy_add_x_forwarded_for;
      proxy_set_header    X-Forwarded-Proto    $scheme;
 }
-
-location /ngo-ccsh/ {
-     proxy_pass          http://127.0.0.1:8002/;
-     proxy_set_header    Host                 $host;
-     proxy_set_header    X-Real-IP            $remote_addr;
-     proxy_set_header    X-Forwarded-For      $proxy_add_x_forwarded_for;
-     proxy_set_header    X-Forwarded-Proto    $scheme;
-}
 ```
+
+Após modificar o arquivo, reinicie o nginx com:
+
+```bash
+sudo systemctl restart nginx
+```
+
 
 > [!IMPORTANT]
 > A localização do backend deve ser a mesma da variável `SCRIPT_PREFIX`!

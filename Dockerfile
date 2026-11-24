@@ -2,8 +2,8 @@ FROM python:3.11-slim
 
 LABEL authors="henryzord"
 LABEL name="ngo-ccsh-backend"
-LABEL description="Dockerfile para instalar dependências e fazer configuração inicial do backend do NGO do CCSH"
-LABEL version="0.1"
+LABEL description="Dockerfile para instalar dependências e fazer configuração inicial do backend"
+LABEL version="1.0"
 
 # A pasta raiz é a pasta de trabalho do projeto
 WORKDIR /home

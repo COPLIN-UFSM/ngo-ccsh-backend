@@ -116,24 +116,17 @@ python backend/manage.py validar_pagamento_bolsas --settings=ngo_ccsh.dev_settin
 
 Crie uma cópia do arquivo [.env.example](.env.example) com o nome `.env`, e preencha os campos de maneira apropriada.
 
-O `EMAIL_HOST_PASSWORD` deve ser obtido a partir
-do [painel de controle de segurança do Google](https://myaccount.google.com/u/0/apppasswords), criando uma 
+O `EMAIL_HOST_PASSWORD` deve ser obtido a partir do [painel de controle de segurança do Google](https://myaccount.google.com/u/0/apppasswords), criando uma 
 **senha de App** para o email.
 
 ## Integração contínua
 
 O repositório usa dois workflows do GitHub Actions, em `.github/workflows/`:
 
-* **`lint.yml`**: roda em todo Pull Request para a `main`. Verifica formatação (`black --check`), estilo (`flake8`) e
-  qualidade de código (`pylint`). Se alguma checagem falhar, o PR fica bloqueado até ser corrigido — não há correção
-  automática.
-* **`ci_cd.yml`**: roda a cada push na `main`. Primeiro constrói a imagem Docker e roda os testes 
-  (`python manage.py test`) com `ngo_ccsh.test_settings`; se os testes passarem, faz o deploy no servidor 
-  (`git pull` + rebuild + migrate + collectstatic + restart dos containers).
-
-As variáveis sensíveis usadas pelos testes (chaves de assinatura, credenciais de e-mail de teste) ficam armazenadas
-como **GitHub Secrets** no repositório (`Settings > Secrets and variables > Actions`), nunca direto no arquivo do
-workflow.
+* **lint.yml**: roda em todo pull request para a `main` e em cada push na `main`. Verifica formatação (`black --check`),
+  estilo (`ruff`) e qualidade de código (`pylint`). Se alguma checagem falhar, o PR fica bloqueado até ser corrigido.
+* **ci_cd.yml**: roda a cada push na `main`. Primeiro constrói a imagem Docker e roda os testes 
+  (`python manage.py test`) com `ngo_ccsh.test_settings`; se os testes passarem, faz o deploy no servidor.
 
 ## Gerar diagramas do banco de dados
 
