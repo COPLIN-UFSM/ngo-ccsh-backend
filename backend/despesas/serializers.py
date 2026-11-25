@@ -41,7 +41,14 @@ class TipoDocumentoSerializer(serializers.ModelSerializer):
         read_only_fields = ["id_tipo_documento"]
 
 
+class TipoDadoDocumentoItemSerializer(serializers.Serializer):
+    nome = serializers.CharField()
+    codigo = serializers.CharField()
+
+
 class TipoDadoDocumentoSerializer(serializers.Serializer):
+    data = TipoDadoDocumentoItemSerializer(many=True)
+
     def to_representation(self, instance):
         return {
             "data": [
@@ -277,8 +284,15 @@ class ValorDocumentoSerializer(serializers.ModelSerializer):
         ]
 
 
+class OperationTransacaoDataItemSerializer(serializers.Serializer):
+    nome = serializers.CharField()
+    codigo = serializers.CharField()
+
+
 class OperationTransacaoDataSerializer(serializers.Serializer):
-    data = serializers.ReadOnlyField(
+    data = OperationTransacaoDataItemSerializer(
+        many=True,
+        read_only=True,
         default=[
             {"nome": item[1], "codigo": item[0]}
             for index, item in enumerate(Transacao.Operacao.choices)

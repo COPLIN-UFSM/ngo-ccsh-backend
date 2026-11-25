@@ -5,6 +5,7 @@ from despesas.models import Natureza
 from despesas.serializers_saldos import (
     CentroComSaldoSerializer,
 )
+from drf_spectacular.utils import extend_schema
 from entidades.models import Centro
 from rest_framework import serializers, viewsets
 
@@ -20,6 +21,10 @@ class SaldoQuerySerializer(serializers.Serializer):
 
 
 class _SaldoViewSetMixin:
+    @extend_schema(parameters=[SaldoQuerySerializer])
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
+
     def get_serializer_context(self):
         context = super().get_serializer_context()
         query = SaldoQuerySerializer(data=self.request.query_params)

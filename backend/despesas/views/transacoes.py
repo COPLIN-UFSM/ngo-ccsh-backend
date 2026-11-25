@@ -69,6 +69,8 @@ class TipoMovimentoViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 class TransacaoOperationViewSet(APIView):
+    serializer_class = OperationTransacaoDataSerializer
+
     def get(self, request):
         serializer = OperationTransacaoDataSerializer(data={})
         serializer.is_valid(raise_exception=True)

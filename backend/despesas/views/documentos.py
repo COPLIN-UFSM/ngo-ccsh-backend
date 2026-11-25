@@ -17,6 +17,8 @@ from utils.filters import AliasOrderingFilter
 
 
 class TipoDadoDocumentoViewSet(APIView):
+    serializer_class = TipoDadoDocumentoSerializer
+
     def get(self, request):
         serializer = TipoDadoDocumentoSerializer(instance={})
         return Response(serializer.data)
