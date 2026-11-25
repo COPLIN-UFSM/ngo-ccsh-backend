@@ -23,11 +23,15 @@ class UnidadeSaldoSerializer(serializers.Serializer):
 class CentroSaldoSerializer(serializers.Serializer):
     id_natureza = serializers.IntegerField()
     natureza = serializers.CharField()
-    saldo = serializers.DecimalField(max_digits=15, decimal_places=2)
+    orcamento = serializers.DecimalField(max_digits=15, decimal_places=2)
+    gasto = serializers.DecimalField(max_digits=15, decimal_places=2)
     empenhado = serializers.DecimalField(max_digits=15, decimal_places=2)
-    livre = serializers.DecimalField(max_digits=15, decimal_places=2)
-    distribuido = serializers.DecimalField(max_digits=15, decimal_places=2)
-    nao_distribuido = serializers.DecimalField(max_digits=15, decimal_places=2)
+    saldo = serializers.DecimalField(max_digits=15, decimal_places=2)
+    saldo_projetado = serializers.DecimalField(max_digits=15, decimal_places=2)
+    distribuido_unidades = serializers.DecimalField(max_digits=15, decimal_places=2)
+    nao_distribuido_unidades = serializers.DecimalField(
+        max_digits=15, decimal_places=2
+    )
 
 
 class CentroComSaldoSerializer(CentroSerializer):
@@ -84,21 +88,25 @@ def _saldos_unidade(unidade: Unidade, ano_fiscal: int):
 
 
 def _saldos_centro(centro: Centro, ano_fiscal: int):
-    return [
-        {
-            "id_natureza": natureza.pk,
-            "natureza": natureza.nome,
-            "saldo": _valor(saldos.total_centro(centro.pk, ano_fiscal, natureza.pk)),
-            "empenhado": _valor(
-                saldos.empenhado_centro(centro.pk, ano_fiscal, natureza.pk)
-            ),
-            "livre": _valor(saldos.livre_centro(centro.pk, ano_fiscal, natureza.pk)),
-            "distribuido": _valor(
-                saldos.distribuido_centro(centro.pk, ano_fiscal, natureza.pk)
-            ),
-            "nao_distribuido": _valor(
-                saldos.nao_distribuido_centro(centro.pk, ano_fiscal, natureza.pk)
-            ),
-        }
-        for natureza in _naturezas()
-    ]
+    resultado = []
+    for natureza in _naturezas():
+        orcamento = saldos.orcamento_centro(centro.pk, ano_fiscal, natureza.pk)
+        gasto = saldos.gasto_centro(centro.pk, ano_fiscal, natureza.pk)
+        empenhado = saldos.empenhado_centro(centro.pk, ano_fiscal, natureza.pk)
+        distribuido = saldos.distribuido_unidades_centro(
+            centro.pk, ano_fiscal, natureza.pk
+        )
+        resultado.append(
+            {
+                "id_natureza": natureza.pk,
+                "natureza": natureza.nome,
+                "orcamento": _valor(orcamento),
+                "gasto": _valor(gasto),
+                "empenhado": _valor(empenhado),
+                "saldo": _valor(orcamento - gasto),
+                "saldo_projetado": _valor(orcamento - gasto - empenhado),
+                "distribuido_unidades": _valor(distribuido),
+                "nao_distribuido_unidades": _valor(orcamento - distribuido),
+            }
+        )
+    return resultado

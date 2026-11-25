@@ -27,6 +27,7 @@ from .models import (
     Empenho,
     Lancamento,
     ParcelaBolsa,
+    TipoMovimento,
     Transacao,
 )
 
@@ -121,6 +122,25 @@ def total_centro(centro, ano_fiscal, natureza) -> Decimal:
     )
 
 
+def orcamento_centro(centro, ano_fiscal, natureza) -> Decimal:
+    """Total recebido pelo centro na natureza, incluindo conversões e transportes."""
+    entradas = Lancamento.objects.filter(
+        centro=centro,
+        ano_fiscal=ano_fiscal,
+        natureza=natureza,
+        tipo_movimento__codigo__in=[
+            TipoMovimento.Codigo.CREDITO_ORDINARIO,
+            TipoMovimento.Codigo.CREDITO_EXTRAORDINARIO,
+            TipoMovimento.Codigo.TRANSPORTE_ENTRADA,
+            TipoMovimento.Codigo.CONVERSAO_NATUREZA,
+        ],
+        montante__gt=0,
+        estorna__isnull=True,
+        estornado_por__isnull=True,
+    )
+    return _soma(entradas)
+
+
 def recebido_centro(centro, ano_fiscal, natureza) -> Decimal:
     return _soma(
         Lancamento.objects.filter(
@@ -136,14 +156,36 @@ def recebido_centro(centro, ano_fiscal, natureza) -> Decimal:
 
 
 def gasto_centro(centro, ano_fiscal, natureza) -> Decimal:
-    return -_soma(
-        Lancamento.objects.filter(
-            centro=centro,
-            ano_fiscal=ano_fiscal,
-            natureza=natureza,
-            tipo_movimento__conta_como_gasto=True,
+    lancamentos = Lancamento.objects.filter(
+        centro=centro,
+        ano_fiscal=ano_fiscal,
+        natureza=natureza,
+        estorna__isnull=True,
+        estornado_por__isnull=True,
+    )
+    gastos_contabilizados = -_soma(
+        lancamentos.filter(tipo_movimento__conta_como_gasto=True)
+    )
+    distribuido = _soma(
+        lancamentos.filter(
+            tipo_movimento__codigo=TipoMovimento.Codigo.DISTRIBUICAO,
+            unidade__isnull=False,
         )
     )
+    conversao_saida = -_soma(
+        lancamentos.filter(
+            tipo_movimento__codigo=TipoMovimento.Codigo.CONVERSAO_NATUREZA,
+            montante__lt=0,
+        )
+    )
+    transporte_saida = -_soma(
+        lancamentos.filter(
+            tipo_movimento__codigo=TipoMovimento.Codigo.TRANSPORTE_SAIDA,
+            montante__lt=0,
+        )
+    )
+
+    return gastos_contabilizados + distribuido + conversao_saida + transporte_saida
 
 
 def empenhado_centro(centro, ano_fiscal, natureza) -> Decimal:
@@ -166,6 +208,21 @@ def distribuido_centro(centro, ano_fiscal, natureza) -> Decimal:
             ano_fiscal=ano_fiscal,
             natureza=natureza,
             unidade__isnull=False,
+        )
+    )
+
+
+def distribuido_unidades_centro(centro, ano_fiscal, natureza) -> Decimal:
+    """Total líquido transferido do centro para as unidades naquela natureza."""
+    return _soma(
+        Lancamento.objects.filter(
+            centro=centro,
+            ano_fiscal=ano_fiscal,
+            natureza=natureza,
+            unidade__isnull=False,
+            tipo_movimento__codigo=TipoMovimento.Codigo.DISTRIBUICAO,
+            estorna__isnull=True,
+            estornado_por__isnull=True,
         )
     )
 
