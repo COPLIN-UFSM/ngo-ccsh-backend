@@ -2,6 +2,7 @@ from decimal import Decimal
 
 from despesas import saldos
 from despesas.models import Natureza
+from entidades.filters import CentroSaldoFilterSet
 from despesas.serializers_saldos import (
     CentroComSaldoSerializer,
 )
@@ -60,6 +61,7 @@ class _SaldoViewSetMixin:
 class CentroSaldoViewSet(_SaldoViewSetMixin, viewsets.ReadOnlyModelViewSet):
     queryset = Centro.objects.all().order_by("id_centro_interno")
     serializer_class = CentroComSaldoSerializer
+    filterset_class = CentroSaldoFilterSet
 
     def _tem_saldo_maior_que(
         self,

@@ -1,7 +1,30 @@
 from django.db.models import Q
 from django_filters import BooleanFilter, CharFilter, FilterSet, NumberFilter
 
-from entidades.models import Servidor, Unidade
+from entidades.models import Centro, Servidor, Unidade
+
+
+class CentroSaldoFilterSet(FilterSet):
+    id_centro_interno = NumberFilter(field_name="id_centro_interno")
+    nome_centro = CharFilter(method="filter_categories")
+    sigla_centro = CharFilter(method="filter_categories")
+    cod_estruturado = CharFilter(method="filter_categories")
+
+    def filter_categories(self, queryset, name, value):
+        categories = [
+            category.strip() for category in value.split(",") if category.strip()
+        ]
+        if not categories:
+            return queryset
+
+        condition = Q()
+        for category in categories:
+            condition |= Q(**{f"{name}__iexact": category})
+        return queryset.filter(condition)
+
+    class Meta:
+        model = Centro
+        fields = []
 
 
 class UnidadeFilterSet(FilterSet):

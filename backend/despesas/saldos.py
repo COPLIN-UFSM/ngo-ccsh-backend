@@ -156,6 +156,7 @@ def recebido_centro(centro, ano_fiscal, natureza) -> Decimal:
 
 
 def gasto_centro(centro, ano_fiscal, natureza) -> Decimal:
+    """Gastos do centro; distribuir recursos às unidades não conta como gasto."""
     lancamentos = Lancamento.objects.filter(
         centro=centro,
         ano_fiscal=ano_fiscal,
@@ -165,12 +166,6 @@ def gasto_centro(centro, ano_fiscal, natureza) -> Decimal:
     )
     gastos_contabilizados = -_soma(
         lancamentos.filter(tipo_movimento__conta_como_gasto=True)
-    )
-    distribuido = _soma(
-        lancamentos.filter(
-            tipo_movimento__codigo=TipoMovimento.Codigo.DISTRIBUICAO,
-            unidade__isnull=False,
-        )
     )
     conversao_saida = -_soma(
         lancamentos.filter(
@@ -185,7 +180,7 @@ def gasto_centro(centro, ano_fiscal, natureza) -> Decimal:
         )
     )
 
-    return gastos_contabilizados + distribuido + conversao_saida + transporte_saida
+    return gastos_contabilizados + conversao_saida + transporte_saida
 
 
 def empenhado_centro(centro, ano_fiscal, natureza) -> Decimal:

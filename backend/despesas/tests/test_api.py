@@ -4,6 +4,7 @@ from decimal import Decimal
 from django.urls import reverse
 from rest_framework.test import APIClient
 
+from entidades.models import Centro
 from despesas import services
 from despesas.services import TRANSPORTAR, DestinoSaldo
 from despesas.models import (
@@ -88,10 +89,59 @@ class TransactionApiTests(BaseRazao):
             if item["id_natureza"] == self.custeio.pk
         )
         self.assertEqual(center_balance["orcamento"], "300.00")
-        self.assertEqual(center_balance["gasto"], "200.00")
-        self.assertEqual(center_balance["saldo"], "100.00")
+        self.assertEqual(center_balance["gasto"], "0.00")
+        self.assertEqual(center_balance["saldo"], "300.00")
         self.assertEqual(center_balance["distribuido_unidades"], "200.00")
         self.assertEqual(center_balance["nao_distribuido_unidades"], "100.00")
+
+    def test_center_distribution_is_not_expense_and_spending_is_unit_scoped(self):
+        self.creditar(1000)
+        self.distribuir(self.A, 500)
+        self.distribuir(self.B, 500)
+        empenho = self.novo_empenho("001", self.bolsa2a)
+        services.reforcar_empenho(empenho, 200, self.usuario)
+        services.registrar_despesa(
+            empenho,
+            self.A,
+            self.bolsa2a,
+            200,
+            self.usuario,
+        )
+
+        centers = self.api.get(reverse("despesas:centros-list"), {"ano_fiscal": 2026})
+        self.assertEqual(centers.status_code, 200, centers.data)
+        center_rows = (
+            centers.data["data"] if isinstance(centers.data, dict) else centers.data
+        )
+        center_balance = next(
+            item
+            for item in center_rows[0]["saldos"]
+            if item["id_natureza"] == self.custeio.pk
+        )
+        self.assertEqual(center_balance["orcamento"], "1000.00")
+        self.assertEqual(center_balance["gasto"], "200.00")
+        self.assertEqual(center_balance["saldo"], "800.00")
+
+        units = self.api.get(reverse("despesas:unidades-list"), {"ano_fiscal": 2026})
+        self.assertEqual(units.status_code, 200, units.data)
+        unit_rows = units.data["data"] if isinstance(units.data, dict) else units.data
+        by_id = {row["id_unidade_interna"]: row for row in unit_rows}
+        a_balance = next(
+            item
+            for item in by_id[self.A.pk]["saldos"]
+            if item["id_natureza"] == self.custeio.pk
+        )
+        b_balance = next(
+            item
+            for item in by_id[self.B.pk]["saldos"]
+            if item["id_natureza"] == self.custeio.pk
+        )
+        self.assertEqual(a_balance["orcamento"], "500.00")
+        self.assertEqual(a_balance["gasto"], "200.00")
+        self.assertEqual(a_balance["saldo"], "300.00")
+        self.assertEqual(b_balance["orcamento"], "500.00")
+        self.assertEqual(b_balance["gasto"], "0.00")
+        self.assertEqual(b_balance["saldo"], "500.00")
 
     def test_center_balance_metrics_are_reported_per_natureza(self):
         self.creditar(300)
@@ -135,10 +185,10 @@ class TransactionApiTests(BaseRazao):
 
         custeio = by_natureza[self.custeio.pk]
         self.assertEqual(custeio["orcamento"], "300.00")
-        self.assertEqual(custeio["gasto"], "170.00")
+        self.assertEqual(custeio["gasto"], "70.00")
         self.assertEqual(custeio["empenhado"], "80.00")
-        self.assertEqual(custeio["saldo"], "130.00")
-        self.assertEqual(custeio["saldo_projetado"], "50.00")
+        self.assertEqual(custeio["saldo"], "230.00")
+        self.assertEqual(custeio["saldo_projetado"], "150.00")
         self.assertEqual(custeio["distribuido_unidades"], "100.00")
         self.assertEqual(custeio["nao_distribuido_unidades"], "200.00")
         self.assertEqual(
@@ -158,6 +208,123 @@ class TransactionApiTests(BaseRazao):
         self.assertEqual(capital["saldo_projetado"], "0.00")
         self.assertEqual(capital["distribuido_unidades"], "0.00")
         self.assertEqual(capital["nao_distribuido_unidades"], "20.00")
+
+    def test_unit_projected_balance_subtracts_allocations_not_shared_empenho(self):
+        self.creditar(1000)
+        empenho = self.novo_empenho("001", self.bolsa2a)
+        services.reforcar_empenho(empenho, 500, self.usuario)
+        self.distribuir(self.A, 600)
+        self.distribuir(self.B, 200)
+        vinculo = VinculoBolsa.objects.create(
+            bolsista=self.bolsista(),
+            unidade=self.A,
+            finalidade=self.bolsa2a,
+            valor_mensal=Decimal("100"),
+            inicio=dt.date(2026, 1, 1),
+            fim=dt.date(2026, 12, 1),
+        )
+        services.gerar_parcelas(vinculo)
+        parcela = vinculo.parcelas.filter(ano_fiscal=2026).first()
+        self.assertIsNotNone(parcela)
+        services.alocar_parcela(parcela, empenho_previsto=empenho)
+        services.registrar_despesa(
+            empenho,
+            self.A,
+            self.bolsa2a,
+            50,
+            self.usuario,
+        )
+
+        response = self.api.get(
+            reverse("despesas:unidades-list"),
+            {"ano_fiscal": 2026},
+        )
+        self.assertEqual(response.status_code, 200, response.data)
+        rows = (
+            response.data["data"]
+            if isinstance(response.data, dict)
+            else response.data
+        )
+        by_id = {row["id_unidade_interna"]: row for row in rows}
+        a = next(
+            item
+            for item in by_id[self.A.pk]["saldos"]
+            if item["id_natureza"] == self.custeio.pk
+        )
+        b = next(
+            item
+            for item in by_id[self.B.pk]["saldos"]
+            if item["id_natureza"] == self.custeio.pk
+        )
+
+        self.assertEqual(a["orcamento"], "600.00")
+        self.assertEqual(a["gasto"], "50.00")
+        self.assertEqual(a["alocado"], "100.00")
+        self.assertEqual(a["saldo"], "550.00")
+        self.assertEqual(a["saldo_projetado"], "450.00")
+        self.assertEqual(b["saldo"], "200.00")
+        self.assertEqual(b["saldo_projetado"], "200.00")
+        self.assertNotIn("empenhado", a)
+
+    def test_unit_balances_filter_by_center_and_unit_before_pagination(self):
+        outro_centro = Centro.objects.create(
+            nome_centro="Outro Centro",
+            sigla_centro="OUTRO",
+            cod_estruturado="12",
+        )
+        outra_unidade = self.nova_unidade("Outra", "12.01", centro=outro_centro)
+        url = reverse("despesas:unidades-list")
+
+        por_centro = self.api.get(
+            url, {"ano_fiscal": 2026, "centro": outro_centro.pk, "page_size": 1}
+        )
+        self.assertEqual(por_centro.status_code, 200, por_centro.data)
+        self.assertEqual(por_centro.data["count"], 1)
+        self.assertEqual(por_centro.data["data"][0]["id_unidade_interna"], outra_unidade.pk)
+
+        por_unidade = self.api.get(
+            url, {"ano_fiscal": 2026, "id_unidade_interna": self.B.pk, "page_size": 1}
+        )
+        self.assertEqual(por_unidade.status_code, 200, por_unidade.data)
+        self.assertEqual(por_unidade.data["count"], 1)
+        self.assertEqual(por_unidade.data["data"][0]["id_unidade_interna"], self.B.pk)
+
+    def test_centers_endpoint_applies_id_and_categorical_filters(self):
+        outro_centro = Centro.objects.create(
+            nome_centro="Outro Centro",
+            sigla_centro="OUTRO",
+            cod_estruturado="12",
+        )
+        url = reverse("despesas:centros-list")
+        selected = self.api.get(
+            url,
+            {"ano_fiscal": 2026, "id_centro_interno": self.centro.pk},
+        )
+        self.assertEqual(selected.status_code, 200, selected.data)
+        selected_rows = (
+            selected.data["data"]
+            if isinstance(selected.data, dict)
+            else selected.data
+        )
+        self.assertEqual(
+            [row["id_centro_interno"] for row in selected_rows],
+            [self.centro.pk],
+        )
+
+        categories = self.api.get(
+            url,
+            {"ano_fiscal": 2026, "sigla_centro": "CCSH, OUTRO"},
+        )
+        self.assertEqual(categories.status_code, 200, categories.data)
+        category_rows = (
+            categories.data["data"]
+            if isinstance(categories.data, dict)
+            else categories.data
+        )
+        self.assertEqual(
+            {row["id_centro_interno"] for row in category_rows},
+            {self.centro.pk, outro_centro.pk},
+        )
 
     def test_center_metrics_count_fiscal_year_transport(self):
         self.creditar(100)

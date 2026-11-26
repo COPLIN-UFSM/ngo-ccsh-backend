@@ -13,11 +13,14 @@ def _valor(value):
 class UnidadeSaldoSerializer(serializers.Serializer):
     id_natureza = serializers.IntegerField()
     natureza = serializers.CharField()
+    orcamento = serializers.DecimalField(max_digits=15, decimal_places=2)
+    alocado = serializers.DecimalField(max_digits=15, decimal_places=2)
     entrada = serializers.DecimalField(max_digits=15, decimal_places=2)
     recebido = serializers.DecimalField(max_digits=15, decimal_places=2)
     transferido = serializers.DecimalField(max_digits=15, decimal_places=2)
     gasto = serializers.DecimalField(max_digits=15, decimal_places=2)
     saldo = serializers.DecimalField(max_digits=15, decimal_places=2)
+    saldo_projetado = serializers.DecimalField(max_digits=15, decimal_places=2)
 
 
 class CentroSaldoSerializer(serializers.Serializer):
@@ -67,24 +70,32 @@ def _naturezas():
 
 
 def _saldos_unidade(unidade: Unidade, ano_fiscal: int):
-    return [
-        {
-            "id_natureza": natureza.pk,
-            "natureza": natureza.nome,
-            "entrada": _valor(
-                saldos.distribuido_unidade(unidade.pk, ano_fiscal, natureza.pk)
-            ),
-            "recebido": _valor(
-                saldos.recebido_unidade(unidade.pk, ano_fiscal, natureza.pk)
-            ),
-            "transferido": _valor(
-                saldos.transferido_unidade(unidade.pk, ano_fiscal, natureza.pk)
-            ),
-            "gasto": _valor(saldos.gasto_unidade(unidade.pk, ano_fiscal, natureza.pk)),
-            "saldo": _valor(saldos.saldo_unidade(unidade.pk, ano_fiscal, natureza.pk)),
-        }
-        for natureza in _naturezas()
-    ]
+    resultado = []
+    for natureza in _naturezas():
+        gasto = saldos.gasto_unidade(unidade.pk, ano_fiscal, natureza.pk)
+        saldo = saldos.saldo_unidade(unidade.pk, ano_fiscal, natureza.pk)
+        alocado = saldos.alocado_unidade(unidade.pk, ano_fiscal, natureza.pk)
+        resultado.append(
+            {
+                "id_natureza": natureza.pk,
+                "natureza": natureza.nome,
+                "orcamento": _valor(saldo + gasto),
+                "alocado": _valor(alocado),
+                "entrada": _valor(
+                    saldos.distribuido_unidade(unidade.pk, ano_fiscal, natureza.pk)
+                ),
+                "recebido": _valor(
+                    saldos.recebido_unidade(unidade.pk, ano_fiscal, natureza.pk)
+                ),
+                "transferido": _valor(
+                    saldos.transferido_unidade(unidade.pk, ano_fiscal, natureza.pk)
+                ),
+                "gasto": _valor(gasto),
+                "saldo": _valor(saldo),
+                "saldo_projetado": _valor(saldo - alocado),
+            }
+        )
+    return resultado
 
 
 def _saldos_centro(centro: Centro, ano_fiscal: int):

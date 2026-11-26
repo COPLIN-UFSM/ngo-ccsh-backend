@@ -12,6 +12,7 @@ class UnidadeSaldoViewSet(_SaldoViewSetMixin, viewsets.ReadOnlyModelViewSet):
         .order_by("id_unidade_interna")
     )
     serializer_class = UnidadeComSaldoSerializer
+    filterset_fields = ["centro", "id_unidade_interna"]
 
     def _tem_saldo_maior_que(
         self,

@@ -77,6 +77,17 @@ O software consiste em um sistema de contabilidade de centros universitários.
    empenhos; recurso não distribuído é o total menos os lançamentos associados a unidades. O saldo de um empenho ou
    unidade é a soma dos seus lançamentos. A validação impede saldo negativo, empenho acima do total disponível,
    distribuição acima do recurso do centro e uso de centro, ano ou natureza incompatíveis.
+   Para cada natureza, o saldo do centro é orçamento menos gasto e o saldo projetado do centro também desconta o saldo
+   empenhado, que é compartilhado entre as unidades. Na unidade, o saldo projetado desconta do saldo as parcelas de
+   bolsa alocadas àquela unidade. Alocar uma parcela reserva um gasto futuro, mas não cria lançamento nem empenha o
+   recurso; empenho é registrado no SIAFI e não é atribuído a uma única unidade. Portanto, o empenho compartilhado não
+   deve ser rateado nem descontado novamente no saldo projetado de cada unidade.
+   Distribuir recursos às unidades não é gasto: a distribuição só move o saldo entre o centro não distribuído e as
+   unidades, sem alterar o orçamento, gasto ou saldo agregado do centro; o valor distribuído aparece separadamente em
+   `distribuido_unidades`. Por exemplo, com orçamento de R$ 1.000,00 e R$ 500,00 distribuídos para cada uma de duas
+   unidades, o centro continua com gasto de R$ 0,00 e saldo de R$ 1.000,00. Se uma unidade gastar R$ 200,00, ela fica
+   com orçamento de R$ 500,00, gasto de R$ 200,00 e saldo de R$ 300,00; a outra permanece com orçamento e saldo de
+   R$ 500,00; e o centro fica com orçamento de R$ 1.000,00, gasto de R$ 200,00 e saldo de R$ 800,00.
 5. A árvore de unidades é representada por `Unidade.unidade_pai`, não inferida durante as consultas a partir do código
    estruturado. O seed legado procura o ancestral existente mais próximo, preservando a largura de cada segmento do
    código ao procurar o pai. A relação só é criada se esse ancestral pertencer ao mesmo centro; se pertencer a outro
@@ -103,10 +114,13 @@ O software consiste em um sistema de contabilidade de centros universitários.
     `POST /despesas/transacoes/{id}/corrigir/`; não há edição ou exclusão de lançamentos.
     Os saldos por natureza e ano fiscal são consultados em
     `GET /despesas/centros/?ano_fiscal={ano}` e `GET /despesas/unidades/?ano_fiscal={ano}`.
-    Nas unidades, `saldo` representa o valor restante; `entrada` representa o valor
+    Nas unidades, `saldo` representa o valor restante; `saldo_projetado` representa o saldo menos as parcelas de bolsa
+    alocadas à unidade; `orcamento` corresponde ao saldo mais os gastos registrados; `alocado` é uma reserva futura,
+    distinta de empenho. `entrada` representa o valor
     recebido diretamente do centro, enquanto `recebido` e `transferido` representam
-    somente transferências entre unidades. `disponivel` continua sendo um cálculo
-    interno para reservas de bolsas e não é o saldo exposto pelo endpoint.
+    somente transferências entre unidades. `disponivel` continua sendo o cálculo
+    interno usado nas reservas de bolsas; o endpoint expõe esse valor como
+    `saldo_projetado`, sem um campo chamado `disponivel`.
 11. O ciclo de bolsas está disponível em `/despesas/vinculos-bolsa/`, `/despesas/parcelas-bolsa/` e
     `/despesas/listas-siafi/`. Vínculos são criados e consultados; suas parcelas são geradas idempotentemente por
     `POST /despesas/vinculos-bolsa/{id}/gerar-parcelas/`. Parcelas são consultadas e alteradas somente pelas ações
