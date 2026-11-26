@@ -524,6 +524,25 @@ class Transacao(models.Model):
         return self.lancamentos.filter(estorna__isnull=True)
 
 
+# Public API identifiers for operations; assign new values without renumbering.
+TRANSACAO_OPERACAO_IDS = {
+    Transacao.Operacao.CREDITO: 1,
+    Transacao.Operacao.REFORCO: 2,
+    Transacao.Operacao.DISTRIBUICAO: 3,
+    Transacao.Operacao.TRANSFERENCIA: 4,
+    Transacao.Operacao.DESPESA: 5,
+    Transacao.Operacao.ANULACAO: 6,
+    Transacao.Operacao.CONVERSAO: 7,
+    Transacao.Operacao.LISTA_SIAFI: 8,
+    Transacao.Operacao.FECHAMENTO: 9,
+    Transacao.Operacao.REABERTURA: 10,
+    Transacao.Operacao.CORRECAO: 11,
+}
+TRANSACAO_OPERACAO_POR_ID = {
+    id_operacao: operacao for operacao, id_operacao in TRANSACAO_OPERACAO_IDS.items()
+}
+
+
 class LancamentoQuerySet(models.QuerySet):
     """O razão é imutável: nada de update/delete em massa."""
 

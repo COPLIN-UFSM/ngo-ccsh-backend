@@ -2,6 +2,7 @@ from django.core.exceptions import ValidationError
 from django.db.models import Exists, OuterRef, Q
 from django.utils import timezone
 from django_filters import (
+    BaseInFilter,
     CharFilter,
     DateTimeFilter,
     FilterSet,
@@ -9,6 +10,7 @@ from django_filters import (
 )
 
 from .models import (
+    TRANSACAO_OPERACAO_POR_ID,
     Empenho,
     Finalidade,
     GrupoFinalidade,
@@ -97,6 +99,10 @@ class ActiveFilterSet(FilterSet):
         return queryset.none()
 
 
+class NumberInFilter(BaseInFilter, NumberFilter):
+    pass
+
+
 class NaturezaFilterSet(ActiveFilterSet):
     nome = CharFilter(method="filter_nome")
 
@@ -120,6 +126,7 @@ class GrupoFinalidadeFilterSet(ActiveFilterSet):
 
 
 class FinalidadeFilterSet(ActiveFilterSet):
+    id_finalidade = NumberFilter(field_name="id_finalidade")
     nome = CharFilter(method="filter_nome")
     natureza = CharFilter(method="filter_natureza")
     grupo = CharFilter(method="filter_grupo")
@@ -149,6 +156,7 @@ class TipoDocumentoFilterSet(ActiveFilterSet):
 
 
 class EmpenhoFilterSet(ActiveFilterSet):
+    id_empenho = NumberFilter(field_name="id_empenho")
     numero_empenho = CharFilter(field_name="numero_empenho", lookup_expr="icontains")
     centro = NumberFilter(field_name="centro_id")
     ano_fiscal = NumberFilter(field_name="ano_fiscal")
@@ -164,6 +172,7 @@ class TransacaoFilterSet(FilterSet):
     id_transacao = NumberFilter(field_name="id_transacao")
     id_transacao_min = NumberFilter(field_name="id_transacao", lookup_expr="gte")
     id_transacao_max = NumberFilter(field_name="id_transacao", lookup_expr="lte")
+    id_operacao = NumberInFilter(method="filter_id_operacao")
     operacao = CharFilter(method="filter_operacao")
     data_after = DateRangeValueFilter(field_name="data", lookup_expr="gte")
     data_before = DateRangeValueFilter(field_name="data", lookup_expr="lte")
@@ -182,6 +191,16 @@ class TransacaoFilterSet(FilterSet):
 
     def filter_operacao(self, queryset, name, value):
         return _filter_text_choices(queryset, name, value)
+
+    def filter_id_operacao(self, queryset, name, value):
+        if not value:
+            return queryset
+        operacoes = [
+            TRANSACAO_OPERACAO_POR_ID[id_operacao]
+            for id_operacao in value
+            if id_operacao in TRANSACAO_OPERACAO_POR_ID
+        ]
+        return queryset.filter(operacao__in=operacoes) if operacoes else queryset.none()
 
     def filter_centro(self, queryset, name, value):
         linhas_do_centro = Lancamento.objects.filter(
@@ -237,6 +256,9 @@ class LancamentoFilterSet(FilterSet):
     id_empenho_min = NumberFilter(field_name="empenho_id", lookup_expr="gte")
     id_empenho_max = NumberFilter(field_name="empenho_id", lookup_expr="lte")
     id_unidade = CharFilter(method="filter_id_unidade")
+    id_tipo_movimento = NumberInFilter(field_name="tipo_movimento_id", lookup_expr="in")
+    id_natureza = NumberInFilter(field_name="natureza_id", lookup_expr="in")
+    id_finalidade = CharFilter(method="filter_id_finalidade")
     centro = NumberFilter(field_name="centro_id")
     ano_fiscal_min = NumberFilter(field_name="ano_fiscal", lookup_expr="gte")
     ano_fiscal_max = NumberFilter(field_name="ano_fiscal", lookup_expr="lte")
@@ -254,6 +276,9 @@ class LancamentoFilterSet(FilterSet):
 
     def filter_id_unidade(self, queryset, name, value):
         return _filter_nullable_ids(queryset, "unidade", value)
+
+    def filter_id_finalidade(self, queryset, name, value):
+        return _filter_nullable_ids(queryset, "finalidade", value)
 
     def filter_natureza(self, queryset, name, value):
         return _filter_text_choices(queryset, "natureza__nome", value)

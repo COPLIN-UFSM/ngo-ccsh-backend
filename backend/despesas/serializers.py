@@ -7,6 +7,7 @@ from rest_framework import serializers
 
 from . import saldos, services
 from .models import (
+    TRANSACAO_OPERACAO_IDS,
     Empenho,
     Finalidade,
     GrupoFinalidade,
@@ -230,9 +231,16 @@ class EmpenhoSerializer(serializers.ModelSerializer):
 
 
 class LancamentoSerializer(serializers.ModelSerializer):
+    id_tipo_movimento = serializers.IntegerField(
+        source="tipo_movimento_id", read_only=True
+    )
     tipo_movimento = serializers.CharField(source="tipo_movimento.nome", read_only=True)
     id_centro = serializers.IntegerField(source="centro_id", read_only=True)
+    id_natureza = serializers.IntegerField(source="natureza_id", read_only=True)
     natureza = serializers.CharField(source="natureza.nome", read_only=True)
+    id_finalidade = serializers.IntegerField(
+        source="finalidade_id", read_only=True, allow_null=True
+    )
     finalidade = serializers.CharField(source="finalidade.nome", read_only=True)
 
     id_empenho = serializers.IntegerField(source="empenho_id", read_only=True)
@@ -246,11 +254,14 @@ class LancamentoSerializer(serializers.ModelSerializer):
         fields = [
             "id_lancamento",
             "id_centro",
+            "id_tipo_movimento",
             "tipo_movimento",
             "ano_fiscal",
+            "id_natureza",
             "natureza",
             "id_empenho",
             "id_unidade",
+            "id_finalidade",
             "finalidade",
             "montante",
             "id_lancamento_estornado",
@@ -285,6 +296,7 @@ class ValorDocumentoSerializer(serializers.ModelSerializer):
 
 
 class OperationTransacaoDataItemSerializer(serializers.Serializer):
+    id_operacao = serializers.IntegerField()
     nome = serializers.CharField()
     codigo = serializers.CharField()
 
@@ -294,13 +306,18 @@ class OperationTransacaoDataSerializer(serializers.Serializer):
         many=True,
         read_only=True,
         default=[
-            {"nome": item[1], "codigo": item[0]}
-            for index, item in enumerate(Transacao.Operacao.choices)
-        ]
+            {
+                "id_operacao": TRANSACAO_OPERACAO_IDS[code],
+                "nome": label,
+                "codigo": code,
+            }
+            for code, label in Transacao.Operacao.choices
+        ],
     )
 
 
 class TransacaoReadSerializer(serializers.ModelSerializer):
+    id_operacao = serializers.SerializerMethodField()
     id_usuario = serializers.IntegerField(source="usuario.pk", read_only=True)
     id_beneficiario = serializers.IntegerField(source="beneficiario.pk", read_only=True)
     id_transacao_corrigida = serializers.IntegerField(
@@ -321,6 +338,7 @@ class TransacaoReadSerializer(serializers.ModelSerializer):
         model = Transacao
         fields = [
             "id_transacao",
+            "id_operacao",
             "operacao",
             "data",
             "criada_em",
@@ -334,6 +352,9 @@ class TransacaoReadSerializer(serializers.ModelSerializer):
             "lancamentos",
             "documentos",
         ]
+
+    def get_id_operacao(self, obj):
+        return TRANSACAO_OPERACAO_IDS[obj.operacao]
 
 
 class DocumentoInputSerializer(serializers.Serializer):
