@@ -1,5 +1,11 @@
 from django.db.models import Q
-from django_filters import BooleanFilter, CharFilter, FilterSet, NumberFilter
+from django_filters import (
+    BaseInFilter,
+    BooleanFilter,
+    CharFilter,
+    FilterSet,
+    NumberFilter,
+)
 
 from entidades.models import Centro, Servidor, Unidade
 
@@ -27,6 +33,10 @@ class CentroSaldoFilterSet(FilterSet):
         fields = []
 
 
+class NumberInFilter(BaseInFilter, NumberFilter):
+    pass
+
+
 class UnidadeFilterSet(FilterSet):
     nome_unidade = CharFilter(field_name="nome_unidade", method="filter_categories")
     cod_estruturado = CharFilter(
@@ -42,6 +52,9 @@ class UnidadeFilterSet(FilterSet):
         method="filter_categories",
     )
 
+    id_unidade_interna = NumberInFilter(
+        field_name="id_unidade_interna", lookup_expr="in"
+    )
     id_unidade_pai = NumberFilter(field_name="unidade_pai_id")
     id_centro = NumberFilter(field_name="centro_id")
     id_tipo_unidade = NumberFilter(field_name="tipo_unidade_id")

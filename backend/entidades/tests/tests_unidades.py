@@ -64,6 +64,43 @@ class UnidadeViewTestCase(BaseAuthenticatedUserTestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data["count"], 2)
 
+    def test_units_can_be_filtered_by_internal_id(self):
+        self.authentication(self.user_data_adm)
+
+        response = self.client.get(
+            self.url,
+            {"id_unidade_interna": self.unidade.id_unidade_interna},
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data["count"], 1)
+        self.assertEqual(
+            response.data["data"][0]["id_unidade_interna"],
+            self.unidade.id_unidade_interna,
+        )
+
+    def test_units_can_be_filtered_by_multiple_internal_ids(self):
+        outra_unidade = Unidade.objects.create(
+            nome_unidade="Departamento B",
+            cod_estruturado="DEPTO2",
+            centro=self.centro,
+            tipo_unidade=self.tipo_unidade,
+            situacao_unidade=self.situacao_unidade,
+        )
+        self.authentication(self.user_data_adm)
+
+        response = self.client.get(
+            self.url,
+            {
+                "id_unidade_interna": (
+                    f"{self.unidade.id_unidade_interna},{outra_unidade.id_unidade_interna}"
+                )
+            },
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data["count"], 2)
+
     def test_units_can_be_ordered_by_related_center_name(self):
         outro_centro = Centro.objects.create(
             nome_centro="A Centro",
