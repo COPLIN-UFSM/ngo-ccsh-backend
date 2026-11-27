@@ -3,8 +3,9 @@ Entidades: centros, unidades, pessoas e vínculos.
 
 Convenção deste módulo
 ----------------------
-* Modelos com tabela ``v_sie_*`` (``CentroSIE``, ``UnidadeSIE``, ``PessoaSIE``,
-  ``Curso``, ``Cargo``, ``Discente``, ``Servidor``, ...) são *views* do SIE:
+* Modelos com tabelas ``v_sie_*`` ou ``v_*_sie`` (``CentroSIE``, ``UnidadeSIE``,
+  ``PessoaSIE``, ``EmailSIE``, ``TelefoneSIE``, ``Curso``, ``Cargo``, ``Discente``,
+  ``Servidor``, ...) são *views* do SIE:
   continuam ``managed = False`` e são somente leitura.
 * Os modelos internos (``Centro``, ``Unidade``, ``Pessoa``, ``Email``, ``Telefone``)
   também são ``managed = False``: o schema é criado por DDL Db2 versionado, nunca
@@ -299,6 +300,36 @@ class PessoaSIE(models.Model):
     class Meta:
         managed = False
         db_table = "v_sie_pessoas"
+
+
+class EmailSIE(models.Model):
+    id_email_sie = models.AutoField(primary_key=True, db_column="id_email_sie")
+    pessoa_sie = models.ForeignKey(
+        PessoaSIE,
+        on_delete=models.DO_NOTHING,
+        db_constraint=False,
+        db_column="id_pessoa_sie",
+    )
+    email = models.EmailField(max_length=254, db_column="email")
+
+    class Meta:
+        managed = False
+        db_table = "v_sie_emails"
+
+
+class TelefoneSIE(models.Model):
+    id_telefone_sie = models.AutoField(primary_key=True, db_column="id_telefone_sie")
+    pessoa_sie = models.ForeignKey(
+        PessoaSIE,
+        on_delete=models.DO_NOTHING,
+        db_constraint=False,
+        db_column="id_pessoa_sie",
+    )
+    telefone = models.TextField(max_length=16, db_column="telefone")
+
+    class Meta:
+        managed = False
+        db_table = "v_sie_telefones"
 
 
 class Pessoa(models.Model):

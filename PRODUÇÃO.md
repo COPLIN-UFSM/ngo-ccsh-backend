@@ -83,6 +83,12 @@ Depois, com o container rodando, crie o super usuário:
 docker compose -f docker-compose.yml exec web python manage.py createsuperuser
 ```
 
+Importe os servidores ativos da UFSM com o comando:
+
+```bash
+docker compose -f docker-compose.yml exec web python manage.py import_servidores_ativos
+```
+
 ### Nginx
 
 Configure também o roteamento do nginx no servidor no arquivo `/etc/nginx/sites-available/default` 

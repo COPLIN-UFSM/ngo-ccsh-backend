@@ -1,5 +1,97 @@
+import logging
+
 from django.apps import apps
+from django.core.exceptions import ValidationError
 from django.db import IntegrityError, models, transaction
+
+logger = logging.getLogger(__name__)
+
+
+def import_sie_contacts(pessoa, pessoa_sie, emails=None, telefones=None):
+    """Add missing SIE contacts without overwriting existing contacts."""
+    email_model = apps.get_model("entidades", "Email")
+    telefone_model = apps.get_model("entidades", "Telefone")
+    email_sie_model = apps.get_model("entidades", "EmailSIE")
+    telefone_sie_model = apps.get_model("entidades", "TelefoneSIE")
+
+    if emails is None:
+        emails = email_sie_model.objects.filter(
+            pessoa_sie_id=pessoa_sie.pk
+        ).values_list("email", flat=True)
+    if telefones is None:
+        telefones = telefone_sie_model.objects.filter(
+            pessoa_sie_id=pessoa_sie.pk
+        ).values_list("telefone", flat=True)
+
+    result = {
+        "emails_created": 0,
+        "email_conflicts": 0,
+        "invalid_emails": 0,
+        "telefones_created": 0,
+        "invalid_telefones": 0,
+    }
+
+    email_field = email_model._meta.get_field("email")
+    for raw_email in emails:
+        try:
+            email = email_field.clean(str(raw_email).strip(), None)
+        except ValidationError:
+            result["invalid_emails"] += 1
+            continue
+
+        existing = email_model._base_manager.filter(email=email).first()
+        if existing is not None:
+            if existing.pessoa_id != pessoa.pk:
+                result["email_conflicts"] += 1
+            continue
+
+        try:
+            with transaction.atomic():
+                email_model._base_manager.create(pessoa=pessoa, email=email)
+            result["emails_created"] += 1
+        except IntegrityError:
+            existing = email_model._base_manager.filter(email=email).first()
+            if existing is None:
+                raise
+            if existing.pessoa_id != pessoa.pk:
+                result["email_conflicts"] += 1
+
+    telefone_field = telefone_model._meta.get_field("telefone")
+    for raw_telefone in telefones:
+        try:
+            telefone = telefone_field.clean(str(raw_telefone).strip(), None)
+        except ValidationError:
+            result["invalid_telefones"] += 1
+            continue
+
+        if telefone_model._base_manager.filter(
+            pessoa_id=pessoa.pk, telefone=telefone
+        ).exists():
+            continue
+        telefone_model._base_manager.create(pessoa=pessoa, telefone=telefone)
+        result["telefones_created"] += 1
+
+    if result["email_conflicts"]:
+        logger.warning(
+            "Skipped %s SIE email contact(s) already assigned to another person "
+            "for SIE person id %s.",
+            result["email_conflicts"],
+            pessoa_sie.pk,
+        )
+    if result["invalid_emails"]:
+        logger.warning(
+            "Skipped %s invalid SIE email contact(s) for SIE person id %s.",
+            result["invalid_emails"],
+            pessoa_sie.pk,
+        )
+    if result["invalid_telefones"]:
+        logger.warning(
+            "Skipped %s invalid SIE phone contact(s) for SIE person id %s.",
+            result["invalid_telefones"],
+            pessoa_sie.pk,
+        )
+
+    return result
 
 
 class ResolveFromSIEQuerySet(models.QuerySet):
@@ -80,12 +172,14 @@ class PessoaManager(ResolveFromSIEManager):
     sie_shared_fields = ("nome_pessoa", "cpf", "rg")
 
     def import_from_sie(self, pessoa):
-        return self.create(
+        internal_person = self.create(
             pessoa_sie=pessoa,
             nome_pessoa=pessoa.nome_pessoa,
             cpf=pessoa.cpf,
             rg=pessoa.rg,
         )
+        import_sie_contacts(internal_person, pessoa)
+        return internal_person
 
 
 class CentroManager(ResolveFromSIEManager):

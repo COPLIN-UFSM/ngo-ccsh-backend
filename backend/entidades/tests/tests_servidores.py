@@ -2,7 +2,14 @@ from django.urls import reverse
 from ngo_ccsh.tests.mixins import BaseAuthenticatedUserTestCase
 from rest_framework import status
 
-from entidades.models import Cargo, Pessoa, PessoaSIE, Servidor
+from entidades.models import (
+    Cargo,
+    EmailSIE,
+    Pessoa,
+    PessoaSIE,
+    Servidor,
+    TelefoneSIE,
+)
 
 
 class ServidorViewTestCase(BaseAuthenticatedUserTestCase):
@@ -53,6 +60,46 @@ class ServidorViewTestCase(BaseAuthenticatedUserTestCase):
         self.authentication(self.user_data_adm)
         response = self.client.post(self.url, data=self.servidor_data, format="json")
         self.assertEqual(response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
+
+    def test_filter_cpf_imports_new_server_and_contacts(self):
+        self.authentication(self.user_data_adm)
+        pessoa_sie = PessoaSIE.objects.create(
+            nome_pessoa="Ana Nova",
+            cpf="99123456789",
+            rg="88123456789",
+        )
+        EmailSIE.objects.create(
+            pessoa_sie=pessoa_sie,
+            email="ana.nova@example.com",
+        )
+        TelefoneSIE.objects.create(
+            pessoa_sie=pessoa_sie,
+            telefone="5551999999999",
+        )
+        Servidor.objects.create(
+            pessoa_id=pessoa_sie.pk,
+            matricula="200000999",
+            cargo=self.cargo_professor,
+            ativo=True,
+        )
+
+        response = self.client.get(
+            self.url,
+            {"cpf": pessoa_sie.cpf, "ativo": "true"},
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data["count"], 1)
+        servidor = response.data["data"][0]
+        self.assertEqual(servidor["cpf"], pessoa_sie.cpf)
+        self.assertEqual(
+            [email["email"] for email in servidor["emails"]],
+            ["ana.nova@example.com"],
+        )
+        self.assertEqual(
+            [telefone["telefone"] for telefone in servidor["telefones"]],
+            ["5551999999999"],
+        )
 
 
 class SingleServidorViewTestCase(BaseAuthenticatedUserTestCase):

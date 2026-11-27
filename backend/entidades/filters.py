@@ -7,7 +7,7 @@ from django_filters import (
     NumberFilter,
 )
 
-from entidades.models import Centro, Servidor, Unidade
+from entidades.models import Centro, Pessoa, Servidor, Unidade
 
 
 class CentroSaldoFilterSet(FilterSet):
@@ -78,9 +78,16 @@ class UnidadeFilterSet(FilterSet):
 
 
 class ServidorFilterSet(FilterSet):
-    # cpf comes from the related Pessoa model.
-    cpf = CharFilter(field_name="pessoa__cpf", lookup_expr="exact")
+    cpf = CharFilter(method="filter_cpf")
     ativo = BooleanFilter(field_name="ativo")
+
+    def filter_cpf(self, queryset, name, value):
+        pessoa = Pessoa._base_manager.filter(cpf=value).first()
+        if pessoa is None:
+            pessoa = Pessoa.objects.filter(cpf=value).first()
+        if pessoa is None:
+            return queryset.none()
+        return queryset.filter(pessoa=pessoa)
 
     class Meta:
         model = Servidor

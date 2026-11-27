@@ -166,6 +166,7 @@ class ServidorViewSet(viewsets.ModelViewSet):
     queryset = (
         Servidor.objects.all()
         .select_related("pessoa", "cargo")
+        .prefetch_related("pessoa__telefone_set", "pessoa__email_set")
         .order_by("pessoa__id_pessoa_interna")
     )
     serializer_class = ServidorSerializer

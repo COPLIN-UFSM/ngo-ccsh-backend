@@ -270,53 +270,53 @@ class Command(BaseCommand):
         csv_path = Path(settings.BASE_DIR) / "database" / "csv"
         loaders = [
             (
-                "V_CENTROS_SIE.csv",
-                lambda: self.load_model_csv(csv_path, "V_CENTROS_SIE.csv", CentroSIE),
+                "V_SIE_CENTROS.csv",
+                lambda: self.load_model_csv(csv_path, "V_SIE_CENTROS.csv", CentroSIE),
             ),
             (
                 "CENTROS.csv",
                 lambda: self.load_model_csv(csv_path, "CENTROS.csv", Centro),
             ),
             (
-                "V_TIPOS_UNIDADES.csv",
+                "V_SIE_TIPOS_UNIDADES.csv",
                 lambda: self.load_model_csv(
-                    csv_path, "V_TIPOS_UNIDADES.csv", TipoUnidade
+                    csv_path, "V_SIE_TIPOS_UNIDADES.csv", TipoUnidade
                 ),
             ),
             (
-                "V_SITUACOES_UNIDADES.csv",
+                "V_SIE_SITUACOES_UNIDADES.csv",
                 lambda: self.load_model_csv(
-                    csv_path, "V_SITUACOES_UNIDADES.csv", SituacaoUnidade
+                    csv_path, "V_SIE_SITUACOES_UNIDADES.csv", SituacaoUnidade
                 ),
             ),
             (
-                "V_UNIDADES_SIE.csv",
-                lambda: self.load_model_csv(csv_path, "V_UNIDADES_SIE.csv", UnidadeSIE),
+                "V_SIE_UNIDADES.csv",
+                lambda: self.load_model_csv(csv_path, "V_SIE_UNIDADES.csv", UnidadeSIE),
             ),
             ("UNIDADES.csv", lambda: self.load_units(csv_path)[0]),
             (
-                "V_CURSOS.csv",
-                lambda: self.load_model_csv(csv_path, "V_CURSOS.csv", Curso),
+                "V_SIE_CURSOS.csv",
+                lambda: self.load_model_csv(csv_path, "V_SIE_CURSOS.csv", Curso),
             ),
             (
-                "V_CARGOS.csv",
-                lambda: self.load_model_csv(csv_path, "V_CARGOS.csv", Cargo),
+                "V_SIE_CARGOS.csv",
+                lambda: self.load_model_csv(csv_path, "V_SIE_CARGOS.csv", Cargo),
             ),
             (
-                "V_PESSOAS_SIE.csv",
-                lambda: self.load_model_csv(csv_path, "V_PESSOAS_SIE.csv", PessoaSIE),
+                "V_SIE_PESSOAS.csv",
+                lambda: self.load_model_csv(csv_path, "V_SIE_PESSOAS.csv", PessoaSIE),
             ),
             (
                 "PESSOAS.csv",
                 lambda: self.load_model_csv(csv_path, "PESSOAS.csv", Pessoa),
             ),
             (
-                "V_SERVIDORES.csv",
-                lambda: self.load_model_csv(csv_path, "V_SERVIDORES.csv", Servidor),
+                "V_SIE_SERVIDORES.csv",
+                lambda: self.load_model_csv(csv_path, "V_SIE_SERVIDORES.csv", Servidor),
             ),
             (
-                "V_DISCENTES.csv",
-                lambda: self.load_model_csv(csv_path, "V_DISCENTES.csv", Discente),
+                "V_SIE_DISCENTES.csv",
+                lambda: self.load_model_csv(csv_path, "V_SIE_DISCENTES.csv", Discente),
             ),
             ("NATUREZAS_FINALIDADES.csv", lambda: self.load_naturezas(csv_path)),
             ("GRUPOS_FINALIDADES.csv", lambda: self.load_grupos(csv_path)),
