@@ -8,6 +8,7 @@ from rest_framework import serializers
 from . import saldos, services
 from .models import (
     TRANSACAO_OPERACAO_IDS,
+    ZERO,
     Empenho,
     Finalidade,
     GrupoFinalidade,
@@ -219,14 +220,21 @@ class EmpenhoSerializer(serializers.ModelSerializer):
 
     @extend_schema_field(OpenApiTypes.DECIMAL)
     def get_saldo(self, obj):
+        if hasattr(obj, "saldo_agregado"):
+            return obj.saldo_agregado
         return obj.saldo
 
     @extend_schema_field(OpenApiTypes.DECIMAL)
     def get_gasto(self, obj):
+        if hasattr(obj, "gasto_agregado"):
+            return -obj.gasto_agregado
         return obj.gasto
 
     @extend_schema_field(OpenApiTypes.DECIMAL)
     def get_a_complementar(self, obj):
+        if hasattr(obj, "previsto_agregado"):
+            falta = obj.previsto_agregado - obj.saldo_agregado
+            return falta if falta > ZERO else ZERO
         return saldos.a_complementar(obj)
 
 

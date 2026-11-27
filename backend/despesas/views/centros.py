@@ -1,12 +1,11 @@
 from decimal import Decimal
 
 from despesas import saldos
-from despesas.models import Natureza
-from entidades.filters import CentroSaldoFilterSet
 from despesas.serializers_saldos import (
     CentroComSaldoSerializer,
 )
 from drf_spectacular.utils import extend_schema
+from entidades.filters import CentroSaldoFilterSet
 from entidades.models import Centro
 from rest_framework import serializers, viewsets
 
@@ -26,36 +25,33 @@ class _SaldoViewSetMixin:
     def list(self, request, *args, **kwargs):
         return super().list(request, *args, **kwargs)
 
+    def _saldo_query_data(self):
+        if not hasattr(self, "_validated_saldo_query_data"):
+            query = SaldoQuerySerializer(data=self.request.query_params)
+            query.is_valid(raise_exception=True)
+            self._validated_saldo_query_data = query.validated_data
+        return self._validated_saldo_query_data
+
     def get_serializer_context(self):
         context = super().get_serializer_context()
-        query = SaldoQuerySerializer(data=self.request.query_params)
-        query.is_valid(raise_exception=True)
-        context["ano_fiscal"] = query.validated_data["ano_fiscal"]
-        context["saldo_minimo"] = query.validated_data.get("saldo_minimo")
+        query_data = self._saldo_query_data()
+        context["ano_fiscal"] = query_data["ano_fiscal"]
+        context["saldo_minimo"] = query_data.get("saldo_minimo")
         return context
 
     def filter_queryset(self, queryset):
         queryset = super().filter_queryset(queryset)
-
-        query = SaldoQuerySerializer(data=self.request.query_params)
-        query.is_valid(raise_exception=True)
-        saldo_minimo = query.validated_data.get("saldo_minimo")
+        query_data = self._saldo_query_data()
+        saldo_minimo = query_data.get("saldo_minimo")
         if saldo_minimo is None:
             return queryset
 
-        ano_fiscal = query.validated_data["ano_fiscal"]
-        naturezas = Natureza.objects.filter(ativo=True).values_list("pk", flat=True)
-        ids = [
-            objeto.pk
-            for objeto in queryset
-            if self._tem_saldo_maior_que(
-                objeto.pk,
-                ano_fiscal,
-                saldo_minimo,
-                naturezas,
-            )
-        ]
-        return queryset.filter(pk__in=ids)
+        return self._filtrar_por_saldo_minimo(
+            queryset, query_data["ano_fiscal"], saldo_minimo
+        )
+
+    def _filtrar_por_saldo_minimo(self, queryset, ano_fiscal, saldo_minimo):
+        raise NotImplementedError
 
 
 class CentroSaldoViewSet(_SaldoViewSetMixin, viewsets.ReadOnlyModelViewSet):
@@ -63,14 +59,7 @@ class CentroSaldoViewSet(_SaldoViewSetMixin, viewsets.ReadOnlyModelViewSet):
     serializer_class = CentroComSaldoSerializer
     filterset_class = CentroSaldoFilterSet
 
-    def _tem_saldo_maior_que(
-        self,
-        centro_id,
-        ano_fiscal,
-        saldo_minimo,
-        naturezas,
-    ):
-        return any(
-            saldos.total_centro(centro_id, ano_fiscal, natureza_id) > saldo_minimo
-            for natureza_id in naturezas
+    def _filtrar_por_saldo_minimo(self, queryset, ano_fiscal, saldo_minimo):
+        return saldos.filtrar_centros_por_saldo_minimo(
+            queryset, ano_fiscal, saldo_minimo
         )

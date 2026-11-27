@@ -20,12 +20,13 @@ from __future__ import annotations
 from collections import defaultdict
 from decimal import Decimal
 
-from django.db.models import Q, Sum
+from django.db.models import Case, DecimalField, F, Q, Sum, Value, When
 
 from .models import (
     ZERO,
     Empenho,
     Lancamento,
+    Natureza,
     ParcelaBolsa,
     TipoMovimento,
     Transacao,
@@ -34,6 +35,16 @@ from .models import (
 
 def _soma(queryset, campo="montante") -> Decimal:
     return queryset.aggregate(t=Sum(campo))["t"] or ZERO
+
+
+def _soma_condicional(condicao):
+    return Sum(
+        Case(
+            When(condicao, then=F("montante")),
+            default=Value(ZERO),
+            output_field=DecimalField(max_digits=15, decimal_places=2),
+        )
+    )
 
 
 # --- razão -----------------------------------------------------------------
@@ -255,6 +266,186 @@ def disponivel_unidade(unidade, ano_fiscal, natureza) -> Decimal:
     return saldo_unidade(unidade, ano_fiscal, natureza) - alocado_unidade(
         unidade, ano_fiscal, natureza
     )
+
+
+def saldos_unidades(unidade_ids, ano_fiscal, natureza_ids):
+    unidade_ids = list(unidade_ids)
+    natureza_ids = list(natureza_ids)
+    if not unidade_ids or not natureza_ids:
+        return {}
+
+    transferencia = Q(transacao__operacao=Transacao.Operacao.TRANSFERENCIA) | Q(
+        estorna__transacao__operacao=Transacao.Operacao.TRANSFERENCIA
+    )
+    distribuicao = Q(transacao__operacao=Transacao.Operacao.DISTRIBUICAO) | Q(
+        estorna__transacao__operacao=Transacao.Operacao.DISTRIBUICAO
+    )
+
+    lancamentos = (
+        Lancamento.objects.filter(
+            unidade_id__in=unidade_ids,
+            ano_fiscal=ano_fiscal,
+            natureza_id__in=natureza_ids,
+        )
+        .order_by()
+        .values("unidade_id", "natureza_id")
+        .annotate(
+            saldo=Sum("montante"),
+            gasto=_soma_condicional(Q(tipo_movimento__conta_como_gasto=True)),
+            entrada=_soma_condicional(distribuicao),
+            recebido=_soma_condicional(transferencia & Q(montante__gt=0)),
+            transferido=_soma_condicional(transferencia & Q(montante__lt=0)),
+        )
+    )
+
+    resultado = {}
+    for linha in lancamentos:
+        resultado[(linha["unidade_id"], linha["natureza_id"])] = {
+            "saldo": linha["saldo"] or ZERO,
+            "gasto": -(linha["gasto"] or ZERO),
+            "alocado": ZERO,
+            "entrada": linha["entrada"] or ZERO,
+            "recebido": linha["recebido"] or ZERO,
+            "transferido": -(linha["transferido"] or ZERO),
+        }
+
+    parcelas = (
+        ParcelaBolsa.objects.filter(
+            vinculo__unidade_id__in=unidade_ids,
+            vinculo__finalidade__natureza_id__in=natureza_ids,
+            ano_fiscal=ano_fiscal,
+            status=ParcelaBolsa.Status.ALOCADA,
+        )
+        .order_by()
+        .values("vinculo__unidade_id", "vinculo__finalidade__natureza_id")
+        .annotate(alocado=Sum("valor"))
+    )
+    for linha in parcelas:
+        chave = (
+            linha["vinculo__unidade_id"],
+            linha["vinculo__finalidade__natureza_id"],
+        )
+        resultado.setdefault(
+            chave,
+            {
+                "saldo": ZERO,
+                "gasto": ZERO,
+                "alocado": ZERO,
+                "entrada": ZERO,
+                "recebido": ZERO,
+                "transferido": ZERO,
+            },
+        )["alocado"] = (
+            linha["alocado"] or ZERO
+        )
+
+    return resultado
+
+
+def saldos_centros(centro_ids, ano_fiscal, natureza_ids):
+    centro_ids = list(centro_ids)
+    natureza_ids = list(natureza_ids)
+    if not centro_ids or not natureza_ids:
+        return {}
+
+    vigentes = Q(estorna__isnull=True, estornado_por__isnull=True)
+    credito_ou_entrada = (
+        Q(
+            tipo_movimento__codigo__in=[
+                TipoMovimento.Codigo.CREDITO_ORDINARIO,
+                TipoMovimento.Codigo.CREDITO_EXTRAORDINARIO,
+                TipoMovimento.Codigo.TRANSPORTE_ENTRADA,
+                TipoMovimento.Codigo.CONVERSAO_NATUREZA,
+            ],
+            montante__gt=0,
+        )
+        & vigentes
+    )
+
+    lancamentos = (
+        Lancamento.objects.filter(
+            centro_id__in=centro_ids,
+            ano_fiscal=ano_fiscal,
+            natureza_id__in=natureza_ids,
+        )
+        .order_by()
+        .values("centro_id", "natureza_id")
+        .annotate(
+            orcamento=_soma_condicional(credito_ou_entrada),
+            gasto_contabilizado=_soma_condicional(
+                vigentes & Q(tipo_movimento__conta_como_gasto=True)
+            ),
+            conversao_saida=_soma_condicional(
+                vigentes
+                & Q(
+                    tipo_movimento__codigo=TipoMovimento.Codigo.CONVERSAO_NATUREZA,
+                    montante__lt=0,
+                )
+            ),
+            transporte_saida=_soma_condicional(
+                vigentes
+                & Q(
+                    tipo_movimento__codigo=TipoMovimento.Codigo.TRANSPORTE_SAIDA,
+                    montante__lt=0,
+                )
+            ),
+            empenhado=_soma_condicional(Q(empenho__isnull=False)),
+            distribuido_unidades=_soma_condicional(
+                vigentes
+                & Q(
+                    unidade__isnull=False,
+                    tipo_movimento__codigo=TipoMovimento.Codigo.DISTRIBUICAO,
+                )
+            ),
+        )
+    )
+
+    resultado = {}
+    for linha in lancamentos:
+        resultado[(linha["centro_id"], linha["natureza_id"])] = {
+            "orcamento": linha["orcamento"] or ZERO,
+            "gasto": -(
+                (linha["gasto_contabilizado"] or ZERO)
+                + (linha["conversao_saida"] or ZERO)
+                + (linha["transporte_saida"] or ZERO)
+            ),
+            "empenhado": linha["empenhado"] or ZERO,
+            "distribuido_unidades": linha["distribuido_unidades"] or ZERO,
+        }
+    return resultado
+
+
+def filtrar_unidades_por_saldo_minimo(queryset, ano_fiscal, saldo_minimo):
+    saldos_por_unidade = (
+        Lancamento.objects.filter(
+            unidade_id__in=queryset.order_by().values("pk"),
+            ano_fiscal=ano_fiscal,
+            natureza_id__in=Natureza.objects.filter(ativo=True).values("pk"),
+        )
+        .order_by()
+        .values("unidade_id", "natureza_id")
+        .annotate(saldo=Sum("montante"))
+        .filter(saldo__gt=saldo_minimo)
+        .values("unidade_id")
+    )
+    return queryset.filter(pk__in=saldos_por_unidade)
+
+
+def filtrar_centros_por_saldo_minimo(queryset, ano_fiscal, saldo_minimo):
+    saldos_por_centro = (
+        Lancamento.objects.filter(
+            centro_id__in=queryset.order_by().values("pk"),
+            ano_fiscal=ano_fiscal,
+            natureza_id__in=Natureza.objects.filter(ativo=True).values("pk"),
+            tipo_movimento__altera_total=True,
+        )
+        .order_by()
+        .values("centro_id", "natureza_id")
+        .annotate(saldo=Sum("montante"))
+        .filter(saldo__gt=saldo_minimo)
+        .values("centro_id")
+    )
+    return queryset.filter(pk__in=saldos_por_centro)
 
 
 def previsto_empenho(empenho) -> Decimal:

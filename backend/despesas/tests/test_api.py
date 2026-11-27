@@ -1,18 +1,20 @@
 import datetime as dt
 from decimal import Decimal
 
+from django.db import connection
+from django.test.utils import CaptureQueriesContext
 from django.urls import reverse
+from entidades.models import Centro
 from rest_framework.test import APIClient
 
-from entidades.models import Centro
 from despesas import services
-from despesas.services import TRANSPORTAR, DestinoSaldo
 from despesas.models import (
     ListaSIAFI,
     ParcelaBolsa,
     Transacao,
     VinculoBolsa,
 )
+from despesas.services import TRANSPORTAR, DestinoSaldo
 from despesas.tests.helpers import BaseRazao
 
 
@@ -177,11 +179,10 @@ class TransactionApiTests(BaseRazao):
             {"ano_fiscal": 2026},
         )
         self.assertEqual(response.status_code, 200, response.data)
-        center_rows = response.data["data"] if isinstance(response.data, dict) else response.data
-        by_natureza = {
-            row["id_natureza"]: row
-            for row in center_rows[0]["saldos"]
-        }
+        center_rows = (
+            response.data["data"] if isinstance(response.data, dict) else response.data
+        )
+        by_natureza = {row["id_natureza"]: row for row in center_rows[0]["saldos"]}
 
         custeio = by_natureza[self.custeio.pk]
         self.assertEqual(custeio["orcamento"], "300.00")
@@ -241,9 +242,7 @@ class TransactionApiTests(BaseRazao):
         )
         self.assertEqual(response.status_code, 200, response.data)
         rows = (
-            response.data["data"]
-            if isinstance(response.data, dict)
-            else response.data
+            response.data["data"] if isinstance(response.data, dict) else response.data
         )
         by_id = {row["id_unidade_interna"]: row for row in rows}
         a = next(
@@ -280,7 +279,9 @@ class TransactionApiTests(BaseRazao):
         )
         self.assertEqual(por_centro.status_code, 200, por_centro.data)
         self.assertEqual(por_centro.data["count"], 1)
-        self.assertEqual(por_centro.data["data"][0]["id_unidade_interna"], outra_unidade.pk)
+        self.assertEqual(
+            por_centro.data["data"][0]["id_unidade_interna"], outra_unidade.pk
+        )
 
         por_unidade = self.api.get(
             url, {"ano_fiscal": 2026, "id_unidade_interna": self.B.pk, "page_size": 1}
@@ -302,9 +303,7 @@ class TransactionApiTests(BaseRazao):
         )
         self.assertEqual(selected.status_code, 200, selected.data)
         selected_rows = (
-            selected.data["data"]
-            if isinstance(selected.data, dict)
-            else selected.data
+            selected.data["data"] if isinstance(selected.data, dict) else selected.data
         )
         self.assertEqual(
             [row["id_centro_interno"] for row in selected_rows],
@@ -386,22 +385,26 @@ class TransactionApiTests(BaseRazao):
         self.creditar(300)
         self.distribuir(self.A, 200)
 
-        units = self.api.get(
-            reverse("despesas:unidades-list"),
-            {"ano_fiscal": 2026, "saldo_minimo": "150.00"},
-        )
+        with CaptureQueriesContext(connection) as unit_queries:
+            units = self.api.get(
+                reverse("despesas:unidades-list"),
+                {"ano_fiscal": 2026, "saldo_minimo": "150.00"},
+            )
         self.assertEqual(units.status_code, 200, units.data)
+        self.assertLessEqual(len(unit_queries), 10)
         unit_rows = units.data["data"] if isinstance(units.data, dict) else units.data
         self.assertEqual(
             [row["id_unidade_interna"] for row in unit_rows],
             [self.A.pk],
         )
 
-        centers = self.api.get(
-            reverse("despesas:centros-list"),
-            {"ano_fiscal": 2026, "saldo_minimo": "250.00"},
-        )
+        with CaptureQueriesContext(connection) as center_queries:
+            centers = self.api.get(
+                reverse("despesas:centros-list"),
+                {"ano_fiscal": 2026, "saldo_minimo": "250.00"},
+            )
         self.assertEqual(centers.status_code, 200, centers.data)
+        self.assertLessEqual(len(center_queries), 10)
         center_rows = (
             centers.data["data"] if isinstance(centers.data, dict) else centers.data
         )
@@ -409,6 +412,96 @@ class TransactionApiTests(BaseRazao):
             [row["id_centro_interno"] for row in center_rows],
             [self.centro.pk],
         )
+
+    def test_balance_list_query_count_does_not_scale_with_rows(self):
+        self.creditar(300)
+        self.distribuir(self.A, 200)
+        unit_url = reverse("despesas:unidades-list")
+        center_url = reverse("despesas:centros-list")
+        params = {"ano_fiscal": 2026, "page_size": 100}
+
+        with CaptureQueriesContext(connection) as unit_queries:
+            unit_response = self.api.get(unit_url, params)
+        self.assertEqual(unit_response.status_code, 200, unit_response.data)
+
+        for index in range(12):
+            self.nova_unidade(
+                f"Filha {index}",
+                f"11.03.{index:02}",
+                pai=self.A,
+            )
+
+        with CaptureQueriesContext(connection) as expanded_unit_queries:
+            expanded_units = self.api.get(unit_url, params)
+        self.assertEqual(expanded_units.status_code, 200, expanded_units.data)
+        self.assertEqual(len(expanded_units.data["data"]), 14)
+        self.assertEqual(len(expanded_unit_queries), len(unit_queries))
+
+        with CaptureQueriesContext(connection) as center_queries:
+            center_response = self.api.get(center_url, params)
+        self.assertEqual(center_response.status_code, 200, center_response.data)
+
+        for index in range(12):
+            Centro.objects.create(
+                nome_centro=f"Centro {index}",
+                sigla_centro=f"C{index:02}",
+                cod_estruturado=f"{20 + index}",
+            )
+
+        with CaptureQueriesContext(connection) as expanded_center_queries:
+            expanded_centers = self.api.get(center_url, params)
+        self.assertEqual(expanded_centers.status_code, 200, expanded_centers.data)
+        self.assertEqual(len(expanded_centers.data["data"]), 13)
+        self.assertEqual(len(expanded_center_queries), len(center_queries))
+
+    def test_empenho_list_uses_aggregates_without_per_row_queries(self):
+        self.creditar(1000)
+        empenho = self.novo_empenho("001", self.bolsa2a)
+        services.reforcar_empenho(empenho, 300, self.usuario)
+        services.registrar_despesa(
+            empenho,
+            None,
+            self.bolsa2a,
+            50,
+            self.usuario,
+        )
+        vinculo = VinculoBolsa.objects.create(
+            bolsista=self.bolsista(),
+            unidade=self.A,
+            finalidade=self.bolsa2a,
+            valor_mensal=Decimal("200"),
+            inicio=dt.date(2026, 1, 1),
+            fim=dt.date(2026, 2, 1),
+        )
+        ParcelaBolsa.objects.create(
+            vinculo=vinculo,
+            competencia=dt.date(2026, 1, 1),
+            valor=Decimal("400"),
+            status=ParcelaBolsa.Status.ALOCADA,
+            empenho_previsto=empenho,
+        )
+        for index in range(11):
+            self.novo_empenho(f"{index + 2:03}", self.bolsa2a)
+        inactive = self.novo_empenho("999", self.bolsa2a)
+        inactive.ativo = False
+        inactive.save(update_fields=["ativo"])
+
+        with CaptureQueriesContext(connection) as queries:
+            response = self.api.get(
+                reverse("despesas:empenhos-list"),
+                {"page_size": 100},
+            )
+
+        self.assertEqual(response.status_code, 200, response.data)
+        self.assertLessEqual(len(queries), 6)
+        rows = (
+            response.data["data"] if isinstance(response.data, dict) else response.data
+        )
+        self.assertNotIn(inactive.pk, {row["id_empenho"] for row in rows})
+        empenho_row = next(row for row in rows if row["id_empenho"] == empenho.pk)
+        self.assertEqual(empenho_row["saldo"], Decimal("250.00"))
+        self.assertEqual(empenho_row["gasto"], Decimal("50.00"))
+        self.assertEqual(empenho_row["a_complementar"], Decimal("150.00"))
 
     def test_invalid_operation_does_not_create_transaction(self):
         for operacao in ("not-supported", "debito_administrativo"):
